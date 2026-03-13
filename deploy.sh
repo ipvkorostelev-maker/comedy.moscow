@@ -18,7 +18,7 @@ ssh $SERVER "
 
   git pull origin $BRANCH
 
-  npm install --omit=dev
+  npm install
 
   npm run build
 

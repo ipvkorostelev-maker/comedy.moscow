@@ -7,7 +7,7 @@
 SERVER="root@89.111.171.180"
 REMOTE_DIR="/var/www/smeshno"
 DOMAIN="${1:-}"
-GITHUB_REPO="https://github.com/ВАШ_АККАУНТ/smeshno.git"  # ← замените
+GITHUB_REPO="https://github.com/ipvkorostelev-maker/comedy.moscow.git"
 
 echo "🔧 Настраиваем сервер..."
 
@@ -24,7 +24,7 @@ EOF
 
   # Устанавливаем зависимости и собираем
   cd $REMOTE_DIR
-  npm install --omit=dev
+  npm install
   npm run build
 
   # Запускаем через PM2 на порту 3001
