@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+export const dynamic = 'force-dynamic'
 import { getAllEvents } from '@/lib/data'
 import EventCard from '@/components/cards/EventCard'
 

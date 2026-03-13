@@ -27,11 +27,7 @@ const TICKET_PERKS = {
   ],
 }
 
-export async function generateStaticParams() {
-  const { getAllEvents } = await import('@/lib/data')
-  const events = await getAllEvents()
-  return events.map((e) => ({ slug: e.slug }))
-}
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({
   params,

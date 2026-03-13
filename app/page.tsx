@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getAllEvents, getAllArtists } from '@/lib/data'
 import EventCard from '@/components/cards/EventCard'
 import ArtistCard from '@/components/cards/ArtistCard'

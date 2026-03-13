@@ -4,11 +4,7 @@ import Image from 'next/image'
 import { getArtistBySlug, getAllEvents } from '@/lib/data'
 import EventCard from '@/components/cards/EventCard'
 
-export async function generateStaticParams() {
-  const { getAllArtists } = await import('@/lib/data')
-  const artists = await getAllArtists()
-  return artists.map((a) => ({ slug: a.slug }))
-}
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({
   params,
