@@ -1,0 +1,324 @@
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import Image from 'next/image'
+import { getEventBySlug, getArtistsByIds, getVenueById, getSimilarEvents } from '@/lib/data'
+import { formatDate, formatDayOfWeek, formatPrice, minEventPrice } from '@/lib/utils'
+import Badge from '@/components/ui/Badge'
+import ArtistCard from '@/components/cards/ArtistCard'
+import TicketCard from '@/components/cards/TicketCard'
+import ReviewCard from '@/components/cards/ReviewCard'
+import EventCard from '@/components/cards/EventCard'
+import StickyBuyBar from '@/components/sections/StickyBuyBar'
+
+const TICKET_PERKS = {
+  standard: ['Место в центральном секторе', 'Электронный билет на почту', 'Возврат за 48 часов'],
+  premium: [
+    'Первые 5 рядов у сцены',
+    'Встреча с комиками после шоу',
+    'Электронный билет на почту',
+    'Возврат за 72 часа',
+  ],
+  vip: [
+    'VIP-зона с обслуживанием',
+    'Ужин перед шоу',
+    'Фото с комиками',
+    'Подарочный мерч',
+    'Бесплатный возврат',
+  ],
+}
+
+export async function generateStaticParams() {
+  const { getAllEvents } = await import('@/lib/data')
+  const events = await getAllEvents()
+  return events.map((e) => ({ slug: e.slug }))
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}): Promise<Metadata> {
+  const event = await getEventBySlug(params.slug)
+  if (!event) return {}
+  return {
+    title: event.title,
+    description: event.description,
+    openGraph: {
+      title: event.title,
+      description: event.description,
+      images: [{ url: event.image }],
+    },
+  }
+}
+
+export default async function EventPage({ params }: { params: { slug: string } }) {
+  const event = await getEventBySlug(params.slug)
+  if (!event) notFound()
+
+  const [artists, similar] = await Promise.all([
+    getArtistsByIds(event.artistIds),
+    getSimilarEvents(event.id),
+  ])
+  const venue = getVenueById(event.venueId)
+  const price = minEventPrice(event)
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: event.title,
+    startDate: `${event.date}T${event.time}:00`,
+    location: {
+      '@type': 'Place',
+      name: venue?.name,
+      address: { '@type': 'PostalAddress', streetAddress: venue?.address, addressLocality: event.city },
+    },
+    offers: { '@type': 'Offer', price, priceCurrency: 'RUB' },
+    description: event.description,
+  }
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
+      {/* ── HERO ── */}
+      <div className="relative h-[90vh] min-h-[560px] overflow-hidden">
+        <Image
+          src={event.image}
+          alt={event.title}
+          fill
+          priority
+          className="object-cover scale-[1.04] animate-zoom-out"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(12,12,15,0.95)_0%,rgba(12,12,15,0.3)_40%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(12,12,15,0.5)_0%,transparent_18%)]" />
+
+        <div className="absolute inset-0 flex flex-col justify-end px-6 lg:px-16 pb-12">
+          <div className="flex flex-wrap gap-2 mb-4">
+            {event.featured && <Badge variant="red">🔥 Хит сезона</Badge>}
+            <Badge variant="gold">★ {event.rating}</Badge>
+            <Badge variant="dark">{event.ageRestriction}</Badge>
+            <Badge variant="dark">{event.duration}</Badge>
+            {event.ticketsLeft < 25 && (
+              <Badge variant="dark">Осталось {event.ticketsLeft} мест</Badge>
+            )}
+          </div>
+
+          <h1 className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(26px,3.5vw,48px)] mb-3">
+            {event.title}
+          </h1>
+
+          <div className="flex flex-wrap gap-2 items-center text-cream/55 text-xs mb-6">
+            <span>{formatDate(event.date)}</span>
+            <span className="text-muted-2">·</span>
+            <span className="capitalize">{formatDayOfWeek(event.date)} · {event.time}</span>
+            <span className="text-muted-2">·</span>
+            <span>{venue?.name}, {event.city}</span>
+            <span className="text-muted-2">·</span>
+            <span className="flex items-center gap-1 text-gold font-semibold">
+              ★ {event.rating}
+              <span className="text-muted font-normal">({event.reviewsCount})</span>
+            </span>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <button className="flex items-center gap-2.5 bg-cream text-bg text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-88 transition-opacity">
+              <span className="w-5 h-5 bg-bg rounded-full flex items-center justify-center text-[8px]">
+                ▶
+              </span>
+              Смотреть трейлер
+            </button>
+            <button className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]">
+              Купить билет →
+            </button>
+            <button className="w-12 h-12 rounded-full bg-surface-2/80 text-cream border-[1.5px] border-border hover:border-red hover:bg-red/15 flex items-center justify-center text-xl transition-all backdrop-blur-sm">
+              ♡
+            </button>
+          </div>
+        </div>
+
+        {/* Float card — desktop */}
+        <div className="hidden lg:block absolute right-16 bottom-16 bg-surface/90 backdrop-blur-xl border border-border rounded-2xl p-6 min-w-[240px]">
+          <p className="text-[9px] uppercase tracking-[0.16em] text-muted mb-1">Цена билета</p>
+          <p className="font-serif font-black text-3xl text-cream mb-1">
+            {formatPrice(price)}{' '}
+            <span className="text-sm font-sans font-normal text-muted">/ чел</span>
+          </p>
+          {event.ticketsLeft < 25 && (
+            <p className="text-[11px] text-gold font-semibold mb-5">
+              ⚡ Осталось {event.ticketsLeft} мест
+            </p>
+          )}
+          <button className="w-full bg-red text-white text-sm font-bold py-3 rounded-lg hover:opacity-85 mb-2.5 shadow-[0_4px_20px_rgba(212,66,30,0.35)] transition-all">
+            Купить билет
+          </button>
+          <button className="w-full text-muted text-xs py-2.5 rounded-lg border border-border hover:text-cream hover:border-muted transition-all">
+            Добавить в избранное
+          </button>
+        </div>
+      </div>
+
+      {/* ── MAIN CONTENT ── */}
+      <div className="max-w-[1100px] mx-auto px-6 lg:px-12 py-14">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12 mb-16">
+
+          {/* LEFT COL */}
+          <div>
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2 mb-8">
+              {event.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs text-muted bg-surface border border-border px-3.5 py-1.5 rounded-full"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            {/* About */}
+            <h2 className="font-serif font-bold text-xl text-cream mb-4">О шоу</h2>
+            {event.longDescription?.split('\n\n').map((para, i) => (
+              <p key={i} className="text-sm text-cream/65 leading-[1.75] mb-5">
+                {para}
+              </p>
+            ))}
+
+            {/* Lineup */}
+            {artists.length > 0 && (
+              <div className="mt-10">
+                <h2 className="font-serif font-bold text-xl text-cream mb-5">Комики вечера</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {artists.map((artist) => (
+                    <ArtistCard key={artist.id} artist={artist} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* SIDEBAR */}
+          <div>
+            <div className="bg-surface border border-border rounded-2xl p-6 sticky top-24">
+              {[
+                {
+                  label: 'Дата',
+                  value: formatDate(event.date),
+                  sub: formatDayOfWeek(event.date),
+                },
+                { label: 'Начало', value: event.time },
+                { label: 'Место', value: venue?.name ?? '—', sub: venue?.address },
+                { label: 'Длительность', value: event.duration },
+                { label: 'Возраст', value: event.ageRestriction },
+                {
+                  label: 'Мест осталось',
+                  value: `${event.ticketsLeft} мест ⚡`,
+                  accent: 'red' as const,
+                },
+                {
+                  label: 'Рейтинг',
+                  value: `★ ${event.rating} / 5`,
+                  accent: 'gold' as const,
+                },
+              ].map(({ label, value, sub, accent }) => (
+                <div
+                  key={label}
+                  className="flex justify-between items-start py-3.5 border-b border-border last:border-0"
+                >
+                  <span className="text-[11px] text-muted uppercase tracking-[0.1em]">{label}</span>
+                  <span
+                    className={`text-sm font-semibold text-right max-w-[160px] capitalize ${
+                      accent === 'red'
+                        ? 'text-red'
+                        : accent === 'gold'
+                        ? 'text-gold'
+                        : 'text-cream'
+                    }`}
+                  >
+                    {value}
+                    {sub && (
+                      <span className="block text-[11px] text-muted font-normal mt-0.5 normal-case">
+                        {sub}
+                      </span>
+                    )}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── TICKETS ── */}
+        <div className="mb-16">
+          <h2 className="font-serif font-bold text-xl text-cream mb-6">Билеты</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <TicketCard type="standard" tier={event.tickets.standard} perks={TICKET_PERKS.standard} />
+            <TicketCard
+              type="premium"
+              tier={event.tickets.premium}
+              featured
+              perks={TICKET_PERKS.premium}
+            />
+            <TicketCard type="vip" tier={event.tickets.vip} perks={TICKET_PERKS.vip} />
+          </div>
+        </div>
+
+        {/* ── GALLERY ── */}
+        {event.gallery && event.gallery.length >= 3 && (
+          <div className="mb-16">
+            <h2 className="font-serif font-bold text-xl text-cream mb-5">Фото с прошлых шоу</h2>
+            <div className="grid grid-cols-[2fr_1fr_1fr] grid-rows-[200px_200px] gap-2.5 rounded-2xl overflow-hidden">
+              {event.gallery.slice(0, 5).map((img, i) => (
+                <div
+                  key={i}
+                  className={`relative overflow-hidden group cursor-pointer ${
+                    i === 0 ? 'row-span-2' : ''
+                  }`}
+                >
+                  <Image
+                    src={img}
+                    alt={`Фото ${i + 1}`}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
+                    sizes="33vw"
+                  />
+                  <div className="absolute inset-0 bg-bg/0 group-hover:bg-bg/30 transition-all flex items-center justify-center">
+                    <span className="text-3xl opacity-0 group-hover:opacity-100 transition-opacity">
+                      ▶
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── REVIEWS ── */}
+        {event.reviews && event.reviews.length > 0 && (
+          <div className="mb-16">
+            <h2 className="font-serif font-bold text-xl text-cream mb-5">Отзывы зрителей</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {event.reviews.map((review) => (
+                <ReviewCard key={review.id} review={review} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── SIMILAR EVENTS ── */}
+        {similar.length > 0 && (
+          <div className="mb-16">
+            <h2 className="font-serif font-bold text-xl text-cream mb-5">Похожие шоу</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {similar.map((ev) => (
+                <EventCard key={ev.id} event={ev} />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <StickyBuyBar event={event} minPrice={price} />
+    </>
+  )
+}

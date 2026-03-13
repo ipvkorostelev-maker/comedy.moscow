@@ -1,0 +1,34 @@
+[
+  {
+    "id": "klub-soyuz",
+    "slug": "klub-soyuz",
+    "name": "Клуб «Союз»",
+    "address": "ул. Арбат, 24",
+    "city": "Москва",
+    "capacity": 300
+  },
+  {
+    "id": "glastonberry",
+    "slug": "glastonberry",
+    "name": "Glastonberry Bar",
+    "address": "ул. Малая Дмитровка, 6",
+    "city": "Москва",
+    "capacity": 120
+  },
+  {
+    "id": "kosmonavt",
+    "slug": "kosmonavt",
+    "name": "Клуб «Космонавт»",
+    "address": "Бронницкая ул., 24",
+    "city": "Санкт-Петербург",
+    "capacity": 200
+  },
+  {
+    "id": "bar-elastic",
+    "slug": "bar-elastic",
+    "name": "Bar Elastic",
+    "address": "Московский пр., 7",
+    "city": "Санкт-Петербург",
+    "capacity": 80
+  }
+]

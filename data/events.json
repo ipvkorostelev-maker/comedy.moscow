@@ -1,0 +1,275 @@
+[
+  {
+    "id": "bolshoy-standup-vecher",
+    "slug": "bolshoy-standup-vecher",
+    "title": "Большой Stand Up Вечер",
+    "subtitle": "4 комика. 1 сцена. Незабываемая ночь.",
+    "description": "Грандиозный вечер стендапа с лучшими комиками страны. Четыре часа живого смеха, неожиданных монологов и настоящей атмосферы большой сцены.",
+    "longDescription": "Большой Stand Up Вечер — это не просто концерт, это настоящее театральное событие. На одной сцене встретятся четыре совершенно разных комика, каждый из которых принесёт свой уникальный взгляд на жизнь, отношения и всё то, о чём не принято говорить вслух.\n\nФормат вечера — последовательные монологи по 30–40 минут с антрактом. Гарантируем: ни один из вас не уйдёт без боли в животе от смеха. Шоу проходит в уютном клубном зале на 300 мест с хорошим звуком и видимостью с любой точки.",
+    "date": "2025-04-22",
+    "time": "21:00",
+    "duration": "2 ч 30 мин",
+    "venueId": "klub-soyuz",
+    "artistIds": ["artem-volkov", "dina-safina", "kostya-larin", "mariya-oleneva"],
+    "headlinerId": "artem-volkov",
+    "image": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=1800&q=85&fit=crop",
+    "gallery": [
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80&fit=crop",
+      "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=600&q=80&fit=crop",
+      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=80&fit=crop",
+      "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&q=80&fit=crop",
+      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80&fit=crop"
+    ],
+    "tickets": {
+      "standard": { "price": 1500, "available": true },
+      "premium": { "price": 2500, "available": true, "seats": 12 },
+      "vip": { "price": 5000, "available": true }
+    },
+    "ticketsLeft": 12,
+    "totalTickets": 300,
+    "rating": 4.9,
+    "reviewsCount": 284,
+    "reviews": [
+      {
+        "id": "r1",
+        "author": "Анна М.",
+        "avatar": "👩",
+        "rating": 5,
+        "text": "Были на прошлом шоу — это просто взрыв! Артём Волков вышел на сцену и с первых секунд держал весь зал. Обязательно идём снова.",
+        "date": "2025-03-12"
+      },
+      {
+        "id": "r2",
+        "author": "Дмитрий К.",
+        "avatar": "👨",
+        "rating": 5,
+        "text": "Брали VIP — не пожалели ни секунды. Ужин, встреча с комиками, мерч — всё на высшем уровне. Цена полностью оправдана.",
+        "date": "2025-03-15"
+      },
+      {
+        "id": "r3",
+        "author": "Оля Т.",
+        "avatar": "👩",
+        "rating": 4,
+        "text": "Дина Сафина — просто находка. Смеялась до слёз. Единственное — чуть не хватило времени у Кости Ларина, хотелось ещё.",
+        "date": "2025-03-20"
+      }
+    ],
+    "tags": ["Стендап", "Комедия", "Живое шоу", "Хит продаж"],
+    "category": "standup",
+    "ageRestriction": "18+",
+    "city": "Москва",
+    "featured": true
+  },
+  {
+    "id": "otkryty-mikrofon",
+    "slug": "otkryty-mikrofon",
+    "title": "Открытый микрофон",
+    "subtitle": "Новые голоса. Свежий материал.",
+    "description": "Вечер открытого микрофона: молодые комики выходят на сцену с новыми шутками. Никакого сценария — только живой эксперимент.",
+    "longDescription": "Открытый микрофон — это ежемесячный вечер, где новые голоса российского стендапа впервые выходят на настоящую сцену. Никаких гарантий — только живой эксперимент, провалы и открытия. Именно здесь когда-то начинали все, кто сейчас собирает большие залы.",
+    "date": "2025-04-15",
+    "time": "20:00",
+    "duration": "1 ч 30 мин",
+    "venueId": "glastonberry",
+    "artistIds": ["max-sokolov", "yulya-medvedeva"],
+    "headlinerId": "max-sokolov",
+    "image": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1800&q=85&fit=crop",
+    "gallery": [
+      "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&q=80&fit=crop",
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80&fit=crop"
+    ],
+    "tickets": {
+      "standard": { "price": 800, "available": true },
+      "premium": { "price": 1200, "available": true },
+      "vip": { "price": 2500, "available": false }
+    },
+    "ticketsLeft": 35,
+    "totalTickets": 120,
+    "rating": 4.5,
+    "reviewsCount": 67,
+    "reviews": [
+      {
+        "id": "r4",
+        "author": "Сергей П.",
+        "avatar": "👨",
+        "rating": 5,
+        "text": "Неожиданно круто! Пришли без особых ожиданий, а ушли в восторге. Несколько ребят были просто блестящи.",
+        "date": "2025-03-08"
+      },
+      {
+        "id": "r5",
+        "author": "Маша Л.",
+        "avatar": "👩",
+        "rating": 4,
+        "text": "Атмосфера уютная, зал маленький — очень камерно. Некоторые комики сырые, но это и есть суть открытого микрофона.",
+        "date": "2025-03-10"
+      }
+    ],
+    "tags": ["Стендап", "Открытый микрофон", "Новые имена"],
+    "category": "open-mic",
+    "ageRestriction": "18+",
+    "city": "Москва",
+    "featured": false
+  },
+  {
+    "id": "zvezdny-vecher",
+    "slug": "zvezdny-vecher",
+    "title": "Звёздный вечер",
+    "subtitle": "Топ-3 комика на одной сцене.",
+    "description": "Три хэдлайнера, один вечер. Заряд позитива и смеха на весь год — гарантированы.",
+    "longDescription": "Звёздный вечер собирает на одной сцене лучших из лучших. Три хэдлайнера, три непохожих стиля — от интеллектуального юмора до уличных зарисовок. Это гала-вечер российского стендапа.\n\nКаждый комик выступает с отдельным 40-минутным монологом. В программе — антракт с баром, живая музыка и возможность пообщаться с артистами после шоу.",
+    "date": "2025-04-18",
+    "time": "19:00",
+    "duration": "2 ч 00 мин",
+    "venueId": "klub-soyuz",
+    "artistIds": ["kostya-larin", "ivan-petrov", "alina-krasnova"],
+    "headlinerId": "ivan-petrov",
+    "image": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1800&q=85&fit=crop",
+    "gallery": [
+      "https://images.unsplash.com/photo-1527224538127-2104bb71c51b?w=800&q=80&fit=crop",
+      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80&fit=crop"
+    ],
+    "tickets": {
+      "standard": { "price": 1500, "available": true },
+      "premium": { "price": 2500, "available": true, "seats": 24 },
+      "vip": { "price": 4500, "available": true }
+    },
+    "ticketsLeft": 48,
+    "totalTickets": 300,
+    "rating": 4.7,
+    "reviewsCount": 142,
+    "reviews": [
+      {
+        "id": "r6",
+        "author": "Кирилл В.",
+        "avatar": "👨",
+        "rating": 5,
+        "text": "Иван Петров — это совсем другой уровень. Зал рыдал от смеха полчаса подряд.",
+        "date": "2025-03-18"
+      }
+    ],
+    "tags": ["Стендап", "Гала-шоу", "Хит продаж"],
+    "category": "standup",
+    "ageRestriction": "18+",
+    "city": "Москва",
+    "featured": true
+  },
+  {
+    "id": "noch-komedii",
+    "slug": "noch-komedii",
+    "title": "Ночь комедии",
+    "subtitle": "Питер. Ночь. Смех до утра.",
+    "description": "Ночной стендап в атмосфере живого клуба. Артём Волков и Иван Петров — вместе на питерской сцене впервые.",
+    "longDescription": "Ночь комедии — специальный совместный вечер двух хэдлайнеров. Артём Волков из Москвы и Иван Петров из Питера — первый совместный концерт, которого давно ждали поклонники обоих.\n\nНочь, живой клуб, два часа непрекращающегося смеха и атмосфера, которую не передать словами. После шоу — афтепати в баре клуба.",
+    "date": "2025-04-25",
+    "time": "22:00",
+    "duration": "2 ч 00 мин",
+    "venueId": "kosmonavt",
+    "artistIds": ["artem-volkov", "ivan-petrov"],
+    "headlinerId": "artem-volkov",
+    "image": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1800&q=85&fit=crop",
+    "gallery": [
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80&fit=crop",
+      "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=600&q=80&fit=crop"
+    ],
+    "tickets": {
+      "standard": { "price": 1200, "available": true },
+      "premium": { "price": 2000, "available": true },
+      "vip": { "price": 4000, "available": false }
+    },
+    "ticketsLeft": 22,
+    "totalTickets": 200,
+    "rating": 4.8,
+    "reviewsCount": 98,
+    "reviews": [
+      {
+        "id": "r7",
+        "author": "Наташа Р.",
+        "avatar": "👩",
+        "rating": 5,
+        "text": "Это было нечто особенное. Два хэдлайнера на одной сцене — редкость. Ни минуты без смеха.",
+        "date": "2025-03-22"
+      }
+    ],
+    "tags": ["Стендап", "Специальное шоу", "Питер"],
+    "category": "standup",
+    "ageRestriction": "18+",
+    "city": "Санкт-Петербург",
+    "featured": true
+  },
+  {
+    "id": "zhenskiy-standup",
+    "slug": "zhenskiy-standup",
+    "title": "Женский стендап",
+    "subtitle": "Их голоса. Их правила. Смешно и честно.",
+    "description": "Вечер женского стендапа с лучшими комиками: Дина Сафина, Мария Оленева и Алина Краснова.",
+    "longDescription": "Три очень разных женщины, три очень разных взгляда на мир. Этот вечер — настоящий гимн свободному разговору. Смешно, честно и без лишних купюр.\n\nКаждая из трёх участниц подготовила новый материал специально для этого вечера. Ждите неожиданных монологов, откровенных историй и много смеха.",
+    "date": "2025-04-28",
+    "time": "20:00",
+    "duration": "1 ч 45 мин",
+    "venueId": "glastonberry",
+    "artistIds": ["dina-safina", "mariya-oleneva", "alina-krasnova"],
+    "headlinerId": "dina-safina",
+    "image": "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=1800&q=85&fit=crop",
+    "gallery": [
+      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80&fit=crop",
+      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80&fit=crop"
+    ],
+    "tickets": {
+      "standard": { "price": 900, "available": true },
+      "premium": { "price": 1600, "available": true },
+      "vip": { "price": 3000, "available": true }
+    },
+    "ticketsLeft": 41,
+    "totalTickets": 120,
+    "rating": 4.8,
+    "reviewsCount": 121,
+    "reviews": [
+      {
+        "id": "r8",
+        "author": "Лена Б.",
+        "avatar": "👩",
+        "rating": 5,
+        "text": "Взяла подруг — и мы не пожалели. Дина и Мария — это просто огонь. Уже ждём следующего вечера.",
+        "date": "2025-03-25"
+      }
+    ],
+    "tags": ["Стендап", "Женский стендап", "Комедия"],
+    "category": "standup",
+    "ageRestriction": "18+",
+    "city": "Москва",
+    "featured": false
+  },
+  {
+    "id": "debyutny-vecher",
+    "slug": "debyutny-vecher",
+    "title": "Дебютный вечер",
+    "subtitle": "Они выходят на сцену впервые.",
+    "description": "Вечер первых выступлений: самые смелые любители стендапа выходят на настоящую сцену.",
+    "longDescription": "Дебютный вечер — особый формат: люди без профессионального опыта получают шанс выйти на сцену и попробовать рассмешить зал. Поддержите новых звёзд в самом начале пути!\n\nЮля Медведева ведёт вечер и поддерживает дебютантов. Атмосфера — тёплая, поддерживающая, без осуждения.",
+    "date": "2025-05-05",
+    "time": "19:30",
+    "duration": "1 ч 30 мин",
+    "venueId": "bar-elastic",
+    "artistIds": ["yulya-medvedeva"],
+    "headlinerId": "yulya-medvedeva",
+    "image": "https://images.unsplash.com/photo-1535016120720-40c646be5580?w=1800&q=85&fit=crop",
+    "gallery": [],
+    "tickets": {
+      "standard": { "price": 600, "available": true },
+      "premium": { "price": 1000, "available": true },
+      "vip": { "price": 2000, "available": false }
+    },
+    "ticketsLeft": 54,
+    "totalTickets": 80,
+    "rating": 4.4,
+    "reviewsCount": 28,
+    "reviews": [],
+    "tags": ["Стендап", "Дебют", "Новые имена"],
+    "category": "open-mic",
+    "ageRestriction": "16+",
+    "city": "Санкт-Петербург",
+    "featured": false
+  }
+]

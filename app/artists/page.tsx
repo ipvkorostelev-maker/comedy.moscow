@@ -1,0 +1,29 @@
+import type { Metadata } from 'next'
+import { getAllArtists } from '@/lib/data'
+import ArtistCard from '@/components/cards/ArtistCard'
+
+export const metadata: Metadata = {
+  title: 'Артисты',
+  description: 'Комики и артисты наших стендап-шоу.',
+}
+
+export default async function ArtistsPage() {
+  const artists = await getAllArtists()
+
+  return (
+    <div className="pt-24">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="py-12 border-b border-border mb-10">
+          <h1 className="font-serif font-black text-4xl lg:text-5xl text-cream mb-3">Артисты</h1>
+          <p className="text-muted text-sm">{artists.length} комиков</p>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 pb-16">
+          {artists.map((artist) => (
+            <ArtistCard key={artist.id} artist={artist} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
