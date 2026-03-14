@@ -92,17 +92,22 @@ export default function HeroSlider({ events }: HeroSliderProps) {
           {event.subtitle && <em className="text-red italic block">{event.subtitle}</em>}
         </h1>
 
-        <div className="flex flex-wrap gap-2 items-center text-cream/55 text-xs mb-6">
-          <span>{formatDateShort(event.date)}</span>
-          <span className="text-muted-2">·</span>
-          <span>{event.time}</span>
-          <span className="text-muted-2">·</span>
-          <span>{event.city}</span>
-          <span className="text-muted-2">·</span>
-          <span className="flex items-center gap-1 text-gold font-semibold">
-            ★ {event.rating}
-            <span className="text-muted font-normal">({event.reviewsCount})</span>
+        <div className="flex flex-wrap gap-2 items-center mb-6">
+          <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-full">
+            📅 {formatDateShort(event.date)}
           </span>
+          <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-full">
+            🕗 {event.time}
+          </span>
+          <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-full">
+            📍 {event.city}
+          </span>
+          {event.rating > 0 && (
+            <span className="flex items-center gap-1 text-gold text-xs font-semibold px-1">
+              ★ {event.rating}
+              <span className="text-muted font-normal">({event.reviewsCount})</span>
+            </span>
+          )}
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
