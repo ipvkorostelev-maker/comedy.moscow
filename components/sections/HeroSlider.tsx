@@ -182,7 +182,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       </div>
 
       {/* ── DESKTOP: split layout ── */}
-      <div className="hidden lg:block relative h-[calc(50vh-64px)] mt-16 overflow-hidden">
+      <div className="hidden lg:block relative h-[calc(100vh-64px)] mt-16 overflow-hidden">
         {/* Image panel — right side */}
         <div className="absolute inset-y-0 left-[45%] right-0 overflow-hidden">
           {images}
