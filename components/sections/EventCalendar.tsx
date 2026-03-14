@@ -89,12 +89,14 @@ export default function EventCalendar({ eventDates, selected, onSelect }: Props)
 
           return (
             <div key={day.date} className="flex-shrink-0">
-              {/* Month label */}
-              {day.monthLabel && (
-                <div className="text-[10px] font-semibold uppercase tracking-widest text-muted px-1 mb-2 mt-1">
-                  {day.monthLabel}
-                </div>
-              )}
+              {/* Month label — always reserves space to keep days aligned */}
+              <div className="h-5 flex items-center px-1 mb-1">
+                {day.monthLabel && (
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-muted">
+                    {day.monthLabel}
+                  </span>
+                )}
+              </div>
 
               <button
                 ref={isToday ? todayRef : undefined}

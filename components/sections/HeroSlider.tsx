@@ -57,14 +57,21 @@ export default function HeroSlider({ events }: HeroSliderProps) {
               zIndex: i === current ? 1 : i === prev ? 2 : 0,
             }}
           >
-            <Image
-              src={e.image}
-              alt={e.title}
-              fill
-              priority={i === 0}
-              className="object-cover object-center"
-              sizes="(max-width: 1024px) 100vw, 55vw"
-            />
+            {/* Ken Burns zoom — key resets animation on slide change */}
+            <div
+              key={i === current ? `kb-${current}` : `kb-idle-${i}`}
+              className="absolute inset-0"
+              style={i === current ? { animation: `kenBurns ${INTERVAL}ms ease-out forwards` } : undefined}
+            >
+              <Image
+                src={e.image}
+                alt={e.title}
+                fill
+                priority={i === 0}
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 55vw"
+              />
+            </div>
           </div>
         ))}
 
