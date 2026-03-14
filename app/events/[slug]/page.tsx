@@ -121,7 +121,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
               📍 {venue?.name ?? event.city}
             </span>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 mb-6">
             <button className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]">
               Купить билет →
             </button>
@@ -129,6 +129,15 @@ export default async function EventPage({ params }: { params: { slug: string } }
               Подробнее ↓
             </button>
           </div>
+          {artists.length > 0 && (
+            <div className="flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
+              {artists.map((artist) => (
+                <div key={artist.id} className="flex-shrink-0 w-[90px]">
+                  <ArtistCard artist={artist} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -187,7 +196,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
               </p>
             </>
           )}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 mb-6">
             <button className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]">
               Купить билет →
             </button>
@@ -195,6 +204,15 @@ export default async function EventPage({ params }: { params: { slug: string } }
               Подробнее ↓
             </button>
           </div>
+          {artists.length > 0 && (
+            <div className="flex gap-3">
+              {artists.map((artist) => (
+                <div key={artist.id} className="flex-shrink-0 w-[100px]">
+                  <ArtistCard artist={artist} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -225,17 +243,6 @@ export default async function EventPage({ params }: { params: { slug: string } }
               />
             )}
 
-            {/* Lineup */}
-            {artists.length > 0 && (
-              <div className="mt-10">
-                <h2 className="font-serif font-bold text-xl text-cream mb-5">Комики вечера</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {artists.map((artist) => (
-                    <ArtistCard key={artist.id} artist={artist} />
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* SIDEBAR */}
