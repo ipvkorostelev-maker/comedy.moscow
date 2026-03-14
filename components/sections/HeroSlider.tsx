@@ -166,7 +166,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       {/* ── MOBILE: stacked layout ── */}
       <div className="lg:hidden">
         {/* Image */}
-        <div className="relative w-full overflow-hidden" style={{ height: '56vw', minHeight: 200, maxHeight: 320 }}>
+        <div className="relative w-full overflow-hidden pt-16" style={{ height: 'calc(56vw + 64px)', minHeight: 240, maxHeight: 380 }}>
           <div className="absolute inset-0 overflow-hidden">
             {images}
           </div>
