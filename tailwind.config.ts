@@ -26,8 +26,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        serif: ['var(--font-playfair)', 'Georgia', 'serif'],
-        sans: ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-oswald)', 'Impact', 'sans-serif'],
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       animation: {
         'fade-up': 'fadeUp 0.7s ease both',

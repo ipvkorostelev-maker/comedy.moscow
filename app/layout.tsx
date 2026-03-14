@@ -1,19 +1,18 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, DM_Sans } from 'next/font/google'
+import { Oswald, Inter } from 'next/font/google'
 import './globals.css'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
 
-const playfair = Playfair_Display({
+const oswald = Oswald({
   subsets: ['cyrillic', 'latin'],
-  variable: '--font-playfair',
-  weight: ['700', '900'],
-  style: ['normal', 'italic'],
+  variable: '--font-oswald',
+  weight: ['500', '600', '700'],
 })
 
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-dm-sans',
+const inter = Inter({
+  subsets: ['cyrillic', 'latin'],
+  variable: '--font-inter',
   weight: ['300', '400', '500', '600', '700'],
 })
 
@@ -32,7 +31,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={`${playfair.variable} ${dmSans.variable}`}>
+    <html lang="ru" className={`${oswald.variable} ${inter.variable}`}>
       <body>
         <Nav />
         <main>{children}</main>
