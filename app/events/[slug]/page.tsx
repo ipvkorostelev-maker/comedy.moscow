@@ -77,7 +77,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* ── HERO ── */}
-      <div className="relative min-h-[560px] lg:h-[80vh] bg-bg overflow-hidden">
+      <div className="relative min-h-[560px] lg:h-[50vh] bg-bg overflow-hidden pt-16">
 
         {/* Image — full bleed on mobile, right panel on desktop */}
         <div className="absolute inset-0 lg:left-[45%] lg:right-0 lg:inset-y-0">
@@ -136,7 +136,6 @@ export default async function EventPage({ params }: { params: { slug: string } }
               <p className="hidden lg:block text-muted text-xs uppercase tracking-widest mb-1">Цена от</p>
               <p className="hidden lg:block font-serif font-black text-4xl text-cream mb-6">
                 {formatPrice(price)}
-                <span className="text-base font-sans font-normal text-muted ml-2">/ чел</span>
               </p>
             </>
           )}

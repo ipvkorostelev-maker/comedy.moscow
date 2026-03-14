@@ -40,7 +40,6 @@ export default function TicketCard({ type, tier, featured, perks }: TicketCardPr
 
       <div className="font-serif text-3xl font-black text-cream mb-1">
         {formatPrice(tier.price)}{' '}
-        <span className="text-sm font-sans font-normal text-muted">/ чел</span>
       </div>
 
       {tier.seats && (

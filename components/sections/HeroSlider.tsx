@@ -44,7 +44,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   const price = minEventPrice(event)
 
   return (
-    <section className="relative min-h-[560px] lg:h-[80vh] bg-bg overflow-hidden">
+    <section className="relative min-h-[560px] lg:h-[50vh] bg-bg overflow-hidden pt-16">
 
       {/* Image — full bleed on mobile, right panel on desktop */}
       <div className="absolute inset-0 lg:left-[45%] lg:right-0 lg:inset-y-0">
@@ -126,7 +126,6 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         {price > 0 && (
           <p className="hidden lg:block font-serif font-black text-4xl text-cream mb-6">
             {formatPrice(price)}
-            <span className="text-base font-sans font-normal text-muted ml-2">/ чел</span>
           </p>
         )}
 

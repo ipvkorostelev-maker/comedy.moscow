@@ -37,7 +37,6 @@ export default function StickyBuyBar({ event, minPrice }: StickyBuyBarProps) {
       <div className="flex items-center gap-4 flex-shrink-0">
         <div className="hidden sm:block font-serif font-black text-xl text-cream">
           от {formatPrice(minPrice)}{' '}
-          <span className="text-xs font-sans font-normal text-muted">/ чел</span>
         </div>
         <button className="bg-red text-white text-sm font-bold px-8 py-3 rounded-lg hover:opacity-85 transition-all shadow-[0_0_20px_rgba(212,66,30,0.35)] whitespace-nowrap">
           Купить билет →
