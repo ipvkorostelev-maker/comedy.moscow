@@ -77,80 +77,78 @@ export default async function EventPage({ params }: { params: { slug: string } }
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* ── HERO ── */}
-      <div className="relative h-[90vh] min-h-[560px] overflow-hidden">
-        <Image
-          src={event.image}
-          alt={event.title}
-          fill
-          priority
-          className="object-cover scale-[1.04] animate-zoom-out"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(12,12,15,0.95)_0%,rgba(12,12,15,0.3)_40%,transparent_70%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(12,12,15,0.5)_0%,transparent_18%)]" />
+      <div className="relative min-h-[560px] lg:h-[80vh] bg-bg overflow-hidden">
 
-        <div className="absolute inset-0 flex flex-col justify-end px-6 lg:px-16 pb-12">
+        {/* Image — full bleed on mobile, right panel on desktop */}
+        <div className="absolute inset-0 lg:left-[45%] lg:right-0 lg:inset-y-0">
+          <Image
+            src={event.image}
+            alt={event.title}
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="(max-width: 1024px) 100vw, 55vw"
+          />
+          {/* Desktop gradients */}
+          <div className="hidden lg:block absolute inset-y-0 left-0 w-64 z-10 bg-gradient-to-r from-bg to-transparent" />
+          <div className="hidden lg:block absolute inset-x-0 top-0 h-24 z-10 bg-gradient-to-b from-bg to-transparent" />
+          <div className="hidden lg:block absolute inset-x-0 bottom-0 h-24 z-10 bg-gradient-to-t from-bg to-transparent" />
+          {/* Mobile overlays */}
+          <div className="lg:hidden absolute inset-0 z-10 bg-[linear-gradient(to_top,rgba(12,12,15,0.97)_0%,rgba(12,12,15,0.4)_45%,rgba(12,12,15,0.2)_70%)]" />
+          <div className="lg:hidden absolute inset-0 z-10 bg-[linear-gradient(to_bottom,rgba(12,12,15,0.5)_0%,transparent_20%)]" />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-20 h-full flex flex-col justify-end lg:justify-center px-6 lg:px-16 pb-12 lg:pb-0 lg:max-w-[52%]">
           <div className="flex flex-wrap gap-2 mb-4">
             {event.featured && <Badge variant="red">🔥 Хит сезона</Badge>}
-            <Badge variant="gold">★ {event.rating}</Badge>
+            {event.rating > 0 && <Badge variant="gold">★ {event.rating}</Badge>}
             <Badge variant="dark">{event.ageRestriction}</Badge>
-            <Badge variant="dark">{event.duration}</Badge>
+            {event.duration && <Badge variant="dark">{event.duration}</Badge>}
             {event.ticketsLeft < 25 && (
               <Badge variant="dark">Осталось {event.ticketsLeft} мест</Badge>
             )}
           </div>
 
-          <h1 className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(26px,3.5vw,48px)] mb-3">
+          <h1 className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(26px,3.5vw,52px)] mb-2">
             {event.title}
           </h1>
+          {event.subtitle && (
+            <p className="text-cream/60 text-[clamp(13px,1.4vw,18px)] font-sans font-normal mt-3 mb-4">
+              {event.subtitle}
+            </p>
+          )}
 
-          <div className="flex flex-wrap gap-2 items-center text-cream/55 text-xs mb-6">
-            <span>{formatDate(event.date)}</span>
-            <span className="text-muted-2">·</span>
-            <span className="capitalize">{formatDayOfWeek(event.date)} · {event.time}</span>
-            <span className="text-muted-2">·</span>
-            <span>{venue?.name}, {event.city}</span>
-            <span className="text-muted-2">·</span>
-            <span className="flex items-center gap-1 text-gold font-semibold">
-              ★ {event.rating}
-              <span className="text-muted font-normal">({event.reviewsCount})</span>
+          <div className="flex flex-wrap gap-2 items-center mb-6">
+            <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-full">
+              📅 {formatDate(event.date)}
+            </span>
+            <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-full">
+              🕗 {event.time}
+            </span>
+            <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-full">
+              📍 {venue?.name ?? event.city}
             </span>
           </div>
 
+          {price > 0 && (
+            <>
+              <p className="hidden lg:block text-muted text-xs uppercase tracking-widest mb-1">Цена от</p>
+              <p className="hidden lg:block font-serif font-black text-4xl text-cream mb-6">
+                {formatPrice(price)}
+                <span className="text-base font-sans font-normal text-muted ml-2">/ чел</span>
+              </p>
+            </>
+          )}
+
           <div className="flex flex-wrap gap-3">
-            <button className="flex items-center gap-2.5 bg-cream text-bg text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-88 transition-opacity">
-              <span className="w-5 h-5 bg-bg rounded-full flex items-center justify-center text-[8px]">
-                ▶
-              </span>
-              Смотреть трейлер
-            </button>
             <button className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]">
               Купить билет →
             </button>
-            <button className="w-12 h-12 rounded-full bg-surface-2/80 text-cream border-[1.5px] border-border hover:border-red hover:bg-red/15 flex items-center justify-center text-xl transition-all backdrop-blur-sm">
-              ♡
+            <button className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-lg hover:bg-white/15 transition-all">
+              Подробнее ↓
             </button>
           </div>
-        </div>
-
-        {/* Float card — desktop */}
-        <div className="hidden lg:block absolute right-16 bottom-16 bg-surface/90 backdrop-blur-xl border border-border rounded-2xl p-6 min-w-[240px]">
-          <p className="text-[9px] uppercase tracking-[0.16em] text-muted mb-1">Цена билета</p>
-          <p className="font-serif font-black text-3xl text-cream mb-1">
-            {formatPrice(price)}{' '}
-            <span className="text-sm font-sans font-normal text-muted">/ чел</span>
-          </p>
-          {event.ticketsLeft < 25 && (
-            <p className="text-[11px] text-gold font-semibold mb-5">
-              ⚡ Осталось {event.ticketsLeft} мест
-            </p>
-          )}
-          <button className="w-full bg-red text-white text-sm font-bold py-3 rounded-lg hover:opacity-85 mb-2.5 shadow-[0_4px_20px_rgba(212,66,30,0.35)] transition-all">
-            Купить билет
-          </button>
-          <button className="w-full text-muted text-xs py-2.5 rounded-lg border border-border hover:text-cream hover:border-muted transition-all">
-            Добавить в избранное
-          </button>
         </div>
       </div>
 
