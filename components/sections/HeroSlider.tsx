@@ -96,11 +96,15 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         {/* Title */}
         <h1
           key={event.id}
-          className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(28px,3.8vw,56px)] mb-4 animate-fade-up"
+          className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(28px,3.8vw,56px)] mb-2 animate-fade-up"
         >
           {event.title}
-          {event.subtitle && <em className="text-red italic block">{event.subtitle}</em>}
         </h1>
+        {event.subtitle && (
+          <p className="text-red italic font-serif text-[clamp(13px,1.6vw,22px)] mt-3 mb-4 max-w-[50%]">
+            {event.subtitle}
+          </p>
+        )}
 
         {/* Date / time / city pills */}
         <div className="flex flex-wrap gap-2 items-center mb-6">
