@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
@@ -36,8 +37,16 @@ export default function Nav() {
         )}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
-          <Link href="/" className="font-serif text-lg font-black text-cream">
-            Смеш<em className="text-red not-italic">но</em>
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="relative w-9 h-9 flex-shrink-0">
+              <Image src="/logo.png" alt="Logo" fill className="object-contain" style={{ mixBlendMode: 'screen' }} />
+            </div>
+            <div className="leading-none">
+              <div className="font-serif font-black text-cream text-[11px] uppercase tracking-[0.08em] leading-[1.2]">
+                Стендап<br />в Москве
+              </div>
+              <div className="text-[9px] text-cream/35 mt-0.5 tracking-wider">comedy.moscow</div>
+            </div>
           </Link>
 
           {/* Desktop nav */}
