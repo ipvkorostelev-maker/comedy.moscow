@@ -79,7 +79,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
       {/* ── HERO ── */}
 
       {/* Mobile: stacked layout */}
-      <div className="lg:hidden bg-bg mt-10">
+      <div className="lg:hidden bg-bg mt-[60px]">
         <div className="relative w-full overflow-hidden pt-16" style={{ height: 'calc(56vw + 64px)', minHeight: 240, maxHeight: 380 }}>
           <Image
             src={event.image}
