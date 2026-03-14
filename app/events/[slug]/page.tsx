@@ -77,7 +77,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* ── HERO ── */}
-      <div className="relative min-h-[560px] lg:h-[calc(100vh-64px)] bg-bg overflow-hidden lg:mt-16">
+      <div className="relative min-h-[560px] lg:h-[50vh] bg-bg overflow-hidden lg:mt-[50px]">
 
         {/* Image — full bleed on mobile, right panel on desktop */}
         <div className="absolute inset-0 lg:left-[45%] lg:right-0 lg:inset-y-0 overflow-hidden">
