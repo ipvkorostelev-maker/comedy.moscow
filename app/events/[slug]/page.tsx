@@ -133,7 +133,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
       </div>
 
       {/* Desktop: split layout */}
-      <div className="hidden lg:block relative h-[50vh] mt-[50px] bg-bg overflow-hidden">
+      <div className="hidden lg:block relative h-[80vh] mt-[50px] bg-bg overflow-hidden">
         {/* Image panel — right side */}
         <div className="absolute inset-y-0 left-[45%] right-0 overflow-hidden">
           <Image
