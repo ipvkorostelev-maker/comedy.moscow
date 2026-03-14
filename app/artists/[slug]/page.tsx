@@ -47,15 +47,19 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
 
           {/* ── PROFILE ── */}
           <div className="flex flex-col md:flex-row gap-10 mb-16">
-            <div className="relative w-full md:w-72 h-80 md:aspect-square flex-shrink-0 rounded-2xl overflow-hidden bg-surface">
-              <Image
-                src={artist.photo}
-                alt={artist.name}
-                fill
-                priority
-                className="object-cover"
-                sizes="300px"
-              />
+            <div className="relative w-full md:w-72 h-80 md:aspect-square flex-shrink-0 rounded-2xl overflow-hidden bg-surface flex items-center justify-center">
+              {artist.photo ? (
+                <Image
+                  src={artist.photo}
+                  alt={artist.name}
+                  fill
+                  priority
+                  className="object-cover"
+                  sizes="300px"
+                />
+              ) : (
+                <span className="text-8xl select-none">🎤</span>
+              )}
             </div>
 
             <div className="flex flex-col justify-center">
