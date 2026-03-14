@@ -15,7 +15,6 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
-  const isHome = pathname === '/'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -31,7 +30,7 @@ export default function Nav() {
       <header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          scrolled || !isHome || menuOpen
+          scrolled || menuOpen
             ? 'bg-surface/95 backdrop-blur-lg border-b border-border'
             : 'bg-gradient-to-b from-bg/90 to-transparent'
         )}
@@ -39,7 +38,7 @@ export default function Nav() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="relative w-9 h-9 flex-shrink-0">
-              <Image src="/logo.png" alt="Logo" fill className="object-contain" style={{ mixBlendMode: 'screen' }} />
+              <Image src="/logo.png" alt="Logo" fill className="object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
             </div>
             <div className="leading-none">
               <div className="font-serif font-black text-cream text-[11px] uppercase tracking-[0.08em] leading-[1.2]">
