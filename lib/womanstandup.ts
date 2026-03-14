@@ -38,7 +38,7 @@ const RU_MAP: Record<string, string> = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapConcertToEvent(c: any): Event {
   const slug = c.slug || toSlug(c.showTitle, c.id)
-  const image = assetUrl(c.heroImage || c.image || c.imageHorizontal || '')
+  const image = assetUrl(c.smeshnoSliderImage || c.heroImage || c.image || c.imageHorizontal || '')
   const gallery = (c.gallery ?? []).map((g: string) => assetUrl(g)).filter(Boolean)
   const price = parseInt(c.price, 10) || 0
 
