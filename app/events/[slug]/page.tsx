@@ -99,7 +99,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
         </div>
 
         {/* Content */}
-        <div className="relative z-20 h-full flex flex-col justify-end lg:justify-center px-6 lg:px-16 pb-12 lg:pb-0 lg:max-w-[52%]">
+        <div className="relative z-20 h-full flex flex-col justify-end lg:justify-center px-6 lg:px-16 pb-6 lg:pb-0 lg:max-w-[52%]">
           <div className="flex flex-wrap gap-2 mb-4">
             {event.featured && <Badge variant="red">🔥 Хит сезона</Badge>}
             {event.rating > 0 && <Badge variant="gold">★ {event.rating}</Badge>}
@@ -152,7 +152,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
       </div>
 
       {/* ── MAIN CONTENT ── */}
-      <div className="max-w-[1100px] mx-auto px-6 lg:px-12 py-14">
+      <div className="max-w-[1100px] mx-auto px-6 lg:px-12 pt-4 lg:pt-14 pb-14">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12 mb-16">
 
           {/* LEFT COL */}
@@ -171,11 +171,12 @@ export default async function EventPage({ params }: { params: { slug: string } }
 
             {/* About */}
             <h2 className="font-serif font-bold text-xl text-cream mb-4">О шоу</h2>
-            {event.longDescription?.split('\n\n').map((para, i) => (
-              <p key={i} className="text-sm text-cream/65 leading-[1.75] mb-5">
-                {para}
-              </p>
-            ))}
+            {event.longDescription && (
+              <div
+                className="text-sm text-cream/65 leading-[1.75] prose-invert [&_div]:mb-3 [&_p]:mb-3 [&_br]:hidden [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-3 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-3"
+                dangerouslySetInnerHTML={{ __html: event.longDescription }}
+              />
+            )}
 
             {/* Lineup */}
             {artists.length > 0 && (
@@ -202,12 +203,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
                 { label: 'Начало', value: event.time },
                 { label: 'Место', value: venue?.name ?? '—', sub: venue?.address },
                 { label: 'Длительность', value: event.duration },
-                { label: 'Возраст', value: event.ageRestriction },
-                {
-                  label: 'Мест осталось',
-                  value: `${event.ticketsLeft} мест ⚡`,
-                  accent: 'red' as const,
-                },
+                { label: 'Возрастное ограничение', value: event.ageRestriction },
                 {
                   label: 'Рейтинг',
                   value: `★ ${event.rating} / 5`,
@@ -221,11 +217,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
                   <span className="text-[11px] text-muted uppercase tracking-[0.1em]">{label}</span>
                   <span
                     className={`text-sm font-semibold text-right max-w-[160px] capitalize ${
-                      accent === 'red'
-                        ? 'text-red'
-                        : accent === 'gold'
-                        ? 'text-gold'
-                        : 'text-cream'
+                      accent === 'gold' ? 'text-gold' : 'text-cream'
                     }`}
                   >
                     {value}
