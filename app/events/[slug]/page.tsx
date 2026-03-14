@@ -80,7 +80,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
       <div className="relative min-h-[560px] lg:h-[50vh] bg-bg overflow-hidden pt-16">
 
         {/* Image — full bleed on mobile, right panel on desktop */}
-        <div className="absolute inset-0 lg:left-[45%] lg:right-0 lg:inset-y-0">
+        <div className="absolute inset-0 lg:left-[45%] lg:right-0 lg:inset-y-0 overflow-hidden">
           <Image
             src={event.image}
             alt={event.title}
