@@ -73,6 +73,7 @@ function mapConcertToEvent(c: any): Event {
     ageRestriction: c.age ?? '18+',
     city: c.city ?? '',
     featured: c.isFeatured ?? false,
+    venueName: c.venue || undefined,
     ticketUrl: c.ticketUrl || undefined,
     ticketType: c.ticketType === 'yandex' ? 'yandex' : 'external',
     yandexWidgetId: c.yandexWidgetId || undefined,

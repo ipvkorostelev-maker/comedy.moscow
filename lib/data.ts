@@ -34,7 +34,13 @@ export async function getAllEvents(): Promise<Event[]> {
   } else {
     events = localEvents as Event[]
   }
-  return sortByDateTime(events.filter(isUpcoming))
+  const filtered = sortByDateTime(events.filter(isUpcoming))
+  // Populate venueName for local events that don't have it
+  return filtered.map((e) => {
+    if (e.venueName) return e
+    const venue = (localVenues as Venue[]).find((v) => v.id === e.venueId)
+    return venue ? { ...e, venueName: venue.name } : e
+  })
 }
 
 export async function getEventBySlug(slug: string): Promise<Event | undefined> {
