@@ -5,27 +5,9 @@ import { getEventBySlug, getArtistsByIds, getVenueById, getSimilarEvents } from 
 import { formatDate, formatDayOfWeek, formatPrice, minEventPrice } from '@/lib/utils'
 import Badge from '@/components/ui/Badge'
 import ArtistCard from '@/components/cards/ArtistCard'
-import TicketCard from '@/components/cards/TicketCard'
 import ReviewCard from '@/components/cards/ReviewCard'
 import EventCard from '@/components/cards/EventCard'
 import StickyBuyBar from '@/components/sections/StickyBuyBar'
-
-const TICKET_PERKS = {
-  standard: ['Место в центральном секторе', 'Электронный билет на почту', 'Возврат за 48 часов'],
-  premium: [
-    'Первые 5 рядов у сцены',
-    'Встреча с комиками после шоу',
-    'Электронный билет на почту',
-    'Возврат за 72 часа',
-  ],
-  vip: [
-    'VIP-зона с обслуживанием',
-    'Ужин перед шоу',
-    'Фото с комиками',
-    'Подарочный мерч',
-    'Бесплатный возврат',
-  ],
-}
 
 export const dynamic = 'force-dynamic'
 
@@ -123,7 +105,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
           </div>
           <div className="flex flex-wrap gap-3 mb-6">
             <a
-              href={event.ticketUrl ?? '#tickets'}
+              href={event.ticketUrl ?? '#'}
               target={event.ticketUrl ? '_blank' : undefined}
               rel={event.ticketUrl ? 'noopener noreferrer' : undefined}
               className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]"
@@ -206,7 +188,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
           )}
           <div className="flex flex-wrap gap-3 mb-6">
             <a
-              href={event.ticketUrl ?? '#tickets'}
+              href={event.ticketUrl ?? '#'}
               target={event.ticketUrl ? '_blank' : undefined}
               rel={event.ticketUrl ? 'noopener noreferrer' : undefined}
               className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]"
@@ -303,20 +285,6 @@ export default async function EventPage({ params }: { params: { slug: string } }
           </div>
         </div>
 
-        {/* ── TICKETS ── */}
-        <div id="tickets" className="mb-16">
-          <h2 className="font-serif font-bold text-xl text-cream mb-6">Билеты</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <TicketCard type="standard" tier={event.tickets.standard} perks={TICKET_PERKS.standard} />
-            <TicketCard
-              type="premium"
-              tier={event.tickets.premium}
-              featured
-              perks={TICKET_PERKS.premium}
-            />
-            <TicketCard type="vip" tier={event.tickets.vip} perks={TICKET_PERKS.vip} />
-          </div>
-        </div>
 
         {/* ── GALLERY ── */}
         {event.gallery && event.gallery.length >= 3 && (
