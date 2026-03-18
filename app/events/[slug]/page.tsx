@@ -122,12 +122,20 @@ export default async function EventPage({ params }: { params: { slug: string } }
             </span>
           </div>
           <div className="flex flex-wrap gap-3 mb-6">
-            <button className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]">
+            <a
+              href={event.ticketUrl ?? '#tickets'}
+              target={event.ticketUrl ? '_blank' : undefined}
+              rel={event.ticketUrl ? 'noopener noreferrer' : undefined}
+              className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]"
+            >
               Купить билет →
-            </button>
-            <button className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-lg hover:bg-white/15 transition-all">
+            </a>
+            <a
+              href="#tickets"
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-lg hover:bg-white/15 transition-all"
+            >
               Подробнее ↓
-            </button>
+            </a>
           </div>
           {artists.length > 0 && (
             <div className="flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
@@ -197,12 +205,20 @@ export default async function EventPage({ params }: { params: { slug: string } }
             </>
           )}
           <div className="flex flex-wrap gap-3 mb-6">
-            <button className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]">
+            <a
+              href={event.ticketUrl ?? '#tickets'}
+              target={event.ticketUrl ? '_blank' : undefined}
+              rel={event.ticketUrl ? 'noopener noreferrer' : undefined}
+              className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]"
+            >
               Купить билет →
-            </button>
-            <button className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-lg hover:bg-white/15 transition-all">
+            </a>
+            <a
+              href="#tickets"
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-lg hover:bg-white/15 transition-all"
+            >
               Подробнее ↓
-            </button>
+            </a>
           </div>
           {artists.length > 0 && (
             <div className="flex gap-3">
@@ -288,7 +304,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
         </div>
 
         {/* ── TICKETS ── */}
-        <div className="mb-16">
+        <div id="tickets" className="mb-16">
           <h2 className="font-serif font-bold text-xl text-cream mb-6">Билеты</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <TicketCard type="standard" tier={event.tickets.standard} perks={TICKET_PERKS.standard} />

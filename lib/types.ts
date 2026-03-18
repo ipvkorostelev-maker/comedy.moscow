@@ -52,6 +52,7 @@ export interface Event {
   ageRestriction: string
   city: string
   featured: boolean
+  ticketUrl?: string
 }
 
 export interface Artist {

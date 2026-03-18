@@ -74,7 +74,7 @@ function mapConcertToEvent(c: any): Event {
     city: c.city ?? '',
     featured: c.isFeatured ?? false,
     ticketUrl: c.ticketUrl || undefined,
-  } as Event & { ticketUrl?: string }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
