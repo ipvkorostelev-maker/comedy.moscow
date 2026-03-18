@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Event } from '@/lib/types'
 import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
 import Badge from '@/components/ui/Badge'
+import MetaPill from '@/components/ui/MetaPill'
 
 interface HeroSliderProps {
   events: Event[]
@@ -98,19 +99,10 @@ export default function HeroSlider({ events }: HeroSliderProps) {
 
       {/* Date / time / venue pills */}
       <div className="flex flex-wrap gap-2 items-center mb-5">
-        <span className="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-lg">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          {formatDateShort(event.date)}
-        </span>
-        <span className="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-lg">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          {event.time}
-        </span>
+        <MetaPill type="date" variant="glass">{formatDateShort(event.date)}</MetaPill>
+        <MetaPill type="time" variant="glass">{event.time}</MetaPill>
         {(event.venueName ?? event.city) && (
-          <span className="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-lg">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            {event.venueName ?? event.city}
-          </span>
+          <MetaPill type="venue" variant="glass">{event.venueName ?? event.city}</MetaPill>
         )}
       </div>
 

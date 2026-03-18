@@ -34,7 +34,7 @@ const config: Config = {
       },
       boxShadow: {
         card: '0 2px 12px rgba(0,0,0,0.4)',
-        'card-hover': '0 8px 32px rgba(0,0,0,0.6)',
+        'card-hover': '0 8px 32px rgba(0,0,0,0.55)',
         red: '0 4px 24px rgba(232,67,42,0.35)',
         'red-sm': '0 2px 12px rgba(232,67,42,0.25)',
       },
