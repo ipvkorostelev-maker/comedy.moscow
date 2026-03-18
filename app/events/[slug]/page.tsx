@@ -183,12 +183,12 @@ export default async function EventPage({ params }: { params: { slug: string } }
             </span>
           </div>
           {price > 0 && (
-            <>
-              <p className="text-muted text-xs uppercase tracking-widest mb-1">Цена от</p>
-              <p className="font-serif font-black text-4xl text-cream mb-6">
+            <div className="mb-5">
+              <p className="text-muted text-[10px] uppercase tracking-[0.15em] mb-1">Цена от</p>
+              <p className="font-serif font-black text-cream text-[clamp(28px,3vw,46px)] leading-none mb-5">
                 {formatPrice(price)}
               </p>
-            </>
+            </div>
           )}
           <div className="flex flex-wrap gap-3 mb-6">
             <BuyButton
@@ -198,7 +198,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
             />
             <a
               href="#about"
-              className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-lg hover:bg-white/15 transition-all"
+              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-xl hover:bg-white/18 transition-all"
             >
               Подробнее ↓
             </a>
@@ -246,42 +246,42 @@ export default async function EventPage({ params }: { params: { slug: string } }
 
           {/* SIDEBAR */}
           <div>
-            <div className="bg-surface border border-border rounded-2xl p-6 sticky top-24">
-              {[
-                {
-                  label: 'Дата',
-                  value: formatDate(event.date),
-                  sub: formatDayOfWeek(event.date),
-                },
-                { label: 'Начало', value: event.time },
-                { label: 'Место', value: venue?.name ?? '—', sub: venue?.address },
-                { label: 'Длительность', value: event.duration },
-                { label: 'Возрастное ограничение', value: event.ageRestriction },
-                {
-                  label: 'Рейтинг',
-                  value: `★ ${event.rating} / 5`,
-                  accent: 'gold' as const,
-                },
-              ].map(({ label, value, sub, accent }) => (
-                <div
-                  key={label}
-                  className="flex justify-between items-start py-3.5 border-b border-border last:border-0"
-                >
-                  <span className="text-[11px] text-muted uppercase tracking-[0.1em]">{label}</span>
-                  <span
-                    className={`text-sm font-semibold text-right max-w-[160px] capitalize ${
-                      accent === 'gold' ? 'text-gold' : 'text-cream'
-                    }`}
-                  >
-                    {value}
-                    {sub && (
-                      <span className="block text-[11px] text-muted font-normal mt-0.5 normal-case">
-                        {sub}
-                      </span>
-                    )}
-                  </span>
-                </div>
-              ))}
+            <div className="bg-surface-2 border border-border rounded-2xl overflow-hidden sticky top-24">
+              {/* Buy CTA at top of sidebar */}
+              <div className="p-5 border-b border-border">
+                {price > 0 && (
+                  <div className="mb-4">
+                    <p className="text-muted text-[10px] uppercase tracking-[0.15em] mb-1">Цена от</p>
+                    <p className="font-serif font-black text-cream text-3xl leading-none">{formatPrice(price)}</p>
+                  </div>
+                )}
+                <BuyButton
+                  ticketType={event.ticketType}
+                  ticketUrl={event.ticketUrl}
+                  yandexWidgetId={event.yandexWidgetId}
+                  className="w-full justify-center"
+                  label="Купить билет →"
+                />
+              </div>
+              {/* Details */}
+              <div className="p-5">
+                {[
+                  { label: 'Дата', value: formatDate(event.date), sub: formatDayOfWeek(event.date) },
+                  { label: 'Начало', value: event.time },
+                  { label: 'Место', value: event.venueName ?? venue?.name ?? '—', sub: venue?.address },
+                  { label: 'Длительность', value: event.duration },
+                  { label: 'Возраст', value: event.ageRestriction },
+                  ...(event.rating > 0 ? [{ label: 'Рейтинг', value: `★ ${event.rating} / 5`, accent: 'gold' as const }] : []),
+                ].filter(row => row.value && row.value !== '—').map(({ label, value, sub, accent }) => (
+                  <div key={label} className="flex justify-between items-start py-3 border-b border-border last:border-0">
+                    <span className="text-[11px] text-muted uppercase tracking-[0.1em] pt-0.5">{label}</span>
+                    <span className={`text-sm font-semibold text-right max-w-[170px] ${accent === 'gold' ? 'text-gold' : 'text-cream'}`}>
+                      {value}
+                      {sub && <span className="block text-[11px] text-muted font-normal mt-0.5 normal-case">{sub}</span>}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

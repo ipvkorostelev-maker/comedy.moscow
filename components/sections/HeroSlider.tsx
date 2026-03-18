@@ -76,7 +76,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   const content = (
     <>
       {/* Badges */}
-      <div className="flex flex-wrap gap-2 mb-3">
+      <div className="flex flex-wrap gap-2 mb-4">
         {event.featured && <Badge variant="red">🔥 Хит сезона</Badge>}
         {event.rating > 0 && <Badge variant="gold">★ {event.rating}</Badge>}
         <Badge variant="dark">{event.ageRestriction}</Badge>
@@ -86,37 +86,42 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       {/* Title */}
       <h1
         key={event.id}
-        className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(24px,3.8vw,56px)] mb-2 animate-fade-up"
+        className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(26px,4vw,58px)] mb-2 animate-fade-up text-balance"
       >
         {event.title}
       </h1>
       {event.subtitle && (
-        <p className="text-red italic font-serif text-[clamp(12px,1.6vw,22px)] mt-2 mb-3 max-w-[90%] lg:max-w-[50%]">
+        <p className="text-cream/55 font-sans text-[clamp(13px,1.4vw,18px)] mt-2 mb-4 max-w-[90%] lg:max-w-[50%] leading-snug">
           {event.subtitle}
         </p>
       )}
 
-      {/* Date / time / city pills */}
+      {/* Date / time / venue pills */}
       <div className="flex flex-wrap gap-2 items-center mb-5">
-        <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-full">
-          📅 {formatDateShort(event.date)}
+        <span className="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-lg">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          {formatDateShort(event.date)}
         </span>
-        <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-full">
-          🕗 {event.time}
+        <span className="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-lg">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          {event.time}
         </span>
-        <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-full">
-          📍 {event.city}
-        </span>
+        {(event.venueName ?? event.city) && (
+          <span className="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-xs font-medium px-3 py-1.5 rounded-lg">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            {event.venueName ?? event.city}
+          </span>
+        )}
       </div>
 
-      {/* Price (desktop only) */}
+      {/* Price */}
       {price > 0 && (
-        <p className="hidden lg:block text-muted text-xs uppercase tracking-widest mb-1">Цена от</p>
-      )}
-      {price > 0 && (
-        <p className="hidden lg:block font-serif font-black text-4xl text-cream mb-6">
-          {formatPrice(price)}
-        </p>
+        <div className="mb-5">
+          <p className="text-muted text-[10px] uppercase tracking-[0.15em] mb-1">Цена от</p>
+          <p className="font-serif font-black text-cream text-[clamp(28px,3vw,42px)] leading-none">
+            {formatPrice(price)}
+          </p>
+        </div>
       )}
 
       {/* Buttons + dots */}
@@ -124,29 +129,29 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         <div className="flex gap-3">
           <Link
             href={`/events/${event.slug}`}
-            className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]"
+            className="inline-flex items-center gap-2 bg-red hover:bg-red-hover text-white text-sm font-bold px-7 py-3.5 rounded-xl transition-all shadow-red"
           >
             Купить билет →
           </Link>
           <Link
             href={`/events/${event.slug}`}
-            className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-lg hover:bg-white/15 transition-all"
+            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-xl hover:bg-white/18 transition-all"
           >
             Подробнее
           </Link>
         </div>
 
         {events.length > 1 && (
-          <div className="flex items-center gap-2 ml-1">
+          <div className="flex items-center gap-2">
             {events.map((_, i) => (
               <button
                 key={i}
                 onClick={() => goTo(i)}
                 className="relative h-0.5 rounded-full overflow-hidden transition-all duration-300"
-                style={{ width: i === current ? 28 : 16 }}
+                style={{ width: i === current ? 28 : 14 }}
                 aria-label={`Слайд ${i + 1}`}
               >
-                <span className="absolute inset-0 bg-cream/25 rounded-full" />
+                <span className="absolute inset-0 bg-cream/20 rounded-full" />
                 {i === current && (
                   <span
                     className="absolute inset-y-0 left-0 bg-cream rounded-full"
@@ -197,12 +202,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         </div>
       </div>
 
-      <style>{`
-        @keyframes progress {
-          from { width: 0% }
-          to   { width: 100% }
-        }
-      `}</style>
+
     </section>
   )
 }

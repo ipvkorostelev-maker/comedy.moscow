@@ -8,20 +8,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: '#0C0C0F',
+        bg: '#0D0D11',
         surface: {
-          DEFAULT: '#141418',
-          2: '#1C1C22',
+          DEFAULT: '#16161B',
+          2: '#1F1F27',
         },
-        border: '#2A2A32',
+        border: '#2A2A36',
         red: {
-          DEFAULT: '#D4421E',
-          hover: '#BF3A1A',
+          DEFAULT: '#E8432A',
+          hover: '#D03B24',
         },
         gold: '#F5C842',
         cream: '#F0EDE8',
         muted: {
-          DEFAULT: '#6A6A7A',
+          DEFAULT: '#7C7C8E',
           2: '#3A3A48',
         },
       },
@@ -29,13 +29,22 @@ const config: Config = {
         serif: ['var(--font-oswald)', 'Impact', 'sans-serif'],
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
+      borderRadius: {
+        card: '16px',
+      },
+      boxShadow: {
+        card: '0 2px 12px rgba(0,0,0,0.4)',
+        'card-hover': '0 8px 32px rgba(0,0,0,0.6)',
+        red: '0 4px 24px rgba(232,67,42,0.35)',
+        'red-sm': '0 2px 12px rgba(232,67,42,0.25)',
+      },
       animation: {
-        'fade-up': 'fadeUp 0.7s ease both',
+        'fade-up': 'fadeUp 0.6s ease both',
         'zoom-out': 'zoomOut 12s ease forwards',
       },
       keyframes: {
         fadeUp: {
-          from: { opacity: '0', transform: 'translateY(20px)' },
+          from: { opacity: '0', transform: 'translateY(16px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
         zoomOut: {

@@ -7,6 +7,11 @@
   to   { transform: scale(1.07); }
 }
 
+@keyframes progress {
+  from { width: 0% }
+  to   { width: 100% }
+}
+
 @layer base {
   * {
     box-sizing: border-box;
@@ -19,6 +24,8 @@
   body {
     @apply bg-bg text-cream font-sans antialiased;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
@@ -26,7 +33,7 @@
   }
 
   ::-webkit-scrollbar {
-    width: 5px;
+    width: 4px;
   }
 
   ::-webkit-scrollbar-track {
@@ -34,10 +41,23 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-border rounded-full;
+    @apply bg-muted-2 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-2;
+    @apply bg-muted;
+  }
+
+  /* Focus visible — accessibility */
+  :focus-visible {
+    outline: 2px solid rgba(232, 67, 42, 0.6);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }

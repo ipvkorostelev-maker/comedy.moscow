@@ -27,7 +27,7 @@ export default function BuyButton({
     }
   }
 
-  const cls = `bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)] ${className}`
+  const cls = `inline-flex items-center justify-center bg-red hover:bg-red-hover text-white text-sm font-bold px-7 py-3.5 rounded-xl transition-all shadow-red ${className}`
 
   if (isYandex) {
     return (
