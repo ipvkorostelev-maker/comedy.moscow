@@ -53,6 +53,8 @@ export interface Event {
   city: string
   featured: boolean
   ticketUrl?: string
+  ticketType?: 'yandex' | 'external'
+  yandexWidgetId?: string
 }
 
 export interface Artist {

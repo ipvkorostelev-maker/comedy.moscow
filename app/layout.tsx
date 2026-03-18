@@ -32,6 +32,20 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru" className={`${oswald.variable} ${inter.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `
+          var dealerName = 'YandexTicketsDealer';
+          var dealer = window[dealerName] = window[dealerName] || [];
+          dealer.push(['setDefaultClientKey', '00701a9a-2a94-47d9-8f02-75e7bcbdbb4b']);
+          dealer.push(['setDefaultRegionId', 213]);
+          (function() {
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://widget.afisha.yandex.ru/dealer/dealer.js?' + Date.now();
+            document.getElementsByTagName('script')[0].parentNode.insertBefore(s, document.getElementsByTagName('script')[0]);
+          })();
+        `}} />
+      </head>
       <body>
         <Nav />
         <main>{children}</main>

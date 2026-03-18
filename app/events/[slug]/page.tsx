@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { getEventBySlug, getArtistsByIds, getVenueById, getSimilarEvents } from '@/lib/data'
 import { formatDate, formatDayOfWeek, formatPrice, minEventPrice } from '@/lib/utils'
 import Badge from '@/components/ui/Badge'
+import BuyButton from '@/components/ui/BuyButton'
 import ArtistCard from '@/components/cards/ArtistCard'
 import ReviewCard from '@/components/cards/ReviewCard'
 import EventCard from '@/components/cards/EventCard'
@@ -104,16 +105,13 @@ export default async function EventPage({ params }: { params: { slug: string } }
             </span>
           </div>
           <div className="flex flex-wrap gap-3 mb-6">
+            <BuyButton
+              ticketType={event.ticketType}
+              ticketUrl={event.ticketUrl}
+              yandexWidgetId={event.yandexWidgetId}
+            />
             <a
-              href={event.ticketUrl ?? '#'}
-              target={event.ticketUrl ? '_blank' : undefined}
-              rel={event.ticketUrl ? 'noopener noreferrer' : undefined}
-              className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]"
-            >
-              Купить билет →
-            </a>
-            <a
-              href="#tickets"
+              href="#about"
               className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-lg hover:bg-white/15 transition-all"
             >
               Подробнее ↓
@@ -187,16 +185,13 @@ export default async function EventPage({ params }: { params: { slug: string } }
             </>
           )}
           <div className="flex flex-wrap gap-3 mb-6">
+            <BuyButton
+              ticketType={event.ticketType}
+              ticketUrl={event.ticketUrl}
+              yandexWidgetId={event.yandexWidgetId}
+            />
             <a
-              href={event.ticketUrl ?? '#'}
-              target={event.ticketUrl ? '_blank' : undefined}
-              rel={event.ticketUrl ? 'noopener noreferrer' : undefined}
-              className="bg-red text-white text-sm font-bold px-7 py-3.5 rounded-lg hover:opacity-85 transition-all shadow-[0_4px_28px_rgba(212,66,30,0.35)]"
-            >
-              Купить билет →
-            </a>
-            <a
-              href="#tickets"
+              href="#about"
               className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-lg hover:bg-white/15 transition-all"
             >
               Подробнее ↓
@@ -233,7 +228,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
             </div>
 
             {/* About */}
-            <h2 className="font-serif font-bold text-xl text-cream mb-4">О шоу</h2>
+            <h2 id="about" className="font-serif font-bold text-xl text-cream mb-4">О шоу</h2>
             {event.longDescription && (
               <div
                 className="text-sm text-cream/65 leading-[1.75] prose-invert [&_div]:mb-3 [&_p]:mb-3 [&_br]:hidden [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-3 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-3"

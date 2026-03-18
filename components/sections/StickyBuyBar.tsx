@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { cn, formatDateShort, formatPrice } from '@/lib/utils'
 import { Event } from '@/lib/types'
+import BuyButton from '@/components/ui/BuyButton'
 
 interface StickyBuyBarProps {
   event: Event
@@ -38,23 +39,12 @@ export default function StickyBuyBar({ event, minPrice }: StickyBuyBarProps) {
         <div className="hidden sm:block font-serif font-black text-xl text-cream">
           от {formatPrice(minPrice)}{' '}
         </div>
-        {event.ticketUrl ? (
-          <a
-            href={event.ticketUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-red text-white text-sm font-bold px-8 py-3 rounded-lg hover:opacity-85 transition-all shadow-[0_0_20px_rgba(212,66,30,0.35)] whitespace-nowrap"
-          >
-            Купить билет →
-          </a>
-        ) : (
-          <button
-            onClick={() => document.getElementById('tickets')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-red text-white text-sm font-bold px-8 py-3 rounded-lg hover:opacity-85 transition-all shadow-[0_0_20px_rgba(212,66,30,0.35)] whitespace-nowrap"
-          >
-            Купить билет →
-          </button>
-        )}
+        <BuyButton
+          ticketType={event.ticketType}
+          ticketUrl={event.ticketUrl}
+          yandexWidgetId={event.yandexWidgetId}
+          className="px-8 py-3 whitespace-nowrap"
+        />
       </div>
     </div>
   )
