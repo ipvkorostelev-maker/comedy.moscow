@@ -12,12 +12,29 @@ import localVenues  from '@/data/venues.json'
 
 // ─── Events ──────────────────────────────────────────────
 
+function isUpcoming(event: Event): boolean {
+  const [h, m] = (event.time ?? '00:00').split(':').map(Number)
+  const dt = new Date(`${event.date}T${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:00`)
+  return dt > new Date()
+}
+
+function sortByDateTime(events: Event[]): Event[] {
+  return [...events].sort((a, b) => {
+    const da = new Date(`${a.date}T${a.time ?? '00:00'}`)
+    const db = new Date(`${b.date}T${b.time ?? '00:00'}`)
+    return da.getTime() - db.getTime()
+  })
+}
+
 export async function getAllEvents(): Promise<Event[]> {
+  let events: Event[]
   if (await isAvailable()) {
-    const events = await getWomanstandupEvents()
-    if (events.length > 0) return events
+    const remote = await getWomanstandupEvents()
+    events = remote.length > 0 ? remote : (localEvents as Event[])
+  } else {
+    events = localEvents as Event[]
   }
-  return localEvents as Event[]
+  return sortByDateTime(events.filter(isUpcoming))
 }
 
 export async function getEventBySlug(slug: string): Promise<Event | undefined> {
