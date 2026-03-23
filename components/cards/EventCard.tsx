@@ -58,9 +58,16 @@ export default function EventCard({ event }: EventCardProps) {
 
       {/* ── INFO ── */}
       <div className="p-4 space-y-3">
-        <h3 className="font-serif font-bold text-cream text-[15px] leading-snug group-hover:text-red transition-colors duration-200 line-clamp-2">
+        <h3 className="font-serif font-black text-cream text-[18px] leading-tight group-hover:text-red transition-colors duration-200 line-clamp-2">
           {event.title}
         </h3>
+
+        {/* Lineup */}
+        {event.artistNames && event.artistNames.length > 0 && (
+          <p className="text-muted text-[12px] leading-snug line-clamp-1">
+            {event.artistNames.join(' · ')}
+          </p>
+        )}
 
         <div className="flex flex-wrap gap-1.5">
           <MetaPill type="date">{formatDateShort(event.date)}</MetaPill>

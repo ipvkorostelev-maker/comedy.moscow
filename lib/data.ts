@@ -28,18 +28,30 @@ function sortByDateTime(events: Event[]): Event[] {
 
 export async function getAllEvents(): Promise<Event[]> {
   let events: Event[]
+  let allArtists: Artist[]
   if (await isAvailable()) {
-    const remote = await getWomanstandupEvents()
+    const [remote, remoteArtists] = await Promise.all([
+      getWomanstandupEvents(),
+      getWomanstandupArtists(),
+    ])
     events = remote.length > 0 ? remote : (localEvents as Event[])
+    allArtists = remoteArtists.length > 0 ? remoteArtists : (localArtists as Artist[])
   } else {
     events = localEvents as Event[]
+    allArtists = localArtists as Artist[]
   }
   const filtered = sortByDateTime(events.filter(isUpcoming))
-  // Populate venueName for local events that don't have it
+  // Populate venueName and artistNames
   return filtered.map((e) => {
-    if (e.venueName) return e
-    const venue = (localVenues as Venue[]).find((v) => v.id === e.venueId)
-    return venue ? { ...e, venueName: venue.name } : e
+    const venue = e.venueName ? undefined : (localVenues as Venue[]).find((v) => v.id === e.venueId)
+    const artistNames = e.artistNames ?? e.artistIds
+      .map((id) => allArtists.find((a) => a.id === id)?.name)
+      .filter(Boolean) as string[]
+    return {
+      ...e,
+      ...(venue ? { venueName: venue.name } : {}),
+      artistNames,
+    }
   })
 }
 

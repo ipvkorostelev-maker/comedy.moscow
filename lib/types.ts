@@ -34,6 +34,7 @@ export interface Event {
   duration: string
   venueId: string
   artistIds: string[]
+  artistNames?: string[]
   headlinerId: string
   image: string
   gallery?: string[]
