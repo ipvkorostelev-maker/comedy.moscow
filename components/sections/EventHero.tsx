@@ -108,24 +108,9 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       </div>
 
       {/* ── DESKTOP: split ── */}
-      <div className="hidden lg:block relative h-[80vh] mt-[50px] bg-bg overflow-hidden">
-        {/* Image — right half */}
-        <div className="absolute inset-y-0 left-[45%] right-0 overflow-hidden">
-          <Image
-            src={event.image}
-            alt={event.title}
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="55vw"
-          />
-          <div className="absolute inset-y-0 left-0 w-64 z-10 bg-gradient-to-r from-bg to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-24 z-10 bg-gradient-to-b from-bg to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-24 z-10 bg-gradient-to-t from-bg to-transparent" />
-        </div>
-
-        {/* Content — left */}
-        <div className="relative z-20 h-full flex flex-col justify-center px-16 max-w-[52%]">
+      <div className="hidden lg:flex mt-[50px] bg-bg overflow-hidden">
+        {/* Content — left 45% */}
+        <div className="w-[45%] flex-shrink-0 flex flex-col justify-center px-16 py-14 z-20">
           {badges}
           <h1 className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(26px,3.5vw,52px)] mb-2">
             {event.title}
@@ -143,6 +128,22 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           )}
           {buttons}
           {artistsRow}
+        </div>
+
+        {/* Image — right 55%, height driven by natural image proportions */}
+        <div className="relative flex-1 overflow-hidden">
+          <Image
+            src={event.image}
+            alt={event.title}
+            width={1200}
+            height={800}
+            priority
+            className="w-full h-auto object-cover"
+            sizes="55vw"
+          />
+          <div className="absolute inset-y-0 left-0 w-48 z-10 bg-gradient-to-r from-bg to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-20 z-10 bg-gradient-to-b from-bg to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-20 z-10 bg-gradient-to-t from-bg to-transparent" />
         </div>
       </div>
     </>
