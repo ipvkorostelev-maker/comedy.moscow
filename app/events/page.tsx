@@ -4,8 +4,19 @@ import { getAllEvents } from '@/lib/data'
 import EventCard from '@/components/cards/EventCard'
 
 export const metadata: Metadata = {
-  title: 'События',
-  description: 'Все стендап-концерты и мероприятия.',
+  title: 'Стендап-концерты в Москве и Санкт-Петербурге',
+  description: 'Афиша стендап-концертов в России. Расписание, составы, отзывы. Билеты онлайн от 800 ₽.',
+  alternates: { canonical: 'https://comedy.moscow/events' },
+  openGraph: {
+    title: 'Стендап-концерты в Москве и Санкт-Петербурге | Смешно',
+    description: 'Афиша стендап-концертов в России. Расписание, составы, отзывы. Билеты онлайн от 800 ₽.',
+    url: 'https://comedy.moscow/events',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Стендап-концерты в Москве | Смешно',
+    description: 'Афиша стендап-концертов. Билеты онлайн.',
+  },
 }
 
 export default async function EventsPage() {

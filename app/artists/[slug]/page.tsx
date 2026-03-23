@@ -7,6 +7,8 @@ import { MicIcon } from '@/components/ui/icons'
 
 export const revalidate = 60
 
+const BASE = 'https://comedy.moscow'
+
 export async function generateMetadata({
   params,
 }: {
@@ -14,10 +16,25 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const artist = await getArtistBySlug(params.slug)
   if (!artist) return {}
+  const url = `${BASE}/artists/${artist.slug}`
   return {
-    title: artist.name,
+    title: `${artist.name} — стендап комик`,
     description: artist.shortBio,
-    openGraph: { images: [{ url: artist.photo }] },
+    alternates: { canonical: url },
+    openGraph: {
+      title: artist.name,
+      description: artist.shortBio,
+      url,
+      siteName: 'Смешно',
+      locale: 'ru_RU',
+      images: [{ url: artist.photo, width: 600, height: 600, alt: artist.name }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${artist.name} — стендап комик | Смешно`,
+      description: artist.shortBio,
+      images: [artist.photo],
+    },
   }
 }
 
@@ -29,19 +46,44 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
   if (!artist) notFound()
 
   const upcomingEvents = allEvents.filter((e) => artist.upcomingEventIds.includes(e.id))
+  const url = `${BASE}/artists/${artist.slug}`
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': url,
     name: artist.name,
+    url,
     description: artist.bio,
     image: artist.photo,
     jobTitle: artist.role,
+    ...(artist.city ? { homeLocation: { '@type': 'City', name: artist.city } } : {}),
+    ...(artist.rating > 0
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: artist.rating,
+            bestRating: 5,
+            reviewCount: artist.totalShows,
+          },
+        }
+      : {}),
+  }
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: BASE },
+      { '@type': 'ListItem', position: 2, name: 'Артисты', item: `${BASE}/artists` },
+      { '@type': 'ListItem', position: 3, name: artist.name, item: url },
+    ],
   }
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       <div className="pt-24">
         <div className="max-w-5xl mx-auto px-6 lg:px-12 py-12">
@@ -52,7 +94,7 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
               {artist.photo ? (
                 <Image
                   src={artist.photo}
-                  alt={artist.name}
+                  alt={`${artist.name} — стендап комик`}
                   fill
                   priority
                   className="object-cover"

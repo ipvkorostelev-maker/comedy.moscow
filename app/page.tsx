@@ -1,16 +1,24 @@
 export const revalidate = 60
 
+import type { Metadata } from 'next'
 import { getAllEvents, getAllArtists } from '@/lib/data'
 import ArtistCard from '@/components/cards/ArtistCard'
 import SectionHeader from '@/components/ui/SectionHeader'
 import HeroSlider from '@/components/sections/HeroSlider'
 import HomeEventsSection from '@/components/sections/HomeEventsSection'
 
+export const metadata: Metadata = {
+  alternates: { canonical: 'https://comedy.moscow' },
+}
+
 export default async function HomePage() {
   const [allEvents, artists] = await Promise.all([getAllEvents(), getAllArtists()])
 
   return (
     <>
+      {/* Invisible H1 for SEO — visual title lives in the hero slider */}
+      <h1 className="sr-only">Смешно — стендап-концерты в Москве и Санкт-Петербурге</h1>
+
       {/* 4 nearest upcoming concerts in hero */}
       <HeroSlider events={allEvents.slice(0, 4)} />
 

@@ -4,8 +4,19 @@ import { getAllArtists } from '@/lib/data'
 import ArtistCard from '@/components/cards/ArtistCard'
 
 export const metadata: Metadata = {
-  title: 'Артисты',
-  description: 'Комики и артисты наших стендап-шоу.',
+  title: 'Стендап комики Москвы и России',
+  description: 'Лучшие стендап комики: биографии, рейтинги, расписание выступлений. Артём Волков, Дина Сафина и другие.',
+  alternates: { canonical: 'https://comedy.moscow/artists' },
+  openGraph: {
+    title: 'Стендап комики России | Артисты | Смешно',
+    description: 'Лучшие стендап комики: биографии, рейтинги, расписание выступлений.',
+    url: 'https://comedy.moscow/artists',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Стендап комики России | Смешно',
+    description: 'Биографии, рейтинги и расписание выступлений.',
+  },
 }
 
 export default async function ArtistsPage() {
