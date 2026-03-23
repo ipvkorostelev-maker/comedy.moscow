@@ -29,9 +29,9 @@ interface MetaPillProps {
 
 // Solid variant — colored accent pills on dark card background
 const solidCls: Record<'date' | 'time' | 'venue', string> = {
-  date:  'bg-blue-500/15  border border-blue-400/30  text-blue-300',
-  time:  'bg-amber-500/15 border border-amber-400/30 text-amber-300',
-  venue: 'bg-emerald-500/15 border border-emerald-400/30 text-emerald-300',
+  date:  'bg-blue-500/15 border border-blue-400/30 text-blue-300',
+  time:  'bg-blue-500/15 border border-blue-400/30 text-blue-300',
+  venue: 'bg-blue-500/15 border border-blue-400/30 text-blue-300',
 }
 
 // Glass variant (on image backgrounds — hero, slider)
