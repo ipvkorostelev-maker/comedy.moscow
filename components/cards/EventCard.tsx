@@ -15,74 +15,102 @@ export default function EventCard({ event }: EventCardProps) {
   return (
     <Link
       href={`/events/${event.slug}`}
-      className="group block bg-surface rounded-card overflow-hidden border border-border hover:border-muted-2 transition-all duration-300 hover:shadow-card-hover"
+      className="group block relative aspect-[3/4] rounded-[22px] overflow-hidden cursor-pointer
+        shadow-[0_2px_24px_rgba(0,0,0,0.55)]
+        hover:shadow-[0_8px_48px_rgba(0,0,0,0.75)]
+        hover:ring-1 hover:ring-white/10
+        transition-all duration-500"
     >
-      {/* ── IMAGE ── */}
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <Image
-          src={event.image}
-          alt={event.title}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent" />
+      {/* ── Main image ── */}
+      <Image
+        src={event.image}
+        alt={event.title}
+        fill
+        className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.05]"
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      />
 
-        {/* Top badges */}
-        <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
-          {event.ticketsLeft < 25 && (
-            <span className="inline-flex items-center gap-1 bg-red text-white text-[10px] font-bold tracking-wide px-2.5 py-1 rounded-md shadow-red-sm">
-              <ZapIcon className="w-2.5 h-2.5 flex-shrink-0" />
-              {event.ticketsLeft} мест
-            </span>
-          )}
-          {event.rating > 0 && (
-            <span className="inline-flex items-center gap-1 bg-[#1A1208]/90 text-gold text-[10px] font-bold px-2.5 py-1 rounded-md ml-auto">
-              ★ {event.rating}
-            </span>
-          )}
-        </div>
+      {/* ── Top fade for badge readability ── */}
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/55 to-transparent z-10 pointer-events-none" />
 
-        {/* Tags at bottom-left of image */}
-        <div className="absolute bottom-3 left-3 flex gap-1.5 flex-wrap">
-          {event.tags.slice(0, 2).map((tag) => (
-            <span
-              key={tag}
-              className="text-[10px] text-cream/70 bg-bg/70 backdrop-blur-sm border border-white/10 px-2 py-0.5 rounded"
-            >
-              {tag}
-            </span>
-          ))}
+      {/* ── Dominant-color glass panel ──
+           A blurred, saturated copy of the image bottom creates
+           the "ambient color glow" effect matching the photo's palette.
+           No JS needed — the blur averages pixel colors naturally. ── */}
+      <div className="absolute inset-x-0 bottom-0 h-[58%] overflow-hidden z-[5]">
+        {/* Blurred colour source */}
+        <div className="absolute inset-0 scale-[1.25] translate-y-[5%]">
+          <Image
+            src={event.image}
+            alt=""
+            fill
+            aria-hidden="true"
+            className="object-cover object-bottom blur-[32px] saturate-[1.6] brightness-[0.55]"
+            sizes="(max-width: 640px) 50vw, 20vw"
+          />
         </div>
+        {/* Extra darkening tint for text legibility */}
+        <div className="absolute inset-0 bg-black/35" />
+        {/* Feathered top edge — smooth blend into the main image */}
+        <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-transparent to-transparent
+          [mask-image:linear-gradient(to_bottom,transparent,black)]" />
       </div>
 
-      {/* ── INFO ── */}
-      <div className="p-4 space-y-3">
-        <h3 className="font-serif font-bold text-cream text-[15px] leading-snug group-hover:text-red transition-colors duration-200 line-clamp-2">
+      {/* ── Connecting gradient (image → glass panel) ── */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-[6] pointer-events-none" />
+
+      {/* ── Top badges ── */}
+      <div className="absolute top-3.5 left-3.5 right-3.5 flex items-start justify-between gap-2 z-20">
+        {event.ticketsLeft < 25 && (
+          <span className="inline-flex items-center gap-1 bg-red text-white text-[10px] font-bold tracking-wide px-2.5 py-1 rounded-md shadow-red-sm">
+            <ZapIcon className="w-2.5 h-2.5 flex-shrink-0" />
+            {event.ticketsLeft} мест
+          </span>
+        )}
+        {event.rating > 0 && (
+          <span className="ml-auto inline-flex items-center gap-1 bg-black/50 backdrop-blur-sm text-gold text-[10px] font-bold px-2.5 py-1 rounded-md">
+            ★ {event.rating}
+          </span>
+        )}
+      </div>
+
+      {/* ── Content ── */}
+      <div className="absolute inset-x-0 bottom-0 p-4 z-20">
+
+        {/* Title — the main focal point */}
+        <h3 className="font-serif font-black text-white leading-[1.1] tracking-tight mb-2.5
+          text-[clamp(15px,2vw,20px)] drop-shadow-sm line-clamp-3">
           {event.title}
         </h3>
 
-        <div className="flex flex-wrap gap-1.5">
-          <MetaPill type="date">{formatDateShort(event.date)}</MetaPill>
-          <MetaPill type="time">{event.time}</MetaPill>
-          {(event.venueName ?? event.city) && (
-            <MetaPill type="venue">{event.venueName ?? event.city}</MetaPill>
-          )}
+        {/* Tags (1 max on card) */}
+        {event.tags[0] && (
+          <p className="text-white/40 text-[10px] uppercase tracking-widest mb-2 font-medium">
+            {event.tags[0]}
+          </p>
+        )}
+
+        {/* Date + time pills */}
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          <MetaPill type="date" variant="glass">{formatDateShort(event.date)}</MetaPill>
+          <MetaPill type="time" variant="glass">{event.time}</MetaPill>
         </div>
 
-        <div className="flex items-center justify-between pt-1 border-t border-border">
-          {price > 0 ? (
-            <span className="font-serif font-black text-red text-lg leading-none">
-              от {formatPrice(price)}
-            </span>
-          ) : (
-            <span className="text-muted text-sm">Цена уточняется</span>
-          )}
-          <span className="inline-flex items-center gap-1 text-[11px] text-muted group-hover:text-cream transition-colors duration-200">
-            Подробнее
-            <span className="group-hover:translate-x-0.5 transition-transform duration-200">→</span>
+        {/* Price + CTA row */}
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-white/50 text-[11px]">
+            {price > 0 ? `от ${formatPrice(price)}` : 'Уточняется'}
+          </span>
+          <span
+            className="inline-flex items-center gap-1
+              bg-white/15 backdrop-blur-sm border border-white/20
+              text-white text-[11px] font-semibold px-4 py-1.5 rounded-full
+              group-hover:bg-white/25 transition-colors duration-200"
+          >
+            Купить →
           </span>
         </div>
+
       </div>
     </Link>
   )
