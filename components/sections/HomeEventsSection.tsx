@@ -47,7 +47,7 @@ export default function HomeEventsSection({ events }: Props) {
       {/* Events grid */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {filtered.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}

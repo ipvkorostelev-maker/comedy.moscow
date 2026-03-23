@@ -21,45 +21,42 @@ export default function EventCard({ event }: EventCardProps) {
         hover:ring-1 hover:ring-white/10
         transition-all duration-500"
     >
-      {/* ── Main image ── */}
+      {/* ── Layer 1: Main photo ── */}
       <Image
         src={event.image}
         alt={event.title}
         fill
         className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.05]"
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        sizes="(max-width: 768px) 50vw, 33vw"
       />
 
-      {/* ── Top fade for badge readability ── */}
-      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/55 to-transparent z-10 pointer-events-none" />
+      {/* ── Layer 2: Top fade for badge readability ── */}
+      <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none" />
 
-      {/* ── Dominant-color glass panel ──
-           A blurred, saturated copy of the image bottom creates
-           the "ambient color glow" effect matching the photo's palette.
-           No JS needed — the blur averages pixel colors naturally. ── */}
-      <div className="absolute inset-x-0 bottom-0 h-[58%] overflow-hidden z-[5]">
-        {/* Blurred colour source */}
-        <div className="absolute inset-0 scale-[1.25] translate-y-[5%]">
+      {/* ── Layer 3: Dominant-color glass panel (bottom 44% only) ──
+           overflow-hidden clips the blurred copy; -inset-4 expands it
+           so no blur edge artifacts appear at the panel borders. ── */}
+      <div className="absolute inset-x-0 bottom-0 h-[44%] overflow-hidden z-[5]">
+        {/* Blurred colour source — extends 16px beyond container edges */}
+        <div className="absolute -inset-4">
           <Image
             src={event.image}
             alt=""
             fill
             aria-hidden="true"
-            className="object-cover object-bottom blur-[32px] saturate-[1.6] brightness-[0.55]"
-            sizes="(max-width: 640px) 50vw, 20vw"
+            className="object-cover object-bottom blur-[28px] saturate-[1.8] brightness-[0.45]"
+            sizes="(max-width: 768px) 50vw, 33vw"
           />
         </div>
-        {/* Extra darkening tint for text legibility */}
-        <div className="absolute inset-0 bg-black/35" />
-        {/* Feathered top edge — smooth blend into the main image */}
-        <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-transparent to-transparent
-          [mask-image:linear-gradient(to_bottom,transparent,black)]" />
+        {/* Darkening tint for text legibility */}
+        <div className="absolute inset-0 bg-black/40" />
       </div>
 
-      {/* ── Connecting gradient (image → glass panel) ── */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-[6] pointer-events-none" />
+      {/* ── Layer 4: Connecting gradient (image → glass panel) ──
+           Sits just above the glass panel, feathers the transition. ── */}
+      <div className="absolute inset-x-0 bottom-[44%] h-20 bg-gradient-to-b from-transparent to-black/55 z-[6] pointer-events-none" />
 
-      {/* ── Top badges ── */}
+      {/* ── Layer 5: Top badges ── */}
       <div className="absolute top-3.5 left-3.5 right-3.5 flex items-start justify-between gap-2 z-20">
         {event.ticketsLeft < 25 && (
           <span className="inline-flex items-center gap-1 bg-red text-white text-[10px] font-bold tracking-wide px-2.5 py-1 rounded-md shadow-red-sm">
@@ -74,21 +71,21 @@ export default function EventCard({ event }: EventCardProps) {
         )}
       </div>
 
-      {/* ── Content ── */}
+      {/* ── Layer 6: Content ── */}
       <div className="absolute inset-x-0 bottom-0 p-4 z-20">
 
-        {/* Title — the main focal point */}
-        <h3 className="font-serif font-black text-white leading-[1.1] tracking-tight mb-2.5
-          text-[clamp(15px,2vw,20px)] drop-shadow-sm line-clamp-3">
-          {event.title}
-        </h3>
-
-        {/* Tags (1 max on card) */}
+        {/* Tags (1 max) */}
         {event.tags[0] && (
-          <p className="text-white/40 text-[10px] uppercase tracking-widest mb-2 font-medium">
+          <p className="text-white/45 text-[9px] uppercase tracking-[0.12em] mb-1.5 font-semibold">
             {event.tags[0]}
           </p>
         )}
+
+        {/* Title — the main focal point */}
+        <h3 className="font-serif font-black text-white leading-[1.08] tracking-tight mb-3
+          text-[clamp(16px,2.2vw,21px)] drop-shadow-sm line-clamp-3">
+          {event.title}
+        </h3>
 
         {/* Date + time pills */}
         <div className="flex flex-wrap gap-1.5 mb-3">
@@ -98,13 +95,13 @@ export default function EventCard({ event }: EventCardProps) {
 
         {/* Price + CTA row */}
         <div className="flex items-center justify-between gap-2">
-          <span className="text-white/50 text-[11px]">
+          <span className="text-white/45 text-[11px]">
             {price > 0 ? `от ${formatPrice(price)}` : 'Уточняется'}
           </span>
           <span
             className="inline-flex items-center gap-1
               bg-white/15 backdrop-blur-sm border border-white/20
-              text-white text-[11px] font-semibold px-4 py-1.5 rounded-full
+              text-white text-[11px] font-semibold px-3.5 py-1.5 rounded-full
               group-hover:bg-white/25 transition-colors duration-200"
           >
             Купить →
