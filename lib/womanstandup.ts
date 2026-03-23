@@ -39,7 +39,8 @@ const RU_MAP: Record<string, string> = {
 function mapConcertToEvent(c: any): Event {
   const baseSlug = c.slug || toSlug(c.showTitle, '')
   const slug = baseSlug ? `${baseSlug}-${c.id}` : String(c.id)
-  const image = assetUrl(c.smeshnoSliderImage || c.heroImage || c.image || c.imageHorizontal || '')
+  // Priority: smeshno-specific → per-event image → hero (often generic show banner) → horizontal
+  const image = assetUrl(c.smeshnoSliderImage || c.image || c.heroImage || c.imageHorizontal || '')
   const gallery = (c.gallery ?? []).map((g: string) => assetUrl(g)).filter(Boolean)
   const price = parseInt(c.price, 10) || 0
 
