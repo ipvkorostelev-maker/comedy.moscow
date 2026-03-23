@@ -130,16 +130,16 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           {artistsRow}
         </div>
 
-        {/* Image — right 55%, height driven by natural image proportions */}
-        <div className="relative flex-1 overflow-hidden">
+        {/* Image — right 55%, never upscaled beyond native 1200×800 */}
+        <div className="relative flex-1 overflow-hidden" style={{ maxWidth: '1200px' }}>
           <Image
             src={event.image}
             alt={event.title}
             width={1200}
             height={800}
             priority
-            className="w-full h-auto object-cover"
-            sizes="55vw"
+            className="w-full h-auto block"
+            sizes="(max-width: 1920px) 55vw, 660px"
           />
           <div className="absolute inset-y-0 left-0 w-48 z-10 bg-gradient-to-r from-bg to-transparent" />
           <div className="absolute inset-x-0 top-0 h-20 z-10 bg-gradient-to-b from-bg to-transparent" />
