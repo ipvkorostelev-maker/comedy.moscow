@@ -2,14 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Ken Burns — starts zoomed in slightly for cinematic entry feel */
 @keyframes kenBurns {
-  from { transform: scale(1); }
-  to   { transform: scale(1.07); }
+  from { transform: scale(1.04); }
+  to   { transform: scale(1.1); }
 }
 
 @keyframes progress {
   from { width: 0% }
   to   { width: 100% }
+}
+
+/* Staggered content reveal for hero slides */
+@keyframes heroContentIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Respect user's motion preferences */
@@ -74,5 +81,10 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Hero content stagger — apply to each element, control delay via style */
+  .animate-hero-content {
+    animation: heroContentIn 0.65s ease both;
   }
 }

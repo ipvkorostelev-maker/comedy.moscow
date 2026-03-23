@@ -33,10 +33,14 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
   )
 
   const pills = (
-    <div className="flex flex-wrap gap-2 items-center mb-6">
-      <MetaPill type="date" variant="glass">{formatDate(event.date)}</MetaPill>
-      <MetaPill type="time" variant="glass">{event.time}</MetaPill>
-      <MetaPill type="venue" variant="glass">
+    <div className="flex flex-wrap gap-2.5 items-center mb-6">
+      <MetaPill type="date" variant="glass" className="text-sm px-3.5 py-1.5 font-semibold">
+        {formatDate(event.date)}
+      </MetaPill>
+      <MetaPill type="time" variant="glass" className="text-sm px-3.5 py-1.5 font-semibold">
+        {event.time}
+      </MetaPill>
+      <MetaPill type="venue" variant="glass" className="text-sm px-3.5 py-1.5">
         {event.venueName ?? venue?.name ?? event.city}
       </MetaPill>
     </div>
@@ -93,7 +97,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
             {event.title}
           </h1>
           {event.subtitle && (
-            <p className="text-cream/60 text-[clamp(13px,1.4vw,18px)] font-sans font-normal mt-3 mb-4">
+            <p className="text-cream/60 text-[clamp(13px,1.4vw,18px)] font-sans font-normal mt-3 mb-4 leading-relaxed">
               {event.subtitle}
             </p>
           )}
@@ -127,18 +131,15 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
             {event.title}
           </h1>
           {event.subtitle && (
-            <p className="text-cream/60 text-[clamp(13px,1.4vw,18px)] font-sans font-normal mt-3 mb-4">
+            <p className="text-cream/60 text-[clamp(13px,1.4vw,18px)] font-sans font-normal mt-3 mb-4 leading-relaxed">
               {event.subtitle}
             </p>
           )}
           {pills}
           {price > 0 && (
-            <div className="mb-5">
-              <p className="text-muted text-[10px] uppercase tracking-[0.15em] mb-1">Цена от</p>
-              <p className="font-serif font-black text-cream text-[clamp(28px,3vw,46px)] leading-none mb-5">
-                {formatPrice(price)}
-              </p>
-            </div>
+            <p className="text-cream/40 text-sm tracking-wide mb-5">
+              от {formatPrice(price)}
+            </p>
           )}
           {buttons}
           {artistsRow}

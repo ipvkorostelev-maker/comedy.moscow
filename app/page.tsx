@@ -11,7 +11,8 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroSlider events={allEvents} />
+      {/* 4 nearest upcoming concerts in hero */}
+      <HeroSlider events={allEvents.slice(0, 4)} />
 
       <HomeEventsSection events={allEvents} />
 
