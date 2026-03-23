@@ -110,7 +110,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       {/* ── DESKTOP: split ── */}
       <div className="hidden lg:flex mt-[50px] bg-bg overflow-hidden">
         {/* Content — left 45% */}
-        <div className="w-[45%] flex-shrink-0 flex flex-col justify-center px-16 py-14 z-20">
+        <div className="w-[45%] flex-shrink-0 flex flex-col justify-center px-16 py-10 z-20">
           {badges}
           <h1 className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(26px,3.5vw,52px)] mb-2">
             {event.title}
@@ -131,7 +131,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
         </div>
 
         {/* Image — right 55%, never upscaled beyond native 1200×800 */}
-        <div className="relative flex-1 overflow-hidden" style={{ maxWidth: '1200px' }}>
+        <div className="relative flex-1 overflow-hidden" style={{ maxWidth: '900px' }}>
           <Image
             src={event.image}
             alt={event.title}

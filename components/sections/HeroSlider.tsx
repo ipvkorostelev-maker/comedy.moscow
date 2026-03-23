@@ -238,7 +238,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       {/* Height = 60vw × (800/1200) = 40vw, capped at 800px (natural image height) */}
       <div
         className="hidden lg:block relative mt-[50px] overflow-hidden"
-        style={{ height: 'min(40vw, 800px)', minHeight: '480px' }}
+        style={{ height: 'min(34vw, 680px)', minHeight: '420px' }}
       >
         {/* Image panel — right */}
         <div className="absolute inset-y-0 left-[40%] right-0 overflow-hidden">
