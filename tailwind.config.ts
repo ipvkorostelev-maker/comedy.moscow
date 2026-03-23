@@ -39,15 +39,11 @@ const config: Config = {
       },
       animation: {
         'fade-up': 'fadeUp 0.6s ease both',
-        'zoom-out': 'zoomOut 12s ease forwards',
       },
       keyframes: {
         fadeUp: {
           from: { opacity: '0', transform: 'translateY(16px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
-        },
-        zoomOut: {
-          to: { transform: 'scale(1)' },
         },
       },
     },

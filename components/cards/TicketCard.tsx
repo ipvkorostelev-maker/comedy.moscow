@@ -1,5 +1,6 @@
 import { TicketTier } from '@/lib/types'
 import { formatPrice, cn } from '@/lib/utils'
+import { ZapIcon } from '@/components/ui/icons'
 
 type TicketType = 'standard' | 'premium' | 'vip'
 
@@ -43,7 +44,10 @@ export default function TicketCard({ type, tier, featured, perks }: TicketCardPr
       </div>
 
       {tier.seats && (
-        <p className="text-[11px] text-gold font-semibold mb-5">⚡ Осталось {tier.seats} мест</p>
+        <p className="inline-flex items-center gap-1 text-[11px] text-gold font-semibold mb-5">
+          <ZapIcon className="w-2.5 h-2.5" />
+          Осталось {tier.seats} мест
+        </p>
       )}
 
       <ul className="space-y-2 mb-6 mt-4">

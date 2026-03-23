@@ -12,6 +12,18 @@
   to   { width: 100% }
 }
 
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @layer base {
   * {
     box-sizing: border-box;
@@ -24,6 +36,11 @@
   body {
     @apply bg-bg text-cream font-sans antialiased;
     overflow-x: hidden;
+  }
+
+  /* Remove 300ms tap delay on mobile */
+  button, a, [role="button"] {
+    touch-action: manipulation;
   }
 
   ::selection {

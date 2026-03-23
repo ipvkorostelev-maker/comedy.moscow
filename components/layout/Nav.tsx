@@ -54,6 +54,7 @@ export default function Nav() {
               <Link
                 key={href}
                 href={href}
+                aria-current={pathname.startsWith(href) ? 'page' : undefined}
                 className={cn(
                   'text-xs transition-colors',
                   pathname.startsWith(href) ? 'text-cream' : 'text-cream/50 hover:text-cream'
@@ -94,6 +95,7 @@ export default function Nav() {
               <Link
                 key={href}
                 href={href}
+                aria-current={pathname.startsWith(href) ? 'page' : undefined}
                 className={cn(
                   'font-serif font-bold text-4xl py-3 border-b border-border transition-colors',
                   pathname.startsWith(href) ? 'text-cream' : 'text-cream/50 hover:text-cream'

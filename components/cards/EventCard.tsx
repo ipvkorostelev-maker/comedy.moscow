@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Event } from '@/lib/types'
 import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
 import MetaPill from '@/components/ui/MetaPill'
+import { ZapIcon } from '@/components/ui/icons'
 
 interface EventCardProps {
   event: Event
@@ -31,7 +32,8 @@ export default function EventCard({ event }: EventCardProps) {
         <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
           {event.ticketsLeft < 25 && (
             <span className="inline-flex items-center gap-1 bg-red text-white text-[10px] font-bold tracking-wide px-2.5 py-1 rounded-md shadow-red-sm">
-              ⚡ {event.ticketsLeft} мест
+              <ZapIcon className="w-2.5 h-2.5 flex-shrink-0" />
+              {event.ticketsLeft} мест
             </span>
           )}
           {event.rating > 0 && (

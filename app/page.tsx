@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 import { getAllEvents, getAllArtists } from '@/lib/data'
 import ArtistCard from '@/components/cards/ArtistCard'

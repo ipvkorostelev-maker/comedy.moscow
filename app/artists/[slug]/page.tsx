@@ -3,8 +3,9 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { getArtistBySlug, getAllEvents } from '@/lib/data'
 import EventCard from '@/components/cards/EventCard'
+import { MicIcon } from '@/components/ui/icons'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 export async function generateMetadata({
   params,
@@ -58,7 +59,7 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
                   sizes="300px"
                 />
               ) : (
-                <span className="text-8xl select-none">🎤</span>
+                <MicIcon className="w-16 h-16 text-muted" />
               )}
             </div>
 

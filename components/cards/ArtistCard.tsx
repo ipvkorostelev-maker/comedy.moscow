@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Artist } from '@/lib/types'
+import { MicIcon } from '@/components/ui/icons'
 
 interface ArtistCardProps {
   artist: Artist
@@ -19,8 +20,8 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
             sizes="(max-width: 768px) 50vw, 25vw"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-muted text-5xl select-none">
-            🎤
+          <div className="absolute inset-0 flex items-center justify-center text-muted">
+            <MicIcon className="w-12 h-12" />
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent" />

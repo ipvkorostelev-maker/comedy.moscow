@@ -1,17 +1,16 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import { getEventBySlug, getArtistsByIds, getVenueById, getSimilarEvents } from '@/lib/data'
 import { formatDate, formatDayOfWeek, formatPrice, minEventPrice } from '@/lib/utils'
 import Badge from '@/components/ui/Badge'
 import BuyButton from '@/components/ui/BuyButton'
-import MetaPill from '@/components/ui/MetaPill'
-import ArtistCard from '@/components/cards/ArtistCard'
 import ReviewCard from '@/components/cards/ReviewCard'
 import EventCard from '@/components/cards/EventCard'
 import StickyBuyBar from '@/components/sections/StickyBuyBar'
+import EventHero from '@/components/sections/EventHero'
+import GalleryLightbox from '@/components/ui/GalleryLightbox'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 export async function generateMetadata({
   params,
@@ -61,142 +60,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* ── HERO ── */}
-
-      {/* Mobile: stacked layout */}
-      <div className="lg:hidden bg-bg mt-[60px]">
-        <div className="relative w-full overflow-hidden pt-16" style={{ height: 'calc(56vw + 64px)', minHeight: 240, maxHeight: 380 }}>
-          <Image
-            src={event.image}
-            alt={event.title}
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-          <div className="absolute inset-x-0 bottom-0 h-12 z-10 bg-gradient-to-t from-bg to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-16 z-10 bg-gradient-to-b from-bg/70 to-transparent" />
-        </div>
-        <div className="px-5 pt-4 pb-8">
-          <div className="flex flex-wrap gap-2 mb-4">
-            {event.featured && <Badge variant="red">🔥 Хит сезона</Badge>}
-            {event.rating > 0 && <Badge variant="gold">★ {event.rating}</Badge>}
-            <Badge variant="dark">{event.ageRestriction}</Badge>
-            {event.duration && <Badge variant="dark">{event.duration}</Badge>}
-            {event.ticketsLeft < 25 && (
-              <Badge variant="dark">Осталось {event.ticketsLeft} мест</Badge>
-            )}
-          </div>
-          <h1 className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(26px,3.5vw,52px)] mb-2">
-            {event.title}
-          </h1>
-          {event.subtitle && (
-            <p className="text-cream/60 text-[clamp(13px,1.4vw,18px)] font-sans font-normal mt-3 mb-4">
-              {event.subtitle}
-            </p>
-          )}
-          <div className="flex flex-wrap gap-2 items-center mb-6">
-            <MetaPill type="date" variant="glass">{formatDate(event.date)}</MetaPill>
-            <MetaPill type="time" variant="glass">{event.time}</MetaPill>
-            <MetaPill type="venue" variant="glass">{event.venueName ?? venue?.name ?? event.city}</MetaPill>
-          </div>
-          <div className="flex flex-wrap gap-3 mb-6">
-            <BuyButton
-              ticketType={event.ticketType}
-              ticketUrl={event.ticketUrl}
-              yandexWidgetId={event.yandexWidgetId}
-            />
-            <a
-              href="#about"
-              className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-lg hover:bg-white/15 transition-all"
-            >
-              Подробнее ↓
-            </a>
-          </div>
-          {artists.length > 0 && (
-            <div className="flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
-              {artists.map((artist) => (
-                <div key={artist.id} className="flex-shrink-0 w-[90px]">
-                  <ArtistCard artist={artist} />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Desktop: split layout */}
-      <div className="hidden lg:block relative h-[80vh] mt-[50px] bg-bg overflow-hidden">
-        {/* Image panel — right side */}
-        <div className="absolute inset-y-0 left-[45%] right-0 overflow-hidden">
-          <Image
-            src={event.image}
-            alt={event.title}
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="55vw"
-          />
-          <div className="absolute inset-y-0 left-0 w-64 z-10 bg-gradient-to-r from-bg to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-24 z-10 bg-gradient-to-b from-bg to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-24 z-10 bg-gradient-to-t from-bg to-transparent" />
-        </div>
-
-        {/* Content — left */}
-        <div className="relative z-20 h-full flex flex-col justify-center px-16 max-w-[52%]">
-          <div className="flex flex-wrap gap-2 mb-4">
-            {event.featured && <Badge variant="red">🔥 Хит сезона</Badge>}
-            {event.rating > 0 && <Badge variant="gold">★ {event.rating}</Badge>}
-            <Badge variant="dark">{event.ageRestriction}</Badge>
-            {event.duration && <Badge variant="dark">{event.duration}</Badge>}
-            {event.ticketsLeft < 25 && (
-              <Badge variant="dark">Осталось {event.ticketsLeft} мест</Badge>
-            )}
-          </div>
-          <h1 className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(26px,3.5vw,52px)] mb-2">
-            {event.title}
-          </h1>
-          {event.subtitle && (
-            <p className="text-cream/60 text-[clamp(13px,1.4vw,18px)] font-sans font-normal mt-3 mb-4">
-              {event.subtitle}
-            </p>
-          )}
-          <div className="flex flex-wrap gap-2 items-center mb-6">
-            <MetaPill type="date" variant="glass">{formatDate(event.date)}</MetaPill>
-            <MetaPill type="time" variant="glass">{event.time}</MetaPill>
-            <MetaPill type="venue" variant="glass">{event.venueName ?? venue?.name ?? event.city}</MetaPill>
-          </div>
-          {price > 0 && (
-            <div className="mb-5">
-              <p className="text-muted text-[10px] uppercase tracking-[0.15em] mb-1">Цена от</p>
-              <p className="font-serif font-black text-cream text-[clamp(28px,3vw,46px)] leading-none mb-5">
-                {formatPrice(price)}
-              </p>
-            </div>
-          )}
-          <div className="flex flex-wrap gap-3 mb-6">
-            <BuyButton
-              ticketType={event.ticketType}
-              ticketUrl={event.ticketUrl}
-              yandexWidgetId={event.yandexWidgetId}
-            />
-            <a
-              href="#about"
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-xl hover:bg-white/18 transition-all"
-            >
-              Подробнее ↓
-            </a>
-          </div>
-          {artists.length > 0 && (
-            <div className="flex gap-3">
-              {artists.map((artist) => (
-                <div key={artist.id} className="flex-shrink-0 w-[100px]">
-                  <ArtistCard artist={artist} />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
+      <EventHero event={event} artists={artists} venue={venue} price={price} />
 
       {/* ── MAIN CONTENT ── */}
       <div className="max-w-[1100px] mx-auto px-6 lg:px-12 pt-4 lg:pt-14 pb-14">
@@ -224,13 +88,12 @@ export default async function EventPage({ params }: { params: { slug: string } }
                 dangerouslySetInnerHTML={{ __html: event.longDescription }}
               />
             )}
-
           </div>
 
           {/* SIDEBAR */}
           <div>
             <div className="bg-surface-2 border border-border rounded-2xl overflow-hidden sticky top-24">
-              {/* Buy CTA at top of sidebar */}
+              {/* Buy CTA */}
               <div className="p-5 border-b border-border">
                 {price > 0 && (
                   <div className="mb-4">
@@ -269,34 +132,11 @@ export default async function EventPage({ params }: { params: { slug: string } }
           </div>
         </div>
 
-
         {/* ── GALLERY ── */}
         {event.gallery && event.gallery.length >= 3 && (
           <div className="mb-16">
             <h2 className="font-serif font-bold text-xl text-cream mb-5">Фото с прошлых шоу</h2>
-            <div className="grid grid-cols-[2fr_1fr_1fr] grid-rows-[200px_200px] gap-2.5 rounded-2xl overflow-hidden">
-              {event.gallery.slice(0, 5).map((img, i) => (
-                <div
-                  key={i}
-                  className={`relative overflow-hidden group cursor-pointer ${
-                    i === 0 ? 'row-span-2' : ''
-                  }`}
-                >
-                  <Image
-                    src={img}
-                    alt={`Фото ${i + 1}`}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
-                    sizes="33vw"
-                  />
-                  <div className="absolute inset-0 bg-bg/0 group-hover:bg-bg/30 transition-all flex items-center justify-center">
-                    <span className="text-3xl opacity-0 group-hover:opacity-100 transition-opacity">
-                      ▶
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <GalleryLightbox images={event.gallery} title={event.title} />
           </div>
         )}
 
@@ -316,9 +156,12 @@ export default async function EventPage({ params }: { params: { slug: string } }
         {similar.length > 0 && (
           <div className="mb-16">
             <h2 className="font-serif font-bold text-xl text-cream mb-5">Похожие шоу</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {/* Horizontal scroll on mobile → grid on desktop */}
+            <div className="flex gap-4 overflow-x-auto pb-2 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-4 snap-x snap-mandatory md:snap-none">
               {similar.map((ev) => (
-                <EventCard key={ev.id} event={ev} />
+                <div key={ev.id} className="flex-shrink-0 w-[260px] md:w-auto snap-start">
+                  <EventCard event={ev} />
+                </div>
               ))}
             </div>
           </div>

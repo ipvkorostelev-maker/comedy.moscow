@@ -7,6 +7,7 @@ import { Event } from '@/lib/types'
 import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
 import Badge from '@/components/ui/Badge'
 import MetaPill from '@/components/ui/MetaPill'
+import { FlameIcon } from '@/components/ui/icons'
 
 interface HeroSliderProps {
   events: Event[]
@@ -34,6 +35,8 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   )
 
   useEffect(() => {
+    // Respect prefers-reduced-motion — don't auto-rotate for users who prefer no motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const timer = setInterval(() => {
       goTo((current + 1) % events.length)
     }, INTERVAL)
@@ -78,7 +81,12 @@ export default function HeroSlider({ events }: HeroSliderProps) {
     <>
       {/* Badges */}
       <div className="flex flex-wrap gap-2 mb-4">
-        {event.featured && <Badge variant="red">🔥 Хит сезона</Badge>}
+        {event.featured && (
+          <Badge variant="red" className="gap-1.5">
+            <FlameIcon className="w-2.5 h-2.5" />
+            Хит сезона
+          </Badge>
+        )}
         {event.rating > 0 && <Badge variant="gold">★ {event.rating}</Badge>}
         <Badge variant="dark">{event.ageRestriction}</Badge>
         {event.duration && <Badge variant="dark">{event.duration}</Badge>}
