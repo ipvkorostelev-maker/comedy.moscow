@@ -6,11 +6,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-10">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
-            <Link href="/" className="font-serif text-xl font-black text-cream">
-              Смеш<em className="text-red not-italic">но</em>
-            </Link>
-            <p className="text-xs text-muted mt-1.5 max-w-[220px] leading-relaxed">
-              Лучшие стендап-концерты Москвы и Санкт-Петербурга
+            <p className="text-xs text-muted max-w-[220px] leading-relaxed">
+              Лучшие стендап-концерты Москвы
             </p>
           </div>
 

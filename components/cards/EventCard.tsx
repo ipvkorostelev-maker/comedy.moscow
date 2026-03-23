@@ -64,7 +64,7 @@ export default function EventCard({ event }: EventCardProps) {
 
         {/* Lineup */}
         {event.artistNames && event.artistNames.length > 0 && (
-          <p className="text-muted text-[12px] leading-snug line-clamp-1">
+          <p className="text-muted text-[12px] leading-snug">
             {event.artistNames.join(' · ')}
           </p>
         )}

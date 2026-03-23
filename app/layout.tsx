@@ -21,10 +21,10 @@ const BASE = 'https://comedy.moscow'
 export const metadata: Metadata = {
   metadataBase: new URL(BASE),
   title: {
-    default: 'Смешно — стендап-концерты в Москве',
+    default: 'comedy.moscow — стендап-концерты в Москве',
     template: '%s | Смешно',
   },
-  description: 'Лучшие стендап-концерты Москвы и Санкт-Петербурга. Билеты онлайн — удобно и быстро.',
+  description: 'Лучшие стендап-концерты Москвы. Билеты онлайн на comedy.moscow — удобно и быстро.',
   robots: { index: true, follow: true },
   openGraph: {
     type: 'website',
