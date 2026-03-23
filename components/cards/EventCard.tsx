@@ -58,7 +58,7 @@ export default function EventCard({ event }: EventCardProps) {
 
       {/* ── INFO ── */}
       <div className="p-4 space-y-3">
-        <h3 className="font-serif font-black text-cream text-[18px] leading-tight group-hover:text-red transition-colors duration-200 line-clamp-2">
+        <h3 className="font-serif font-black text-cream text-[20px] leading-tight group-hover:text-red transition-colors duration-200 line-clamp-2 uppercase">
           {event.title}
         </h3>
 
