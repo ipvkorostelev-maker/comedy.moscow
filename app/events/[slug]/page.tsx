@@ -12,21 +12,36 @@ import GalleryLightbox from '@/components/ui/GalleryLightbox'
 export const revalidate = 60
 
 const BASE = 'https://comedy.moscow'
+const TZ = '+03:00'
 
-/** Parse "2 ч 30 мин" → ISO end datetime */
+/** Strip HTML tags → plain text for JSON-LD description */
+function plainText(html: string): string {
+  return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
+/** "2 ч 30 мин" → total minutes */
+function parseDurationMinutes(duration: string): number {
+  const h = duration.match(/(\d+)\s*ч/)
+  const m = duration.match(/(\d+)\s*мин/)
+  return (h ? +h[1] * 60 : 0) + (m ? +m[1] : 0)
+}
+
+/** "YYYY-MM-DD" + "HH:MM" + duration string → ISO Moscow datetime string */
 function calcEndDate(date: string, time: string, duration: string): string | undefined {
   try {
-    const [h, m] = time.split(':').map(Number)
-    const dt = new Date(`${date}T${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00`)
-    const hMatch = duration.match(/(\d+)\s*ч/)
-    const mMatch = duration.match(/(\d+)\s*мин/)
-    const mins = (hMatch ? +hMatch[1] * 60 : 0) + (mMatch ? +mMatch[1] : 0)
-    if (mins > 0) {
-      dt.setMinutes(dt.getMinutes() + mins)
-      return dt.toISOString().replace('.000Z', '+03:00')
-    }
-  } catch {}
-  return undefined
+    const mins = parseDurationMinutes(duration)
+    if (!mins) return undefined
+    const [hh, mm] = time.split(':').map(Number)
+    const totalMins = hh * 60 + mm + mins
+    const endH = Math.floor(totalMins / 60) % 24
+    const endM = totalMins % 60
+    const endDay = Math.floor((hh * 60 + mm + mins) / (24 * 60)) > 0
+      ? new Date(new Date(date).getTime() + 86400000).toISOString().slice(0, 10)
+      : date
+    return `${endDay}T${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}:00${TZ}`
+  } catch {
+    return undefined
+  }
 }
 
 export async function generateMetadata({
@@ -75,93 +90,90 @@ export default async function EventPage({ params }: { params: { slug: string } }
   const price = minEventPrice(event)
   const url = `${BASE}/events/${event.slug}`
 
-  const jsonLd = {
+  const offerUrl = event.ticketUrl ?? url
+  const ticketOffers = [
+    event.tickets.standard,
+    event.tickets.premium,
+    event.tickets.vip,
+  ]
+    .filter((t) => t.available && t.price > 0)
+    .map((t) => ({
+      '@type': 'Offer',
+      price: t.price,
+      priceCurrency: 'RUB',
+      availability: 'https://schema.org/InStock',
+      url: offerUrl,
+      validFrom: event.date,
+    }))
+
+  const locationAddress: Record<string, string> = {
+    '@type': 'PostalAddress',
+    addressLocality: event.city || 'Москва',
+    addressCountry: 'RU',
+  }
+  if (venue?.address) locationAddress.streetAddress = venue.address
+
+  const rawDescription = event.longDescription ?? event.description
+  const description = rawDescription.includes('<')
+    ? plainText(rawDescription)
+    : rawDescription
+
+  const jsonLd: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Event',
     '@id': url,
     name: event.title,
     url,
-    description: event.longDescription ?? event.description,
-    image: [event.image],
-    startDate: `${event.date}T${event.time}:00+03:00`,
-    ...(event.duration ? { endDate: calcEndDate(event.date, event.time, event.duration) } : {}),
+    description,
+    inLanguage: 'ru',
+    image: [
+      { '@type': 'ImageObject', url: event.image, width: 1200, height: 800 },
+    ],
+    startDate: `${event.date}T${event.time}:00${TZ}`,
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {
       '@type': 'Place',
-      name: event.venueName ?? venue?.name,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: venue?.address,
-        addressLocality: event.city,
-        addressCountry: 'RU',
-      },
+      name: event.venueName ?? venue?.name ?? event.city,
+      address: locationAddress,
     },
     organizer: {
       '@type': 'Organization',
       '@id': `${BASE}/#organization`,
       name: 'Смешно',
       url: BASE,
+      email: 'river-show@mail.ru',
     },
     performer: artists.map((a) => ({
-      '@type': 'Person',
-      '@id': `${BASE}/artists/${a.slug}`,
+      '@type': 'PerformingGroup',
       name: a.name,
       url: `${BASE}/artists/${a.slug}`,
     })),
-    offers: [
-      ...(event.tickets.standard.available
-        ? [{
-            '@type': 'Offer',
-            name: 'Стандарт',
-            price: event.tickets.standard.price,
-            priceCurrency: 'RUB',
-            availability: 'https://schema.org/InStock',
-            ...(event.ticketUrl ? { url: event.ticketUrl } : {}),
-          }]
-        : []),
-      ...(event.tickets.premium.available
-        ? [{
-            '@type': 'Offer',
-            name: 'Премиум',
-            price: event.tickets.premium.price,
-            priceCurrency: 'RUB',
-            availability: 'https://schema.org/InStock',
-            ...(event.ticketUrl ? { url: event.ticketUrl } : {}),
-          }]
-        : []),
-      ...(event.tickets.vip.available
-        ? [{
-            '@type': 'Offer',
-            name: 'VIP',
-            price: event.tickets.vip.price,
-            priceCurrency: 'RUB',
-            availability: 'https://schema.org/InStock',
-            ...(event.ticketUrl ? { url: event.ticketUrl } : {}),
-          }]
-        : []),
-    ],
-    ...(event.rating > 0
-      ? {
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: event.rating,
-            reviewCount: event.reviewsCount,
-            bestRating: 5,
-          },
-        }
-      : {}),
-    ...(event.reviews && event.reviews.length > 0
-      ? {
-          review: event.reviews.map((r) => ({
-            '@type': 'Review',
-            author: { '@type': 'Person', name: r.author },
-            reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5 },
-            reviewBody: r.text,
-            datePublished: r.date,
-          })),
-        }
-      : {}),
+  }
+
+  const endDate = calcEndDate(event.date, event.time, event.duration)
+  if (endDate) jsonLd.endDate = endDate
+
+  if (ticketOffers.length > 0) jsonLd.offers = ticketOffers
+
+  if (event.rating > 0 && event.reviewsCount > 0) {
+    jsonLd.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: event.rating,
+      reviewCount: event.reviewsCount,
+      bestRating: 5,
+      worstRating: 1,
+    }
+  }
+
+  if (event.reviews && event.reviews.length > 0) {
+    jsonLd.review = event.reviews.map((r) => ({
+      '@type': 'Review',
+      author: { '@type': 'Person', name: r.author },
+      reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+      reviewBody: r.text,
+      datePublished: r.date,
+    }))
   }
 
   const breadcrumbLd = {
