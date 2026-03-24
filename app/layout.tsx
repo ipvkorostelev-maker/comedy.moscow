@@ -3,6 +3,7 @@ import { Oswald, Inter } from 'next/font/google'
 import './globals.css'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
+import CookieBanner from '@/components/ui/CookieBanner'
 
 const oswald = Oswald({
   subsets: ['cyrillic', 'latin'],
@@ -103,6 +104,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Nav />
         <main>{children}</main>
         <Footer />
+        <CookieBanner />
       </body>
     </html>
   )
