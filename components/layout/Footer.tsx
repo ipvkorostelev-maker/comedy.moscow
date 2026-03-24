@@ -4,7 +4,9 @@ export default function Footer() {
   return (
     <footer className="border-t border-border mt-20">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-10">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+
+        {/* Top row */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
           <div>
             <p className="text-xs text-muted max-w-[220px] leading-relaxed">
               Лучшие стендап-концерты Москвы
@@ -23,8 +25,27 @@ export default function Footer() {
             </Link>
           </nav>
 
-          <p className="text-xs text-muted-2">© 2025 comedy.moscow</p>
+          <p className="text-xs text-muted-2">© 2026 comedy.moscow</p>
         </div>
+
+        {/* Legal */}
+        <div className="border-t border-border pt-6 space-y-3">
+          <p className="text-[11px] text-muted-2 leading-relaxed">
+            ИП Ширяев Афанасий Павлович · ИНН 711404628447 · ОГРНИП 320715400048420
+          </p>
+          <p className="text-[11px] text-muted-2 leading-relaxed max-w-xl">
+            Билеты реализуются через сервисы Яндекс Билеты и intickets. Возврат и обмен — согласно правилам сервисов продажи.
+          </p>
+          <div className="flex items-center gap-5 pt-1">
+            <Link href="/offer" className="text-[11px] text-muted-2 hover:text-muted transition-colors underline underline-offset-2 decoration-muted-2/50">
+              Публичная оферта
+            </Link>
+            <Link href="/privacy" className="text-[11px] text-muted-2 hover:text-muted transition-colors underline underline-offset-2 decoration-muted-2/50">
+              Политика конфиденциальности
+            </Link>
+          </div>
+        </div>
+
       </div>
     </footer>
   )
