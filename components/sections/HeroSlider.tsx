@@ -198,7 +198,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   )
 
   return (
-    <section className="bg-bg pt-5">
+    <section className="bg-bg pt-5 pb-8">
       {/* ── MOBILE ── */}
       <div className="lg:hidden">
         <div
