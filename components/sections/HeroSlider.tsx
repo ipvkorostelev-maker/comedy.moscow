@@ -207,7 +207,6 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         >
           <div className="absolute inset-0 overflow-hidden">{imageStack('100vw')}</div>
           {/* Deeper fade at bottom for smooth content blend */}
-          <div className="absolute inset-x-0 bottom-0 h-28 z-10 bg-gradient-to-t from-bg via-bg/70 to-transparent" />
           <div className="absolute inset-x-0 top-0 h-16 z-10 bg-gradient-to-b from-bg/70 to-transparent" />
         </div>
 
@@ -233,7 +232,6 @@ export default function HeroSlider({ events }: HeroSliderProps) {
           {/* Gradients for cinematic blend */}
           <div className="absolute inset-y-0 left-0 w-96 z-10 bg-gradient-to-r from-bg via-bg/50 to-transparent" />
           <div className="absolute inset-x-0 top-0 h-40 z-10 bg-gradient-to-b from-bg to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-40 z-10 bg-gradient-to-t from-bg to-transparent" />
         </div>
 
         {/* Vignette — subtle dark overlay on right edge */}
