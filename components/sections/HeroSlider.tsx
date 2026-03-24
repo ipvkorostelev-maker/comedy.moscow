@@ -122,7 +122,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   const title = (extra?: string) => (
     <h1
       key={`title-${event.id}`}
-      className={`font-serif font-black text-cream leading-[0.95] tracking-[-0.02em] text-[clamp(28px,4.5vw,64px)] mb-3 text-balance animate-hero-content ${extra ?? ''}`}
+      className={`font-serif font-black text-cream leading-[1.05] tracking-[-0.02em] text-[clamp(28px,4.5vw,64px)] mb-3 text-balance animate-hero-content ${extra ?? ''}`}
       style={{ animationDelay: '70ms' }}
     >
       {event.title}

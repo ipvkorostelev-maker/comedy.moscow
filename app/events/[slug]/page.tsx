@@ -349,7 +349,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
           <div className="mb-16">
             <h2 className="font-serif font-bold text-xl text-cream mb-5">Похожие концерты</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {similar.slice(0, 6).map((ev) => (
+              {similar.slice(0, 3).map((ev) => (
                 <div key={ev.id} className="flex flex-col">
                   <EventCard event={ev} />
                 </div>

@@ -77,7 +77,7 @@ export default function EventCard({ event }: EventCardProps) {
           )}
         </div>
 
-        <div className="flex items-center justify-between pt-1 border-t border-border mt-auto">
+        <div className="flex items-center justify-between pt-3 border-t border-border mt-auto">
           {price > 0 ? (
             <span className="font-serif font-black text-red text-lg leading-none">
               от {formatPrice(price)}
