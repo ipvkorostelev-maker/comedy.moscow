@@ -67,13 +67,6 @@ export default function Nav() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/events"
-              className="hidden md:block text-xs font-bold bg-red hover:bg-red-hover text-white px-5 py-2.5 rounded-md transition-colors shadow-[0_0_20px_rgba(212,66,30,0.3)]"
-            >
-              Купить билет
-            </Link>
-
             {/* Burger button — mobile only */}
             <button
               onClick={() => setMenuOpen((v) => !v)}
@@ -106,12 +99,6 @@ export default function Nav() {
               </Link>
             ))}
           </nav>
-          <Link
-            href="/events"
-            className="mt-auto w-full text-center bg-red text-white text-sm font-bold py-4 rounded-xl shadow-[0_4px_28px_rgba(212,66,30,0.4)]"
-          >
-            Купить билет →
-          </Link>
         </div>
       )}
     </>

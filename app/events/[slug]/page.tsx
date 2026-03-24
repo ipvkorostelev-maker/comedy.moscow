@@ -202,8 +202,8 @@ export default async function EventPage({ params }: { params: { slug: string } }
       <EventHero event={event} artists={artists} venue={venue} price={price} />
 
       {/* ── MAIN CONTENT ── */}
-      <div className="max-w-[1100px] mx-auto px-6 lg:px-12 pt-4 lg:pt-14 pb-14">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12 mb-16">
+      <div className="px-6 lg:px-16 xl:px-20 pt-4 lg:pt-14 pb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12 mb-16 max-w-[1400px]">
 
           {/* LEFT COL */}
           <div>
