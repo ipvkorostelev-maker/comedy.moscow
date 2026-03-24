@@ -253,7 +253,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
                     Telegram
                   </a>
                   <a
-                    href={`https://icq.im/share/url?url=https://comedy.moscow/events/${event.slug}&title=${encodeURIComponent(event.title)}`}
+                    href={`https://max.ru/:share?text=${encodeURIComponent(event.title + ' https://comedy.moscow/events/' + event.slug)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-[#00C2FF]/10 hover:bg-[#00C2FF]/20 border border-[#00C2FF]/25 text-[#00C2FF] text-[11px] font-semibold transition-colors"
