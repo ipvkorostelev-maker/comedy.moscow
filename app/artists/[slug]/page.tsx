@@ -6,6 +6,13 @@ import EventCard from '@/components/cards/EventCard'
 import { MicIcon } from '@/components/ui/icons'
 
 export const revalidate = 60
+export const dynamicParams = true
+
+export async function generateStaticParams() {
+  const { getAllArtists } = await import('@/lib/data')
+  const artists = await getAllArtists()
+  return artists.map((a) => ({ slug: a.slug }))
+}
 
 const BASE = 'https://comedy.moscow'
 

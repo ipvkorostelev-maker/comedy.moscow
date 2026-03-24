@@ -10,6 +10,13 @@ import EventHero from '@/components/sections/EventHero'
 import GalleryLightbox from '@/components/ui/GalleryLightbox'
 
 export const revalidate = 60
+export const dynamicParams = true
+
+export async function generateStaticParams() {
+  const { getAllEvents } = await import('@/lib/data')
+  const events = await getAllEvents()
+  return events.map((e) => ({ slug: e.slug }))
+}
 
 const BASE = 'https://comedy.moscow'
 const TZ = '+03:00'
