@@ -10,14 +10,14 @@ interface ObfuscatedContactProps {
 
 export default function ObfuscatedContact({ parts, href, className = '' }: ObfuscatedContactProps) {
   const [revealed, setRevealed] = useState(false)
-  const [value, setValue] = useState('')
-  const [link, setLink] = useState('#')
+  const [contact, setContact] = useState({ value: '', link: '#' })
 
   useEffect(() => {
-    const assembled = parts.join('')
-    setValue(assembled)
-    setLink(href.replace('__VALUE__', assembled))
+    const value = parts.join('')
+    setContact({ value, link: href.replace('__VALUE__', value) })
   }, [])
+
+  const { value, link } = contact
 
   if (!value) return <span className={className}>—</span>
 
@@ -29,9 +29,7 @@ export default function ObfuscatedContact({ parts, href, className = '' }: Obfus
         className={`${className} relative inline-flex items-center gap-2 cursor-pointer group/reveal`}
       >
         <span className="relative">
-          {/* First 3 chars visible */}
           <span>{value.slice(0, 3)}</span>
-          {/* Rest blurred */}
           <span className="select-none blur-sm opacity-70">{value.slice(3)}</span>
         </span>
         <span className="text-[10px] text-white font-semibold normal-case tracking-normal font-sans whitespace-nowrap bg-white/15 group-hover/reveal:bg-white/25 border border-white/25 rounded-md px-2 py-0.5 transition-colors">
@@ -41,9 +39,5 @@ export default function ObfuscatedContact({ parts, href, className = '' }: Obfus
     )
   }
 
-  return (
-    <a href={link} className={className}>
-      {value}
-    </a>
-  )
+  return <a href={link} className={className}>{value}</a>
 }

@@ -5,9 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Event } from '@/lib/types'
 import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
-import Badge from '@/components/ui/Badge'
 import MetaPill from '@/components/ui/MetaPill'
-import { FlameIcon } from '@/components/ui/icons'
+import EventBadges from '@/components/ui/EventBadges'
 
 interface HeroSliderProps {
   events: Event[]
@@ -115,20 +114,8 @@ export default function HeroSlider({ events }: HeroSliderProps) {
 
   // Staggered content — each element keyed on event.id so animations replay on slide change
   const badges = (
-    <div
-      key={`badges-${event.id}`}
-      className="flex flex-wrap gap-2 mb-3 animate-hero-content"
-      style={{ animationDelay: '0ms' }}
-    >
-      {event.featured && (
-        <Badge variant="red" className="gap-1.5">
-          <FlameIcon className="w-2.5 h-2.5" />
-          Стендап в Москве
-        </Badge>
-      )}
-      {event.rating > 0 && <Badge variant="gold">★ {event.rating}</Badge>}
-      <Badge variant="dark">{event.ageRestriction}</Badge>
-      {event.duration && <Badge variant="dark">~{event.duration}</Badge>}
+    <div key={`badges-${event.id}`} className="animate-hero-content" style={{ animationDelay: '0ms' }}>
+      <EventBadges event={event} className="flex flex-wrap gap-2 mb-3" />
     </div>
   )
 

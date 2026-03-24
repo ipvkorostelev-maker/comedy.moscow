@@ -14,7 +14,10 @@ export default function StickyBuyBar({ event, minPrice }: StickyBuyBarProps) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 500)
+    const onScroll = () => {
+      const next = window.scrollY > 500
+      setVisible((prev) => prev === next ? prev : next)
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])

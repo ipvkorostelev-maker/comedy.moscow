@@ -1,11 +1,9 @@
 import Image from 'next/image'
 import { Event, Artist, Venue } from '@/lib/types'
 import { formatDate, formatPrice } from '@/lib/utils'
-import Badge from '@/components/ui/Badge'
 import BuyButton from '@/components/ui/BuyButton'
 import MetaPill from '@/components/ui/MetaPill'
-import ArtistCard from '@/components/cards/ArtistCard'
-import { FlameIcon } from '@/components/ui/icons'
+import EventBadges from '@/components/ui/EventBadges'
 
 interface EventHeroProps {
   event: Event
@@ -15,20 +13,6 @@ interface EventHeroProps {
 }
 
 export default function EventHero({ event, artists, venue, price }: EventHeroProps) {
-  const badges = (
-    <div className="flex flex-wrap gap-2 mb-4">
-      {event.featured && (
-        <Badge variant="red" className="gap-1.5">
-          <FlameIcon className="w-2.5 h-2.5" />
-          Стендап в Москве
-        </Badge>
-      )}
-      {event.rating > 0 && <Badge variant="gold">★ {event.rating}</Badge>}
-      <Badge variant="dark">{event.ageRestriction}</Badge>
-      {event.duration && <Badge variant="dark">~{event.duration}</Badge>}
-    </div>
-  )
-
   const pills = (
     <div className="flex flex-wrap gap-2.5 items-center mb-6">
       <MetaPill type="date" variant="glass" className="text-sm px-3.5 py-1.5 font-semibold">
@@ -103,7 +87,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           <div className="absolute inset-x-0 top-0 h-16 z-10 bg-gradient-to-b from-bg/70 to-transparent" />
         </div>
         <div className="px-5 pt-4 pb-8">
-          {badges}
+          <EventBadges event={event} />
           <h1 className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(26px,3.5vw,52px)] mb-2">
             {event.title}
           </h1>
@@ -122,7 +106,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       <div className="hidden lg:flex mt-[50px] bg-bg overflow-hidden">
         {/* Content — left 45% */}
         <div className="w-[45%] flex-shrink-0 flex flex-col justify-center px-16 py-10 z-20">
-          {badges}
+          <EventBadges event={event} />
           <h1 className="font-serif font-black text-cream leading-[0.93] tracking-[-0.02em] text-[clamp(26px,3.5vw,52px)] mb-2">
             {event.title}
           </h1>
