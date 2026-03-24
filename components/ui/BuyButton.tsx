@@ -17,8 +17,14 @@ export default function BuyButton({
 }: BuyButtonProps) {
   const isYandex = ticketType === 'yandex' && !!yandexWidgetId
 
+  function trackGoal() {
+    const ym = (window as any).ym
+    if (typeof ym === 'function') ym(108210320, 'reachGoal', 'buy_ticket_click')
+  }
+
   function handleYandex(e: React.MouseEvent) {
     e.preventDefault()
+    trackGoal()
     const d = (window as any).YandexTicketsDealer
     if (d && typeof d.push === 'function') {
       // yandexWidgetId format: "ticketsteam-4063@60615011" — extract session ID after @
@@ -43,7 +49,7 @@ export default function BuyButton({
 
   if (ticketUrl) {
     return (
-      <a href={ticketUrl} target="_blank" rel="noopener noreferrer" className={cls}>
+      <a href={ticketUrl} target="_blank" rel="noopener noreferrer" className={cls} onClick={trackGoal}>
         {label}
       </a>
     )
