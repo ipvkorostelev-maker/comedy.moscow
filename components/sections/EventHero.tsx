@@ -120,7 +120,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       <div className="lg:hidden bg-bg">
         <div
           className="relative w-full overflow-hidden pt-16"
-          style={{ height: 'calc(56vw + 64px)', minHeight: 240, maxHeight: 380 }}
+          style={{ height: 'calc(44vw + 64px)', minHeight: 200, maxHeight: 300 }}
         >
           <Image
             src={event.image}

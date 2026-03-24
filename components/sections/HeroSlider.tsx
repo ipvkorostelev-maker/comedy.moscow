@@ -203,7 +203,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       <div className="lg:hidden">
         <div
           className="relative w-full overflow-hidden pt-16"
-          style={{ height: 'calc(58vw + 64px)', minHeight: 260, maxHeight: 430 }}
+          style={{ height: 'calc(46vw + 64px)', minHeight: 220, maxHeight: 340 }}
         >
           <div className="absolute inset-0 overflow-hidden">{imageStack('100vw')}</div>
           {/* Deeper fade at bottom for smooth content blend */}
@@ -225,7 +225,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       {/* Height = 60vw × (800/1200) = 40vw, capped at 800px (natural image height) */}
       <div
         className="hidden lg:block relative overflow-hidden"
-        style={{ height: 'min(34vw, 680px)', minHeight: '420px' }}
+        style={{ height: 'min(27vw, 540px)', minHeight: '340px' }}
       >
         {/* Image panel — right */}
         <div className="absolute inset-y-0 left-[40%] right-0 overflow-hidden">
