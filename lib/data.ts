@@ -1,3 +1,4 @@
+import { unstable_cache } from 'next/cache'
 import type { Event, Artist, Venue } from './types'
 import {
   isAvailable,
@@ -26,34 +27,42 @@ function sortByDateTime(events: Event[]): Event[] {
   })
 }
 
-export async function getAllEvents(): Promise<Event[]> {
-  let events: Event[]
-  let allArtists: Artist[]
-  if (await isAvailable()) {
-    const [remote, remoteArtists] = await Promise.all([
-      getWomanstandupEvents(),
-      getWomanstandupArtists(),
-    ])
-    events = remote.length > 0 ? remote : (localEvents as Event[])
-    allArtists = remoteArtists.length > 0 ? remoteArtists : (localArtists as Artist[])
-  } else {
-    events = localEvents as Event[]
-    allArtists = localArtists as Artist[]
-  }
-  const filtered = sortByDateTime(events.filter(isUpcoming))
-  // Populate venueName and artistNames
-  return filtered.map((e) => {
-    const venue = e.venueName ? undefined : (localVenues as Venue[]).find((v) => v.id === e.venueId)
-    const artistNames = e.artistNames ?? e.artistIds
-      .map((id) => allArtists.find((a) => a.id === id)?.name)
-      .filter(Boolean) as string[]
-    return {
-      ...e,
-      ...(venue ? { venueName: venue.name } : {}),
-      artistNames,
+// Wrapped with unstable_cache so Next.js ISR revalidation works correctly.
+// Without this, fs.access() and new Date() inside the function body cause
+// Next.js to treat every page as fully dynamic (Cache-Control: private),
+// preventing Google from crawling and rich snippet generation.
+export const getAllEvents = unstable_cache(
+  async (): Promise<Event[]> => {
+    let events: Event[]
+    let allArtists: Artist[]
+    if (await isAvailable()) {
+      const [remote, remoteArtists] = await Promise.all([
+        getWomanstandupEvents(),
+        getWomanstandupArtists(),
+      ])
+      events = remote.length > 0 ? remote : (localEvents as Event[])
+      allArtists = remoteArtists.length > 0 ? remoteArtists : (localArtists as Artist[])
+    } else {
+      events = localEvents as Event[]
+      allArtists = localArtists as Artist[]
     }
-  })
-}
+    const filtered = sortByDateTime(events.filter(isUpcoming))
+    // Populate venueName and artistNames
+    return filtered.map((e) => {
+      const venue = e.venueName ? undefined : (localVenues as Venue[]).find((v) => v.id === e.venueId)
+      const artistNames = e.artistNames ?? e.artistIds
+        .map((id) => allArtists.find((a) => a.id === id)?.name)
+        .filter(Boolean) as string[]
+      return {
+        ...e,
+        ...(venue ? { venueName: venue.name } : {}),
+        artistNames,
+      }
+    })
+  },
+  ['all-events'],
+  { revalidate: 60 }
+)
 
 export async function getEventBySlug(slug: string): Promise<Event | undefined> {
   const events = await getAllEvents()
@@ -72,13 +81,17 @@ export async function getSimilarEvents(currentId: string, limit = 4): Promise<Ev
 
 // ─── Artists ─────────────────────────────────────────────
 
-export async function getAllArtists(): Promise<Artist[]> {
-  if (await isAvailable()) {
-    const artists = await getWomanstandupArtists()
-    if (artists.length > 0) return artists
-  }
-  return localArtists as Artist[]
-}
+export const getAllArtists = unstable_cache(
+  async (): Promise<Artist[]> => {
+    if (await isAvailable()) {
+      const artists = await getWomanstandupArtists()
+      if (artists.length > 0) return artists
+    }
+    return localArtists as Artist[]
+  },
+  ['all-artists'],
+  { revalidate: 60 }
+)
 
 export async function getArtistBySlug(slug: string): Promise<Artist | undefined> {
   const artists = await getAllArtists()
