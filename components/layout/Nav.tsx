@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils'
 const LINKS = [
   { href: '/events', label: 'События' },
   { href: '/artists', label: 'Артисты' },
+  { href: '/contacts', label: 'Контакты' },
 ]
 
 export default function Nav() {

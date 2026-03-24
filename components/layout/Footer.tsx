@@ -18,6 +18,9 @@ export default function Footer() {
             <Link href="/artists" className="text-sm text-muted hover:text-cream transition-colors">
               Артисты
             </Link>
+            <Link href="/contacts" className="text-sm text-muted hover:text-cream transition-colors">
+              Контакты
+            </Link>
           </nav>
 
           <p className="text-xs text-muted-2">© 2025 comedy.moscow</p>
