@@ -31,9 +31,7 @@ export default function Nav() {
       <header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          scrolled || menuOpen
-            ? 'bg-surface/95 backdrop-blur-lg border-b border-border'
-            : 'bg-gradient-to-b from-bg/90 to-transparent'
+          'bg-surface/95 backdrop-blur-lg border-b border-border'
         )}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">

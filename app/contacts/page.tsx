@@ -35,7 +35,7 @@ const contacts = [
 
 export default function ContactsPage() {
   return (
-    <main className="min-h-screen pt-32 pb-24 px-6">
+    <main className="min-h-screen pt-16 pb-24 px-6">
       <div className="max-w-2xl mx-auto">
         <div className="mb-14">
           <p className="text-[11px] text-muted uppercase tracking-[0.2em] mb-3">Свяжитесь с нами</p>

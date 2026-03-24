@@ -14,7 +14,7 @@ interface EventHeroProps {
 
 export default function EventHero({ event, artists, venue, price }: EventHeroProps) {
   const pills = (
-    <div className="flex flex-wrap gap-2.5 items-center mb-6">
+    <div className="flex flex-wrap gap-2.5 items-center mt-2.5 mb-6">
       <MetaPill type="date" variant="glass" className="text-sm px-3.5 py-1.5 font-semibold">
         {formatDate(event.date)}
       </MetaPill>
@@ -70,7 +70,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
   ]
 
   const shareRow = (
-    <div className="mt-5">
+    <div>
       <p className="text-[10px] text-cream/40 uppercase tracking-[0.18em] mb-2.5">Позвать сходить вместе</p>
       <div className="flex gap-2">
         {shareLinks.map(({ label, href, color, bg, icon }) => (
@@ -117,7 +117,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
   return (
     <>
       {/* ── MOBILE: stacked ── */}
-      <div className="lg:hidden bg-bg mt-[60px]">
+      <div className="lg:hidden bg-bg">
         <div
           className="relative w-full overflow-hidden pt-16"
           style={{ height: 'calc(56vw + 64px)', minHeight: 240, maxHeight: 380 }}
@@ -151,7 +151,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       </div>
 
       {/* ── DESKTOP: split ── */}
-      <div className="hidden lg:flex mt-[50px] bg-bg overflow-hidden">
+      <div className="hidden lg:flex bg-bg overflow-hidden">
         {/* Content — left 45% */}
         <div className="w-[45%] flex-shrink-0 flex flex-col justify-center px-16 py-10 z-20">
           <EventBadges event={event} />

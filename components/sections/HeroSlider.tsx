@@ -143,7 +143,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   const pills = (
     <div
       key={`pills-${event.id}`}
-      className="flex flex-wrap gap-2.5 items-center mb-4 animate-hero-content"
+      className="flex flex-wrap gap-2.5 items-center mt-2.5 mb-4 animate-hero-content"
       style={{ animationDelay: '190ms' }}
     >
       <MetaPill type="date" variant="glass" className="text-sm px-3.5 py-1.5 font-semibold">
@@ -200,7 +200,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   return (
     <section className="bg-bg">
       {/* ── MOBILE ── */}
-      <div className="lg:hidden mt-5">
+      <div className="lg:hidden">
         <div
           className="relative w-full overflow-hidden pt-16"
           style={{ height: 'calc(58vw + 64px)', minHeight: 260, maxHeight: 430 }}
@@ -224,7 +224,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       {/* ── DESKTOP ── */}
       {/* Height = 60vw × (800/1200) = 40vw, capped at 800px (natural image height) */}
       <div
-        className="hidden lg:block relative mt-[50px] overflow-hidden"
+        className="hidden lg:block relative overflow-hidden"
         style={{ height: 'min(34vw, 680px)', minHeight: '420px' }}
       >
         {/* Image panel — right */}

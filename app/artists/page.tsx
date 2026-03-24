@@ -23,7 +23,7 @@ export default async function ArtistsPage() {
   const artists = await getAllArtists()
 
   return (
-    <div className="pt-24">
+    <div className="pt-8">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="py-12 border-b border-border mb-10">
           <h1 className="font-serif font-black text-4xl lg:text-5xl text-cream mb-3">Артисты</h1>
