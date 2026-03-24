@@ -258,7 +258,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
                     rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-[#00C2FF]/10 hover:bg-[#00C2FF]/20 border border-[#00C2FF]/25 text-[#00C2FF] text-[11px] font-semibold transition-colors"
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0 5.5c2.033 0 3.5 1.12 3.5 2.5v4.5h-1.5V13c0-.552-.672-1-1.5-1h-1c-.828 0-1.5.448-1.5 1v4.5H8.5V13c0-1.38 1.467-2.5 3.5-2.5z"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="1000" height="1000" fill="#4CCFFF" rx="249.681"/><path fill="#fff" fillRule="evenodd" d="M508.211 878.328c-75.007 0-109.864-10.95-170.453-54.75-38.325 49.275-159.686 87.783-164.979 21.9 0-49.456-10.95-91.248-23.36-136.873-14.782-56.21-31.572-118.807-31.572-209.508 0-216.626 177.754-379.597 388.357-379.597 210.785 0 375.947 171.001 375.947 381.604.707 207.346-166.595 376.118-373.94 377.224m3.103-571.585c-102.564-5.292-182.499 65.7-200.201 177.024-14.6 92.162 11.315 204.398 33.397 210.238 10.585 2.555 37.23-18.98 53.837-35.587a189.8 189.8 0 0 0 92.71 33.032c106.273 5.112 197.08-75.794 204.215-181.95 4.154-106.382-77.67-196.486-183.958-202.574Z" clipRule="evenodd"/></svg>
                     Max
                   </a>
                 </div>
