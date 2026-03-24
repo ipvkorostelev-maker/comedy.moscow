@@ -15,7 +15,7 @@ export default function EventCard({ event }: EventCardProps) {
   return (
     <Link
       href={`/events/${event.slug}`}
-      className="group block bg-surface rounded-card overflow-hidden border border-border hover:border-muted-2 transition-all duration-300 hover:shadow-card-hover"
+      className="group flex flex-col h-full bg-surface rounded-card overflow-hidden border border-border hover:border-muted-2 transition-all duration-300 hover:shadow-card-hover"
     >
       {/* ── IMAGE ── */}
       <div className="relative aspect-[4/3] overflow-hidden">
@@ -57,7 +57,7 @@ export default function EventCard({ event }: EventCardProps) {
       </div>
 
       {/* ── INFO ── */}
-      <div className="p-4 space-y-3">
+      <div className="p-4 space-y-3 flex flex-col flex-1">
         <h3 className="font-serif font-black text-cream text-[20px] leading-tight group-hover:text-red transition-colors duration-200 line-clamp-2 uppercase">
           {event.title}
         </h3>
@@ -77,7 +77,7 @@ export default function EventCard({ event }: EventCardProps) {
           )}
         </div>
 
-        <div className="flex items-center justify-between pt-1 border-t border-border">
+        <div className="flex items-center justify-between pt-1 border-t border-border mt-auto">
           {price > 0 ? (
             <span className="font-serif font-black text-red text-lg leading-none">
               от {formatPrice(price)}

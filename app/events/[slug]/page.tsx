@@ -202,13 +202,24 @@ export default async function EventPage({ params }: { params: { slug: string } }
             </div>
 
             {/* About */}
-            <h2 id="about" className="font-serif font-bold text-xl text-cream mb-4">О шоу</h2>
+            <h2 id="about" className="font-serif font-bold text-xl text-cream mb-4 text-left">Описание концерта</h2>
             {event.longDescription && (
               <div
-                className="text-sm text-cream/65 leading-[1.75] prose-invert [&_div]:mb-3 [&_p]:mb-3 [&_br]:hidden [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-3 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-3"
+                className="text-sm text-cream/65 leading-[1.75] prose-invert text-left [&_div]:mb-3 [&_p]:mb-3 [&_br]:hidden [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-3 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-3"
                 dangerouslySetInnerHTML={{ __html: event.longDescription }}
               />
             )}
+
+            {/* Contact CTA */}
+            <div className="mt-8 pt-6 border-t border-border">
+              <a
+                href="/contacts"
+                className="inline-flex items-center gap-2 text-sm text-muted hover:text-cream transition-colors group"
+              >
+                <span>Остались вопросы?</span>
+                <span className="text-cream/40 group-hover:text-red transition-colors font-semibold">Свяжитесь с нами →</span>
+              </a>
+            </div>
           </div>
 
           {/* SIDEBAR */}
@@ -310,10 +321,10 @@ export default async function EventPage({ params }: { params: { slug: string } }
         {/* ── SIMILAR EVENTS ── */}
         {similar.length > 0 && (
           <div className="mb-16">
-            <h2 className="font-serif font-bold text-xl text-cream mb-5">Похожие шоу</h2>
-            <div className="flex gap-4 overflow-x-auto pb-2 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-4 snap-x snap-mandatory md:snap-none">
-              {similar.map((ev) => (
-                <div key={ev.id} className="flex-shrink-0 w-[260px] md:w-auto snap-start">
+            <h2 className="font-serif font-bold text-xl text-cream mb-5">Похожие концерты</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {similar.slice(0, 6).map((ev) => (
+                <div key={ev.id} className="flex flex-col">
                   <EventCard event={ev} />
                 </div>
               ))}

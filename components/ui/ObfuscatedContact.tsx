@@ -34,7 +34,7 @@ export default function ObfuscatedContact({ parts, href, className = '' }: Obfus
           {/* Rest blurred */}
           <span className="select-none blur-sm opacity-70">{value.slice(3)}</span>
         </span>
-        <span className="text-[10px] text-muted group-hover/reveal:text-cream transition-colors font-normal normal-case tracking-normal font-sans whitespace-nowrap border border-border group-hover/reveal:border-muted-2 rounded-md px-2 py-0.5">
+        <span className="text-[10px] text-white font-semibold normal-case tracking-normal font-sans whitespace-nowrap bg-white/15 group-hover/reveal:bg-white/25 border border-white/25 rounded-md px-2 py-0.5 transition-colors">
           Показать
         </span>
       </button>

@@ -24,27 +24,29 @@ export default function StickyBuyBar({ event, minPrice }: StickyBuyBarProps) {
       className={cn(
         'fixed bottom-0 left-0 right-0 z-40 transition-transform duration-300',
         'bg-surface/95 backdrop-blur-xl border-t border-border',
-        'px-6 lg:px-12 py-3.5 flex items-center justify-between gap-4',
+        'px-6 lg:px-12 py-3.5',
         visible ? 'translate-y-0' : 'translate-y-full'
       )}
     >
-      <div className="min-w-0">
-        <p className="font-serif font-bold text-base text-cream truncate">{event.title}</p>
-        <p className="text-[11px] text-muted mt-0.5">
-          {formatDateShort(event.date)} · {event.time} · Осталось {event.ticketsLeft} мест
-        </p>
-      </div>
-
-      <div className="flex items-center gap-4 flex-shrink-0">
-        <div className="hidden sm:block font-serif font-black text-xl text-cream">
-          от {formatPrice(minPrice)}{' '}
+      <div className="max-w-[1100px] mx-auto flex items-center justify-between gap-4">
+        <div className="min-w-0">
+          <p className="font-serif font-bold text-base text-cream truncate">{event.title}</p>
+          <p className="text-[11px] text-muted mt-0.5">
+            {formatDateShort(event.date)} · {event.time}
+          </p>
         </div>
-        <BuyButton
-          ticketType={event.ticketType}
-          ticketUrl={event.ticketUrl}
-          yandexWidgetId={event.yandexWidgetId}
-          className="px-8 py-3 whitespace-nowrap"
-        />
+
+        <div className="flex items-center gap-4 flex-shrink-0">
+          <div className="hidden sm:block font-serif font-black text-xl text-cream">
+            от {formatPrice(minPrice)}{' '}
+          </div>
+          <BuyButton
+            ticketType={event.ticketType}
+            ticketUrl={event.ticketUrl}
+            yandexWidgetId={event.yandexWidgetId}
+            className="px-8 py-3 whitespace-nowrap"
+          />
+        </div>
       </div>
     </div>
   )

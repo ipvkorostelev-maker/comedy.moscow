@@ -20,15 +20,12 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       {event.featured && (
         <Badge variant="red" className="gap-1.5">
           <FlameIcon className="w-2.5 h-2.5" />
-          Хит сезона
+          Стендап в Москве
         </Badge>
       )}
       {event.rating > 0 && <Badge variant="gold">★ {event.rating}</Badge>}
       <Badge variant="dark">{event.ageRestriction}</Badge>
-      {event.duration && <Badge variant="dark">{event.duration}</Badge>}
-      {event.ticketsLeft < 25 && (
-        <Badge variant="dark">Осталось {event.ticketsLeft} мест</Badge>
-      )}
+      {event.duration && <Badge variant="dark">~{event.duration}</Badge>}
     </div>
   )
 
@@ -63,12 +60,26 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
   )
 
   const artistsRow = artists.length > 0 ? (
-    <div className="flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
-      {artists.map((artist) => (
-        <div key={artist.id} className="flex-shrink-0 w-[90px] lg:w-[100px]">
-          <ArtistCard artist={artist} />
-        </div>
-      ))}
+    <div>
+      <p className="text-[10px] text-muted uppercase tracking-[0.15em] mb-3">Состав концерта:</p>
+      <div className="flex gap-4 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
+        {artists.map((artist) => (
+          <a key={artist.id} href={`/artists/${artist.slug}`} className="flex-shrink-0 flex flex-col items-center gap-2 group">
+            <div className="w-14 h-14 rounded-full overflow-hidden bg-surface border-2 border-border group-hover:border-red transition-colors duration-200 flex-shrink-0">
+              {artist.photo ? (
+                <img src={artist.photo} alt={artist.name} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-muted text-lg font-bold">
+                  {artist.name[0]}
+                </div>
+              )}
+            </div>
+            <span className="text-[11px] text-cream/70 group-hover:text-cream transition-colors text-center leading-tight max-w-[70px]">
+              {artist.name}
+            </span>
+          </a>
+        ))}
+      </div>
     </div>
   ) : null
 

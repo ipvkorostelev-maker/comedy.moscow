@@ -123,12 +123,12 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       {event.featured && (
         <Badge variant="red" className="gap-1.5">
           <FlameIcon className="w-2.5 h-2.5" />
-          Хит сезона
+          Стендап в Москве
         </Badge>
       )}
       {event.rating > 0 && <Badge variant="gold">★ {event.rating}</Badge>}
       <Badge variant="dark">{event.ageRestriction}</Badge>
-      {event.duration && <Badge variant="dark">{event.duration}</Badge>}
+      {event.duration && <Badge variant="dark">~{event.duration}</Badge>}
     </div>
   )
 
