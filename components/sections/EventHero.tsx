@@ -117,7 +117,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
   return (
     <>
       {/* ── MOBILE: stacked ── */}
-      <div className="lg:hidden bg-bg">
+      <div className="lg:hidden bg-bg pt-5">
         <div
           className="relative w-full overflow-hidden pt-16"
           style={{ height: 'calc(44vw + 64px)', minHeight: 200, maxHeight: 300 }}
@@ -151,7 +151,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       </div>
 
       {/* ── DESKTOP: split ── */}
-      <div className="hidden lg:flex bg-bg overflow-hidden">
+      <div className="hidden lg:flex bg-bg overflow-hidden pt-5">
         {/* Content — left 45% */}
         <div className="w-[45%] flex-shrink-0 flex flex-col justify-center px-16 py-10 z-20">
           <EventBadges event={event} />
