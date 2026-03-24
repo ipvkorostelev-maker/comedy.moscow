@@ -75,7 +75,7 @@ function mapConcertToEvent(c: any): Event {
     city: c.city ?? '',
     featured: c.isFeatured ?? false,
     venueName: c.venue || undefined,
-    ticketUrl: c.ticketUrl || undefined,
+    ticketUrl: c.smeshnoTicketUrl || c.ticketUrl || undefined,
     ticketType: c.ticketType === 'yandex' ? 'yandex' : 'external',
     yandexWidgetId: c.yandexWidgetId || undefined,
   }
