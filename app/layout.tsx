@@ -88,7 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: `
           var dealerName = 'YandexTicketsDealer';
           var dealer = window[dealerName] = window[dealerName] || [];
-          dealer.push(['setDefaultClientKey', '00701a9a-2a94-47d9-8f02-75e7bcbdbb4b']);
+          dealer.push(['setDefaultClientKey', 'ticketsteam-4063']);
           dealer.push(['setDefaultRegionId', 213]);
           (function() {
             var s = document.createElement('script');

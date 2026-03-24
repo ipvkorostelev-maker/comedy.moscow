@@ -21,8 +21,12 @@ export default function BuyButton({
     e.preventDefault()
     const d = (window as any).YandexTicketsDealer
     if (d && typeof d.push === 'function') {
+      // yandexWidgetId format: "ticketsteam-4063@60615011" — extract session ID after @
+      const sessionId = yandexWidgetId!.includes('@')
+        ? yandexWidgetId!.split('@')[1]
+        : yandexWidgetId
       d.push(['getDealer', function (dealer: any) {
-        dealer.open({ id: yandexWidgetId, type: 'session' })
+        dealer.open({ id: sessionId, type: 'session' })
       }])
     }
   }
