@@ -175,10 +175,8 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           className="relative flex-1 overflow-hidden"
           style={{
             maxWidth: '900px',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 18%, black 80%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 100%)',
-            WebkitMaskComposite: 'destination-in',
-            maskImage: 'linear-gradient(to right, transparent 0%, black 18%, black 80%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 100%)',
-            maskComposite: 'intersect',
+            WebkitMaskImage: 'radial-gradient(ellipse 85% 88% at 58% 50%, black 40%, transparent 80%)',
+            maskImage: 'radial-gradient(ellipse 85% 88% at 58% 50%, black 40%, transparent 80%)',
           }}
         >
           <Image

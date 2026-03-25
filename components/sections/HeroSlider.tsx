@@ -233,10 +233,8 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         <div
           className="absolute inset-y-0 left-[38%] right-0 overflow-hidden"
           style={{
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
-            WebkitMaskComposite: 'destination-in',
-            maskImage: 'linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
-            maskComposite: 'intersect',
+            WebkitMaskImage: 'radial-gradient(ellipse 82% 88% at 62% 50%, black 40%, transparent 80%)',
+            maskImage: 'radial-gradient(ellipse 82% 88% at 62% 50%, black 40%, transparent 80%)',
           }}
         >
           {imageStack('62vw')}
