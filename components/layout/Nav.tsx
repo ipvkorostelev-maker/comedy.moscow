@@ -51,7 +51,7 @@ export default function Nav() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 pt-3 px-4 pointer-events-none">
+      <header className="fixed top-0 left-0 right-0 z-50 pt-3 px-4 lg:px-20 pointer-events-none">
 
         {/* ── DESKTOP: left-aligned pill ── */}
         <div className="hidden md:flex justify-start">
