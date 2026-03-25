@@ -230,14 +230,17 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         style={{ height: 'min(42vw, 540px)', minHeight: '385px' }}
       >
         {/* Image panel — right */}
-        <div className="absolute inset-y-0 left-[40%] right-0 overflow-hidden">
-          {imageStack('60vw')}
-          {/* Left blend gradient */}
-          <div className="absolute inset-y-0 left-0 w-96 z-10 bg-gradient-to-r from-bg via-bg/50 to-transparent" />
+        <div className="absolute inset-y-0 left-[38%] right-0 overflow-hidden">
+          {imageStack('62vw')}
+          {/* Left blend */}
+          <div className="absolute inset-y-0 left-0 w-96 z-10 bg-gradient-to-r from-bg via-bg/60 to-transparent" />
+          {/* Top blend */}
+          <div className="absolute inset-x-0 top-0 h-24 z-10 bg-gradient-to-b from-bg/60 to-transparent" />
+          {/* Right blend */}
+          <div className="absolute inset-y-0 right-0 w-56 z-10 bg-gradient-to-l from-bg via-bg/70 to-transparent" />
+          {/* Bottom blend */}
+          <div className="absolute inset-x-0 bottom-0 h-24 z-10 bg-gradient-to-t from-bg/60 to-transparent" />
         </div>
-
-        {/* Vignette — subtle dark overlay on right edge */}
-        <div className="absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-bg/40 to-transparent pointer-events-none" />
 
         {/* Content — left column */}
         <div className="relative z-20 h-full flex flex-col justify-center px-16 lg:px-20 max-w-[52%]">

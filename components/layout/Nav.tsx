@@ -53,8 +53,8 @@ export default function Nav() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 pt-3 px-4 pointer-events-none">
 
-        {/* ── DESKTOP: single centered pill ── */}
-        <div className="hidden md:flex justify-center">
+        {/* ── DESKTOP: left-aligned pill ── */}
+        <div className="hidden md:flex justify-start">
           <div
             className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full backdrop-blur-xl border border-white/10"
             style={{

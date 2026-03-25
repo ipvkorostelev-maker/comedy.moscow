@@ -181,7 +181,10 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
             className="w-full h-auto block"
             sizes="(max-width: 1920px) 55vw, 660px"
           />
-          <div className="absolute inset-y-0 left-0 w-48 z-10 bg-gradient-to-r from-bg to-transparent" />
+          <div className="absolute inset-y-0 left-0 w-64 z-10 bg-gradient-to-r from-bg via-bg/60 to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-20 z-10 bg-gradient-to-b from-bg/50 to-transparent" />
+          <div className="absolute inset-y-0 right-0 w-48 z-10 bg-gradient-to-l from-bg via-bg/60 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-20 z-10 bg-gradient-to-t from-bg/50 to-transparent" />
         </div>
       </div>
     </>
