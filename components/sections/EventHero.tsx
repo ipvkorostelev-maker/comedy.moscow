@@ -175,8 +175,8 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           className="relative flex-1 overflow-hidden"
           style={{
             maxWidth: '900px',
-            WebkitMaskImage: 'radial-gradient(ellipse 85% 88% at 58% 50%, black 40%, transparent 80%)',
-            maskImage: 'radial-gradient(ellipse 85% 88% at 58% 50%, black 40%, transparent 80%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 78% 90% at 68% 50%, black 45%, transparent 78%)',
+            maskImage: 'radial-gradient(ellipse 78% 90% at 68% 50%, black 45%, transparent 78%)',
           }}
         >
           <Image
