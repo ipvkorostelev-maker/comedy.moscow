@@ -234,8 +234,8 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         <div
           className="absolute inset-y-0 left-[38%] right-0 overflow-hidden"
           style={{
-            WebkitMaskImage: 'radial-gradient(ellipse 75% 90% at 62% 50%, black 45%, transparent 78%)',
-            maskImage: 'radial-gradient(ellipse 75% 90% at 62% 50%, black 45%, transparent 78%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 75% 90% at 62% 50%, black 30%, transparent 90%)',
+            maskImage: 'radial-gradient(ellipse 75% 90% at 62% 50%, black 30%, transparent 90%)',
           }}
         >
           {imageStack('62vw')}
