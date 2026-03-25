@@ -198,14 +198,14 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   )
 
   return (
-    <section className="pt-5 pb-8">
+    <section className="lg:pt-5 pb-8">
       {/* ── MOBILE ── */}
       <div className="lg:hidden">
-        <div className="relative w-full aspect-[3/2]">
+        <div className="relative w-full aspect-[3/2] overflow-hidden rounded-b-2xl">
           <div className="absolute inset-0">{imageStack('100vw')}</div>
         </div>
 
-        <div className="px-5 pt-2 pb-8">
+        <div className="px-5 pt-5 pb-4">
           {badges}
           {title()}
           {subtitle('max-w-[95%]')}
@@ -216,7 +216,6 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       </div>
 
       {/* ── DESKTOP ── */}
-      {/* Height = 60vw × (800/1200) = 40vw, capped at 800px (natural image height) */}
       <div
         className="hidden lg:block relative overflow-hidden"
         style={{ height: 'min(42vw, 540px)', minHeight: '385px' }}
