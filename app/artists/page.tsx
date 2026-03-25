@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-export const revalidate = 60
+export const dynamic = 'force-static'
 import { getAllArtists } from '@/lib/data'
 import ArtistCard from '@/components/cards/ArtistCard'
 

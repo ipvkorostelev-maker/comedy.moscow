@@ -5,7 +5,7 @@ import { getArtistBySlug, getAllEvents } from '@/lib/data'
 import EventCard from '@/components/cards/EventCard'
 import { MicIcon } from '@/components/ui/icons'
 
-export const revalidate = 60
+export const dynamic = 'force-static'
 export const dynamicParams = true
 
 export async function generateStaticParams() {

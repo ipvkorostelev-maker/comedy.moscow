@@ -118,19 +118,16 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
     <>
       {/* ── MOBILE: stacked ── */}
       <div className="lg:hidden bg-bg pt-5 pb-8">
-        <div
-          className="relative w-full overflow-hidden pt-16"
-          style={{ height: 'calc(44vw + 64px)', minHeight: 200, maxHeight: 300 }}
-        >
+        <div className="w-full overflow-hidden">
           <Image
             src={event.image}
             alt={event.title}
-            fill
+            width={1200}
+            height={800}
             priority
-            className="object-cover object-center"
+            className="w-full h-auto block"
             sizes="100vw"
           />
-          <div className="absolute inset-x-0 top-0 h-16 z-10 bg-gradient-to-b from-bg/70 to-transparent" />
         </div>
         <div className="px-5 pt-4 pb-8">
           <EventBadges event={event} />
@@ -185,7 +182,6 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
             sizes="(max-width: 1920px) 55vw, 660px"
           />
           <div className="absolute inset-y-0 left-0 w-48 z-10 bg-gradient-to-r from-bg to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-20 z-10 bg-gradient-to-b from-bg to-transparent" />
         </div>
       </div>
     </>

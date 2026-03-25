@@ -224,14 +224,13 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       {/* Height = 60vw × (800/1200) = 40vw, capped at 800px (natural image height) */}
       <div
         className="hidden lg:block relative overflow-hidden"
-        style={{ height: 'min(27vw, 540px)', minHeight: '340px' }}
+        style={{ height: 'min(42vw, 540px)', minHeight: '385px' }}
       >
         {/* Image panel — right */}
         <div className="absolute inset-y-0 left-[40%] right-0 overflow-hidden">
           {imageStack('60vw')}
-          {/* Gradients for cinematic blend */}
+          {/* Left blend gradient */}
           <div className="absolute inset-y-0 left-0 w-96 z-10 bg-gradient-to-r from-bg via-bg/50 to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-40 z-10 bg-gradient-to-b from-bg to-transparent" />
         </div>
 
         {/* Vignette — subtle dark overlay on right edge */}

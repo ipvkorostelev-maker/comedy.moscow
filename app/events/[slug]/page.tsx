@@ -9,7 +9,7 @@ import StickyBuyBar from '@/components/sections/StickyBuyBar'
 import EventHero from '@/components/sections/EventHero'
 import GalleryLightbox from '@/components/ui/GalleryLightbox'
 
-export const revalidate = 60
+export const dynamic = 'force-static'
 export const dynamicParams = true
 
 export async function generateStaticParams() {
@@ -202,7 +202,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
       <EventHero event={event} artists={artists} venue={venue} price={price} />
 
       {/* ── MAIN CONTENT ── */}
-      <div className="px-6 lg:px-16 xl:px-20 pt-4 lg:pt-14 pb-14">
+      <div className="px-6 lg:px-16 xl:px-20 pt-4 lg:pt-6 pb-14">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12 mb-16 max-w-[1400px]">
 
           {/* LEFT COL */}
