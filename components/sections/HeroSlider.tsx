@@ -198,12 +198,6 @@ export default function HeroSlider({ events }: HeroSliderProps) {
           </span>
         )}
       </div>
-      {/* Мобильный: dots по центру с отступом */}
-      {events.length > 1 && (
-        <div className="flex lg:hidden justify-center" style={{ marginTop: 15, marginBottom: 15 }}>
-          <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
-        </div>
-      )}
     </div>
   )
 
@@ -213,6 +207,11 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       <div className="lg:hidden">
         <div className="relative w-full aspect-[3/2] overflow-hidden rounded-b-2xl">
           <div className="absolute inset-0">{imageStack('100vw')}</div>
+          {events.length > 1 && (
+            <div className="absolute top-4 left-0 right-0 z-20 flex justify-center">
+              <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
+            </div>
+          )}
         </div>
 
         <div className="px-5 pt-5 pb-4">
