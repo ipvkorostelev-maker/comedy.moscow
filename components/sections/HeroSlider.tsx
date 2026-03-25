@@ -174,10 +174,11 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   const buttons = (
     <div
       key={`btns-${event.id}`}
-      className="flex flex-wrap items-center gap-4 animate-hero-content"
+      className="animate-hero-content"
       style={{ animationDelay: '280ms' }}
     >
-      <div className="flex gap-3">
+      {/* Кнопки */}
+      <div className="flex flex-wrap items-center gap-3">
         <Link
           href={`/events/${event.slug}`}
           className="inline-flex items-center gap-2 bg-red hover:bg-red-hover text-white text-sm font-bold px-7 py-3.5 rounded-xl transition-all shadow-red"
@@ -190,9 +191,18 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         >
           Подробнее
         </Link>
+        {/* Десктоп: dots рядом с кнопками */}
+        {events.length > 1 && (
+          <span className="hidden lg:flex">
+            <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
+          </span>
+        )}
       </div>
+      {/* Мобильный: dots по центру с отступом */}
       {events.length > 1 && (
-        <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
+        <div className="flex lg:hidden justify-center" style={{ marginTop: 15, marginBottom: 15 }}>
+          <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
+        </div>
       )}
     </div>
   )
