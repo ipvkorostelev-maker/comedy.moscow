@@ -118,7 +118,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
     <>
       {/* ── MOBILE: stacked ── */}
       <div className="lg:hidden pt-5 pb-8">
-        <div className="w-full overflow-hidden">
+        <div className="w-full">
           <Image
             src={event.image}
             alt={event.title}

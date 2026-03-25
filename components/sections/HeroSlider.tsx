@@ -201,11 +201,8 @@ export default function HeroSlider({ events }: HeroSliderProps) {
     <section className="pt-5 pb-8">
       {/* ── MOBILE ── */}
       <div className="lg:hidden">
-        <div
-          className="relative w-full overflow-hidden"
-          style={{ height: 'calc(46vw)', minHeight: 180, maxHeight: 300 }}
-        >
-          <div className="absolute inset-0 overflow-hidden">{imageStack('100vw')}</div>
+        <div className="relative w-full aspect-[3/2]">
+          <div className="absolute inset-0">{imageStack('100vw')}</div>
         </div>
 
         <div className="px-5 pt-2 pb-8">
