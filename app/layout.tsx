@@ -105,7 +105,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <noscript><div><img src="https://mc.yandex.ru/watch/108210320" style={{position:'absolute', left:'-9999px'}} alt="" /></div></noscript>
         <Nav />
-        <main className="pt-16 lg:pt-0">{children}</main>
+        <main className="pt-20 lg:pt-0">{children}</main>
         <Footer />
         <CookieBanner />
       </body>
