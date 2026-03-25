@@ -198,16 +198,14 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   )
 
   return (
-    <section className="bg-bg pt-5 pb-8">
+    <section className="pt-5 pb-8">
       {/* ── MOBILE ── */}
       <div className="lg:hidden">
         <div
-          className="relative w-full overflow-hidden pt-16"
-          style={{ height: 'calc(46vw + 64px)', minHeight: 220, maxHeight: 340 }}
+          className="relative w-full overflow-hidden"
+          style={{ height: 'calc(46vw)', minHeight: 180, maxHeight: 300 }}
         >
           <div className="absolute inset-0 overflow-hidden">{imageStack('100vw')}</div>
-          {/* Deeper fade at bottom for smooth content blend */}
-          <div className="absolute inset-x-0 top-0 h-16 z-10 bg-gradient-to-b from-bg/70 to-transparent" />
         </div>
 
         <div className="px-5 pt-2 pb-8">

@@ -117,7 +117,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
   return (
     <>
       {/* ── MOBILE: stacked ── */}
-      <div className="lg:hidden bg-bg pt-5 pb-8">
+      <div className="lg:hidden pt-5 pb-8">
         <div className="w-full overflow-hidden">
           <Image
             src={event.image}
@@ -147,7 +147,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       </div>
 
       {/* ── DESKTOP: split ── */}
-      <div className="hidden lg:flex bg-bg overflow-hidden pt-5 pb-8">
+      <div className="hidden lg:flex overflow-hidden pt-5 pb-8">
         {/* Content — left 45% */}
         <div className="w-[45%] flex-shrink-0 flex flex-col justify-center px-16 py-10 z-20">
           <EventBadges event={event} />
