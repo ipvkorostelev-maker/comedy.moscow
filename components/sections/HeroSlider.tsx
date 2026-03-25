@@ -229,17 +229,17 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         className="hidden lg:block relative overflow-hidden"
         style={{ height: 'min(42vw, 540px)', minHeight: '385px' }}
       >
-        {/* Image panel — right */}
-        <div className="absolute inset-y-0 left-[38%] right-0 overflow-hidden">
+        {/* Image panel — right, edges faded via CSS mask */}
+        <div
+          className="absolute inset-y-0 left-[38%] right-0 overflow-hidden"
+          style={{
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
+            WebkitMaskComposite: 'destination-in',
+            maskImage: 'linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
+            maskComposite: 'intersect',
+          }}
+        >
           {imageStack('62vw')}
-          {/* Left blend */}
-          <div className="absolute inset-y-0 left-0 w-96 z-10 bg-gradient-to-r from-bg via-bg/60 to-transparent" />
-          {/* Top blend */}
-          <div className="absolute inset-x-0 top-0 h-24 z-10 bg-gradient-to-b from-bg/60 to-transparent" />
-          {/* Right blend */}
-          <div className="absolute inset-y-0 right-0 w-56 z-10 bg-gradient-to-l from-bg via-bg/70 to-transparent" />
-          {/* Bottom blend */}
-          <div className="absolute inset-x-0 bottom-0 h-24 z-10 bg-gradient-to-t from-bg/60 to-transparent" />
         </div>
 
         {/* Content — left column */}

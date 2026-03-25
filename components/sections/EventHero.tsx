@@ -170,8 +170,17 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           {shareRow}
         </div>
 
-        {/* Image — right 55%, never upscaled beyond native 1200×800 */}
-        <div className="relative flex-1 overflow-hidden" style={{ maxWidth: '900px' }}>
+        {/* Image — right 55%, edges faded via CSS mask */}
+        <div
+          className="relative flex-1 overflow-hidden"
+          style={{
+            maxWidth: '900px',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 18%, black 80%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 100%)',
+            WebkitMaskComposite: 'destination-in',
+            maskImage: 'linear-gradient(to right, transparent 0%, black 18%, black 80%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 100%)',
+            maskComposite: 'intersect',
+          }}
+        >
           <Image
             src={event.image}
             alt={event.title}
@@ -181,10 +190,6 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
             className="w-full h-auto block"
             sizes="(max-width: 1920px) 55vw, 660px"
           />
-          <div className="absolute inset-y-0 left-0 w-64 z-10 bg-gradient-to-r from-bg via-bg/60 to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-20 z-10 bg-gradient-to-b from-bg/50 to-transparent" />
-          <div className="absolute inset-y-0 right-0 w-48 z-10 bg-gradient-to-l from-bg via-bg/60 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-20 z-10 bg-gradient-to-t from-bg/50 to-transparent" />
         </div>
       </div>
     </>
