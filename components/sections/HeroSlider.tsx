@@ -36,10 +36,10 @@ function SliderDots({
           style={{ width: i === current ? 32 : 14 }}
           aria-label={`Слайд ${i + 1}`}
         >
-          <span className="absolute inset-0 bg-cream/20 rounded-full" />
+          <span className="absolute inset-0 bg-red/30 rounded-full" />
           {i === current && (
             <span
-              className="absolute inset-y-0 left-0 bg-cream rounded-full"
+              className="absolute inset-y-0 left-0 bg-red rounded-full"
               style={{ animation: `progress ${interval}ms linear forwards` }}
             />
           )}
