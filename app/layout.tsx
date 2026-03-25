@@ -72,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru" className={`${oswald.variable} ${inter.variable}`}>
       <head>
+        <link rel="alternate" type="application/rss+xml" title="Стендап концерты — comedy.moscow" href="/rss.xml" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
