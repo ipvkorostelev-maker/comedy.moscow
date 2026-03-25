@@ -9,7 +9,6 @@ const nextConfig = {
     imageSizes: [64, 128, 256, 384, 512],
     formats: ['image/webp'],
     minimumCacheTTL: 3600,
-    quality: 85,
   },
   async headers() {
     return [
