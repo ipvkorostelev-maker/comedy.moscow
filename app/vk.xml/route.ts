@@ -1,40 +1,47 @@
 import { getAllEvents } from '@/lib/data'
 import { minEventPrice, BASE } from '@/lib/utils'
 
+// VK YML limits: ≤15 000 offers, ≤2 params per offer, ≤50 values each
 export async function GET() {
   const events = await getAllEvents()
 
-  // Build unique city categories
+  // Always include a root category; add per-city subcategories
   const cities = [...new Set(events.map((e) => e.city).filter(Boolean))]
-  const cityIndex = new Map(cities.map((city, i) => [city, i + 1]))
+  // id=1 is the root "Стендап-концерты"; cities start from id=2
+  const cityIndex = new Map(cities.map((city, i) => [city, i + 2]))
 
-  const categoriesXml = cities
-    .map((city, i) => `    <category id="${i + 1}">${city}</category>`)
-    .join('\n')
+  const categoriesXml = [
+    '    <category id="1">Стендап-концерты</category>',
+    ...cities.map((city, i) =>
+      `    <category id="${i + 2}" parentId="1">${x(city)}</category>`
+    ),
+  ].join('\n')
 
   const offersXml = events
+    .filter((e) => minEventPrice(e) > 0 && e.image)   // VK requires price>0 and picture
     .map((e) => {
       const price = minEventPrice(e)
-      const url = `${BASE}/events/${e.slug}`
+      const catId = cityIndex.get(e.city) ?? 1          // fallback to root category
       const available = e.ticketsLeft > 0 ? 'true' : 'false'
-      const catId = cityIndex.get(e.city)
-      const catTag = catId ? `\n      <categoryId>${catId}</categoryId>` : ''
+      const url = `${BASE}/events/${e.slug}`
 
       // Up to 2 params per VK spec
-      const params = [
-        e.city ? `      <param name="Город">${escXml(e.city)}</param>` : '',
-        e.date ? `      <param name="Дата">${e.date}</param>` : '',
-      ].filter(Boolean).join('\n')
+      const paramLines: string[] = []
+      if (e.city)  paramLines.push(`      <param name="Город">${x(e.city)}</param>`)
+      if (e.date)  paramLines.push(`      <param name="Дата">${e.date}</param>`)
 
-      return `    <offer id="${e.id}" available="${available}">
-      <url><![CDATA[${url}]]></url>
-      <price>${price}</price>
-      <currencyId>RUB</currencyId>${catTag}
-      <name><![CDATA[${e.title}]]></name>
-      <description><![CDATA[${e.description}]]></description>
-      ${e.image ? `<picture><![CDATA[${e.image}]]></picture>` : ''}
-${params}
-    </offer>`
+      return [
+        `    <offer id="${e.id}" available="${available}">`,
+        `      <url>${x(url)}</url>`,
+        `      <price>${price}</price>`,
+        `      <currencyId>RUB</currencyId>`,
+        `      <categoryId>${catId}</categoryId>`,
+        `      <picture>${x(e.image)}</picture>`,
+        `      <name>${x(e.title)}</name>`,
+        `      <description>${x(e.description)}</description>`,
+        ...paramLines,
+        `    </offer>`,
+      ].join('\n')
     })
     .join('\n')
 
@@ -66,6 +73,11 @@ ${offersXml}
   })
 }
 
-function escXml(str: string): string {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+/** Escape XML special chars */
+function x(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
 }
