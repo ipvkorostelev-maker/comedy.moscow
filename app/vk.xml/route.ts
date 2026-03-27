@@ -73,9 +73,12 @@ ${offersXml}
   })
 }
 
-/** Escape XML special chars */
+/** Strip HTML tags, collapse whitespace, then escape XML special chars */
 function x(str: string): string {
   return str
+    .replace(/<[^>]+>/g, ' ')   // strip HTML tags
+    .replace(/\s+/g, ' ')       // collapse whitespace
+    .trim()
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
