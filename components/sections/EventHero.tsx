@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { Event, Artist, Venue } from '@/lib/types'
-import { formatDate, formatPrice } from '@/lib/utils'
+import { formatDate, formatPrice, BASE } from '@/lib/utils'
 import BuyButton from '@/components/ui/BuyButton'
 import MetaPill from '@/components/ui/MetaPill'
 import EventBadges from '@/components/ui/EventBadges'
@@ -43,8 +43,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
     </div>
   )
 
-  const BASE_URL = 'https://comedy.moscow'
-  const eventUrl = `${BASE_URL}/events/${event.slug}`
+  const eventUrl = `${BASE}/events/${event.slug}`
   const shareLinks = [
     {
       label: 'ВКонтакте',

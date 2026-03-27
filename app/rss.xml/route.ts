@@ -1,6 +1,5 @@
 import { getAllEvents } from '@/lib/data'
-
-const BASE = 'https://comedy.moscow'
+import { BASE } from '@/lib/utils'
 
 export async function GET() {
   const events = await getAllEvents()

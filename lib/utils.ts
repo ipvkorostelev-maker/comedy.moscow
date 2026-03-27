@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
+export const BASE = 'https://comedy.moscow'
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }

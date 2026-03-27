@@ -10,16 +10,16 @@ interface ObfuscatedContactProps {
 
 export default function ObfuscatedContact({ parts, href, className = '' }: ObfuscatedContactProps) {
   const [revealed, setRevealed] = useState(false)
-  const [contact, setContact] = useState({ value: '', link: '#' })
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const value = parts.join('')
-    setContact({ value, link: href.replace('__VALUE__', value) })
+    setMounted(true)
   }, [])
 
-  const { value, link } = contact
+  if (!mounted) return <span className={className}>—</span>
 
-  if (!value) return <span className={className}>—</span>
+  const value = parts.join('')
+  const link = href.replace('__VALUE__', value)
 
   if (!revealed) {
     return (

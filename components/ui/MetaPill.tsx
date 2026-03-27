@@ -28,17 +28,13 @@ interface MetaPillProps {
 }
 
 // Solid variant — colored accent pills on dark card background
-const solidCls: Record<'date' | 'time' | 'venue', string> = {
-  date:  'bg-blue-500/15 border border-blue-400/30 text-blue-300',
-  time:  'bg-blue-500/15 border border-blue-400/30 text-blue-300',
-  venue: 'bg-blue-500/15 border border-blue-400/30 text-blue-300',
-}
+const solidCls = 'bg-blue-500/15 border border-blue-400/30 text-blue-300'
 
 // Glass variant (on image backgrounds — hero, slider)
 const glassCls = 'bg-white/10 backdrop-blur-sm border border-white/15 text-cream'
 
 export default function MetaPill({ type, children, variant = 'solid', className }: MetaPillProps) {
-  const colorCls = variant === 'glass' ? glassCls : solidCls[type]
+  const colorCls = variant === 'glass' ? glassCls : solidCls
 
   const base = cn(
     'inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-md',

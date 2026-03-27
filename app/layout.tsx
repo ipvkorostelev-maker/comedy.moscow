@@ -4,6 +4,7 @@ import './globals.css'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
 import CookieBanner from '@/components/ui/CookieBanner'
+import { BASE } from '@/lib/utils'
 
 const oswald = Oswald({
   subsets: ['cyrillic', 'latin'],
@@ -16,8 +17,6 @@ const inter = Inter({
   variable: '--font-inter',
   weight: ['300', '400', '500', '600', '700'],
 })
-
-const BASE = 'https://comedy.moscow'
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE),

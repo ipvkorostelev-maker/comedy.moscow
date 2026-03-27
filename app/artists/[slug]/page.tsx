@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import { getArtistBySlug, getAllEvents } from '@/lib/data'
+import { getArtistBySlug, getAllEvents, getAllArtists } from '@/lib/data'
+import { BASE } from '@/lib/utils'
 import EventCard from '@/components/cards/EventCard'
 import { MicIcon } from '@/components/ui/icons'
 
@@ -9,12 +10,9 @@ export const dynamic = 'force-static'
 export const dynamicParams = true
 
 export async function generateStaticParams() {
-  const { getAllArtists } = await import('@/lib/data')
   const artists = await getAllArtists()
   return artists.map((a) => ({ slug: a.slug }))
 }
-
-const BASE = 'https://comedy.moscow'
 
 export async function generateMetadata({
   params,

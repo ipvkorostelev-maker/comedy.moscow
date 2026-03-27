@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useMemo } from 'react'
 
 const DAY_SHORT = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
 const MONTH_SHORT = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек']
@@ -12,7 +12,7 @@ interface Day {
   monthLabel: string | null  // shown when month changes
 }
 
-function buildDays(eventDates: Set<string>): Day[] {
+function buildDays(): Day[] {
   const days: Day[] = []
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -54,7 +54,8 @@ interface Props {
 }
 
 export default function EventCalendar({ eventDates, selected, onSelect }: Props) {
-  const days = buildDays(eventDates)
+  // buildDays only depends on the current date — memoize so it runs once per mount
+  const days = useMemo(() => buildDays(), [])
   const scrollRef = useRef<HTMLDivElement>(null)
   const todayRef = useRef<HTMLButtonElement>(null)
 
@@ -68,8 +69,8 @@ export default function EventCalendar({ eventDates, selected, onSelect }: Props)
     }
   }, [])
 
-  const today = new Date()
-  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+  // days[1] is always today (buildDays starts 1 day before today)
+  const todayStr = days[1]?.date ?? ''
 
   return (
     <div className="relative">

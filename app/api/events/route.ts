@@ -1,7 +1,5 @@
 import { getAllEvents } from '@/lib/data'
-import { minEventPrice } from '@/lib/utils'
-
-const BASE = 'https://comedy.moscow'
+import { minEventPrice, BASE } from '@/lib/utils'
 
 export async function GET() {
   const events = await getAllEvents()

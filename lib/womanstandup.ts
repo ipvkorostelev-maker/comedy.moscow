@@ -98,14 +98,11 @@ function mapArtist(a: any): Artist {
   }
 }
 
-export async function isAvailable(): Promise<boolean> {
-  if (!DATA_PATH) return false
-  try {
-    await fs.access(path.join(DATA_PATH, 'concerts.json'))
-    return true
-  } catch {
-    return false
-  }
+let _availableCache: Promise<boolean> | null = null
+
+export function isAvailable(): Promise<boolean> {
+  if (!DATA_PATH) return Promise.resolve(false)
+  return (_availableCache ??= fs.access(path.join(DATA_PATH, 'concerts.json')).then(() => true).catch(() => false))
 }
 
 export async function getWomanstandupEvents(): Promise<Event[]> {

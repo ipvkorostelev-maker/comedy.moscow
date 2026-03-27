@@ -12,18 +12,20 @@ import localVenues  from '@/data/venues.json'
 
 // ─── Events ──────────────────────────────────────────────
 
+function toDateTime(date: string, time: string | undefined): Date {
+  const t = time ?? '00:00'
+  const [h, m] = t.split(':').map(Number)
+  return new Date(`${date}T${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:00`)
+}
+
 function isUpcoming(event: Event): boolean {
-  const [h, m] = (event.time ?? '00:00').split(':').map(Number)
-  const dt = new Date(`${event.date}T${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:00`)
-  return dt > new Date()
+  return toDateTime(event.date, event.time) > new Date()
 }
 
 function sortByDateTime(events: Event[]): Event[] {
-  return [...events].sort((a, b) => {
-    const da = new Date(`${a.date}T${a.time ?? '00:00'}`)
-    const db = new Date(`${b.date}T${b.time ?? '00:00'}`)
-    return da.getTime() - db.getTime()
-  })
+  return [...events].sort((a, b) =>
+    toDateTime(a.date, a.time).getTime() - toDateTime(b.date, b.time).getTime()
+  )
 }
 
 export async function getAllEvents(): Promise<Event[]> {

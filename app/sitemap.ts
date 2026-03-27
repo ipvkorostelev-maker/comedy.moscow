@@ -1,7 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { getAllEvents, getAllArtists } from '@/lib/data'
-
-const BASE = 'https://comedy.moscow'
+import { BASE } from '@/lib/utils'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [events, artists] = await Promise.all([getAllEvents(), getAllArtists()])

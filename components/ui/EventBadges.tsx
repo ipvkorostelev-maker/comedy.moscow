@@ -13,7 +13,7 @@ export default function EventBadges({ event, className = 'flex flex-wrap gap-2 m
       {event.featured && (
         <Badge variant="red" className="gap-1.5">
           <FlameIcon className="w-2.5 h-2.5" />
-          Стендап в Москве
+          Стендап в {event.city || 'Москве'}
         </Badge>
       )}
       {event.rating > 0 && <Badge variant="gold">★ {event.rating}</Badge>}

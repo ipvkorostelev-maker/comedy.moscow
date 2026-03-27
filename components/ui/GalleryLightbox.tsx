@@ -32,11 +32,13 @@ export default function GalleryLightbox({ images, title }: GalleryLightboxProps)
     return () => window.removeEventListener('keydown', onKey)
   }, [selected, close, prev, next])
 
-  // Prevent body scroll when open
+  // Prevent body scroll when open — depend only on open/closed state, not which image is selected
+  const isOpen = selected !== null
   useEffect(() => {
-    document.body.style.overflow = selected !== null ? 'hidden' : ''
+    if (!isOpen) return
+    document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
-  }, [selected])
+  }, [isOpen])
 
   return (
     <>
