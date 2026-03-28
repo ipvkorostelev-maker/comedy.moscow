@@ -21,7 +21,8 @@ export default function BuyButton({
     const ym = (window as any).ym
     if (typeof ym !== 'function') return
     ym(108210320, 'reachGoal', 'buy_ticket_click')
-    ym(94359734,  'reachGoal', 'buy_ticket_click')
+    // 94359734 — счётчик Директа/виджета, его цели (выбор мест, покупка)
+    // виджет Яндекса стреляет сам через trustedDomains, дублировать не нужно
   }
 
   function handleYandex(e: React.MouseEvent) {
