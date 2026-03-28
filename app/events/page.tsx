@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-export const dynamic = 'force-static'
+export const revalidate = 3600
 import { getAllEvents } from '@/lib/data'
 import EventCard from '@/components/cards/EventCard'
 

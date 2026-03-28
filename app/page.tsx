@@ -1,4 +1,4 @@
-export const dynamic = 'force-static'
+export const revalidate = 3600 // перегенерировать раз в час
 
 import type { Metadata } from 'next'
 import { getAllEvents, getAllArtists } from '@/lib/data'
