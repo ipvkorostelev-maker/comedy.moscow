@@ -19,7 +19,9 @@ export default function BuyButton({
 
   function trackGoal() {
     const ym = (window as any).ym
-    if (typeof ym === 'function') ym(108210320, 'reachGoal', 'buy_ticket_click')
+    if (typeof ym !== 'function') return
+    ym(108210320, 'reachGoal', 'buy_ticket_click')
+    ym(94359734,  'reachGoal', 'buy_ticket_click')
   }
 
   function handleYandex(e: React.MouseEvent) {
