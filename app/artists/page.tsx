@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-export const revalidate = 3600
+export const revalidate = 300
 import { getAllArtists } from '@/lib/data'
 import ArtistCard from '@/components/cards/ArtistCard'
 

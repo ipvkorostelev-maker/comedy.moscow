@@ -1,4 +1,4 @@
-export const revalidate = 3600 // перегенерировать раз в час
+export const revalidate = 300
 
 import type { Metadata } from 'next'
 import { getAllEvents, getAllArtists } from '@/lib/data'
