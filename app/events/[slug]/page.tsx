@@ -225,6 +225,16 @@ export default async function EventPage({ params }: { params: { slug: string } }
               />
             )}
 
+            {/* 18+ Notice */}
+            <div className="mt-8 flex gap-3 items-start bg-surface-2 border border-border rounded-xl px-4 py-3.5">
+              <span className="shrink-0 mt-0.5 inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red/10 border border-red/20 text-red font-black text-sm leading-none">18+</span>
+              <p className="text-xs text-muted leading-[1.65]">
+                Мероприятие предназначено для лиц старше 18 лет. На входе потребуется документ, удостоверяющий личность:&nbsp;
+                <span className="text-cream/70">паспорт</span> или приложение&nbsp;
+                <span className="text-cream/70">«Госуслуги»</span> с подключённой функцией биометрии.
+              </p>
+            </div>
+
             {/* Contact CTA */}
             <div className="mt-8 pt-6 border-t border-border">
               <a
