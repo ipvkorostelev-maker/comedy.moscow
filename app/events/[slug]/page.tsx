@@ -9,7 +9,7 @@ import StickyBuyBar from '@/components/sections/StickyBuyBar'
 import EventHero from '@/components/sections/EventHero'
 import GalleryLightbox from '@/components/ui/GalleryLightbox'
 
-export const dynamic = 'force-static'
+export const revalidate = 300
 export const dynamicParams = true
 
 export async function generateStaticParams() {
