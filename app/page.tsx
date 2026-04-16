@@ -17,7 +17,7 @@ export default async function HomePage() {
   return (
     <>
       {/* Invisible H1 for SEO — visual title lives in the hero slider */}
-      <h1 className="sr-only">Смешно — стендап-концерты в Москве и Санкт-Петербурге</h1>
+      <h1 className="sr-only">Стендап-концерты в Москве</h1>
 
       {/* 4 nearest upcoming concerts in hero */}
       <HeroSlider events={allEvents.slice(0, 4)} />
