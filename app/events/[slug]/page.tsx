@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getEventBySlug, getArtistsByIds, getVenueById, getSimilarEvents, getAllEvents } from '@/lib/data'
-import { formatDate, formatDayOfWeek, formatPrice, minEventPrice, BASE } from '@/lib/utils'
+import { formatDate, formatDateShort, formatDayOfWeek, formatPrice, minEventPrice, BASE } from '@/lib/utils'
 import BuyButton from '@/components/ui/BuyButton'
 import ReviewCard from '@/components/cards/ReviewCard'
 import EventCard from '@/components/cards/EventCard'
@@ -61,7 +61,7 @@ export async function generateMetadata({
   const priceText = price > 0 ? ` Билеты от ${formatPrice(price)}.` : ''
 
   return {
-    title: `${event.title}${venue ? ` — ${venue.name}` : ''}`,
+    title: `${event.title} — ${formatDateShort(event.date)}`,
     description: `${event.description}${priceText}`,
     alternates: { canonical: url },
     openGraph: {
