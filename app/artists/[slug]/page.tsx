@@ -121,7 +121,7 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
 
               <div className="flex gap-8">
                 <div>
-                  <p className="font-serif font-black text-2xl text-cream">{artist.totalShows}</p>
+                  <p className="font-serif font-black text-2xl text-cream">{artist.totalShows || upcomingEvents.length}</p>
                   <p className="text-[11px] text-muted uppercase tracking-wider mt-0.5">Шоу</p>
                 </div>
                 <div>
