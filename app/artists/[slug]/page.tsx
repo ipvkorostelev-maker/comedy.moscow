@@ -51,6 +51,9 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
   if (!artist) notFound()
 
   const upcomingEvents = allEvents.filter((e) => e.artistIds.includes(artist.id))
+  const cities = artist.city
+    ? artist.city
+    : [...new Set(upcomingEvents.map((e) => e.city).filter(Boolean))].join(', ')
   const url = `${BASE}/artists/${artist.slug}`
 
   const jsonLd = {
@@ -129,7 +132,7 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
                   <p className="text-[11px] text-muted uppercase tracking-wider mt-0.5">Рейтинг</p>
                 </div>
                 <div>
-                  <p className="font-serif font-black text-2xl text-cream">{artist.city}</p>
+                  <p className="font-serif font-black text-2xl text-cream">{cities || '—'}</p>
                   <p className="text-[11px] text-muted uppercase tracking-wider mt-0.5">Город</p>
                 </div>
               </div>
