@@ -314,6 +314,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
                   { label: 'Дата', value: formatDate(event.date), sub: formatDayOfWeek(event.date) },
                   { label: 'Начало', value: event.time },
                   { label: 'Место', value: event.venueName ?? venue?.name ?? '—', sub: venue?.address },
+                  ...(event.city ? [{ label: 'Город', value: event.city }] : []),
                   { label: 'Длительность', value: event.duration },
                   { label: 'Возраст', value: event.ageRestriction },
                   ...(event.rating > 0 ? [{ label: 'Рейтинг', value: `★ ${event.rating} / 5`, accent: 'gold' as const }] : []),

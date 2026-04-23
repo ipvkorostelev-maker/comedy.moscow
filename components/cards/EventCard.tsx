@@ -72,8 +72,10 @@ export default function EventCard({ event }: EventCardProps) {
         <div className="flex flex-wrap gap-1.5">
           <MetaPill type="date">{formatDateShort(event.date)}</MetaPill>
           <MetaPill type="time">{event.time}</MetaPill>
-          {(event.venueName ?? event.city) && (
-            <MetaPill type="venue">{event.venueName ?? event.city}</MetaPill>
+          {(event.venueName || event.city) && (
+            <MetaPill type="venue">
+              {[event.venueName, event.city].filter(Boolean).join(' · ')}
+            </MetaPill>
           )}
         </div>
 

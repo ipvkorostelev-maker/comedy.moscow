@@ -22,7 +22,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
         {event.time}
       </MetaPill>
       <MetaPill type="venue" variant="glass" className="text-sm px-3.5 py-1.5">
-        {event.venueName ?? venue?.name ?? event.city}
+        {[event.venueName ?? venue?.name, event.city].filter(Boolean).join(' · ')}
       </MetaPill>
     </div>
   )
