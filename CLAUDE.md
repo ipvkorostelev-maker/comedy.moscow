@@ -1,116 +1,104 @@
 # CLAUDE.md
 
-Ты senior full-stack developer, frontend architect и UI/UX engineer.
-
-Задача:
-создать современный production-ready сайт по двум страницам-референсам, которые есть в проекте.
-
-Важно:
-- не копировать код референсов
-- использовать их как визуальный и UX-ориентир
-- сохранить общую атмосферу, композицию, стиль блоков и подачу контента
-
-Сайт должен выглядеть как гибрид:
-Apple TV
-Netflix
-современные event платформы.
-
-
-## Стек
-
-- Next.js (App Router)
-- React
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- Node.js API routes
-
-## Ограничения
-
-- без базы данных
-- все данные хранить в JSON-файлах
-- сайт должен легко редактироваться без БД
-- код должен быть чистым, модульным и переиспользуемым
-
-## Формат данных
-
-Создать папку `/data` и использовать JSON-файлы:
-- events.json
-- artists.json
-- pages.json
-- venues.json
-
-## Что нужно построить
-
-- главная страница
-- каталог событий
-- страница события
-- каталог артистов
-- страница артиста
-- при необходимости страница города
-
-## UI/UX требования
-
-- современный cinematic / premium интерфейс
-- адаптивность mobile-first
-- аккуратные hover-эффекты
-- плавные анимации
-- хорошая читаемость
-- сильная визуальная иерархия
-- переиспользуемые секции и карточки
-
-## SEO
-
-Добавить:
-- metadata
-- OpenGraph
-- Twitter cards
-- JSON-LD schema
-- canonical
-- breadcrumbs
-
-## Производительность
-
-- использовать Next Image
-- lazy loading
-- server components там, где уместно
-- минимизировать клиентский JS
-- добиться высокого Lighthouse score
-
-## Админ-логика
-
-Без полноценной БД.
-Можно сделать простую JSON-admin логику через API routes для чтения/обновления данных.
-
-## Стиль работы
-
-Перед генерацией кода:
-1. сначала проанализируй референсы
-2. предложи архитектуру проекта
-3. предложи структуру папок
-4. перечисли страницы и компоненты
-5. только потом начинай писать код
-
-Всегда думай как senior engineer:
-- избегай дублирования
-- выноси общую логику
-- соблюдай чистую структуру проекта
-- делай проект готовым к расширению проекта как senior software architect
-потом начинай писать код
-
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## atic HTML mockups for a standup concert event/ticketing page ("Смешно" afisha). No build step, no dependencies — open files directly in a browser.
+## Project overview
 
-## Files
+**comedy.moscow** — afisha (event listing) site for standup concerts in Russia. Next.js 14 App Router, TypeScript, Tailwind CSS, Framer Motion. No database; data is served from JSON files with an optional remote file-based data source.
 
-- `standup-concert-page.html` — original mockup
-- `standup-concert-page_2.html` — second iteration (content identical, kept for comparison)
+Production URL: `https://comedy.moscow`  
+Production server: `root@89.111.171.180`, managed by PM2 (`smeshno` process, port 3001).
+
+## Commands
+
+```bash
+npm run dev       # local dev server (localhost:3000)
+npm run build     # production build
+npm run lint      # ESLint via next lint
+./deploy.sh       # commit + push + remote build + pm2 restart (always use this for deploys)
+./deploy.sh "msg" # deploy with custom commit message
+```
+
+> **Deploy rule**: always use `./deploy.sh`. Never rsync manually.
 
 ## Architecture
 
-Each file is a single self-contained HTML page with:
-- **CSS custom properties** at `:root` for the design token system (colors: `--bg`, `--red`, `--gold`, etc.; fonts: Playfair Display for headings, DM Sans for body)
-- **Sections** (top to bottom): fixed nav → fullscreen hero with float card → main content grid (about + sticky sidebar) → tickets (3 tiers) → photo gallery → reviews → horizontal-scroll similar events → sticky buy bar
-- **JS** (inline, ~10 lines): scroll-triggered sticky bar visibility + wishlist heart toggle
-- **Responsive** breakpoint at 
+### Data flow
+
+All data access goes through `lib/data.ts`. It has two sources (checked in order):
+
+1. **Remote (womanstandup)** — reads from a shared JSON file at `$WOMANSTANDUP_DATA_PATH/concerts.json` on the same server. Mapped to site types in `lib/womanstandup.ts`. Only concerts with `siteKeys: ['smeshno']` and `isDraft: false` are included.
+2. **Local fallback** — `data/events.json`, `data/artists.json`, `data/venues.json`.
+
+`isAvailable()` caches its result (singleton promise) for the process lifetime. Events are filtered to upcoming-only and sorted by datetime before being returned.
+
+### Key lib files
+
+| File | Purpose |
+|---|---|
+| `lib/types.ts` | All shared TypeScript interfaces (`Event`, `Artist`, `Venue`, `Review`, `TicketTier`) |
+| `lib/data.ts` | Async data access functions (`getAllEvents`, `getEventBySlug`, `getAllArtists`, `getArtistBySlug`, etc.) |
+| `lib/womanstandup.ts` | Maps raw womanstandup JSON → site types; handles `$WOMANSTANDUP_ASSETS_URL` prefix for images |
+| `lib/utils.ts` | `cn()`, `formatDate*()`, `formatPrice()`, `minEventPrice()`, `BASE` constant |
+
+### App router pages
+
+```
+app/
+  page.tsx              # homepage — hero slider + upcoming events
+  events/page.tsx       # event catalog
+  events/[slug]/page.tsx
+  artists/page.tsx
+  artists/[slug]/page.tsx
+  contacts/page.tsx
+  offer/page.tsx
+  privacy/page.tsx
+  not-found.tsx
+  api/events/route.ts   # JSON API endpoint
+  feed.xml/route.ts     # RSS/Atom feed (5-min cache)
+  rss.xml/route.ts
+  sitemap.ts
+  robots.ts
+```
+
+### Component structure
+
+```
+components/
+  layout/     Nav, Footer
+  sections/   HeroSlider, HomeEventsSection, EventHero, EventCalendar, StickyBuyBar
+  cards/      EventCard, ArtistCard, ReviewCard, TicketCard
+  ui/         Badge, BuyButton, CookieBanner, EventBadges, GalleryLightbox,
+              MetaPill, ObfuscatedContact, SectionHeader, icons
+```
+
+### Ticket purchase flow
+
+Each event has `ticketType: 'yandex' | 'external'` and optionally `ticketUrl` / `yandexWidgetId`. `BuyButton` handles both cases; `StickyBuyBar` on event pages mirrors the CTA.
+
+### SEO / metadata
+
+Root metadata and org/website JSON-LD schema live in `app/layout.tsx`. Each page exports its own `generateMetadata`. Canonical, OpenGraph, Twitter cards, and breadcrumb JSON-LD are applied per-page. `BASE = 'https://comedy.moscow'` is the canonical origin (from `lib/utils.ts`).
+
+### Images
+
+Remote image domains allowed in `next.config.mjs`: `images.unsplash.com`, `womanstandup.ru`. Use `next/image` for all images. The `$WOMANSTANDUP_ASSETS_URL` env var prefixes relative paths from the remote data source.
+
+### Fonts
+
+`Oswald` (`--font-oswald`) for headings, `Inter` (`--font-inter`) for body — both loaded via `next/font/google` with Cyrillic subsets.
+
+## Environment variables
+
+| Variable | Purpose |
+|---|---|
+| `WOMANSTANDUP_DATA_PATH` | Absolute path to shared JSON data dir on server; if unset, site uses local fallback data |
+| `WOMANSTANDUP_ASSETS_URL` | Base URL prefix for relative image paths from remote data |
+
+## Design system
+
+- Dark cinematic aesthetic (near-black backgrounds, high-contrast text)
+- Accent colors via Tailwind custom config (`tailwind.config.ts`)
+- Use `cn()` from `lib/utils.ts` for conditional classnames
+- Framer Motion for entrance animations; keep animations lightweight (server components have no JS budget)
+- Prefer server components; add `'use client'` only when interactivity or browser APIs are required

@@ -50,7 +50,7 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
   ])
   if (!artist) notFound()
 
-  const upcomingEvents = allEvents.filter((e) => artist.upcomingEventIds.includes(e.id))
+  const upcomingEvents = allEvents.filter((e) => e.artistIds.includes(artist.id))
   const url = `${BASE}/artists/${artist.slug}`
 
   const jsonLd = {
