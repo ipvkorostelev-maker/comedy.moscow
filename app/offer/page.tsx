@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
+import { BASE } from '@/lib/utils'
 
 export const metadata: Metadata = {
   title: 'Публичная оферта',
   description: 'Условия публичной оферты comedy.moscow — ИП Ширяев Афанасий Павлович.',
+  alternates: { canonical: `${BASE}/offer` },
   robots: { index: false, follow: false },
 }
 

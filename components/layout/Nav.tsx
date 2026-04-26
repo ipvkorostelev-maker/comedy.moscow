@@ -54,7 +54,7 @@ export default function Nav() {
       <header className="fixed top-0 left-0 right-0 z-50 pt-3 px-4 lg:px-20 pointer-events-none">
 
         {/* ── DESKTOP: left-aligned pill ── */}
-        <div className="hidden md:flex justify-start">
+        <nav className="hidden md:flex justify-start" aria-label="Основное меню">
           <div
             className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full backdrop-blur-xl border border-white/10"
             style={{
@@ -105,7 +105,7 @@ export default function Nav() {
               )
             })}
           </div>
-        </div>
+        </nav>
 
         {/* ── MOBILE: logo left + burger right ── */}
         <div className="flex md:hidden items-center justify-between">
@@ -131,6 +131,7 @@ export default function Nav() {
           <button
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Меню"
+            aria-expanded={menuOpen}
             className="pointer-events-auto flex items-center justify-center w-11 h-11 rounded-full backdrop-blur-xl border border-white/10 transition-all duration-200"
             style={{
               background: menuOpen
@@ -157,7 +158,7 @@ export default function Nav() {
         )}
         style={{ background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(24px)' }}
       >
-        <nav className="flex flex-col items-center justify-center h-full gap-3">
+          <nav className="flex flex-col items-center justify-center h-full gap-3" aria-label="Мобильное меню">
           {LINKS.map(({ href, label, icon }) => {
             const active = pathname.startsWith(href)
             return (

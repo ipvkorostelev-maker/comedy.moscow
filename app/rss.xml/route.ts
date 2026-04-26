@@ -3,11 +3,11 @@ import { BASE } from '@/lib/utils'
 
 export async function GET() {
   const events = await getAllEvents()
+  const buildDate = new Date().toUTCString()
 
   const items = events
     .map((event) => {
       const url = `${BASE}/events/${event.slug}`
-      const pubDate = new Date(`${event.date}T${event.time ?? '00:00'}:00+03:00`).toUTCString()
       const description = [
         event.description,
         event.venueName ? `Место: ${event.venueName}` : '',
@@ -19,9 +19,8 @@ export async function GET() {
       <title><![CDATA[${event.title}]]></title>
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
-      <pubDate>${pubDate}</pubDate>
+      <pubDate>${buildDate}</pubDate>
       <description><![CDATA[${description}]]></description>
-      ${event.image ? `<enclosure url="${event.image}" type="image/jpeg" length="0" />` : ''}
       ${event.tags?.map((t) => `<category><![CDATA[${t}]]></category>`).join('\n      ') ?? ''}
     </item>`
     })
@@ -34,6 +33,7 @@ export async function GET() {
     <link>${BASE}</link>
     <description>Афиша стендап концертов в Москве. Расписание, составы комиков, билеты.</description>
     <language>ru</language>
+    <lastBuildDate>${buildDate}</lastBuildDate>
     <atom:link href="${BASE}/rss.xml" rel="self" type="application/rss+xml" />
     <image>
       <url>${BASE}/logo.png</url>

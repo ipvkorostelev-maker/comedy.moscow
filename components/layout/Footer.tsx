@@ -14,6 +14,9 @@ export default function Footer() {
           </div>
 
           <nav className="flex items-center gap-7">
+            <Link href="/" className="text-sm text-muted hover:text-cream transition-colors">
+              Главная
+            </Link>
             <Link href="/events" className="text-sm text-muted hover:text-cream transition-colors">
               События
             </Link>

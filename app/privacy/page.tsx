@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
+import { BASE } from '@/lib/utils'
 
 export const metadata: Metadata = {
   title: 'Политика конфиденциальности',
   description: 'Политика конфиденциальности comedy.moscow — как мы обрабатываем персональные данные.',
+  alternates: { canonical: `${BASE}/privacy` },
   robots: { index: false, follow: false },
 }
 
