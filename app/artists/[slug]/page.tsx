@@ -9,6 +9,10 @@ import { MicIcon } from '@/components/ui/icons'
 export const dynamic = 'force-static'
 export const dynamicParams = true
 
+function plainText(html: string): string {
+  return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
 export async function generateStaticParams() {
   const artists = await getAllArtists()
   return artists.map((a) => ({ slug: a.slug }))
@@ -22,13 +26,14 @@ export async function generateMetadata({
   const artist = await getArtistBySlug(params.slug)
   if (!artist) return {}
   const url = `${BASE}/artists/${artist.slug}`
+  const desc = plainText(artist.shortBio || artist.bio || '')
   return {
     title: `${artist.name} — стендап комик`,
-    description: artist.shortBio,
+    description: desc,
     alternates: { canonical: url },
     openGraph: {
-      title: artist.name,
-      description: artist.shortBio,
+      title: `${artist.name} — стендап комик`,
+      description: desc,
       url,
       siteName: 'Смешно',
       locale: 'ru_RU',
@@ -37,7 +42,7 @@ export async function generateMetadata({
     twitter: {
       card: 'summary_large_image',
       title: `${artist.name} — стендап комик | Смешно`,
-      description: artist.shortBio,
+      description: desc,
       images: [artist.photo],
     },
   }
@@ -62,17 +67,17 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
     '@id': url,
     name: artist.name,
     url,
-    description: artist.bio,
-    image: artist.photo,
+    description: plainText(artist.bio || artist.shortBio || ''),
+    image: { '@type': 'ImageObject', url: artist.photo, width: 600, height: 600 },
     jobTitle: artist.role,
-    ...(artist.city ? { homeLocation: { '@type': 'City', name: artist.city } } : {}),
+    ...(artist.city ? { homeLocation: { '@type': 'City', name: artist.city.split(',')[0]!.trim() } } : {}),
     ...(artist.rating > 0
       ? {
           aggregateRating: {
             '@type': 'AggregateRating',
             ratingValue: artist.rating,
             bestRating: 5,
-            reviewCount: artist.totalShows,
+            worstRating: 1,
           },
         }
       : {}),

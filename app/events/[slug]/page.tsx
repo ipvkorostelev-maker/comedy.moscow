@@ -98,18 +98,18 @@ export default async function EventPage({ params }: { params: { slug: string } }
 
   const offerUrl = event.ticketUrl ?? url
   const ticketOffers = [
-    event.tickets.standard,
-    event.tickets.premium,
-    event.tickets.vip,
+    { tier: event.tickets.standard, name: 'Стандарт' },
+    { tier: event.tickets.premium, name: 'Премиум' },
+    { tier: event.tickets.vip, name: 'VIP' },
   ]
-    .filter((t) => t.available && t.price > 0)
-    .map((t) => ({
+    .filter(({ tier }) => tier.available && tier.price > 0)
+    .map(({ tier, name }) => ({
       '@type': 'Offer',
-      price: t.price,
+      name,
+      price: tier.price,
       priceCurrency: 'RUB',
       availability: 'https://schema.org/InStock',
       url: offerUrl,
-      validFrom: event.date,
     }))
 
   const locationAddress: Record<string, string> = {
@@ -136,7 +136,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
       { '@type': 'ImageObject', url: event.image, width: 1200, height: 800 },
     ],
     startDate: `${event.date}T${event.time}:00${TZ}`,
-    eventStatus: 'https://schema.org/EventScheduled',
+    eventStatus: event.ticketsLeft > 0 ? 'https://schema.org/EventScheduled' : 'https://schema.org/EventSoldOut',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {
       '@type': 'Place',

@@ -14,7 +14,7 @@ export async function GET() {
       ].filter(Boolean).join('. ')
 
       return `
-    <offer id="${e.id}" available="true">
+    <offer id="${e.id}" available="${e.ticketsLeft > 0 ? 'true' : 'false'}">
       <url><![CDATA[${url}]]></url>
       <price>${price}</price>
       <currencyId>RUR</currencyId>

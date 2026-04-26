@@ -9,7 +9,23 @@ import HeroSlider from '@/components/sections/HeroSlider'
 import CalendarWrapper from '@/components/ui/CalendarWrapper'
 
 export const metadata: Metadata = {
+  title: 'Стендап концерты в Москве — comedy.moscow',
+  description: 'Афиша стендап концертов в Москве. Расписание, составы комиков, отзывы зрителей. Купить билеты онлайн — быстро и удобно.',
   alternates: { canonical: 'https://comedy.moscow' },
+  openGraph: {
+    title: 'Стендап концерты в Москве | Смешно',
+    description: 'Афиша стендап концертов в Москве. Расписание, составы, отзывы. Билеты онлайн.',
+    url: 'https://comedy.moscow',
+    siteName: 'Смешно',
+    locale: 'ru_RU',
+    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'Смешно — стендап-концерты' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Стендап концерты в Москве | Смешно',
+    description: 'Афиша стендап концертов. Билеты онлайн.',
+    images: ['/og-default.jpg'],
+  },
 }
 
 interface Props {

@@ -1,21 +1,24 @@
 import type { Metadata } from 'next'
 export const revalidate = 300
 import { getAllEvents } from '@/lib/data'
+import { BASE } from '@/lib/utils'
 import EventCard from '@/components/cards/EventCard'
 
 export const metadata: Metadata = {
   title: 'Стендап-концерты в Москве и Санкт-Петербурге',
   description: 'Афиша стендап-концертов в России. Расписание, составы, отзывы. Билеты онлайн от 800 ₽.',
-  alternates: { canonical: 'https://comedy.moscow/events' },
+  alternates: { canonical: `${BASE}/events` },
   openGraph: {
     title: 'Стендап-концерты в Москве и Санкт-Петербурге | Смешно',
     description: 'Афиша стендап-концертов в России. Расписание, составы, отзывы. Билеты онлайн от 800 ₽.',
-    url: 'https://comedy.moscow/events',
+    url: `${BASE}/events`,
+    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'Стендап-концерты | Смешно' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Стендап-концерты в Москве | Смешно',
     description: 'Афиша стендап-концертов. Билеты онлайн.',
+    images: ['/og-default.jpg'],
   },
 }
 

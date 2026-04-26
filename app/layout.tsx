@@ -48,8 +48,18 @@ const orgSchema = {
       name: 'Смешно',
       url: BASE,
       logo: { '@type': 'ImageObject', url: `${BASE}/logo.png` },
-      description: 'Платформа для поиска и покупки билетов на стендап-концерты в России',
-      sameAs: ['https://vk.com/smeshno', 'https://t.me/smeshno'],
+      description: 'Платформа для поиска и покупки билетов на стендап-концерты',
+      email: 'river-show@mail.ru',
+      telephone: '+7-906-731-45-51',
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'RU',
+      },
+      sameAs: [
+        'https://vk.com/smeshno',
+        'https://t.me/smeshno',
+        'https://www.youtube.com/@smeshno',
+      ],
     },
     {
       '@type': 'WebSite',

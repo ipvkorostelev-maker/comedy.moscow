@@ -38,7 +38,7 @@ export async function GET() {
         `      <categoryId>${catId}</categoryId>`,
         `      <picture>${x(e.image)}</picture>`,
         `      <name>${x(e.title)}</name>`,
-        `      <description>${x(e.description)}</description>`,
+        `      <description>${x(e.description || e.subtitle || e.title)}</description>`,
         ...paramLines,
         `    </offer>`,
       ].join('\n')

@@ -1,21 +1,24 @@
 import type { Metadata } from 'next'
 export const revalidate = 300
 import { getAllArtists } from '@/lib/data'
+import { BASE } from '@/lib/utils'
 import ArtistCard from '@/components/cards/ArtistCard'
 
 export const metadata: Metadata = {
   title: 'Стендап комики Москвы и России',
   description: 'Лучшие стендап комики: биографии, рейтинги, расписание выступлений. Артём Волков, Дина Сафина и другие.',
-  alternates: { canonical: 'https://comedy.moscow/artists' },
+  alternates: { canonical: `${BASE}/artists` },
   openGraph: {
     title: 'Стендап комики России | Артисты | Смешно',
     description: 'Лучшие стендап комики: биографии, рейтинги, расписание выступлений.',
-    url: 'https://comedy.moscow/artists',
+    url: `${BASE}/artists`,
+    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'Стендап комики | Смешно' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Стендап комики России | Смешно',
     description: 'Биографии, рейтинги и расписание выступлений.',
+    images: ['/og-default.jpg'],
   },
 }
 

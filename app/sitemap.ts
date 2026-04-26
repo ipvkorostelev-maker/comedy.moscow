@@ -8,31 +8,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     {
       url: BASE,
-      lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1,
     },
     {
       url: `${BASE}/events`,
-      lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.9,
     },
     {
       url: `${BASE}/artists`,
-      lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    {
+      url: `${BASE}/contacts`,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
     ...events.map((e) => ({
       url: `${BASE}/events/${e.slug}`,
-      lastModified: new Date(),
+      lastModified: new Date(e.date),
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     })),
     ...artists.map((a) => ({
       url: `${BASE}/artists/${a.slug}`,
-      lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     })),
