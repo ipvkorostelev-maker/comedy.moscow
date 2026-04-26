@@ -46,6 +46,18 @@
     overflow-x: hidden;
   }
 
+  /* Side red glow */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse 60% 100% at 0% 50%, rgb(232 67 42 / 0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 100% at 100% 50%, rgb(232 67 42 / 0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
 
 
   /* Remove 300ms tap delay on mobile */

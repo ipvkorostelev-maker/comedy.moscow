@@ -7,7 +7,6 @@ import { Event } from '@/lib/types'
 import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
 import MetaPill from '@/components/ui/MetaPill'
 import EventBadges from '@/components/ui/EventBadges'
-import ImageGlow from '@/components/ui/ImageGlow'
 
 interface HeroSliderProps {
   events: Event[]
@@ -231,8 +230,6 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         className="hidden lg:block relative overflow-hidden"
         style={{ height: 'min(42vw, 540px)', minHeight: '385px' }}
       >
-        <ImageGlow imageUrl={event.image} />
-
         {/* Image panel — right 60% */}
         <div
           className="absolute inset-y-0 left-[40%] right-0 overflow-hidden rounded-l-2xl"
