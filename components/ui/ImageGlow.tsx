@@ -1,13 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { imageToDataUrl } from '@/lib/actions'
 
 interface Props {
   imageUrl: string
 }
 
-function extractColorFromDataUrl(dataUrl: string): Promise<string | null> {
+function extractColor(dataUrl: string): Promise<string | null> {
   return new Promise((resolve) => {
     const img = new Image()
     img.onload = () => {
@@ -22,9 +21,7 @@ function extractColorFromDataUrl(dataUrl: string): Promise<string | null> {
 
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
 
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-        const pixels = imageData.data
-
+        const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data
         let r = 0, g = 0, b = 0, count = 0
         for (let i = 0; i < pixels.length; i += 4) {
           r += pixels[i]
@@ -55,12 +52,18 @@ export default function ImageGlow({ imageUrl }: Props) {
 
   useEffect(() => {
     let cancelled = false
-    imageToDataUrl(imageUrl).then((dataUrl) => {
-      if (cancelled || !dataUrl) return
-      return extractColorFromDataUrl(dataUrl)
-    }).then((color) => {
-      if (!cancelled && color) setRgb(color)
-    })
+
+    fetch(`/api/color?url=${encodeURIComponent(imageUrl)}`)
+      .then((r) => r.json())
+      .then((json) => {
+        if (cancelled || !json.dataUrl) return
+        return extractColor(json.dataUrl)
+      })
+      .then((color) => {
+        if (!cancelled && color) setRgb(color)
+      })
+      .catch(() => {})
+
     return () => { cancelled = true }
   }, [imageUrl])
 
@@ -70,7 +73,7 @@ export default function ImageGlow({ imageUrl }: Props) {
     <div
       className="absolute inset-0 pointer-events-none z-0"
       style={{
-        background: `radial-gradient(ellipse 80% 90% at 60% 50%, rgb(${rgb} / 0.40) 0%, transparent 70%)`,
+        background: `radial-gradient(ellipse 100% 100% at 50% 50%, rgb(${rgb} / 0.45) 0%, transparent 65%)`,
       }}
     />
   )
