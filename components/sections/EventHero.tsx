@@ -4,6 +4,7 @@ import { formatDate, formatPrice, BASE } from '@/lib/utils'
 import BuyButton from '@/components/ui/BuyButton'
 import MetaPill from '@/components/ui/MetaPill'
 import EventBadges from '@/components/ui/EventBadges'
+import ImageGlow from '@/components/ui/ImageGlow'
 
 interface EventHeroProps {
   event: Event
@@ -146,7 +147,9 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       </div>
 
       {/* ── DESKTOP: split ── */}
-      <div className="hidden lg:flex overflow-hidden pt-5 pb-8">
+      <div className="hidden lg:flex relative overflow-hidden pt-5 pb-8">
+        <ImageGlow imageUrl={event.image} />
+
         {/* Content — left 40% */}
         <div className="w-[40%] flex-shrink-0 flex flex-col justify-center px-12 py-10 z-20">
           <EventBadges event={event} />
