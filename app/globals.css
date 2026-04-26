@@ -53,8 +53,8 @@
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(ellipse 60% 100% at 0% 50%, rgb(232 67 42 / 0.12) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 100% at 100% 50%, rgb(232 67 42 / 0.12) 0%, transparent 70%);
+      radial-gradient(ellipse 60% 100% at 0% 50%, rgb(232 67 42 / 0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 100% at 100% 50%, rgb(232 67 42 / 0.18) 0%, transparent 70%);
     pointer-events: none;
   }
 
