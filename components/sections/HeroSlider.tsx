@@ -7,6 +7,7 @@ import { Event } from '@/lib/types'
 import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
 import MetaPill from '@/components/ui/MetaPill'
 import EventBadges from '@/components/ui/EventBadges'
+import DynamicGradient from '@/components/ui/DynamicGradient'
 
 interface HeroSliderProps {
   events: Event[]
@@ -204,6 +205,8 @@ export default function HeroSlider({ events }: HeroSliderProps) {
 
   return (
     <section className="lg:pt-5 pb-8">
+      <DynamicGradient imageUrl={event.image} />
+
       {/* ── MOBILE ── */}
       <div className="lg:hidden">
         <div className="relative w-full aspect-[3/2] overflow-hidden rounded-b-2xl">

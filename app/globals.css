@@ -53,9 +53,11 @@
     position: fixed;
     inset: 0;
     z-index: -1;
+    --_r: var(--grad-top-rgb, 212 66 30);
+    --_b: var(--grad-bottom-rgb, var(--grad-top-rgb, 180 40 10));
     background:
-      radial-gradient(ellipse 100% 60% at 50% 0%, rgba(212, 66, 30, 0.50) 0%, transparent 60%),
-      radial-gradient(ellipse 55% 45% at 100% 100%, rgba(180, 40, 10, 0.22) 0%, transparent 65%);
+      radial-gradient(ellipse 100% 60% at 50% 0%, rgb(var(--_r) / 0.50) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 45% at 100% 100%, rgb(var(--_b) / 0.22) 0%, transparent 65%);
     pointer-events: none;
   }
 
