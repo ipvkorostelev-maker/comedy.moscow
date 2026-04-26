@@ -169,14 +169,10 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           {shareRow}
         </div>
 
-        {/* Image — right 55%, edges faded via CSS mask */}
+        {/* Image — right 55% */}
         <div
           className="relative flex-1 overflow-hidden"
-          style={{
-            maxWidth: '900px',
-            WebkitMaskImage: 'radial-gradient(ellipse 78% 90% at 58% 50%, black 30%, transparent 90%)',
-            maskImage: 'radial-gradient(ellipse 78% 90% at 58% 50%, black 30%, transparent 90%)',
-          }}
+          style={{ maxWidth: '900px' }}
         >
           <Image
             src={event.image}

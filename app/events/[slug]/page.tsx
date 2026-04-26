@@ -8,7 +8,6 @@ import EventCard from '@/components/cards/EventCard'
 import StickyBuyBar from '@/components/sections/StickyBuyBar'
 import EventHero from '@/components/sections/EventHero'
 import GalleryLightbox from '@/components/ui/GalleryLightbox'
-import DynamicGradient from '@/components/ui/DynamicGradient'
 
 export const revalidate = 300
 export const dynamicParams = true
@@ -197,8 +196,6 @@ export default async function EventPage({ params }: { params: { slug: string } }
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-
-      <DynamicGradient imageUrl={event.image} />
 
       {/* ── HERO ── */}
       <EventHero event={event} artists={artists} venue={venue} price={price} />

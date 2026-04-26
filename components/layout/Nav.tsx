@@ -58,7 +58,7 @@ export default function Nav() {
           <div
             className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full backdrop-blur-xl border border-white/10"
             style={{
-              background: 'linear-gradient(135deg, rgba(232,67,42,0.18) 0%, rgba(14,14,18,0.80) 45%, rgba(232,67,42,0.10) 100%)',
+              background: 'rgba(14,14,18,0.80)',
               boxShadow: '0 4px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09)',
             }}
           >
@@ -94,7 +94,7 @@ export default function Nav() {
                     active ? 'text-cream' : 'text-cream/45 hover:text-cream/80'
                   )}
                   style={active ? {
-                    background: 'linear-gradient(135deg, rgba(232,67,42,0.32) 0%, rgba(232,67,42,0.14) 100%)',
+                    background: 'rgba(232,67,42,0.22)',
                     boxShadow: '0 2px 12px rgba(232,67,42,0.22), inset 0 1px 0 rgba(255,255,255,0.10)',
                     border: '1px solid rgba(232,67,42,0.28)',
                   } : undefined}
@@ -113,7 +113,7 @@ export default function Nav() {
             href="/"
             className="pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-full backdrop-blur-xl border border-white/10"
             style={{
-              background: 'linear-gradient(135deg, rgba(232,67,42,0.18) 0%, rgba(14,14,18,0.80) 100%)',
+              background: 'rgba(14,14,18,0.80)',
               boxShadow: '0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)',
             }}
           >
@@ -134,8 +134,8 @@ export default function Nav() {
             className="pointer-events-auto flex items-center justify-center w-11 h-11 rounded-full backdrop-blur-xl border border-white/10 transition-all duration-200"
             style={{
               background: menuOpen
-                ? 'linear-gradient(135deg, rgba(232,67,42,0.35) 0%, rgba(14,14,18,0.85) 100%)'
-                : 'linear-gradient(135deg, rgba(232,67,42,0.18) 0%, rgba(14,14,18,0.80) 100%)',
+                ? 'rgba(232,67,42,0.35)'
+                : 'rgba(14,14,18,0.80)',
               boxShadow: '0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)',
             }}
           >
@@ -169,7 +169,7 @@ export default function Nav() {
                   active ? 'text-cream' : 'text-cream/50 hover:text-cream'
                 )}
                 style={active ? {
-                  background: 'linear-gradient(135deg, rgba(232,67,42,0.25) 0%, rgba(232,67,42,0.10) 100%)',
+                  background: 'rgba(232,67,42,0.18)',
                   border: '1px solid rgba(232,67,42,0.25)',
                 } : {
                   background: 'rgba(255,255,255,0.04)',

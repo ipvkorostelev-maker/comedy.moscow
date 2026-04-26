@@ -26,7 +26,7 @@ export default function EventCard({ event }: EventCardProps) {
           className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent" />
+
 
         {/* Top badges */}
         <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">

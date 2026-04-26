@@ -74,9 +74,7 @@ export default function EventCalendar({ eventDates, selected, onSelect }: Props)
 
   return (
     <div className="relative">
-      {/* Fade edges */}
-      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-bg to-transparent" />
-      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-bg to-transparent" />
+
 
       <div
         ref={scrollRef}

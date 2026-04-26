@@ -24,7 +24,7 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
             <MicIcon className="w-12 h-12" />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent" />
+
         <div className="absolute bottom-0 left-0 right-0 p-3">
           <p className="text-[9px] font-bold tracking-widest uppercase text-red mb-0.5">
             {artist.role}

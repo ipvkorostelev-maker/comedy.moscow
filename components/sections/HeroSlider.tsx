@@ -7,7 +7,6 @@ import { Event } from '@/lib/types'
 import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
 import MetaPill from '@/components/ui/MetaPill'
 import EventBadges from '@/components/ui/EventBadges'
-import DynamicGradient from '@/components/ui/DynamicGradient'
 
 interface HeroSliderProps {
   events: Event[]
@@ -205,8 +204,6 @@ export default function HeroSlider({ events }: HeroSliderProps) {
 
   return (
     <section className="lg:pt-5 pb-8">
-      <DynamicGradient imageUrl={event.image} />
-
       {/* ── MOBILE ── */}
       <div className="lg:hidden">
         <div className="relative w-full aspect-[3/2] overflow-hidden rounded-b-2xl">
@@ -233,13 +230,9 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         className="hidden lg:block relative overflow-hidden"
         style={{ height: 'min(42vw, 540px)', minHeight: '385px' }}
       >
-        {/* Image panel — right, edges faded via CSS mask */}
+        {/* Image panel — right */}
         <div
           className="absolute inset-y-0 left-[38%] right-0 overflow-hidden"
-          style={{
-            WebkitMaskImage: 'radial-gradient(ellipse 75% 90% at 62% 50%, black 30%, transparent 90%)',
-            maskImage: 'radial-gradient(ellipse 75% 90% at 62% 50%, black 30%, transparent 90%)',
-          }}
         >
           {imageStack('62vw')}
         </div>
