@@ -230,15 +230,15 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         className="hidden lg:block relative overflow-hidden"
         style={{ height: 'min(42vw, 540px)', minHeight: '385px' }}
       >
-        {/* Image panel — right */}
+        {/* Image panel — right 60% */}
         <div
-          className="absolute inset-y-0 left-[38%] right-0 overflow-hidden"
+          className="absolute inset-y-0 left-[40%] right-0 overflow-hidden rounded-l-2xl"
         >
-          {imageStack('62vw')}
+          {imageStack('60vw')}
         </div>
 
-        {/* Content — left column */}
-        <div className="relative z-20 h-full flex flex-col justify-center px-16 lg:px-20 max-w-[52%]">
+        {/* Content — left 40% */}
+        <div className="relative z-20 h-full flex flex-col justify-center px-12 lg:px-16 max-w-[40%]">
           {badges}
           {title()}
           {subtitle('max-w-[90%]')}
