@@ -36,7 +36,7 @@ ssh $SERVER "
 # 3. IndexNow — notify Yandex & Bing about all pages
 echo "Уведомляем поисковики через IndexNow..."
 sleep 3
-URLS=$(curl -s https://comedy.moscow/sitemap.xml | grep -oP '(?<=<loc>)[^<]+')
+  URLS=$(curl -s https://comedy.moscow/sitemap.xml | sed -n 's/.*<loc>\([^<]*\)<\/loc>.*/\1/p')
 if [ -n "$URLS" ]; then
   URLS_JSON=$(echo "$URLS" | jq -R -s -c '{urls: split("\n") | map(select(length > 0))}')
   curl -s -X POST https://comedy.moscow/api/indexnow \
