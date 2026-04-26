@@ -60,14 +60,16 @@ export async function generateMetadata({
   const url = `${BASE}/events/${event.slug}`
   const priceText = price > 0 ? ` Билеты от ${formatPrice(price)}.` : ''
 
+  const descriptionPlain = plainText(event.description)
+
   return {
     title: `${event.title} — ${formatDateShort(event.date)}`,
-    description: `${event.description}${priceText}`,
+    description: `${descriptionPlain}${priceText}`,
     alternates: { canonical: url },
     openGraph: {
       type: 'website',
       title: event.title,
-      description: event.description,
+      description: descriptionPlain,
       url,
       siteName: 'Смешно',
       locale: 'ru_RU',
@@ -76,7 +78,7 @@ export async function generateMetadata({
     twitter: {
       card: 'summary_large_image',
       title: event.title,
-      description: event.description,
+      description: descriptionPlain,
       images: [event.image],
     },
   }
