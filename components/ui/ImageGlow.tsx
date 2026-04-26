@@ -1,23 +1,22 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { imageToDataUrl } from '@/lib/actions'
 
 interface Props {
   imageUrl: string
 }
 
-function extractDominantColor(imageUrl: string): Promise<string | null> {
+function extractColorFromDataUrl(dataUrl: string): Promise<string | null> {
   return new Promise((resolve) => {
     const img = new Image()
-    img.crossOrigin = 'anonymous'
-
     img.onload = () => {
       try {
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d')
         if (!ctx) { resolve(null); return }
 
-        const scale = Math.min(100 / img.width, 100 / img.height, 1)
+        const scale = Math.min(80 / img.width, 80 / img.height, 1)
         canvas.width = Math.round(img.width * scale)
         canvas.height = Math.round(img.height * scale)
 
@@ -27,7 +26,6 @@ function extractDominantColor(imageUrl: string): Promise<string | null> {
         const pixels = imageData.data
 
         let r = 0, g = 0, b = 0, count = 0
-
         for (let i = 0; i < pixels.length; i += 4) {
           r += pixels[i]
           g += pixels[i + 1]
@@ -47,9 +45,8 @@ function extractDominantColor(imageUrl: string): Promise<string | null> {
         resolve(null)
       }
     }
-
     img.onerror = () => resolve(null)
-    img.src = imageUrl
+    img.src = dataUrl
   })
 }
 
@@ -58,7 +55,10 @@ export default function ImageGlow({ imageUrl }: Props) {
 
   useEffect(() => {
     let cancelled = false
-    extractDominantColor(imageUrl).then((color) => {
+    imageToDataUrl(imageUrl).then((dataUrl) => {
+      if (cancelled || !dataUrl) return
+      return extractColorFromDataUrl(dataUrl)
+    }).then((color) => {
       if (!cancelled && color) setRgb(color)
     })
     return () => { cancelled = true }
@@ -68,9 +68,9 @@ export default function ImageGlow({ imageUrl }: Props) {
 
   return (
     <div
-      className="absolute inset-0 pointer-events-none"
+      className="absolute inset-0 pointer-events-none z-0"
       style={{
-        background: `radial-gradient(ellipse 70% 85% at 65% 50%, rgb(${rgb} / 0.30) 0%, transparent 65%)`,
+        background: `radial-gradient(ellipse 80% 90% at 60% 50%, rgb(${rgb} / 0.40) 0%, transparent 70%)`,
       }}
     />
   )
