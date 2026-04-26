@@ -33,4 +33,15 @@ ssh $SERVER "
   pm2 start smeshno || pm2 start ecosystem.config.js
 "
 
+# 3. IndexNow — notify Yandex & Bing about all pages
+echo "Уведомляем поисковики через IndexNow..."
+sleep 3
+URLS=$(curl -s https://comedy.moscow/sitemap.xml | grep -oP '(?<=<loc>)[^<]+')
+if [ -n "$URLS" ]; then
+  URLS_JSON=$(echo "$URLS" | jq -R -s -c '{urls: split("\n") | map(select(length > 0))}')
+  curl -s -X POST https://comedy.moscow/api/indexnow \
+    -H 'Content-Type: application/json' \
+    -d "$URLS_JSON" || true
+fi
+
 echo "Готово! Сайт обновлён."
