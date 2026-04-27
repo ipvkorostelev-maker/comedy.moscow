@@ -105,9 +105,9 @@ export default function HeroSlider({ events }: HeroSliderProps) {
             alt={e.title}
             fill
             priority={i === 0}
-            quality={90}
-            className="object-cover object-top"
-            sizes={sizes}
+              quality={100}
+              className="object-cover object-top"
+              sizes={sizes}
           />
         </div>
       </div>
@@ -234,7 +234,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         <div
           className="absolute inset-y-0 left-[40%] right-0 overflow-hidden rounded-l-2xl"
         >
-          {imageStack('60vw')}
+          {imageStack('72vw')}
         </div>
 
         {/* Content — left 40% */}
