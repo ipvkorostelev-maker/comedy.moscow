@@ -13,8 +13,8 @@ export default function CalendarWrapper({ eventDates, selected }: Props) {
       eventDates={eventDates}
       selected={selected}
       onSelect={(date) => {
-        const url = date ? `/?date=${date}` : '/'
-        window.location.href = url
+        const path = window.location.pathname
+        window.location.href = date ? `${path}?date=${date}` : path
       }}
     />
   )
