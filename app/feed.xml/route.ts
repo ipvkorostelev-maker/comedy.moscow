@@ -3,6 +3,17 @@ import { minEventPrice, formatDateShort, BASE } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
+const FEED_NAME_LIMIT = 56
+
+function feedName(title: string, date: string, city: string): string {
+  const full = `${title} — ${date}, ${city}`
+  if (full.length <= FEED_NAME_LIMIT) return full
+  const withDate = `${title} — ${date}`
+  if (withDate.length <= FEED_NAME_LIMIT) return withDate
+  const suffix = ` — ${date}`
+  return title.slice(0, FEED_NAME_LIMIT - suffix.length - 1) + '…' + suffix
+}
+
 export async function GET() {
   const now = new Date()
   const events = await getEventsForFeed()
@@ -26,7 +37,7 @@ export async function GET() {
       <currencyId>RUR</currencyId>
       <categoryId>1</categoryId>
       <picture><![CDATA[${e.image}]]></picture>
-      <name><![CDATA[${e.title} — ${formatDateShort(e.date)}, ${e.city || 'Москва'}]]></name>
+      <name><![CDATA[${feedName(e.title, formatDateShort(e.date), e.city || 'Москва')}]]></name>
       <description><![CDATA[${e.description ?? e.subtitle ?? e.title}]]></description>
       ${e.venueName ? `<param name="Место"><![CDATA[${e.venueName}]]></param>` : ''}
       ${e.city ? `<param name="Город"><![CDATA[${e.city}]]></param>` : ''}
