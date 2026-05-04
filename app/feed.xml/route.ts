@@ -1,5 +1,5 @@
 import { getEventsForFeed } from '@/lib/data'
-import { minEventPrice, BASE } from '@/lib/utils'
+import { minEventPrice, formatDateShort, BASE } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -26,7 +26,7 @@ export async function GET() {
       <currencyId>RUR</currencyId>
       <categoryId>1</categoryId>
       <picture><![CDATA[${e.image}]]></picture>
-      <name><![CDATA[${e.title}]]></name>
+      <name><![CDATA[${e.title} — ${formatDateShort(e.date)}, ${e.city || 'Москва'}]]></name>
       <description><![CDATA[${e.description ?? e.subtitle ?? e.title}]]></description>
       ${e.venueName ? `<param name="Место"><![CDATA[${e.venueName}]]></param>` : ''}
       ${e.city ? `<param name="Город"><![CDATA[${e.city}]]></param>` : ''}
