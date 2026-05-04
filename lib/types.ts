@@ -53,6 +53,7 @@ export interface Event {
   ageRestriction: string
   city: string
   featured: boolean
+  isDraft?: boolean
   venueName?: string
   ticketUrl?: string
   ticketType?: 'yandex' | 'external'

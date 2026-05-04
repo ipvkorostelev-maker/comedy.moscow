@@ -42,7 +42,7 @@ export async function getAllEvents(): Promise<Event[]> {
     events = localEvents as Event[]
     allArtists = localArtists as Artist[]
   }
-  const filtered = sortByDateTime(events.filter(isUpcoming))
+  const filtered = sortByDateTime(events.filter((e) => isUpcoming(e) && !e.isDraft))
   return filtered.map((e) => {
     const venue = e.venueName ? undefined : (localVenues as Venue[]).find((v) => v.id === e.venueId)
     const artistNames = e.artistNames ?? e.artistIds
