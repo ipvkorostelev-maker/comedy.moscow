@@ -28,7 +28,7 @@ function sortByDateTime(events: Event[]): Event[] {
   )
 }
 
-export async function getAllEvents(): Promise<Event[]> {
+async function loadEnrichedEvents(): Promise<Event[]> {
   let events: Event[]
   let allArtists: Artist[]
   if (await isAvailable()) {
@@ -42,8 +42,7 @@ export async function getAllEvents(): Promise<Event[]> {
     events = localEvents as Event[]
     allArtists = localArtists as Artist[]
   }
-  const filtered = sortByDateTime(events.filter((e) => isUpcoming(e) && !e.isDraft))
-  return filtered.map((e) => {
+  return sortByDateTime(events.filter((e) => !e.isDraft)).map((e) => {
     const venue = e.venueName ? undefined : (localVenues as Venue[]).find((v) => v.id === e.venueId)
     const artistNames = e.artistNames ?? e.artistIds
       .map((id) => allArtists.find((a) => a.id === id)?.name)
@@ -54,6 +53,18 @@ export async function getAllEvents(): Promise<Event[]> {
       artistNames,
     }
   })
+}
+
+export async function getAllEvents(): Promise<Event[]> {
+  const events = await loadEnrichedEvents()
+  return events.filter(isUpcoming)
+}
+
+// Returns upcoming + events from the past 30 days (for feeds — past events get available=false).
+export async function getEventsForFeed(): Promise<Event[]> {
+  const events = await loadEnrichedEvents()
+  const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+  return events.filter((e) => toDateTime(e.date, e.time) > cutoff)
 }
 
 export async function getEventBySlug(slug: string): Promise<Event | undefined> {

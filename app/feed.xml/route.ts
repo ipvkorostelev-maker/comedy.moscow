@@ -1,10 +1,11 @@
-import { getAllEvents } from '@/lib/data'
+import { getEventsForFeed } from '@/lib/data'
 import { minEventPrice, BASE } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  const events = await getAllEvents()
+  const now = new Date()
+  const events = await getEventsForFeed()
 
   const offers = events
     .map((e) => {
@@ -14,9 +15,12 @@ export async function GET() {
         e.ageRestriction ? `${e.ageRestriction}+` : '',
         e.duration ? `Продолжительность: ${e.duration}` : '',
       ].filter(Boolean).join('. ')
+      const t = e.time ?? '00:00'
+      const eventTime = new Date(`${e.date}T${t.length === 5 ? t : '00:00'}:00`)
+      const available = eventTime > now ? 'true' : 'false'
 
       return `
-    <offer id="${e.id}" available="${e.ticketsLeft > 0 ? 'true' : 'false'}">
+    <offer id="${e.id}" available="${available}">
       <url><![CDATA[${url}]]></url>
       <price>${price}</price>
       <currencyId>RUR</currencyId>
