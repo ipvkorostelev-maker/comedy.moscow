@@ -72,6 +72,15 @@ export async function getEventBySlug(slug: string): Promise<Event | undefined> {
   return events.find((e) => e.slug === slug)
 }
 
+export async function getEventBySlugAny(slug: string): Promise<Event | undefined> {
+  const events = await loadEnrichedEvents()
+  return events.find((e) => e.slug === slug)
+}
+
+export function isEventPast(event: Event): boolean {
+  return toDateTime(event.date, event.time) <= new Date()
+}
+
 export async function getFeaturedEvents(): Promise<Event[]> {
   const events = await getAllEvents()
   return events.filter((e) => e.featured)

@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { getEventBySlug, getArtistsByIds, getVenueById, getSimilarEvents, getAllEvents } from '@/lib/data'
+import { getEventBySlugAny, isEventPast, getArtistsByIds, getVenueById, getSimilarEvents, getAllEvents } from '@/lib/data'
 import { formatDate, formatDateShort, formatDayOfWeek, formatPrice, minEventPrice, BASE } from '@/lib/utils'
 import BuyButton from '@/components/ui/BuyButton'
 import ReviewCard from '@/components/cards/ReviewCard'
 import EventCard from '@/components/cards/EventCard'
+import MetaPill from '@/components/ui/MetaPill'
 import StickyBuyBar from '@/components/sections/StickyBuyBar'
 import EventHero from '@/components/sections/EventHero'
 import GalleryLightbox from '@/components/ui/GalleryLightbox'
@@ -53,12 +55,12 @@ export async function generateMetadata({
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
-  const event = await getEventBySlug(params.slug)
+  const event = await getEventBySlugAny(params.slug)
   if (!event) return {}
   const venue = getVenueById(event.venueId)
   const price = minEventPrice(event)
   const url = `${BASE}/events/${event.slug}`
-  const priceText = price > 0 ? ` Билеты от ${formatPrice(price)}.` : ''
+  const priceText = !isEventPast(event) && price > 0 ? ` Билеты от ${formatPrice(price)}.` : ''
 
   const descriptionPlain = plainText(event.description)
 
@@ -85,17 +87,128 @@ export async function generateMetadata({
 }
 
 export default async function EventPage({ params }: { params: { slug: string } }) {
-  const event = await getEventBySlug(params.slug)
+  const event = await getEventBySlugAny(params.slug)
   if (!event) notFound()
 
+  const past = isEventPast(event)
   const [artists, similar] = await Promise.all([
     getArtistsByIds(event.artistIds),
-    getSimilarEvents(event.id, 3),
+    getSimilarEvents(event.id, past ? 6 : 3),
   ])
   const venue = getVenueById(event.venueId)
-  const price = minEventPrice(event)
   const url = `${BASE}/events/${event.slug}`
 
+  // ── PAST EVENT PAGE ───────────────────────────────────────────────────────
+  if (past) {
+    const pastJsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      '@id': url,
+      name: event.title,
+      url,
+      description: plainText(event.longDescription ?? event.description),
+      inLanguage: 'ru',
+      image: [{ '@type': 'ImageObject', url: event.image, width: 1200, height: 800 }],
+      startDate: `${event.date}T${event.time}:00${TZ}`,
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: {
+        '@type': 'Place',
+        name: event.venueName ?? venue?.name ?? event.city,
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: event.city || 'Москва',
+          addressCountry: 'RU',
+          ...(venue?.address ? { streetAddress: venue.address } : {}),
+        },
+      },
+      organizer: { '@type': 'Organization', '@id': `${BASE}/#organization`, name: 'Смешно', url: BASE },
+      performer: artists.map((a) => ({ '@type': 'PerformingGroup', name: a.name, url: `${BASE}/artists/${a.slug}` })),
+    }
+    const breadcrumbLdPast = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Главная', item: BASE },
+        { '@type': 'ListItem', position: 2, name: 'События', item: `${BASE}/events` },
+        { '@type': 'ListItem', position: 3, name: event.title, item: url },
+      ],
+    }
+    return (
+      <>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pastJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLdPast) }} />
+
+        {/* Dimmed grayscale hero */}
+        <div className="relative w-full min-h-[50vh] lg:min-h-[60vh] overflow-hidden">
+          <Image
+            src={event.image}
+            alt={event.title}
+            fill
+            priority
+            quality={85}
+            className="object-cover grayscale opacity-25"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-bg/20" />
+          <div className="relative z-10 min-h-[50vh] lg:min-h-[60vh] flex flex-col items-center justify-center text-center px-6 py-16">
+            <span className="inline-flex items-center gap-2 border border-white/15 text-cream/50 text-[11px] font-bold uppercase tracking-[0.2em] px-5 py-2 rounded-full mb-6 bg-white/5 backdrop-blur-sm">
+              Концерт прошёл
+            </span>
+            <h1 className="font-serif font-black text-cream/70 text-[clamp(22px,4vw,52px)] leading-tight max-w-3xl mb-5 uppercase">
+              {event.title}
+            </h1>
+            <div className="flex gap-2.5 flex-wrap justify-center opacity-60">
+              <MetaPill type="date" variant="glass">{formatDate(event.date)}</MetaPill>
+              <MetaPill type="time" variant="glass">{event.time}</MetaPill>
+              {(event.venueName ?? venue?.name) && (
+                <MetaPill type="venue" variant="glass">
+                  {[event.venueName ?? venue?.name, event.city].filter(Boolean).join(' · ')}
+                </MetaPill>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Notice + upcoming events */}
+        <div className="px-6 lg:px-16 xl:px-20 py-10 pb-16">
+          <div className="max-w-[1400px]">
+            <div className="flex gap-4 items-start bg-surface-2 border border-border rounded-xl px-5 py-5 mb-10">
+              <div className="shrink-0 mt-0.5 w-10 h-10 flex items-center justify-center rounded-lg bg-white/5 border border-white/10">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-cream/40">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                  <polyline points="9 16 11 18 15 14" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-cream font-semibold mb-1">К сожалению, этот концерт уже состоялся</p>
+                <p className="text-muted text-sm leading-relaxed">
+                  Но мы регулярно организуем новые шоу — среди ближайших событий обязательно найдётся что-то интересное.
+                </p>
+              </div>
+            </div>
+            {similar.length > 0 && (
+              <>
+                <h2 className="font-serif font-bold text-xl text-cream mb-5">Ближайшие концерты</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                  {similar.map((ev) => <EventCard key={ev.id} event={ev} />)}
+                </div>
+              </>
+            )}
+            <a href="/events" className="inline-flex items-center gap-2 text-sm text-red font-semibold hover:brightness-110 transition-all">
+              Смотреть все события →
+            </a>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  // ── UPCOMING EVENT PAGE ───────────────────────────────────────────────────
+  const price = minEventPrice(event)
   const offerUrl = event.ticketUrl ?? url
   const ticketOffers = [
     { tier: event.tickets.standard, name: 'Стандарт' },
