@@ -1,6 +1,8 @@
 import { getAllEvents } from '@/lib/data'
 import { BASE } from '@/lib/utils'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const events = await getAllEvents()
   const buildDate = new Date().toUTCString()

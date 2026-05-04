@@ -1,6 +1,8 @@
 import { getAllEvents } from '@/lib/data'
 import { minEventPrice, BASE } from '@/lib/utils'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const events = await getAllEvents()
 
