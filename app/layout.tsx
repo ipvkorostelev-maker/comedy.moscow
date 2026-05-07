@@ -85,6 +85,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        {/* VK Pixel */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          var _tmr = window._tmr || (window._tmr = []);
+          _tmr.push({id: "3764427", type: "pageView", start: (new Date()).getTime()});
+          (function (d, w, id) {
+            if (d.getElementById(id)) return;
+            var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+            ts.src = "https://top-fwz1.mail.ru/js/code.js";
+            var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+            if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+          })(document, window, "topmailru-code");
+        `}} />
         {/* Yandex.Metrika counter */}
         <script dangerouslySetInnerHTML={{ __html: `
           (function(m,e,t,r,i,k,a){
@@ -114,6 +126,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}} />
       </head>
       <body>
+        <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3764427;js=na" style={{position:'absolute', left:'-9999px'}} alt="" /></div></noscript>
         <noscript><div><img src="https://mc.yandex.ru/watch/108210320" style={{position:'absolute', left:'-9999px'}} alt="" /></div></noscript>
         <noscript><div><img src="https://mc.yandex.ru/watch/94359734" style={{position:'absolute', left:'-9999px'}} alt="" /></div></noscript>
         <Nav />
