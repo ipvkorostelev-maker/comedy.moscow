@@ -31,10 +31,12 @@ export const metadata: Metadata = {
     locale: 'ru_RU',
     siteName: 'Смешно',
     url: BASE,
+    images: [{ url: 'https://static.tildacdn.com/tild3136-6237-4633-b864-616637343930/IMG_6850.PNG', width: 1200, height: 900, alt: 'Смешно — стендап-концерты' }],
   },
   twitter: {
     card: 'summary_large_image',
     site: '@smeshno_moscow',
+    images: ['https://static.tildacdn.com/tild3136-6237-4633-b864-616637343930/IMG_6850.PNG'],
   },
 }
 
