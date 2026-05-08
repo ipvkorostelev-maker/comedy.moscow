@@ -38,19 +38,19 @@ const SHOWS = [
     title: 'Большой Девчачий Стендап',
     subtitle: 'Минимум 5 монологов за один вечер и безграничный максимум ваших эмоций',
     desc: 'Яркое женское шоу покоряет любимые сердца, в том числе мужские.',
-    label: 'Девчачий Стендап',
+    image: 'https://static.tildacdn.com/tild3164-3330-4132-b635-383937633263/woman.jpg',
   },
   {
     title: 'Ретро Стендап',
     subtitle: 'Юмор с жизненным стажем',
     desc: 'На сцене комики 30+ честно и смешно рассказывают о своей боли, взрослении и реальной жизни без фильтров. Если ты помнишь звук модема, дискеты, первые смартфоны, как болит спина и почему выходные стали слишком короткими, то тебе точно сюда.',
-    label: 'Ретро Стендап',
+    image: 'https://static.tildacdn.com/tild6236-3935-4836-b933-623264393463/retro.jpg',
   },
   {
     title: 'Eng. StandUp Show',
     subtitle: 'Шоу на английском языке',
     desc: 'We invite you to a special Standup Comedy show. Four comedians from all over the world — United States, France, Jordan and Russia — will be performing on one stage with their best jokes and material in English.',
-    label: 'Eng StandUp',
+    image: 'https://static.tildacdn.com/tild6339-3833-4635-b833-613862356230/eng.jpg',
   },
 ]
 
@@ -160,7 +160,15 @@ export default function CorporateSections() {
                 transition={{ duration: 0.5, delay: i * 0.12 }}
                 className="bg-surface border border-border rounded-card overflow-hidden group hover:border-muted-2 transition-colors flex flex-col"
               >
-                <PlaceholderImage label={show.label} aspectClass="aspect-[16/10]" />
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={show.image}
+                    alt={show.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                  />
+                </div>
                 <div className="p-6 flex flex-col flex-1">
                   <h3 className="font-serif font-bold text-xl text-cream mb-1">{show.title}</h3>
                   <p className="text-sm text-muted mb-3">{show.subtitle}</p>
