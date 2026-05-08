@@ -191,22 +191,22 @@ export default function CorporateSections() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             {/* Image 1 */}
-            <div className="relative overflow-hidden rounded-card aspect-[16/9] lg:aspect-[4/3]">
+            <div className="relative overflow-hidden rounded-card bg-surface aspect-[4/3]">
               <Image
                 src={MEDIA_IMAGE_1}
                 alt="Медийные комики на сцене"
                 fill
-                className="object-cover"
+                className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
             {/* Image 2 */}
-            <div className="relative overflow-hidden rounded-card aspect-[16/9] lg:aspect-[4/3]">
+            <div className="relative overflow-hidden rounded-card bg-surface aspect-[4/3]">
               <Image
                 src={MEDIA_IMAGE_2}
                 alt="Выступление медийных комиков"
                 fill
-                className="object-cover"
+                className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
@@ -266,12 +266,12 @@ export default function CorporateSections() {
 
             {/* Image — right on desktop, bottom on mobile */}
             <div className="lg:w-1/2 shrink-0">
-              <div className="relative overflow-hidden rounded-card aspect-[4/3]">
+              <div className="relative overflow-hidden rounded-card bg-surface aspect-[4/3]">
                 <Image
                   src={BUDGET_IMAGE}
                   alt="Комики для камерных мероприятий"
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
