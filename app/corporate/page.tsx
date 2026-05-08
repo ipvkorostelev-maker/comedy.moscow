@@ -72,7 +72,7 @@ export default function CorporatePage() {
               Корпоративы и частные мероприятия
             </p>
             <h1
-              className="font-serif font-black text-cream text-3xl sm:text-5xl lg:text-8xl uppercase leading-[0.9] mb-4 lg:mb-6 animate-hero-content"
+              className="font-serif font-black text-cream text-3xl sm:text-5xl lg:text-8xl uppercase leading-tight lg:leading-[0.9] mb-4 lg:mb-6 animate-hero-content"
               style={{ animationDelay: '80ms' }}
             >
               Стендап комики<br />

@@ -84,7 +84,7 @@ export default function CorporateSections() {
               <p className="text-[11px] text-red uppercase tracking-[0.25em] mb-4 font-semibold">
                 Кто выступает
               </p>
-              <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-[1.05] mb-5">
+              <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-snug mb-5">
                 Такие комики как звёзды
               </h2>
               <p className="text-cream/70 text-sm lg:text-lg leading-relaxed max-w-2xl mx-auto mb-4">
@@ -108,7 +108,7 @@ export default function CorporateSections() {
         <div className="max-w-7xl mx-auto">
           <div className="max-w-4xl mb-14">
             <p className="text-[11px] text-muted uppercase tracking-[0.2em] mb-3">Готовые проекты</p>
-            <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-tight">
+            <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-snug">
               Шоу под ключ
             </h2>
           </div>
@@ -185,7 +185,7 @@ export default function CorporateSections() {
         <div className="max-w-7xl mx-auto">
           <div className="mb-10">
             <p className="text-[11px] text-muted uppercase tracking-[0.2em] mb-3">Для крупных компаний</p>
-            <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-tight mb-5">
+            <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-snug mb-5">
               Медийные комики на корпоратив
             </h2>
           </div>
@@ -250,7 +250,7 @@ export default function CorporateSections() {
           <div className="flex flex-col lg:flex-row lg:items-start gap-10 lg:gap-16">
             <div className="lg:w-1/2">
               <p className="text-[11px] text-muted uppercase tracking-[0.2em] mb-4">Для камерных мероприятий</p>
-              <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-[1.05] mb-5">
+              <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-snug mb-5">
                 В рамках бюджета
               </h2>
               <p className="text-muted text-base lg:text-lg leading-relaxed mb-4">
@@ -283,7 +283,7 @@ export default function CorporateSections() {
         <div className="max-w-7xl mx-auto">
           <div className="max-w-4xl mb-12">
             <p className="text-[11px] text-muted uppercase tracking-[0.2em] mb-3">Галерея</p>
-            <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-tight">
+            <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-snug">
               Как проходят наши мероприятия
             </h2>
           </div>
@@ -310,7 +310,7 @@ export default function CorporateSections() {
         <div className="max-w-2xl mx-auto">
           <div className="mb-10 text-center">
             <p className="text-[11px] text-muted uppercase tracking-[0.2em] mb-3">Контакты</p>
-            <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-tight mb-4">
+            <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-snug mb-4">
               Свяжитесь с нами
             </h2>
             <p className="text-muted text-base">
@@ -368,7 +368,7 @@ export default function CorporateSections() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-tight mb-5">
+            <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-snug mb-5">
               Готовы удивить гостей?
             </h2>
             <p className="text-muted text-base lg:text-lg mb-10">
