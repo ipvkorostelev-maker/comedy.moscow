@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import CorporateSections from './CorporateSections'
 
-const HERO_DESKTOP = 'https://static.tildacdn.com/tild3936-6233-4432-a564-623830346564/IMG_6828.PNG'
+const HERO_DESKTOP = 'https://static.tildacdn.com/tild3632-6261-4165-b130-333363316639/11.jpg'
 const HERO_MOBILE = 'https://static.tildacdn.com/tild3632-6261-4165-b130-333363316639/11.jpg'
 const OG_IMAGE = 'https://static.tildacdn.com/tild3936-6233-4432-a564-623830346564/IMG_6828.PNG'
 
@@ -31,7 +31,7 @@ export default function CorporatePage() {
   return (
     <main className="min-h-screen">
       {/* ── HERO ── */}
-      <section className="relative h-[90vh] min-h-[500px] lg:h-[85vh] lg:min-h-[550px] flex items-end lg:items-center overflow-hidden">
+      <section className="relative h-[90vh] min-h-[500px] lg:h-auto lg:aspect-[1920/1080] flex items-end lg:items-center overflow-hidden">
         {/* Background image with Ken Burns animation */}
         <div className="absolute inset-0 z-0">
           {/* Desktop image */}
@@ -54,7 +54,7 @@ export default function CorporatePage() {
               fill
               priority
               quality={90}
-              className="object-cover object-[left_center]"
+              className="object-cover"
               sizes="100vw"
             />
           </div>
