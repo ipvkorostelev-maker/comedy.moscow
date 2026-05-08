@@ -1,9 +1,23 @@
 import type { Metadata } from 'next'
 import ObfuscatedContact from '@/components/ui/ObfuscatedContact'
+import { BASE } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'Контакты',
-  description: 'Свяжитесь с нами по телефону или почте — ответим на любые вопросы о стендап-концертах.',
+  title: 'Контакты — comedy.moscow',
+  description: 'Свяжитесь с нами по телефону или почте — ответим на любые вопросы о стендап-концертах и корпоративах.',
+  alternates: { canonical: `${BASE}/contacts` },
+  openGraph: {
+    title: 'Контакты | Смешно — стендап в Москве',
+    description: 'Телефон и почта для связи по вопросам стендап-концертов и корпоративных мероприятий.',
+    url: `${BASE}/contacts`,
+    siteName: 'Смешно',
+    locale: 'ru_RU',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Контакты | Смешно',
+    description: 'Телефон и почта для связи по вопросам стендап-концертов.',
+  },
 }
 
 const ARROW_ICON = (

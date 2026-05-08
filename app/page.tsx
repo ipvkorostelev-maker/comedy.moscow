@@ -8,26 +8,30 @@ import SectionHeader from '@/components/ui/SectionHeader'
 import HeroSlider from '@/components/sections/HeroSlider'
 import CalendarWrapper from '@/components/ui/CalendarWrapper'
 
-export const metadata: Metadata = {
-  title: 'Стендап концерты в Москве — comedy.moscow',
-  description: 'Афиша стендап концертов в Москве. Расписание, составы комиков, отзывы зрителей. Купить билеты онлайн — быстро и удобно.',
-  alternates: { canonical: 'https://comedy.moscow' },
-  openGraph: {
-    title: 'Стендап концерты в Москве | Смешно',
-    description: 'Афиша стендап концертов в Москве. Расписание, составы, отзывы. Билеты онлайн.',
-    url: 'https://comedy.moscow',
-    siteName: 'Смешно',
-    locale: 'ru_RU',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Стендап концерты в Москве | Смешно',
-    description: 'Афиша стендап концертов. Билеты онлайн.',
-  },
-}
-
 interface Props {
   searchParams: { date?: string }
+}
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const dateFilter = searchParams.date ?? null
+  return {
+    title: 'Стендап концерты в Москве — comedy.moscow',
+    description: 'Афиша стендап концертов в Москве. Расписание, составы комиков, отзывы зрителей. Купить билеты онлайн — быстро и удобно.',
+    alternates: { canonical: 'https://comedy.moscow' },
+    ...(dateFilter ? { robots: { index: false, follow: true } } : {}),
+    openGraph: {
+      title: 'Стендап концерты в Москве | Смешно',
+      description: 'Афиша стендап концертов в Москве. Расписание, составы, отзывы. Билеты онлайн.',
+      url: 'https://comedy.moscow',
+      siteName: 'Смешно',
+      locale: 'ru_RU',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Стендап концерты в Москве | Смешно',
+      description: 'Афиша стендап концертов. Билеты онлайн.',
+    },
+  }
 }
 
 export default async function HomePage({ searchParams }: Props) {

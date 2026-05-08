@@ -124,7 +124,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
             width={1200}
             height={800}
             priority
-            quality={100}
+            quality={85}
             className="w-full h-auto block"
             sizes="100vw"
           />
@@ -181,7 +181,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
             width={1200}
             height={800}
             priority
-            quality={100}
+            quality={85}
             className="w-full h-auto block"
             sizes="(max-width: 1920px) 72vw, 720px"
           />

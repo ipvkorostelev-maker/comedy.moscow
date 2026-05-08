@@ -15,7 +15,7 @@ import localVenues  from '@/data/venues.json'
 function toDateTime(date: string, time: string | undefined): Date {
   const t = time ?? '00:00'
   const [h, m] = t.split(':').map(Number)
-  return new Date(`${date}T${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:00`)
+  return new Date(`${date}T${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:00+03:00`)
 }
 
 function isUpcoming(event: Event): boolean {

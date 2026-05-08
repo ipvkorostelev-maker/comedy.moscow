@@ -5,24 +5,29 @@ import { BASE } from '@/lib/utils'
 import EventCard from '@/components/cards/EventCard'
 import CalendarWrapper from '@/components/ui/CalendarWrapper'
 
-export const metadata: Metadata = {
-  title: 'Стендап-концерты в Москве и Санкт-Петербурге',
-  description: 'Афиша стендап-концертов в России. Расписание, составы, отзывы. Билеты онлайн от 800 ₽.',
-  alternates: { canonical: `${BASE}/events` },
-  openGraph: {
-    title: 'Стендап-концерты в Москве и Санкт-Петербурге | Смешно',
-    description: 'Афиша стендап-концертов в России. Расписание, составы, отзывы. Билеты онлайн от 800 ₽.',
-    url: `${BASE}/events`,
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Стендап-концерты в Москве | Смешно',
-    description: 'Афиша стендап-концертов. Билеты онлайн.',
-  },
-}
-
 interface Props {
   searchParams: { date?: string }
+}
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const dateFilter = searchParams.date ?? null
+  return {
+    title: 'Стендап-концерты в Москве и Санкт-Петербурге',
+    description: 'Афиша стендап-концертов в России. Расписание, составы, отзывы. Билеты онлайн от 800 ₽.',
+    alternates: { canonical: `${BASE}/events` },
+    ...(dateFilter ? { robots: { index: false, follow: true } } : {}),
+    openGraph: {
+      title: 'Стендап-концерты в Москве и Санкт-Петербурге | Смешно',
+      description: 'Афиша стендап-концертов в России. Расписание, составы, отзывы. Билеты онлайн от 800 ₽.',
+      url: `${BASE}/events`,
+      images: [{ url: `${BASE}/opengraph-image`, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Стендап-концерты в Москве | Смешно',
+      description: 'Афиша стендап-концертов. Билеты онлайн.',
+    },
+  }
 }
 
 export default async function EventsPage({ searchParams }: Props) {

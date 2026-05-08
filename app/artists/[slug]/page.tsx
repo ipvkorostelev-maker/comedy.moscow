@@ -27,6 +27,9 @@ export async function generateMetadata({
   if (!artist) return {}
   const url = `${BASE}/artists/${artist.slug}`
   const desc = plainText(artist.shortBio || artist.bio || '')
+  const ogImage = artist.photo
+    ? [{ url: artist.photo, width: 600, height: 600, alt: artist.name }]
+    : [{ url: `${BASE}/opengraph-image`, width: 1200, height: 630, alt: artist.name }]
   return {
     title: `${artist.name} — стендап комик`,
     description: desc,
@@ -37,13 +40,13 @@ export async function generateMetadata({
       url,
       siteName: 'Смешно',
       locale: 'ru_RU',
-      images: [{ url: artist.photo, width: 600, height: 600, alt: artist.name }],
+      images: ogImage,
     },
     twitter: {
       card: 'summary_large_image',
       title: `${artist.name} — стендап комик | Смешно`,
       description: desc,
-      images: [artist.photo],
+      images: [artist.photo || `${BASE}/opengraph-image`],
     },
   }
 }
@@ -71,11 +74,12 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
     image: { '@type': 'ImageObject', url: artist.photo, width: 600, height: 600 },
     jobTitle: artist.role,
     ...(artist.city ? { homeLocation: { '@type': 'City', name: artist.city.split(',')[0]!.trim() } } : {}),
-    ...(artist.rating > 0
+    ...(artist.rating > 0 && (artist as any).reviewsCount > 0
       ? {
           aggregateRating: {
             '@type': 'AggregateRating',
             ratingValue: artist.rating,
+            reviewCount: (artist as any).reviewsCount,
             bestRating: 5,
             worstRating: 1,
           },

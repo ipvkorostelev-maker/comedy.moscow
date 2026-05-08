@@ -110,7 +110,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
       inLanguage: 'ru',
       image: [{ '@type': 'ImageObject', url: event.image, width: 1200, height: 800 }],
       startDate: `${event.date}T${event.time}:00${TZ}`,
-      eventStatus: 'https://schema.org/EventScheduled',
+      eventStatus: 'https://schema.org/EventCompleted',
       eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
       location: {
         '@type': 'Place',
