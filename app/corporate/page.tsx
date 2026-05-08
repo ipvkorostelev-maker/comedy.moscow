@@ -3,7 +3,7 @@ import Image from 'next/image'
 import CorporateSections from './CorporateSections'
 
 const HERO_DESKTOP = 'https://static.tildacdn.com/tild3632-6261-4165-b130-333363316639/11.jpg'
-const HERO_MOBILE = 'https://static.tildacdn.com/tild3633-6162-4236-b634-396132666230/mob.jpg'
+const HERO_MOBILE = 'https://static.tildacdn.com/tild6336-3430-4430-b833-383437363535/mob.jpg'
 const OG_IMAGE = 'https://static.tildacdn.com/tild3936-6233-4432-a564-623830346564/IMG_6828.PNG'
 
 export const metadata: Metadata = {
