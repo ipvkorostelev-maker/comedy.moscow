@@ -191,25 +191,23 @@ export default function CorporateSections() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             {/* Image 1 */}
-            <div className="relative overflow-hidden rounded-card bg-surface aspect-[4/3]">
-              <Image
-                src={MEDIA_IMAGE_1}
-                alt="Медийные комики на сцене"
-                fill
-                className="object-contain"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
+            <Image
+              src={MEDIA_IMAGE_1}
+              alt="Медийные комики на сцене"
+              width={800}
+              height={600}
+              className="w-full h-auto rounded-card"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
             {/* Image 2 */}
-            <div className="relative overflow-hidden rounded-card bg-surface aspect-[4/3]">
-              <Image
-                src={MEDIA_IMAGE_2}
-                alt="Выступление медийных комиков"
-                fill
-                className="object-contain"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
+            <Image
+              src={MEDIA_IMAGE_2}
+              alt="Выступление медийных комиков"
+              width={800}
+              height={600}
+              className="w-full h-auto rounded-card"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
           </div>
 
           <div className="max-w-4xl">
@@ -266,15 +264,14 @@ export default function CorporateSections() {
 
             {/* Image — right on desktop, bottom on mobile */}
             <div className="lg:w-1/2 shrink-0">
-              <div className="relative overflow-hidden rounded-card bg-surface aspect-[4/3]">
-                <Image
-                  src={BUDGET_IMAGE}
-                  alt="Комики для камерных мероприятий"
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
+              <Image
+                src={BUDGET_IMAGE}
+                alt="Комики для камерных мероприятий"
+                width={800}
+                height={600}
+                className="w-full h-auto rounded-card"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
             </div>
           </div>
         </div>
