@@ -18,13 +18,11 @@ export const metadata: Metadata = {
     url: 'https://comedy.moscow',
     siteName: 'Смешно',
     locale: 'ru_RU',
-    images: [{ url: 'https://static.tildacdn.com/tild3136-6237-4633-b864-616637343930/IMG_6850.PNG', width: 1200, height: 900, alt: 'Смешно — стендап-концерты' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Стендап концерты в Москве | Смешно',
     description: 'Афиша стендап концертов. Билеты онлайн.',
-    images: ['https://static.tildacdn.com/tild3136-6237-4633-b864-616637343930/IMG_6850.PNG'],
   },
 }
 
