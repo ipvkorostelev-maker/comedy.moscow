@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 const ArtistGrid = dynamic(() => import('@/components/sections/ArtistGrid'), { ssr: false })
 
@@ -57,13 +58,32 @@ const GALLERY = Array.from({ length: 8 }, (_, i) => ({
   tall: i % 3 === 0,
 }))
 
+// ── Image URLs ──
+const STARS_IMAGE = 'https://static.tildacdn.com/tild3136-6237-4633-b864-616637343930/IMG_6850.PNG'
+const MEDIA_IMAGE_1 = 'https://static.tildacdn.com/tild6534-3737-4239-b462-356365346365/_21.jpg'
+const MEDIA_IMAGE_2 = 'https://static.tildacdn.com/tild3037-3430-4934-b734-366235653732/IMG_6841.PNG'
+const BUDGET_IMAGE = 'https://static.tildacdn.com/tild6663-3562-4562-a231-386135663966/IMG_6827.PNG'
+
 export default function CorporateSections() {
   return (
     <>
       {/* ── STARS ── */}
       <Section className="py-20 lg:py-28 px-6 border-t border-border">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row lg:items-start gap-10 lg:gap-16">
+            {/* Image — left on desktop, top on mobile */}
+            <div className="lg:w-1/2 shrink-0">
+              <div className="relative overflow-hidden rounded-card aspect-[4/3] lg:aspect-[3/4]">
+                <Image
+                  src={STARS_IMAGE}
+                  alt="Стендап комики — звёзды"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+            </div>
+
             <div className="lg:w-1/2">
               <p className="text-[11px] text-red uppercase tracking-[0.25em] mb-4 font-semibold">
                 Кто выступает
@@ -71,8 +91,6 @@ export default function CorporateSections() {
               <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-[1.05] mb-5">
                 Такие комики как звёзды
               </h2>
-            </div>
-            <div className="lg:w-1/2">
               <p className="text-muted text-base lg:text-lg leading-relaxed mb-4">
                 У нас есть возможность предоставить вам лучших стендап комиков, участников и резидентов
                 известных комедийных проектов, а также готовые шоу под ключ.
@@ -168,25 +186,51 @@ export default function CorporateSections() {
 
       {/* ── MEDIA COMEDIANS ── */}
       <Section className="py-20 lg:py-28 px-6 border-t border-border">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="mb-10">
             <p className="text-[11px] text-muted uppercase tracking-[0.2em] mb-3">Для крупных компаний</p>
             <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-tight mb-5">
               Медийные комики на корпоратив
             </h2>
-            <p className="text-muted text-base lg:text-lg leading-relaxed max-w-2xl mb-4">
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            {/* Image 1 */}
+            <div className="relative overflow-hidden rounded-card aspect-[16/9] lg:aspect-[4/3]">
+              <Image
+                src={MEDIA_IMAGE_1}
+                alt="Медийные комики на сцене"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+            {/* Image 2 */}
+            <div className="relative overflow-hidden rounded-card aspect-[16/9] lg:aspect-[4/3]">
+              <Image
+                src={MEDIA_IMAGE_2}
+                alt="Выступление медийных комиков"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+          </div>
+
+          <div className="max-w-4xl">
+            <p className="text-muted text-base lg:text-lg leading-relaxed mb-4">
               Это известные артисты, которых вы видели по ТВ или встречали в любимых шоу в интернете.
               Они популярны, их приглашают на различные шоу, их монологи собирают много просмотров,
               их любят и ждут.
             </p>
-            <p className="text-muted text-base lg:text-lg leading-relaxed max-w-2xl">
+            <p className="text-muted text-base lg:text-lg leading-relaxed mb-6">
               Если вы руководитель крупной и сильной компании и хотите сделать большой сюрприз для
               команды, то появление звезды на сцене станет неожиданным поворотом, а само выступление
               навсегда запомнится как яркое событие.
             </p>
           </div>
 
-          <div className="bg-surface border border-border rounded-card p-6 lg:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+          <div className="bg-surface border border-border rounded-card p-6 lg:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-5 max-w-2xl">
             <div className="w-12 h-12 bg-red/10 border border-red/20 rounded-xl flex items-center justify-center flex-shrink-0">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8432A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.06 6.06l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/>
@@ -208,15 +252,13 @@ export default function CorporateSections() {
 
       {/* ── BUDGET ── */}
       <Section className="py-20 lg:py-28 px-6 border-t border-border">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row lg:items-start gap-10 lg:gap-16">
             <div className="lg:w-1/2">
               <p className="text-[11px] text-muted uppercase tracking-[0.2em] mb-4">Для камерных мероприятий</p>
               <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-[1.05] mb-5">
                 В рамках бюджета
               </h2>
-            </div>
-            <div className="lg:w-1/2">
               <p className="text-muted text-base lg:text-lg leading-relaxed mb-4">
                 Для камерных мероприятий с ограниченным бюджетом мы всегда рекомендуем рассмотреть
                 менее известных, но не менее талантливых ребят. В кулуарах медийного поля есть
@@ -225,6 +267,19 @@ export default function CorporateSections() {
               <p className="text-cream/80 text-base lg:text-lg leading-relaxed font-medium">
                 Если вам важно не имя, а смех и эмоции ваших гостей — этот вариант для вас!
               </p>
+            </div>
+
+            {/* Image — right on desktop, bottom on mobile */}
+            <div className="lg:w-1/2 shrink-0">
+              <div className="relative overflow-hidden rounded-card aspect-[4/3]">
+                <Image
+                  src={BUDGET_IMAGE}
+                  alt="Комики для камерных мероприятий"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -273,7 +328,7 @@ export default function CorporateSections() {
           <div className="flex flex-col gap-4">
             <a
               href={`tel:${PHONE_GENERAL}`}
-              className="group flex items-center gap-6 bg-surface border border-border hover:border-muted-2 rounded-2xl px-8 py-7 transition-all duration-300"
+              className="group flex items-center gap-6 bg-surface border border-border hover:border-muted-2 rounded-2xl px-6 lg:px-8 py-6 lg:py-7 transition-all duration-300"
             >
               <div className="w-12 h-12 flex-shrink-0 rounded-xl border bg-red/10 border-red/20 flex items-center justify-center">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8432A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -282,7 +337,7 @@ export default function CorporateSections() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] text-muted uppercase tracking-[0.15em] mb-1">Общие вопросы</p>
-                <p className="font-serif font-black text-cream text-2xl">+7 906 731-45-51</p>
+                <p className="font-serif font-black text-cream text-xl lg:text-2xl">+7 906 731-45-51</p>
               </div>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted group-hover:text-cream transition-colors flex-shrink-0">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -291,7 +346,7 @@ export default function CorporateSections() {
 
             <a
               href={`mailto:${EMAIL}`}
-              className="group flex items-center gap-6 bg-surface border border-border hover:border-muted-2 rounded-2xl px-8 py-7 transition-all duration-300"
+              className="group flex items-center gap-6 bg-surface border border-border hover:border-muted-2 rounded-2xl px-6 lg:px-8 py-6 lg:py-7 transition-all duration-300"
             >
               <div className="w-12 h-12 flex-shrink-0 rounded-xl border bg-blue-500/10 border-blue-400/20 flex items-center justify-center">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -301,7 +356,7 @@ export default function CorporateSections() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] text-muted uppercase tracking-[0.15em] mb-1">Почта</p>
-                <p className="font-serif font-black text-cream text-2xl break-all">{EMAIL}</p>
+                <p className="font-serif font-black text-cream text-lg lg:text-2xl break-all">{EMAIL}</p>
               </div>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted group-hover:text-cream transition-colors flex-shrink-0">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
