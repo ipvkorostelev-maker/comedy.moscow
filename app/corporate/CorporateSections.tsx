@@ -74,7 +74,7 @@ export default function CorporateSections() {
             src={STARS_IMAGE}
             alt="Стендап комики — звёзды"
             fill
-            className="object-cover [object-position:calc(50%_-_50px)_center] lg:[object-position:center_center]"
+            className="object-cover [object-position:calc(50%_-_80px)_center] lg:[object-position:center_center]"
             sizes="100vw"
             priority={false}
           />
