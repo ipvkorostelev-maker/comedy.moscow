@@ -13,13 +13,11 @@ export const metadata: Metadata = {
     title: 'Стендап-концерты в Москве и Санкт-Петербурге | Смешно',
     description: 'Афиша стендап-концертов в России. Расписание, составы, отзывы. Билеты онлайн от 800 ₽.',
     url: `${BASE}/events`,
-    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'Стендап-концерты | Смешно' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Стендап-концерты в Москве | Смешно',
     description: 'Афиша стендап-концертов. Билеты онлайн.',
-    images: ['/og-default.jpg'],
   },
 }
 
