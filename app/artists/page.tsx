@@ -12,11 +12,13 @@ export const metadata: Metadata = {
     title: 'Стендап комики России | Артисты | Смешно',
     description: 'Лучшие стендап комики: биографии, рейтинги, расписание выступлений.',
     url: `${BASE}/artists`,
+    images: [{ url: 'https://static.tildacdn.com/tild3136-6237-4633-b864-616637343930/IMG_6850.PNG', width: 1200, height: 900, alt: 'Стендап комики | Смешно' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Стендап комики России | Смешно',
     description: 'Биографии, рейтинги и расписание выступлений.',
+    images: ['https://static.tildacdn.com/tild3136-6237-4633-b864-616637343930/IMG_6850.PNG'],
   },
 }
 
