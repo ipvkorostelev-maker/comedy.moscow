@@ -1,7 +1,9 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
+
+const ArtistGrid = dynamic(() => import('@/components/sections/ArtistGrid'), { ssr: false })
 
 const PHONE_GENERAL = '+79067314551'
 const PHONE_ALINA = '+79031597317'
@@ -83,6 +85,9 @@ export default function CorporateSections() {
           </div>
         </div>
       </Section>
+
+      {/* ── ARTISTS ── */}
+      <ArtistGrid />
 
       {/* ── READY SHOWS ── */}
       <Section className="py-20 lg:py-28 px-6 border-t border-border">
