@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
@@ -53,10 +54,25 @@ const SHOWS = [
   },
 ]
 
-const GALLERY = Array.from({ length: 8 }, (_, i) => ({
-  label: `Фото ${i + 1}`,
-  tall: i % 3 === 0,
-}))
+const GALLERY_IMAGES = [
+  { src: 'https://static.tildacdn.com/tild6530-3265-4662-a165-353330396166/IMG_6848_1.png', vertical: false },
+  { src: 'https://static.tildacdn.com/tild3833-3536-4637-b237-316237386264/IMG_6844.png', vertical: true },
+  { src: 'https://static.tildacdn.com/tild6439-3064-4262-a266-623862323964/IMG_6840.png', vertical: true },
+  { src: 'https://static.tildacdn.com/tild3835-6337-4663-a138-306132316538/IMG_6849_1.png', vertical: false },
+  { src: 'https://static.tildacdn.com/tild3236-6239-4337-a534-633863643631/IMG_6838.png', vertical: true },
+  { src: 'https://static.tildacdn.com/tild6163-3838-4366-b561-396164346232/IMG_6835.png', vertical: true },
+  { src: 'https://static.tildacdn.com/tild3438-3435-4539-a638-323439666632/IMG_6833.png', vertical: false },
+  { src: 'https://static.tildacdn.com/tild3961-3164-4339-b763-643832663837/IMG_6837.png', vertical: true },
+  { src: 'https://static.tildacdn.com/tild6166-3262-4934-a139-633463663133/IMG_6836_2.png', vertical: true },
+  { src: 'https://static.tildacdn.com/tild3736-3165-4661-a162-653235653632/IMG_6834.png', vertical: true },
+  { src: 'https://static.tildacdn.com/tild3238-3434-4239-a138-616166373135/IMG_6832.png', vertical: false },
+  { src: 'https://static.tildacdn.com/tild6562-3632-4237-b162-613264633538/IMG_6831.png', vertical: true },
+  { src: 'https://static.tildacdn.com/tild6166-3739-4362-b936-613433663565/IMG_6830.png', vertical: true },
+  { src: 'https://static.tildacdn.com/tild6130-6230-4333-b133-666364306333/IMG_6264.jpg', vertical: true },
+  { src: 'https://static.tildacdn.com/tild3336-3936-4963-b436-646531366432/IMG_5614.jpg', vertical: true },
+  { src: 'https://static.tildacdn.com/tild6238-6539-4334-a537-376663303434/IMG_5598.jpg', vertical: true },
+  { src: 'https://static.tildacdn.com/tild3336-3530-4332-a465-316465626636/IMG_5319.jpg', vertical: true },
+]
 
 // ── Image URLs ──
 const STARS_IMAGE = 'https://static.tildacdn.com/tild3136-6237-4633-b864-616637343930/IMG_6850.PNG'
@@ -65,6 +81,27 @@ const MEDIA_IMAGE_2 = 'https://static.tildacdn.com/tild3037-3430-4934-b734-36623
 const BUDGET_IMAGE = 'https://static.tildacdn.com/tild6663-3562-4562-a231-386135663966/IMG_6827.PNG'
 
 export default function CorporateSections() {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const closeLightbox = useCallback(() => setLightboxIndex(null), [])
+  const prevImage = useCallback(() => setLightboxIndex(i => i === null ? null : (i - 1 + GALLERY_IMAGES.length) % GALLERY_IMAGES.length), [])
+  const nextImage = useCallback(() => setLightboxIndex(i => i === null ? null : (i + 1) % GALLERY_IMAGES.length), [])
+
+  useEffect(() => {
+    if (lightboxIndex === null) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox()
+      if (e.key === 'ArrowLeft') prevImage()
+      if (e.key === 'ArrowRight') nextImage()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [lightboxIndex, closeLightbox, prevImage, nextImage])
+
+  useEffect(() => {
+    document.body.style.overflow = lightboxIndex !== null ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [lightboxIndex])
+
   return (
     <>
       {/* ── STARS ── */}
@@ -289,16 +326,33 @@ export default function CorporateSections() {
           </div>
 
           <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-            {GALLERY.map((img, i) => (
+            {GALLERY_IMAGES.map((img, i) => (
               <motion.div
-                key={img.label}
+                key={img.src}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
                 className="break-inside-avoid"
               >
-                <PlaceholderImage label={img.label} aspectClass={img.tall ? 'aspect-[3/4]' : 'aspect-[4/3]'} />
+                <button
+                  className={`relative w-full overflow-hidden rounded-lg cursor-pointer group ${img.vertical ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}
+                  onClick={() => setLightboxIndex(i)}
+                  aria-label={`Открыть фото ${i + 1}`}
+                >
+                  <Image
+                    src={img.src}
+                    alt={`Мероприятие — фото ${i + 1}`}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                    <svg className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 drop-shadow-lg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                    </svg>
+                  </div>
+                </button>
               </motion.div>
             ))}
           </div>
@@ -386,6 +440,69 @@ export default function CorporateSections() {
           </motion.div>
         </div>
       </Section>
+
+      {/* ── LIGHTBOX ── */}
+      {lightboxIndex !== null && (
+        <div
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center"
+          onClick={closeLightbox}
+        >
+          {/* Counter */}
+          <div className="absolute top-5 left-1/2 -translate-x-1/2 z-10 text-white/50 text-sm tabular-nums pointer-events-none">
+            {lightboxIndex + 1} / {GALLERY_IMAGES.length}
+          </div>
+
+          {/* Close */}
+          <button
+            className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors cursor-pointer"
+            onClick={closeLightbox}
+            aria-label="Закрыть"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6 6 18M6 6l12 12"/>
+            </svg>
+          </button>
+
+          {/* Prev */}
+          <button
+            className="absolute left-3 lg:left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors cursor-pointer"
+            onClick={(e) => { e.stopPropagation(); prevImage() }}
+            aria-label="Предыдущее фото"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
+
+          {/* Image */}
+          <div
+            className="relative w-full h-full flex items-center justify-center px-14 lg:px-20 py-16"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative max-w-5xl w-full h-[80vh]">
+              <Image
+                src={GALLERY_IMAGES[lightboxIndex].src}
+                alt={`Мероприятие — фото ${lightboxIndex + 1}`}
+                fill
+                className="object-contain"
+                sizes="100vw"
+                priority
+              />
+            </div>
+          </div>
+
+          {/* Next */}
+          <button
+            className="absolute right-3 lg:right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors cursor-pointer"
+            onClick={(e) => { e.stopPropagation(); nextImage() }}
+            aria-label="Следующее фото"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+      )}
     </>
   )
 }
