@@ -69,21 +69,18 @@ export default function CorporateSections() {
     <>
       {/* ── STARS ── */}
       <Section className="border-t border-border">
-        <div className="relative">
+        <div className="relative min-h-[580px] lg:min-h-[700px] flex items-center justify-center overflow-hidden">
           <Image
             src={STARS_IMAGE}
             alt="Стендап комики — звёзды"
-            width={1400}
-            height={900}
-            className="w-full h-auto"
+            fill
+            className="object-cover object-center"
             sizes="100vw"
             priority={false}
           />
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black/70" />
-          {/* Text overlay */}
-          <div className="absolute inset-0 flex items-center justify-center px-6 py-12">
-            <div className="max-w-3xl text-center">
+          <div className="absolute inset-0 bg-black/65" />
+          <div className="relative z-10 w-full px-6 py-16 lg:py-20">
+            <div className="max-w-3xl mx-auto text-center">
               <p className="text-[11px] text-red uppercase tracking-[0.25em] mb-4 font-semibold">
                 Кто выступает
               </p>
