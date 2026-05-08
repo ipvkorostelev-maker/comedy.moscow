@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import CorporateSections from './CorporateSections'
 
-const HERO_IMAGE = 'https://static.tildacdn.com/tild3936-6233-4432-a564-623830346564/IMG_6828.PNG'
+const HERO_DESKTOP = 'https://static.tildacdn.com/tild3936-6233-4432-a564-623830346564/IMG_6828.PNG'
+const HERO_MOBILE = 'https://static.tildacdn.com/tild3632-6261-4165-b130-333363316639/11.jpg'
 const OG_IMAGE = 'https://static.tildacdn.com/tild3936-6233-4432-a564-623830346564/IMG_6828.PNG'
 
 export const metadata: Metadata = {
@@ -33,14 +34,27 @@ export default function CorporatePage() {
       <section className="relative h-[90vh] min-h-[500px] lg:h-[85vh] lg:min-h-[550px] flex items-end lg:items-center overflow-hidden">
         {/* Background image with Ken Burns animation */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0" style={{ animation: 'kenBurns 12s ease-out forwards' }}>
+          {/* Desktop image */}
+          <div className="hidden lg:block absolute inset-0" style={{ animation: 'kenBurns 12s ease-out forwards' }}>
             <Image
-              src={HERO_IMAGE}
+              src={HERO_DESKTOP}
               alt="Стендап выступление"
               fill
               priority
               quality={90}
-              className="object-cover object-[65%_top] lg:object-center"
+              className="object-cover"
+              sizes="100vw"
+            />
+          </div>
+          {/* Mobile image */}
+          <div className="lg:hidden absolute inset-0" style={{ animation: 'kenBurns 12s ease-out forwards' }}>
+            <Image
+              src={HERO_MOBILE}
+              alt="Стендап выступление"
+              fill
+              priority
+              quality={90}
+              className="object-cover object-[left_center]"
               sizes="100vw"
             />
           </div>

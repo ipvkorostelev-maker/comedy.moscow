@@ -68,39 +68,34 @@ export default function CorporateSections() {
   return (
     <>
       {/* ── STARS ── */}
-      <Section className="py-20 lg:py-28 px-6 border-t border-border">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row lg:items-start gap-10 lg:gap-16">
-            {/* Image — left on desktop, top on mobile */}
-            <div className="lg:w-1/2 shrink-0">
-              <div className="relative overflow-hidden rounded-card aspect-[4/3] lg:aspect-[3/4]">
-                <Image
-                  src={STARS_IMAGE}
-                  alt="Стендап комики — звёзды"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
-            </div>
+      <Section className="relative py-24 lg:py-32 px-6 border-t border-border overflow-hidden">
+        {/* Background image with overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={STARS_IMAGE}
+            alt=""
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-black/75" />
+        </div>
 
-            <div className="lg:w-1/2">
-              <p className="text-[11px] text-red uppercase tracking-[0.25em] mb-4 font-semibold">
-                Кто выступает
-              </p>
-              <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-[1.05] mb-5">
-                Такие комики как звёзды
-              </h2>
-              <p className="text-muted text-base lg:text-lg leading-relaxed mb-4">
-                У нас есть возможность предоставить вам лучших стендап комиков, участников и резидентов
-                известных комедийных проектов, а также готовые шоу под ключ.
-              </p>
-              <p className="text-muted text-base lg:text-lg leading-relaxed">
-                Сообщите нам дату и формат мероприятия — и мы подберём для вас артиста. Или сообщите
-                имя любимого комика, и мы узнаем его расписание.
-              </p>
-            </div>
-          </div>
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
+          <p className="text-[11px] text-red uppercase tracking-[0.25em] mb-4 font-semibold">
+            Кто выступает
+          </p>
+          <h2 className="font-serif font-black text-cream text-3xl lg:text-5xl uppercase leading-[1.05] mb-5">
+            Такие комики как звёзды
+          </h2>
+          <p className="text-cream/70 text-base lg:text-lg leading-relaxed max-w-2xl mx-auto mb-4">
+            У нас есть возможность предоставить вам лучших стендап комиков, участников и резидентов
+            известных комедийных проектов, а также готовые шоу под ключ.
+          </p>
+          <p className="text-cream/70 text-base lg:text-lg leading-relaxed max-w-2xl mx-auto">
+            Сообщите нам дату и формат мероприятия — и мы подберём для вас артиста. Или сообщите
+            имя любимого комика, и мы узнаем его расписание.
+          </p>
         </div>
       </Section>
 
