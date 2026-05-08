@@ -58,8 +58,7 @@ export default function CorporatePage() {
               sizes="100vw"
             />
           </div>
-          {/* Overlay — bottom gradient on mobile, side gradient on desktop */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30 lg:bg-gradient-to-r lg:from-black lg:via-black/90 lg:to-black/50" />
+
         </div>
 
         {/* Content */}
