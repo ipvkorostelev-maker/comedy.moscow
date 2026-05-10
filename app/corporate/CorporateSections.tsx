@@ -400,6 +400,47 @@ export default function CorporateSections() {
             </a>
 
             <a
+              href="https://t.me/lb_events_team"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-6 bg-surface border border-border hover:border-muted-2 rounded-2xl px-6 lg:px-8 py-6 lg:py-7 transition-all duration-300"
+            >
+              <div className="w-12 h-12 flex-shrink-0 rounded-xl border bg-[#2AABEE]/10 border-[#2AABEE]/20 flex items-center justify-center text-[#2AABEE]">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] text-muted uppercase tracking-[0.15em] mb-1">Телеграм</p>
+                <p className="font-serif font-black text-cream text-xl lg:text-2xl">@lb_events_team</p>
+              </div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted group-hover:text-cream transition-colors flex-shrink-0">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+
+            <a
+              href="https://max.ru/+79067314551"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-6 bg-surface border border-border hover:border-muted-2 rounded-2xl px-6 lg:px-8 py-6 lg:py-7 transition-all duration-300"
+            >
+              <div className="w-12 h-12 flex-shrink-0 rounded-xl border bg-[#4CCFFF]/10 border-[#4CCFFF]/20 flex items-center justify-center">
+                <svg width="22" height="22" viewBox="0 0 1000 1000" fill="none">
+                  <rect width="1000" height="1000" fill="#4CCFFF" rx="249.681"/>
+                  <path fill="#fff" fillRule="evenodd" d="M508.211 878.328c-75.007 0-109.864-10.95-170.453-54.75-38.325 49.275-159.686 87.783-164.979 21.9 0-49.456-10.95-91.248-23.36-136.873-14.782-56.21-31.572-118.807-31.572-209.508 0-216.626 177.754-379.597 388.357-379.597 210.785 0 375.947 171.001 375.947 381.604.707 207.346-166.595 376.118-373.94 377.224m3.103-571.585c-102.564-5.292-182.499 65.7-200.201 177.024-14.6 92.162 11.315 204.398 33.397 210.238 10.585 2.555 37.23-18.98 53.837-35.587a189.8 189.8 0 0 0 92.71 33.032c106.273 5.112 197.08-75.794 204.215-181.95 4.154-106.382-77.67-196.486-183.958-202.574Z" clipRule="evenodd"/>
+                </svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] text-muted uppercase tracking-[0.15em] mb-1">МАКС</p>
+                <p className="font-serif font-black text-cream text-xl lg:text-2xl">+7 906 731-45-51</p>
+              </div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted group-hover:text-cream transition-colors flex-shrink-0">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+
+            <a
               href={`mailto:${EMAIL}`}
               className="group flex items-center gap-6 bg-surface border border-border hover:border-muted-2 rounded-2xl px-6 lg:px-8 py-6 lg:py-7 transition-all duration-300"
             >
