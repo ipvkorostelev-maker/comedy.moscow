@@ -43,7 +43,7 @@ const contacts: ContactEntry[] = [
   },
   {
     type: 'link',
-    label: 'Telegram',
+    label: 'Телеграм',
     iconBg: 'bg-[#2AABEE]/10 border-[#2AABEE]/20',
     iconColor: 'text-[#2AABEE]',
     hoverColor: 'group-hover:text-[#2AABEE]',
@@ -57,7 +57,7 @@ const contacts: ContactEntry[] = [
   },
   {
     type: 'link',
-    label: 'Мессенджер Max',
+    label: 'МАКС',
     iconBg: 'bg-[#4CCFFF]/10 border-[#4CCFFF]/20',
     iconColor: 'text-[#4CCFFF]',
     hoverColor: 'group-hover:text-[#4CCFFF]',
