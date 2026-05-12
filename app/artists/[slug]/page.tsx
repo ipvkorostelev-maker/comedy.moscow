@@ -74,17 +74,6 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
     image: { '@type': 'ImageObject', url: artist.photo, width: 600, height: 600 },
     jobTitle: artist.role,
     ...(artist.city ? { homeLocation: { '@type': 'City', name: artist.city.split(',')[0]!.trim() } } : {}),
-    ...(artist.rating > 0 && (artist as any).reviewsCount > 0
-      ? {
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: artist.rating,
-            reviewCount: (artist as any).reviewsCount,
-            bestRating: 5,
-            worstRating: 1,
-          },
-        }
-      : {}),
   }
 
   const breadcrumbLd = {
@@ -135,10 +124,6 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
                 <div>
                   <p className="font-serif font-black text-2xl text-cream">{artist.totalShows || upcomingEvents.length}</p>
                   <p className="text-[11px] text-muted uppercase tracking-wider mt-0.5">Шоу</p>
-                </div>
-                <div>
-                  <p className="font-serif font-black text-2xl text-gold">★ {artist.rating}</p>
-                  <p className="text-[11px] text-muted uppercase tracking-wider mt-0.5">Рейтинг</p>
                 </div>
                 <div>
                   <p className="font-serif font-black text-2xl text-cream">{cities || '—'}</p>
