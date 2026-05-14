@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { cn, formatDateShort, formatPrice } from '@/lib/utils'
 import { Event } from '@/lib/types'
 import BuyButton from '@/components/ui/BuyButton'
+import InticketsBuyButton from '@/components/ui/InticketsBuyButton'
 
 interface StickyBuyBarProps {
   event: Event
@@ -49,6 +50,12 @@ export default function StickyBuyBar({ event, minPrice }: StickyBuyBarProps) {
             yandexWidgetId={event.yandexWidgetId}
             className="px-8 py-3 whitespace-nowrap"
           />
+          {event.inticketsUrl && (
+            <InticketsBuyButton
+              url={event.inticketsUrl}
+              className="px-8 py-3 whitespace-nowrap"
+            />
+          )}
         </div>
       </div>
     </div>

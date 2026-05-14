@@ -58,6 +58,7 @@ export interface Event {
   ticketUrl?: string
   ticketType?: 'yandex' | 'external'
   yandexWidgetId?: string
+  inticketsUrl?: string
 }
 
 export interface Artist {

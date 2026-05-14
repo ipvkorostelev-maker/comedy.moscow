@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { Event, Artist, Venue } from '@/lib/types'
 import { formatDate, formatPrice, BASE } from '@/lib/utils'
 import BuyButton from '@/components/ui/BuyButton'
+import InticketsBuyButton from '@/components/ui/InticketsBuyButton'
 import MetaPill from '@/components/ui/MetaPill'
 import EventBadges from '@/components/ui/EventBadges'
 
@@ -34,6 +35,9 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
         ticketUrl={event.ticketUrl}
         yandexWidgetId={event.yandexWidgetId}
       />
+      {event.inticketsUrl && (
+        <InticketsBuyButton url={event.inticketsUrl} />
+      )}
       <a
         href="#about"
         className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3.5 rounded-lg hover:bg-white/15 transition-all"

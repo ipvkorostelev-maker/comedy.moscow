@@ -89,6 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
+        <link rel="stylesheet" href="//s3.intickets.ru/intickets.min.css" />
       </head>
       <body>
         <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3764427;js=na" style={{position:'absolute', left:'-9999px'}} alt="" /></div></noscript>
@@ -98,6 +99,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="pt-20 lg:pt-16">{children}</main>
         <Footer />
         <CookieBanner />
+        <Script
+          src="https://s3.intickets.ru/intickets.js"
+          strategy="afterInteractive"
+        />
         <Script
           id="vk-pixel"
           strategy="afterInteractive"
