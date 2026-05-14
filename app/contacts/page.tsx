@@ -97,7 +97,7 @@ export default function ContactsPage() {
           {contacts.map((contact) => (
             <div
               key={contact.label}
-              className="group flex items-center gap-6 bg-surface border border-border hover:border-muted-2 rounded-2xl px-8 py-7 transition-all duration-300 hover:shadow-card-hover"
+              className="group flex items-center gap-4 sm:gap-6 bg-surface border border-border hover:border-muted-2 rounded-2xl px-4 sm:px-8 py-5 sm:py-7 transition-all duration-300 hover:shadow-card-hover"
             >
               <div className={`w-12 h-12 flex-shrink-0 rounded-xl border flex items-center justify-center ${contact.iconBg} ${contact.iconColor}`}>
                 {contact.icon}
@@ -108,14 +108,14 @@ export default function ContactsPage() {
                   <ObfuscatedContact
                     parts={contact.parts}
                     href={contact.href}
-                    className={`font-serif font-black text-cream text-2xl transition-colors duration-200 break-all ${contact.hoverColor}`}
+                    className={`font-serif font-black text-cream text-xl sm:text-2xl transition-colors duration-200 sm:break-all ${contact.hoverColor}`}
                   />
                 ) : (
                   <a
                     href={contact.href}
                     target={contact.href.startsWith('http') ? '_blank' : undefined}
                     rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className={`font-serif font-black text-cream text-2xl transition-colors duration-200 break-all ${contact.hoverColor}`}
+                    className={`font-serif font-black text-cream text-xl sm:text-2xl transition-colors duration-200 whitespace-nowrap ${contact.hoverColor}`}
                   >
                     {contact.display}
                   </a>
