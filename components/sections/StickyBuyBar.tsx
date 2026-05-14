@@ -32,15 +32,15 @@ export default function StickyBuyBar({ event, minPrice }: StickyBuyBarProps) {
         visible ? 'translate-y-0' : 'translate-y-full'
       )}
     >
-      <div className="max-w-[1100px] mx-auto flex items-center justify-between gap-4">
-        <div className="min-w-0">
-          <p className="font-serif font-bold text-base text-cream truncate">{event.title}</p>
-          <p className="text-[11px] text-muted mt-0.5">
+      <div className="max-w-[1100px] mx-auto flex items-center justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <p className="font-serif font-bold text-sm sm:text-base text-cream truncate">{event.title}</p>
+          <p className="text-[10px] sm:text-[11px] text-muted mt-0.5">
             {formatDateShort(event.date)} · {event.time}
           </p>
         </div>
 
-        <div className="flex items-center gap-4 flex-shrink-0">
+        <div className="flex flex-col sm:flex-row items-end sm:items-center gap-1.5 sm:gap-4 flex-shrink-0">
           <div className="hidden sm:block font-serif font-black text-xl text-cream">
             от {formatPrice(minPrice)}{' '}
           </div>
@@ -48,12 +48,14 @@ export default function StickyBuyBar({ event, minPrice }: StickyBuyBarProps) {
             ticketType={event.ticketType}
             ticketUrl={event.ticketUrl}
             yandexWidgetId={event.yandexWidgetId}
-            className="px-8 py-3 whitespace-nowrap"
+            className="px-4 py-2.5 sm:px-8 sm:py-3 whitespace-nowrap text-xs sm:text-sm"
+            subtitle="Яндекс Билеты"
           />
           {event.inticketsUrl && (
             <InticketsBuyButton
               url={event.inticketsUrl}
-              className="px-8 py-3 whitespace-nowrap"
+              className="px-4 py-2.5 sm:px-8 sm:py-3 whitespace-nowrap text-xs sm:text-sm"
+              subtitle="Интикетс"
             />
           )}
         </div>
