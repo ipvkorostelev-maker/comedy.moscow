@@ -13,7 +13,7 @@ export default function BuyButton({
   ticketUrl,
   yandexWidgetId,
   className = '',
-  label = 'Купить билет →',
+  label = 'Яндекс Билеты →',
 }: BuyButtonProps) {
   const isYandex = ticketType === 'yandex' && !!yandexWidgetId
 
@@ -40,11 +40,12 @@ export default function BuyButton({
     }
   }
 
-  const cls = `inline-flex items-center justify-center bg-red hover:bg-red-hover text-white text-sm font-bold px-7 py-3.5 rounded-xl transition-all shadow-red ${className}`
+  const cls = `inline-flex items-center justify-center text-black text-sm font-bold px-7 py-3.5 rounded-xl transition-all hover:brightness-90 active:scale-95 ${className}`
+  const s = { backgroundColor: 'rgb(253, 246, 2)', boxShadow: '0 4px 14px rgba(253,246,2,0.30)' }
 
   if (isYandex) {
     return (
-      <button type="button" onClick={handleYandex} className={cls}>
+      <button type="button" onClick={handleYandex} className={cls} style={s}>
         {label}
       </button>
     )
@@ -52,14 +53,14 @@ export default function BuyButton({
 
   if (ticketUrl) {
     return (
-      <a href={ticketUrl} target="_blank" rel="noopener noreferrer" className={cls} onClick={trackGoal}>
+      <a href={ticketUrl} target="_blank" rel="noopener noreferrer" className={cls} style={s} onClick={trackGoal}>
         {label}
       </a>
     )
   }
 
   return (
-    <span className={`${cls} opacity-50 cursor-default`}>
+    <span className={`${cls} opacity-50 cursor-default`} style={s}>
       {label}
     </span>
   )
