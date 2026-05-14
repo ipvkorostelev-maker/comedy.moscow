@@ -41,6 +41,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       <a
         href="#about"
         className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3 rounded-lg hover:bg-white/15 transition-all"
+        style={{ height: 48 }}
       >
         Подробнее ↓
       </a>
