@@ -379,7 +379,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
                   ticketUrl={event.ticketUrl}
                   yandexWidgetId={event.yandexWidgetId}
                   className="w-full justify-center"
-                  label="Яндекс Билеты →"
+                  label="Купить билет →"
                 />
                 {event.inticketsUrl && (
                   <div className="mt-3">

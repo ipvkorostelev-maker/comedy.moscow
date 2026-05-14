@@ -6,6 +6,7 @@ interface BuyButtonProps {
   yandexWidgetId?: string
   className?: string
   label?: string
+  subtitle?: string
 }
 
 export default function BuyButton({
@@ -13,7 +14,8 @@ export default function BuyButton({
   ticketUrl,
   yandexWidgetId,
   className = '',
-  label = 'Яндекс Билеты →',
+  label = 'Купить билет →',
+  subtitle = 'Яндекс Билеты',
 }: BuyButtonProps) {
   const isYandex = ticketType === 'yandex' && !!yandexWidgetId
 
@@ -45,23 +47,32 @@ export default function BuyButton({
 
   if (isYandex) {
     return (
-      <button type="button" onClick={handleYandex} className={cls} style={s}>
-        {label}
-      </button>
+      <div>
+        <button type="button" onClick={handleYandex} className={cls} style={s}>
+          {label}
+        </button>
+        <p className="text-[10px] text-muted text-center mt-1.5">{subtitle}</p>
+      </div>
     )
   }
 
   if (ticketUrl) {
     return (
-      <a href={ticketUrl} target="_blank" rel="noopener noreferrer" className={cls} style={s} onClick={trackGoal}>
-        {label}
-      </a>
+      <div>
+        <a href={ticketUrl} target="_blank" rel="noopener noreferrer" className={cls} style={s} onClick={trackGoal}>
+          {label}
+        </a>
+        <p className="text-[10px] text-muted text-center mt-1.5">{subtitle}</p>
+      </div>
     )
   }
 
   return (
-    <span className={`${cls} opacity-50 cursor-default`} style={s}>
-      {label}
-    </span>
+    <div>
+      <span className={`${cls} opacity-50 cursor-default`} style={s}>
+        {label}
+      </span>
+      <p className="text-[10px] text-muted text-center mt-1.5">{subtitle}</p>
+    </div>
   )
 }
