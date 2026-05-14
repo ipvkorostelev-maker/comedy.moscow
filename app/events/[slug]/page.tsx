@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { getEventBySlugAny, isEventPast, getArtistsByIds, getVenueById, getSimilarEvents, getAllEvents } from '@/lib/data'
 import { formatDate, formatDateShort, formatDayOfWeek, formatPrice, minEventPrice, BASE } from '@/lib/utils'
 import BuyButton from '@/components/ui/BuyButton'
+import InticketsBuyButton from '@/components/ui/InticketsBuyButton'
 import ReviewCard from '@/components/cards/ReviewCard'
 import EventCard from '@/components/cards/EventCard'
 import MetaPill from '@/components/ui/MetaPill'
@@ -380,6 +381,14 @@ export default async function EventPage({ params }: { params: { slug: string } }
                   className="w-full justify-center"
                   label="Купить билет →"
                 />
+                {event.inticketsUrl && (
+                  <div className="mt-3">
+                    <InticketsBuyButton
+                      url={event.inticketsUrl}
+                      className="w-full justify-center"
+                    />
+                  </div>
+                )}
               </div>
               {/* Invite */}
               <div className="p-5 border-b border-border">
