@@ -101,7 +101,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
 
   // ── PAST EVENT PAGE ───────────────────────────────────────────────────────
   if (past) {
-    const pastJsonLd = {
+    const pastJsonLd: Record<string, unknown> = {
       '@context': 'https://schema.org',
       '@type': 'Event',
       '@id': url,
@@ -124,8 +124,28 @@ export default async function EventPage({ params }: { params: { slug: string } }
         },
       },
       organizer: { '@type': 'Organization', '@id': `${BASE}/#organization`, name: 'Смешно', url: BASE },
-      performer: artists.map((a) => ({ '@type': 'PerformingGroup', name: a.name, url: `${BASE}/artists/${a.slug}` })),
+      performer: artists.map((a) => ({ '@type': 'Person', '@id': `${BASE}/artists/${a.slug}`, name: a.name, url: `${BASE}/artists/${a.slug}` })),
     }
+
+    if (event.rating > 0 && event.reviewsCount > 0) {
+      pastJsonLd.aggregateRating = {
+        '@type': 'AggregateRating',
+        ratingValue: event.rating,
+        reviewCount: event.reviewsCount,
+        bestRating: 5,
+        worstRating: 1,
+      }
+    }
+    if (event.reviews && event.reviews.length > 0) {
+      pastJsonLd.review = event.reviews.map((r) => ({
+        '@type': 'Review',
+        author: { '@type': 'Person', name: r.author },
+        reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+        reviewBody: r.text,
+        datePublished: r.date,
+      }))
+    }
+
     const breadcrumbLdPast = {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
@@ -265,7 +285,8 @@ export default async function EventPage({ params }: { params: { slug: string } }
       email: 'river-show@mail.ru',
     },
     performer: artists.map((a) => ({
-      '@type': 'PerformingGroup',
+      '@type': 'Person',
+      '@id': `${BASE}/artists/${a.slug}`,
       name: a.name,
       url: `${BASE}/artists/${a.slug}`,
     })),

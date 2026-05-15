@@ -33,11 +33,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...events.map((e) => ({
       url: `${BASE}/events/${e.slug}`,
+      lastModified: new Date(),
       changeFrequency: 'weekly' as const,
-      priority: 0.7,
+      priority: 0.8,
     })),
     ...artists.map((a) => ({
       url: `${BASE}/artists/${a.slug}`,
+      lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     })),

@@ -105,7 +105,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
             alt={e.title}
             fill
             priority={i === 0}
-              quality={100}
+              quality={85}
               className="object-cover object-top"
               sizes={sizes}
           />

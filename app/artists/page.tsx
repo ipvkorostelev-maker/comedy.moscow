@@ -26,6 +26,34 @@ export default async function ArtistsPage() {
 
   return (
     <div className="pt-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Главная', item: BASE },
+              { '@type': 'ListItem', position: 2, name: 'Артисты', item: `${BASE}/artists` },
+            ],
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            itemListElement: artists.map((artist, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              url: `${BASE}/artists/${artist.slug}`,
+              name: artist.name,
+            })),
+          }),
+        }}
+      />
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="py-12 border-b border-border mb-10">
           <h1 className="font-serif font-black text-4xl lg:text-5xl text-cream mb-3">Артисты</h1>

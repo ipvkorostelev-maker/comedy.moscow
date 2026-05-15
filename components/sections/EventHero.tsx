@@ -102,7 +102,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           <a key={artist.id} href={`/artists/${artist.slug}`} className="flex-shrink-0 flex flex-col items-center gap-2 group">
             <div className="w-14 h-14 rounded-full overflow-hidden bg-surface border-2 border-border group-hover:border-red transition-colors duration-200 flex-shrink-0">
               {artist.photo ? (
-                <img src={artist.photo} alt={artist.name} className="w-full h-full object-cover" />
+                <Image src={artist.photo} alt={artist.name} fill sizes="56px" className="object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-muted text-lg font-bold">
                   {artist.name[0]}

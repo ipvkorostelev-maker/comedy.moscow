@@ -12,19 +12,18 @@ interface Props {
   searchParams: { date?: string }
 }
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const dateFilter = searchParams.date ?? null
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Стендап концерты в Москве — comedy.moscow',
     description: 'Афиша стендап концертов в Москве. Расписание, составы комиков, отзывы зрителей. Купить билеты онлайн — быстро и удобно.',
     alternates: { canonical: 'https://comedy.moscow' },
-    ...(dateFilter ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title: 'Стендап концерты в Москве | Смешно',
       description: 'Афиша стендап концертов в Москве. Расписание, составы, отзывы. Билеты онлайн.',
       url: 'https://comedy.moscow',
       siteName: 'Смешно',
       locale: 'ru_RU',
+      images: [{ url: 'https://comedy.moscow/opengraph-image', width: 1200, height: 630, alt: 'comedy.moscow — стендап в Москве' }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -45,7 +44,9 @@ export default async function HomePage({ searchParams }: Props) {
 
   return (
     <>
-      <h1 className="sr-only">Стендап-концерты в Москве</h1>
+      <h1 className="max-w-7xl mx-auto px-6 lg:px-12 pt-6 lg:pt-8 font-serif font-black text-2xl lg:text-3xl text-cream">
+        Стендап-концерты в Москве
+      </h1>
 
       {/* 4 nearest upcoming concerts in hero */}
       <HeroSlider events={allEvents.slice(0, 4)} />

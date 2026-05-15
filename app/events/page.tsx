@@ -41,6 +41,34 @@ export default async function EventsPage({ searchParams }: Props) {
 
   return (
     <div className="pt-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Главная', item: BASE },
+              { '@type': 'ListItem', position: 2, name: 'События', item: `${BASE}/events` },
+            ],
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            itemListElement: filtered.map((event, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              url: `${BASE}/events/${event.slug}`,
+              name: event.title,
+            })),
+          }),
+        }}
+      />
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="py-12 border-b border-border mb-6">
           <h1 className="font-serif font-black text-4xl lg:text-5xl text-cream mb-3">События</h1>

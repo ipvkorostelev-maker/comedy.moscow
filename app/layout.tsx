@@ -50,9 +50,10 @@ const orgSchema = {
       logo: { '@type': 'ImageObject', url: `${BASE}/logo.png` },
       description: 'Платформа для поиска и покупки билетов на стендап-концерты',
       email: 'river-show@mail.ru',
-      telephone: '+7-906-731-45-51',
+      telephone: '+7 906 731 45 51',
       address: {
         '@type': 'PostalAddress',
+        addressLocality: 'Москва',
         addressCountry: 'RU',
       },
       sameAs: [
@@ -81,6 +82,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru" className={`${oswald.variable} ${inter.variable}`}>
       <head>
+        <meta name="theme-color" content="#0c0c10" />
+        <link rel="preconnect" href="https://s3.intickets.ru" />
+        <link rel="preconnect" href="https://mc.yandex.ru" />
+        <link rel="preconnect" href="https://top-fwz1.mail.ru" />
         <link rel="alternate" type="application/rss+xml" title="Стендап концерты — comedy.moscow" href="/rss.xml" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
@@ -89,12 +94,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
-        <link rel="stylesheet" href="//s3.intickets.ru/intickets.min.css" />
+        <link rel="preload" href="https://s3.intickets.ru/intickets.min.css" as="style" />
+        <script dangerouslySetInnerHTML={{ __html: `var l=document.querySelector('link[href="https://s3.intickets.ru/intickets.min.css"]');l.onload=function(){l.onload=null;l.rel='stylesheet'}` }} />
+        <noscript><link rel="stylesheet" href="https://s3.intickets.ru/intickets.min.css" /></noscript>
       </head>
       <body>
-        <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3764427;js=na" style={{position:'absolute', left:'-9999px'}} alt="" /></div></noscript>
-        <noscript><div><img src="https://mc.yandex.ru/watch/108210320" style={{position:'absolute', left:'-9999px'}} alt="" /></div></noscript>
-        <noscript><div><img src="https://mc.yandex.ru/watch/94359734" style={{position:'absolute', left:'-9999px'}} alt="" /></div></noscript>
         <Nav />
         <main className="pt-20 lg:pt-16">{children}</main>
         <Footer />
@@ -129,7 +133,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
             })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
             ym(108210320, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true, trustedDomains:['afisha.yandex.ru','widget.afisha.yandex.ru']});
-            ym(94359734, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true, trustedDomains:['afisha.yandex.ru','widget.afisha.yandex.ru']});
+            ym(94359734, 'init', {clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true, trustedDomains:['afisha.yandex.ru','widget.afisha.yandex.ru']});
           `}}
         />
         <Script
@@ -143,7 +147,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             (function() {
               var s = document.createElement('script');
               s.async = true;
-              s.src = 'https://widget.afisha.yandex.ru/dealer/dealer.js?' + Date.now();
+              s.src = 'https://widget.afisha.yandex.ru/dealer/dealer.js';
               document.getElementsByTagName('script')[0].parentNode.insertBefore(s, document.getElementsByTagName('script')[0]);
             })();
           `}}
