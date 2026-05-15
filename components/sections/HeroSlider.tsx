@@ -221,7 +221,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
           </div>
           <h2
             key={event.id}
-            className="font-serif font-black text-cream leading-[0.9] tracking-[-0.01em] uppercase mb-5 animate-slide-in"
+            className="font-serif font-black text-cream leading-[1.05] tracking-[-0.01em] uppercase mb-5 animate-slide-in"
             style={{ fontSize: 'clamp(36px, 4.6vw, 72px)' }}
           >
             {event.title}
