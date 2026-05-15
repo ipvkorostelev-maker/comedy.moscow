@@ -44,9 +44,14 @@ export default async function HomePage({ searchParams }: Props) {
 
   return (
     <>
-      <h1 className="max-w-7xl mx-auto px-6 lg:px-12 pt-6 lg:pt-8 font-serif font-black text-2xl lg:text-3xl text-cream">
-        Стендап-концерты в Москве
-      </h1>
+      <div className="px-6 lg:px-20 pt-24 lg:pt-28 pb-3 lg:pb-5">
+        <div className="flex items-center gap-3">
+          <span className="w-8 h-[2px] bg-red/40 rounded-full" />
+          <h1 className="font-sans text-[11px] lg:text-xs text-cream/45 uppercase tracking-[0.22em] font-medium">
+            Стендап-концерты в Москве
+          </h1>
+        </div>
+      </div>
 
       {/* 4 nearest upcoming concerts in hero */}
       <HeroSlider events={allEvents.slice(0, 4)} />
