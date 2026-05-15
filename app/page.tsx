@@ -44,13 +44,10 @@ export default async function HomePage({ searchParams }: Props) {
 
   return (
     <>
-      <div className="px-6 lg:px-20 pt-24 lg:pt-28 pb-3 lg:pb-5">
-        <div className="flex items-center gap-3">
-          <span className="w-8 h-[2px] bg-red/40 rounded-full" />
-          <h1 className="font-sans text-[11px] lg:text-xs text-cream/45 uppercase tracking-[0.22em] font-medium">
-            Стендап-концерты в Москве
-          </h1>
-        </div>
+      <div className="px-6 lg:px-20 pt-24 lg:pt-28 pb-10 lg:pb-14">
+        <h1 className="font-serif font-black text-3xl lg:text-5xl text-cream leading-[1.05] tracking-[-0.02em] max-w-2xl">
+          Стендап-концерты в&nbsp;Москве
+        </h1>
       </div>
 
       {/* 4 nearest upcoming concerts in hero */}
