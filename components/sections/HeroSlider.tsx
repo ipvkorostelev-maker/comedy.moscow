@@ -212,7 +212,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         </div>
 
         {/* Text — left column */}
-        <div className="relative h-full flex flex-col justify-center z-10 px-12 xl:px-20" style={{ maxWidth: '48%' }}>
+        <div className="relative h-full flex flex-col justify-center z-10 px-12 xl:px-20 pb-24" style={{ maxWidth: '48%' }}>
           <p className="font-sans text-[11px] uppercase tracking-[0.28em] text-cream/45 font-medium mb-4">
             Ближайшее шоу
           </p>
