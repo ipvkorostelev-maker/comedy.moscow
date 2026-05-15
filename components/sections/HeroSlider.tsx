@@ -172,11 +172,6 @@ export default function HeroSlider({ events }: HeroSliderProps) {
               + Подробнее
             </Link>
           </div>
-          <p className="text-[11px] text-cream/25 mb-5">
-            <Link href="/offer" className="hover:text-cream/40 transition-colors">
-              Нажимая «Купить билет», вы принимаете условия оферты
-            </Link>
-          </p>
         </div>
 
         {events.length > 1 && (
@@ -213,7 +208,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
           {/* left-edge fade into dark bg */}
           <div
             className="absolute inset-y-0 left-0 z-10 pointer-events-none"
-            style={{ width: 100, background: 'linear-gradient(to right, #0A0A0A, transparent)' }}
+            style={{ width: 80, background: 'linear-gradient(to right, rgba(10,10,10,0.55), transparent)' }}
           />
         </div>
 
@@ -262,11 +257,6 @@ export default function HeroSlider({ events }: HeroSliderProps) {
               + Подробнее
             </Link>
           </div>
-          <p className="text-[11px] text-cream/25">
-            <Link href="/offer" className="hover:text-cream/40 transition-colors">
-              Нажимая «Купить билет», вы принимаете условия оферты
-            </Link>
-          </p>
         </div>
 
         {/* Bottom fade */}

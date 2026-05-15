@@ -47,12 +47,6 @@ export default async function HomePage({ searchParams }: Props) {
       {/* Hero slider with 4 nearest upcoming concerts */}
       <HeroSlider events={allEvents.slice(0, 4)} />
 
-      {/* SEO h1 — visible but subtle, overlays hero bottom */}
-      <div className="px-6 lg:px-20 -mt-16 lg:-mt-20 relative z-[4] pb-6">
-        <h1 className="font-sans text-[11px] lg:text-xs text-cream/35 uppercase tracking-[0.22em] font-medium">
-          Стендап-концерты в&nbsp;Москве
-        </h1>
-      </div>
 
       {/* ── UPCOMING STRIP ── */}
       <div className="bg-surface border-y border-white/5">
