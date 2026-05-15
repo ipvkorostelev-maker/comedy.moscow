@@ -153,9 +153,14 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       {/* Background images */}
       {bgStack}
 
-      {/* Left gradient overlay */}
+      {/* Mobile: full dark overlay so text stays readable */}
       <div
-        className="absolute inset-0 z-[2] pointer-events-none"
+        className="absolute inset-0 z-[2] pointer-events-none lg:hidden"
+        style={{ background: 'rgba(10,10,10,0.62)' }}
+      />
+      {/* Desktop: left-to-right gradient */}
+      <div
+        className="absolute inset-0 z-[2] pointer-events-none hidden lg:block"
         style={{
           background:
             'linear-gradient(to right, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.7) 40%, rgba(10,10,10,0.0) 100%)',

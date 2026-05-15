@@ -100,7 +100,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       <div className="flex gap-4 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
         {artists.map((artist) => (
           <a key={artist.id} href={`/artists/${artist.slug}`} className="flex-shrink-0 flex flex-col items-center gap-2 group">
-            <div className="w-14 h-14 rounded-full overflow-hidden bg-surface border-2 border-border group-hover:border-red transition-colors duration-200 flex-shrink-0">
+            <div className="relative w-14 h-14 rounded-full overflow-hidden bg-surface border-2 border-border group-hover:border-red transition-colors duration-200 flex-shrink-0">
               {artist.photo ? (
                 <Image src={artist.photo} alt={artist.name} fill sizes="56px" className="object-cover" />
               ) : (
@@ -177,18 +177,17 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
 
         {/* Image — right 60% */}
         <div
-          className="relative flex-1 overflow-hidden"
-          style={{ maxWidth: '900px' }}
+          className="relative flex-1 self-stretch overflow-hidden"
+          style={{ maxWidth: '900px', minHeight: '420px' }}
         >
           <Image
             src={event.image}
             alt={event.title}
-            width={1200}
-            height={800}
+            fill
             priority
             quality={85}
-            className="w-full h-auto block"
-            sizes="(max-width: 1920px) 72vw, 720px"
+            className="object-cover object-top"
+            sizes="(max-width: 1920px) 60vw, 720px"
           />
         </div>
       </div>
