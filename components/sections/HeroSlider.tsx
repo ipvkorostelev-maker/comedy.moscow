@@ -124,6 +124,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
                 priority={i === 0}
                 quality={85}
                 className="object-cover object-top"
+                style={{ objectFit: 'cover', objectPosition: 'top center' }}
                 sizes="100vw"
               />
             </div>
@@ -153,9 +154,6 @@ export default function HeroSlider({ events }: HeroSliderProps) {
             <p className="text-cream/50 font-sans text-sm mb-3 leading-relaxed">{event.subtitle}</p>
           )}
           {pills}
-          <p className="text-[14px] leading-[1.65] text-cream/60 mb-5 line-clamp-3">
-            {stripHtml(event.description)}
-          </p>
           <div className="flex flex-col gap-3 mb-3">
             <Link
               href={`/events/${event.slug}`}
@@ -201,6 +199,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
                 priority={i === 0}
                 quality={85}
                 className="object-cover object-top"
+                style={{ objectFit: 'cover', objectPosition: 'top center' }}
                 sizes="57vw"
               />
             </div>
@@ -233,9 +232,6 @@ export default function HeroSlider({ events }: HeroSliderProps) {
             </p>
           )}
           {pills}
-          <p className="text-[15px] leading-[1.65] text-cream/60 mb-5 line-clamp-3">
-            {stripHtml(event.description)}
-          </p>
           {price > 0 && (
             <p className="text-cream/30 text-xs tracking-wide mb-4 font-sans">
               от {formatPrice(price)}
