@@ -123,8 +123,8 @@ export default function HeroSlider({ events }: HeroSliderProps) {
                 fill
                 priority={i === 0}
                 quality={85}
-                className="object-cover object-top"
-                style={{ objectFit: 'cover', objectPosition: 'top center' }}
+                className="object-contain object-top"
+                style={{ objectFit: 'contain', objectPosition: 'top center' }}
                 sizes="100vw"
               />
             </div>
@@ -198,8 +198,8 @@ export default function HeroSlider({ events }: HeroSliderProps) {
                 fill
                 priority={i === 0}
                 quality={85}
-                className="object-cover object-top"
-                style={{ objectFit: 'cover', objectPosition: 'top center' }}
+                className="object-contain object-top"
+                style={{ objectFit: 'contain', objectPosition: 'top center' }}
                 sizes="57vw"
               />
             </div>
@@ -222,7 +222,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
           <h2
             key={event.id}
             className="font-serif font-black text-cream leading-[0.9] tracking-[-0.01em] uppercase mb-5 animate-slide-in"
-            style={{ fontSize: 'clamp(44px, 5.8vw, 90px)' }}
+            style={{ fontSize: 'clamp(36px, 4.6vw, 72px)' }}
           >
             {event.title}
           </h2>
