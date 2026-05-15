@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Event } from '@/lib/types'
-import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
+import { formatDateShort, formatPrice, minEventPrice, stripHtml } from '@/lib/utils'
 import EventBadges from '@/components/ui/EventBadges'
 
 interface HeroSliderProps {
@@ -206,7 +206,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
 
           {/* Description */}
           <p className="text-[15px] leading-[1.65] text-cream/60 max-w-[440px] mb-7 line-clamp-3">
-            {event.description}
+            {stripHtml(event.description)}
           </p>
 
           {/* Price */}

@@ -30,6 +30,10 @@ export function formatPrice(price: number): string {
   return new Intl.NumberFormat('ru-RU').format(price) + '\u00a0₽'
 }
 
+export function stripHtml(html: string): string {
+  return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
 export function minEventPrice(event: {
   tickets: { standard: { price: number }; premium: { price: number }; vip: { price: number } }
 }): number {
