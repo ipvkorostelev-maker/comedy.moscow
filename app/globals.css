@@ -8,6 +8,7 @@
   to   { transform: scale(1.1); }
 }
 
+/* Progress bar for slider auto-advance dots */
 @keyframes progress {
   from { width: 0% }
   to   { width: 100% }
@@ -17,6 +18,17 @@
 @keyframes heroContentIn {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Streaming-style slide transition */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(48px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeOutLeft {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-48px); }
 }
 
 /* Respect user's motion preferences */
@@ -42,23 +54,21 @@
 
   body {
     @apply text-cream font-sans antialiased;
-    background-color: #000000;
+    background-color: #0A0A0A;
     overflow-x: hidden;
   }
 
-  /* Side red glow */
+  /* Side orange glow */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(ellipse 60% 100% at 0% 50%, rgb(232 67 42 / 0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 100% at 100% 50%, rgb(232 67 42 / 0.18) 0%, transparent 70%);
+      radial-gradient(ellipse 60% 100% at 0% 50%, rgb(255 77 0 / 0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 100% at 100% 50%, rgb(255 77 0 / 0.12) 0%, transparent 70%);
     pointer-events: none;
   }
-
-
 
   /* Remove 300ms tap delay on mobile */
   button, a, [role="button"] {
@@ -87,7 +97,7 @@
 
   /* Focus visible — accessibility */
   :focus-visible {
-    outline: 2px solid rgba(232, 67, 42, 0.6);
+    outline: 2px solid rgba(255, 77, 0, 0.6);
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -101,5 +111,13 @@
   /* Hero content stagger — apply to each element, control delay via style */
   .animate-hero-content {
     animation: heroContentIn 0.65s ease both;
+  }
+
+  .animate-slide-in {
+    animation: slideInRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  .animate-fade-out-left {
+    animation: fadeOutLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
 }

@@ -5,16 +5,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Event } from '@/lib/types'
 import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
-import MetaPill from '@/components/ui/MetaPill'
 import EventBadges from '@/components/ui/EventBadges'
 
 interface HeroSliderProps {
   events: Event[]
 }
 
-const INTERVAL = 8_000
+const INTERVAL = 6_000
 
-// Extracted dots component so JSX stays clean
+/* ═══════════════ DOTS ═══════════════ */
 function SliderDots({
   count,
   current,
@@ -27,20 +26,28 @@ function SliderDots({
   interval: number
 }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-3">
       {Array.from({ length: count }).map((_, i) => (
         <button
           key={i}
           onClick={() => goTo(i)}
-          className="relative h-[2px] rounded-full overflow-hidden transition-all duration-300 cursor-pointer"
-          style={{ width: i === current ? 32 : 14 }}
+          className="relative rounded-full overflow-hidden transition-all duration-[400ms] ease-out cursor-pointer"
+          style={{
+            width: i === current ? 28 : 6,
+            height: 6,
+          }}
           aria-label={`Слайд ${i + 1}`}
         >
-          <span className="absolute inset-0 bg-red/30 rounded-full" />
+          {/* base */}
+          <span className="absolute inset-0 rounded-full" style={{ background: i === current ? 'rgba(255,77,0,0.25)' : '#555' }} />
+          {/* active progress bar */}
           {i === current && (
             <span
-              className="absolute inset-y-0 left-0 bg-red rounded-full"
-              style={{ animation: `progress ${interval}ms linear forwards` }}
+              className="absolute inset-y-0 left-0 rounded-full"
+              style={{
+                background: '#FF4D00',
+                animation: `progress ${interval}ms linear forwards`,
+              }}
             />
           )}
         </button>
@@ -49,204 +56,187 @@ function SliderDots({
   )
 }
 
+/* ═══════════════ TAG PILL ═══════════════ */
+function TagPill({ children, accent }: { children: React.ReactNode; accent?: boolean }) {
+  return (
+    <span
+      className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3.5 py-1.5 rounded-md transition-colors"
+      style={{
+        border: accent ? '1px solid rgba(255,184,0,0.35)' : '1px solid rgba(255,255,255,0.15)',
+        color: accent ? '#FFB800' : '#D0D0D0',
+        background: accent ? 'rgba(255,184,0,0.08)' : 'transparent',
+      }}
+    >
+      {children}
+    </span>
+  )
+}
+
+/* ═══════════════ MAIN ═══════════════ */
 export default function HeroSlider({ events }: HeroSliderProps) {
   const [current, setCurrent] = useState(0)
-  const [prev, setPrev] = useState<number | null>(null)
-  const [transitioning, setTransitioning] = useState(false)
+  const [animating, setAnimating] = useState(false)
+  const [paused, setPaused] = useState(false)
 
   const goTo = useCallback(
     (index: number) => {
-      if (transitioning || index === current) return
-      setPrev(current)
-      setTransitioning(true)
+      if (animating || index === current) return
+      setAnimating(true)
       setCurrent(index)
-      setTimeout(() => {
-        setPrev(null)
-        setTransitioning(false)
-      }, 900)
+      setTimeout(() => setAnimating(false), 650)
     },
-    [current, transitioning]
+    [current, animating]
   )
 
+  /* Auto-advance */
   useEffect(() => {
+    if (paused) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const timer = setInterval(() => goTo((current + 1) % events.length), INTERVAL)
     return () => clearInterval(timer)
-  }, [current, events.length, goTo])
+  }, [current, events.length, goTo, paused])
 
   const event = events[current] ?? events[0]
   if (!event) return null
   const price = minEventPrice(event)
 
-  // Shared image layers (reused in both mobile and desktop)
-  const imageStack = (sizes: string) =>
-    events.map((e, i) => (
-      <div
-        key={e.id}
-        className="absolute inset-0 transition-opacity ease-in-out"
-        style={{
-          transitionDuration: '900ms',
-          opacity: i === current ? 1 : 0,
-          zIndex: i === current ? 1 : i === prev ? 2 : 0,
-        }}
-      >
-        {/* Inner div restarts Ken Burns on each slide activation */}
-        <div
-          key={i === current ? `kb-${current}` : `idle-${i}`}
-          className="absolute inset-0"
-          style={
-            i === current
-              ? { animation: `kenBurns ${INTERVAL}ms ease-out forwards` }
-              : undefined
-          }
-        >
-          <Image
-            src={e.image}
-            alt={e.title}
-            fill
-            priority={i === 0}
-              quality={85}
-              className="object-cover object-top"
-              sizes={sizes}
-          />
-        </div>
-      </div>
-    ))
-
-  // Staggered content — each element keyed on event.id so animations replay on slide change
-  const badges = (
-    <div key={`badges-${event.id}`} className="animate-hero-content" style={{ animationDelay: '0ms' }}>
-      <EventBadges event={event} className="flex flex-wrap gap-2 mb-3" />
-    </div>
-  )
-
-  const title = (extra?: string) => (
-    <p
-      key={`title-${event.id}`}
-      className={`font-serif font-black text-cream leading-[1.05] tracking-[-0.02em] text-[clamp(28px,4.5vw,64px)] mb-3 text-balance animate-hero-content ${extra ?? ''}`}
-      style={{ animationDelay: '70ms' }}
+  /* ── BG stack ── */
+  const bgStack = events.map((e, i) => (
+    <div
+      key={e.id}
+      className="absolute inset-0 transition-opacity ease-in-out"
+      style={{
+        transitionDuration: '700ms',
+        opacity: i === current ? 1 : 0,
+        zIndex: i === current ? 1 : 0,
+      }}
     >
-      {event.title}
-    </p>
-  )
-
-  const subtitle = (extra?: string) =>
-    event.subtitle ? (
-      <p
-        key={`sub-${event.id}`}
-        className={`text-cream/55 font-sans text-[clamp(13px,1.3vw,17px)] mt-1 mb-5 leading-relaxed animate-hero-content ${extra ?? ''}`}
-        style={{ animationDelay: '130ms' }}
+      <div
+        className="absolute inset-0"
+        style={i === current ? { animation: `kenBurns ${INTERVAL}ms ease-out forwards` } : undefined}
       >
-        {event.subtitle}
-      </p>
-    ) : null
+        <Image
+          src={e.image}
+          alt={e.title}
+          fill
+          priority={i === 0}
+          quality={85}
+          className="object-cover object-top"
+          sizes="100vw"
+        />
+      </div>
+    </div>
+  ))
+
+  /* ── Content ── */
+  const tags = [
+    ...event.tags.slice(0, 2).map((t) => t),
+    ...(event.rating > 0 ? [`★ ${event.rating}`] : []),
+  ]
 
   const pills = (
-    <div
-      key={`pills-${event.id}`}
-      className="flex flex-wrap gap-2.5 items-center mt-2.5 mb-4 animate-hero-content"
-      style={{ animationDelay: '190ms' }}
-    >
-      <MetaPill type="date" variant="glass" className="text-sm px-3.5 py-1.5 font-semibold">
-        {formatDateShort(event.date)}
-      </MetaPill>
-      <MetaPill type="time" variant="glass" className="text-sm px-3.5 py-1.5 font-semibold">
-        {event.time}
-      </MetaPill>
-      {(event.venueName ?? event.city) && (
-        <MetaPill type="venue" variant="glass" className="text-sm px-3.5 py-1.5">
-          {event.venueName ?? event.city}
-        </MetaPill>
-      )}
-    </div>
-  )
-
-  // Price — small, understated. No longer the focal point.
-  const priceEl = price > 0 ? (
-    <p
-      key={`price-${event.id}`}
-      className="text-cream/40 text-xs tracking-wide mb-4 animate-hero-content"
-      style={{ animationDelay: '230ms' }}
-    >
-      от {formatPrice(price)}
-    </p>
-  ) : null
-
-  const buttons = (
-    <div
-      key={`btns-${event.id}`}
-      className="animate-hero-content"
-      style={{ animationDelay: '280ms' }}
-    >
-      {/* Кнопки */}
-      <div className="flex flex-wrap items-center gap-3">
-        <Link
-          href={`/events/${event.slug}`}
-          className="inline-flex items-center gap-2 bg-red hover:bg-red-hover text-white text-sm font-bold px-7 py-3.5 rounded-xl transition-all shadow-red"
-        >
-          Купить билет →
-        </Link>
-        <Link
-          href={`/events/${event.slug}`}
-          className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-5 py-3.5 rounded-xl hover:bg-white/15 transition-all"
-        >
-          Подробнее
-        </Link>
-        {/* Десктоп: dots рядом с кнопками */}
-        {events.length > 1 && (
-          <span className="hidden lg:flex">
-            <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
-          </span>
-        )}
-      </div>
+    <div className="flex flex-wrap gap-2.5 items-center mb-5">
+      <TagPill>📅 {formatDateShort(event.date)}</TagPill>
+      <TagPill>⏱ {event.duration}</TagPill>
+      {event.rating > 0 && <TagPill accent>★ {event.rating}</TagPill>}
+      {event.venueName && <TagPill>📍 {event.venueName}</TagPill>}
     </div>
   )
 
   return (
-    <section className="lg:pt-5 pb-8">
-      {/* ── MOBILE ── */}
-      <div className="lg:hidden">
-        <div className="relative w-full aspect-[3/2] overflow-hidden rounded-b-2xl">
-          <div className="absolute inset-0">{imageStack('100vw')}</div>
-          {events.length > 1 && (
-            <div className="absolute top-4 left-0 right-0 z-20 flex justify-center">
-              <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
-            </div>
-          )}
-        </div>
+    <section
+      className="relative w-full overflow-hidden"
+      style={{ height: 'min(100vh, 700px)', minHeight: '500px' }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Background images */}
+      {bgStack}
 
-        <div className="px-5 pt-5 pb-4">
-          {badges}
-          {title()}
-          {subtitle('max-w-[95%]')}
-          {pills}
-          {priceEl}
-          {buttons}
-        </div>
-      </div>
-
-      {/* ── DESKTOP ── */}
+      {/* Left gradient overlay */}
       <div
-        className="hidden lg:block relative overflow-hidden"
-        style={{ height: 'min(42vw, 540px)', minHeight: '385px' }}
-      >
-        {/* Image panel — right 60% */}
-        <div
-          className="absolute inset-y-0 left-[40%] right-0 overflow-hidden rounded-l-2xl"
-        >
-          {imageStack('72vw')}
-        </div>
+        className="absolute inset-0 z-[2] pointer-events-none"
+        style={{
+          background:
+            'linear-gradient(to right, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.7) 40%, rgba(10,10,10,0.0) 100%)',
+        }}
+      />
 
-        {/* Content — left 40% */}
-        <div className="relative z-20 h-full flex flex-col justify-center px-12 lg:px-16 max-w-[40%]">
-          {badges}
-          {title()}
-          {subtitle('max-w-[90%]')}
+      {/* Bottom fade */}
+      <div
+        className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none"
+        style={{ height: 120, background: 'linear-gradient(to top, rgba(10,10,10,1) 0%, transparent 100%)' }}
+      />
+
+      {/* Content layer */}
+      <div className="relative z-[3] h-full flex flex-col justify-center px-6 lg:px-20">
+        <div
+          key={event.id}
+          className="max-w-xl animate-slide-in"
+        >
+          {/* Label */}
+          <p className="font-sans text-[11px] lg:text-[13px] uppercase tracking-[0.25em] text-cream/45 font-medium mb-4">
+            Ближайшее шоу
+          </p>
+
+          {/* Badges from existing system */}
+          <div className="mb-3">
+            <EventBadges event={event} className="flex flex-wrap gap-2" />
+          </div>
+
+          {/* Title */}
+          <h2 className="font-serif font-black text-cream leading-[0.92] tracking-[-0.01em] text-[clamp(36px,5.5vw,80px)] mb-4 text-balance uppercase">
+            {event.title}
+          </h2>
+
+          {/* Subtitle */}
+          {event.subtitle && (
+            <p className="text-cream/50 font-sans text-[clamp(13px,1.2vw,16px)] mt-2 mb-4 leading-relaxed max-w-lg">
+              {event.subtitle}
+            </p>
+          )}
+
+          {/* Tag pills */}
           {pills}
-          {priceEl}
-          {buttons}
+
+          {/* Description */}
+          <p className="text-[15px] leading-[1.65] text-cream/60 max-w-[440px] mb-7 line-clamp-3">
+            {event.description}
+          </p>
+
+          {/* Price */}
+          {price > 0 && (
+            <p className="text-cream/30 text-xs tracking-wide mb-5 font-sans">
+              от {formatPrice(price)}
+            </p>
+          )}
+
+          {/* Buttons */}
+          <div className="flex flex-wrap gap-3.5 mb-10">
+            <Link
+              href={`/events/${event.slug}`}
+              className="inline-flex items-center gap-2 bg-red hover:bg-red-hover text-white text-[15px] font-semibold px-8 py-3.5 rounded-lg transition-all duration-200 hover:brightness-110 hover:scale-[1.02]"
+              style={{ boxShadow: '0 4px 24px rgba(255,77,0,0.30)' }}
+            >
+              ▶ Купить билет
+            </Link>
+            <Link
+              href={`/events/${event.slug}`}
+              className="inline-flex items-center gap-2 bg-transparent text-white text-[15px] font-medium px-7 py-3.5 rounded-lg transition-all duration-200 hover:bg-white/10"
+              style={{ border: '1.5px solid rgba(255,255,255,0.35)' }}
+            >
+              + Подробнее
+            </Link>
+          </div>
         </div>
       </div>
+
+      {/* Slider dots — bottom left */}
+      {events.length > 1 && (
+        <div className="absolute bottom-8 left-6 lg:left-20 z-[5]">
+          <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
+        </div>
+      )}
     </section>
   )
 }

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>comedy.moscow — Стендап в Москве</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════ RESET ═══════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',sans-serif;background:#0A0A0A;color:#FFF;overflow-x:hidden}
+
+/* ═══════════════════════ VARIABLES ═══════════════════════ */
+:root{
+  --bg:#0A0A0A;
+  --surface:#141414;
+  --accent:#FF4D00;
+  --gold:#FFB800;
+  --text:#FFF;
+  --muted:#A0A0A0;
+  --desc:#C0C0C0;
+}
+
+/* ═══════════════════════ NAVBAR ═══════════════════════ */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:70px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 80px;transition:background .35s,backdrop-filter .35s,box-shadow .35s;
+}
+.navbar.scrolled{
+  background:rgba(10,10,10,0.95);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.06);
+}
+.nav-left{display:flex;align-items:center;gap:48px}
+.logo{
+  font-family:'Bebas Neue',Impact,sans-serif;
+  font-size:22px;letter-spacing:1px;color:var(--text);text-decoration:none;
+  display:flex;align-items:baseline;gap:0;
+  user-select:none;
+}
+.logo .dot{color:var(--accent)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{
+  text-decoration:none;color:var(--muted);font-size:13px;font-weight:500;
+  letter-spacing:0.3px;transition:color .2s;position:relative;padding-bottom:4px;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-links a.active::after{
+  content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;
+  background:var(--accent);border-radius:2px;
+}
+.nav-right{display:flex;align-items:center;gap:18px}
+.nav-search{
+  background:none;border:none;color:var(--text);font-size:18px;cursor:pointer;
+  padding:6px;line-height:1;opacity:0.7;transition:opacity .2s;
+}
+.nav-search:hover{opacity:1}
+.btn-nav-cta{
+  background:var(--accent);color:#FFF;border:none;border-radius:9999px;
+  padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;
+  transition:filter .2s,transform .2s;font-family:'Inter',sans-serif;
+}
+.btn-nav-cta:hover{filter:brightness(1.15);transform:scale(1.03)}
+/* hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* ═══════════════════════ HERO ═══════════════════════ */
+.hero{
+  position:relative;width:100%;height:100vh;min-height:680px;
+  overflow:hidden;display:flex;align-items:center;
+}
+.hero-bg{
+  position:absolute;inset:0;transition:opacity .6s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,rgba(10,10,10,0.95) 0%,rgba(10,10,10,0.7) 40%,rgba(10,10,10,0.0) 100%);
+  z-index:2;pointer-events:none;
+}
+/* also a bottom gradient for smooth transition */
+.hero-overlay-bottom{
+  position:absolute;bottom:0;left:0;right:0;height:120px;
+  background:linear-gradient(to top,rgba(10,10,10,1) 0%,transparent 100%);
+  z-index:2;pointer-events:none;
+}
+.hero-content{
+  position:relative;z-index:3;padding-left:80px;max-width:700px;
+  transition:transform .6s cubic-bezier(0.25,0.46,0.45,0.94),opacity .6s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.hero-content.slide-out{
+  transform:translateX(-48px);opacity:0;
+}
+.hero-label{
+  font-family:'Inter',sans-serif;font-size:13px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:16px;
+}
+.hero-title{
+  font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(48px,7vw,96px);
+  line-height:0.9;color:var(--text);letter-spacing:2px;text-transform:uppercase;
+  white-space:pre-line;margin-bottom:20px;
+}
+.hero-tags{
+  display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;
+}
+.hero-tag{
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:500;
+  padding:6px 14px;border:1px solid rgba(255,255,255,0.2);border-radius:6px;
+  color:#D0D0D0;display:flex;align-items:center;gap:5px;
+  white-space:nowrap;
+}
+.hero-tag.rating{color:var(--gold);border-color:rgba(255,184,0,0.35)}
+.hero-tag.rating .star{color:var(--gold)}
+.hero-desc{
+  font-size:16px;line-height:1.6;color:var(--desc);max-width:480px;margin-bottom:28px;
+}
+.hero-buttons{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{
+  background:var(--accent);color:#FFF;border:none;border-radius:6px;
+  padding:14px 32px;font-size:15px;font-weight:600;cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  transition:filter .2s,transform .2s;font-family:'Inter',sans-serif;
+}
+.btn-primary:hover{filter:brightness(1.15);transform:scale(1.02)}
+.btn-secondary{
+  background:transparent;color:#FFF;
+  border:1.5px solid rgba(255,255,255,0.4);border-radius:6px;
+  padding:14px 28px;font-size:15px;font-weight:500;cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  transition:background .2s;font-family:'Inter',sans-serif;
+}
+.btn-secondary:hover{background:rgba(255,255,255,0.1)}
+
+/* ═══════════════════════ SLIDER DOTS ═══════════════════════ */
+.slider-dots{
+  position:absolute;bottom:40px;left:80px;z-index:5;
+  display:flex;align-items:center;gap:10px;
+}
+.slider-dot{
+  height:6px;border-radius:3px;background:#555;cursor:pointer;
+  transition:all .35s cubic-bezier(0.25,0.46,0.45,0.94);
+  border:none;padding:0;
+}
+.slider-dot.active{width:28px;background:var(--accent)}
+.slider-dot:not(.active){width:6px}
+.slider-dot:hover:not(.active){background:#888}
+
+/* ═══════════════════════ UPCOMING STRIP ═══════════════════════ */
+.upcoming-strip{
+  background:var(--surface);height:70px;display:flex;align-items:center;
+  padding:0 80px;gap:24px;overflow-x:auto;
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+.upcoming-strip::-webkit-scrollbar{height:0}
+.upcoming-label{
+  font-family:'Inter',sans-serif;font-size:11px;text-transform:uppercase;
+  letter-spacing:2px;color:var(--muted);white-space:nowrap;
+  flex-shrink:0;
+}
+.upcoming-card{
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
+  padding:8px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:8px;
+  transition:border-color .2s;white-space:nowrap;
+}
+.upcoming-card:hover{border-color:rgba(255,255,255,0.2)}
+.upcoming-date{font-weight:700;font-size:13px;color:var(--accent)}
+.upcoming-name{font-size:13px;color:var(--text)}
+.upcoming-link{font-size:12px;color:var(--muted);margin-left:4px;text-decoration:none;transition:color .2s}
+.upcoming-link:hover{color:var(--text)}
+
+/* ═══════════════════════ MOBILE MENU ═══════════════════════ */
+.mobile-menu{
+  position:fixed;inset:0;z-index:99;background:rgba(10,10,10,0.97);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  display:none;flex-direction:column;justify-content:center;align-items:center;
+  gap:36px;opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.mobile-menu.open{display:flex;opacity:1;pointer-events:auto}
+.mobile-menu a{
+  font-family:'Bebas Neue',Impact,sans-serif;font-size:36px;color:var(--text);
+  text-decoration:none;letter-spacing:2px;text-transform:uppercase;
+  transition:color .2s;
+}
+.mobile-menu a:hover{color:var(--accent)}
+
+/* ═══════════════════════ RESPONSIVE ═══════════════════════ */
+@media(max-width:1024px){
+  .navbar{padding:0 48px}
+  .nav-links{gap:20px}
+  .hero-content{padding-left:48px}
+  .slider-dots{left:48px}
+  .upcoming-strip{padding:0 48px}
+}
+@media(max-width:768px){
+  .navbar{padding:0 24px}
+  .nav-links{display:none}
+  .nav-search{display:none}
+  .btn-nav-cta{display:none}
+  .hamburger{display:flex}
+  .hero-content{padding:0 24px;max-width:100%}
+  .hero-title{font-size:clamp(40px,10vw,52px)}
+  .hero-desc{font-size:14px;max-width:100%}
+  .hero-buttons{flex-direction:column}
+  .btn-primary,.btn-secondary{width:100%;justify-content:center;padding:16px 24px}
+  .slider-dots{bottom:24px;left:24px}
+  .upcoming-strip{padding:0 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<header class="navbar" id="navbar">
+  <div class="nav-left">
+    <a href="#" class="logo">COMEDY<span class="dot">.</span>MOSCOW</a>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Афиша</a></li>
+      <li><a href="#">Артисты</a></li>
+      <li><a href="#">Клуб</a></li>
+      <li><a href="#">О нас</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="nav-search" aria-label="Поиск">🔍</button>
+    <button class="btn-nav-cta">Купить билет</button>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Меню" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ═══════════════ MOBILE MENU ═══════════════ -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#">Афиша</a>
+  <a href="#">Артисты</a>
+  <a href="#">Клуб</a>
+  <a href="#">О нас</a>
+</div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-overlay-bottom"></div>
+
+  <div class="hero-content" id="heroContent">
+    <div class="hero-label" id="heroLabel"></div>
+    <h1 class="hero-title" id="heroTitle"></h1>
+    <div class="hero-tags" id="heroTags"></div>
+    <p class="hero-desc" id="heroDesc"></p>
+    <div class="hero-buttons">
+      <button class="btn-primary">▶  КУПИТЬ БИЛЕТ</button>
+      <button class="btn-secondary">+  ПОДРОБНЕЕ</button>
+    </div>
+    <div style="margin-top:18px">
+      <a href="/offer" style="font-size:11px;color:rgba(255,255,255,0.25);text-decoration:none;">Нажимая «Купить билет», вы принимаете условия оферты</a>
+    </div>
+  </div>
+
+  <div class="slider-dots" id="sliderDots"></div>
+</section>
+
+<!-- ═══════════════ UPCOMING STRIP ═══════════════ -->
+<div class="upcoming-strip">
+  <span class="upcoming-label">СКОРО В COMEDY</span>
+  <!-- filled by JS -->
+  <div id="upcomingCards" style="display:flex;gap:12px;align-items:center"></div>
+</div>
+
+<script>
+/* ═══════════════ DATA ═══════════════ */
+const shows = [
+  {
+    /* REPLACE: bg = "url('ivan-ivanov-hero.jpg') center/cover no-repeat" */
+    title: "ИВАН ИВАНОВ:\nНЕ ВСЁ ТАК ПЛОХО",
+    label: "СПЕЦИАЛЬНОЕ ШОУ ЭТОЙ НЕДЕЛИ",
+    tags: ["🎭 Стендап", "📅 22 мая", "⏱ 1ч 30мин", "★ 4.9"],
+    desc: "Новый сольный концерт. 90 минут острых наблюдений о жизни в большом городе. Говорим о том, о чём все думают, но боятся сказать вслух.",
+    bg: "linear-gradient(135deg, #1a0a00 0%, #2d1200 50%, #0a0a0a 100%)"
+  },
+  {
+    /* REPLACE: bg = "url('comedy-night-hero.jpg') center/cover no-repeat" */
+    title: "COMEDY NIGHT:\nВЕЛИКАЯ ПЯТНИЦА",
+    label: "FEATURED ОРИГИНАЛЬНОЕ ШОУ",
+    tags: ["🎤 Сборник", "📅 23 мая", "⏱ 2ч", "★ 4.7"],
+    desc: "Пятеро лучших комиков клуба на одной сцене. Ни одного скучного момента. Только проверенный материал и живая атмосфера.",
+    bg: "linear-gradient(135deg, #000d1a 0%, #001533 50%, #0a0a0a 100%)"
+  },
+  {
+    /* REPLACE: bg = "url('nastya-drobina-hero.jpg') center/cover no-repeat" */
+    title: "НАСТЯ ДРОБИНА:\nПРОСТО ПОГОВОРИМ",
+    label: "НОВИНКА ЭТОГО МЕСЯЦА",
+    tags: ["🎭 Стендап", "📅 28 мая", "⏱ 1ч 15мин", "★ 4.8"],
+    desc: "Откровенный разговор о том, каково это — быть молодой женщиной в 2025 году. Смело, честно и очень смешно.",
+    bg: "linear-gradient(135deg, #0d001a 0%, #1a0033 50%, #0a0a0a 100%)"
+  },
+  {
+    /* REPLACE: bg = "url('open-mic-hero.jpg') center/cover no-repeat" */
+    title: "ОТКРЫТЫЙ МИК:\nНОВЫЕ ГОЛОСА",
+    label: "КАЖДЫЙ ВТОРНИК",
+    tags: ["🌟 Новички", "📅 Каждый вт", "⏱ 2ч+", "★ 4.5"],
+    desc: "Площадка для молодых комиков. Живая атмосфера, неожиданные открытия, настоящий риск. Зрители голосуют за лучшего.",
+    bg: "linear-gradient(135deg, #0a1a00 0%, #122600 50%, #0a0a0a 100%)"
+  }
+];
+
+/* ═══════════════ STATE ═══════════════ */
+let current = 0;
+let prev = null;
+let timer = null;
+const INTERVAL = 6000;
+let paused = false;
+
+/* ═══════════════ DOM REFS ═══════════════ */
+const heroBg = document.getElementById('heroBg');
+const heroContent = document.getElementById('heroContent');
+const heroLabel = document.getElementById('heroLabel');
+const heroTitle = document.getElementById('heroTitle');
+const heroTags = document.getElementById('heroTags');
+const heroDesc = document.getElementById('heroDesc');
+const sliderDots = document.getElementById('sliderDots');
+const upcomingCards = document.getElementById('upcomingCards');
+const navbar = document.getElementById('navbar');
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const hero = document.getElementById('hero');
+
+/* ═══════════════ BUILD DOTS ═══════════════ */
+shows.forEach((_, i) => {
+  const dot = document.createElement('button');
+  dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+  dot.setAttribute('aria-label', 'Слайд ' + (i + 1));
+  dot.addEventListener('click', () => goTo(i, true));
+  sliderDots.appendChild(dot);
+});
+
+/* ═══════════════ BUILD UPCOMING STRIP ═══════════════ */
+shows.forEach((s) => {
+  const card = document.createElement('div');
+  card.className = 'upcoming-card';
+  // Extract date from tags or fallback
+  const dateTag = s.tags.find(t => t.startsWith('📅'))?.replace('📅 ','') || '';
+  card.innerHTML = `
+    <span class="upcoming-date">${dateTag.toUpperCase()}</span>
+    <span class="upcoming-name">${s.title.split('\n')[0]}</span>
+    <a href="#" class="upcoming-link">Билеты →</a>
+  `;
+  upcomingCards.appendChild(card);
+});
+
+/* ═══════════════ RENDER SLIDE ═══════════════ */
+function renderSlide(index, direction) {
+  const s = shows[index];
+
+  // background
+  heroBg.style.background = s.bg;
+  heroBg.style.backgroundSize = 'cover';
+  heroBg.style.backgroundPosition = 'center';
+
+  // content transition
+  heroContent.classList.add('slide-out');
+  setTimeout(() => {
+    heroLabel.textContent = s.label;
+    heroTitle.innerHTML = s.title.replace(/\n/g, '<br>');
+    heroDesc.textContent = s.desc;
+
+    // tags
+    heroTags.innerHTML = s.tags.map((t, i) => {
+      const isRating = t.startsWith('★');
+      return `<span class="hero-tag${isRating ? ' rating' : ''}">${t}</span>`;
+    }).join('');
+
+    heroContent.classList.remove('slide-out');
+  }, 300);
+
+  // dots
+  document.querySelectorAll('.slider-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === index);
+  });
+}
+
+function goTo(index, instant) {
+  if (index === current) return;
+  prev = current;
+  current = index;
+  renderSlide(index);
+  resetTimer();
+}
+
+function nextSlide() {
+  goTo((current + 1) % shows.length);
+}
+
+function resetTimer() {
+  clearTimeout(timer);
+  if (!paused) {
+    timer = setTimeout(nextSlide, INTERVAL);
+  }
+}
+
+/* ═══════════════ INIT ═══════════════ */
+renderSlide(0);
+timer = setTimeout(nextSlide, INTERVAL);
+
+/* ═══════════════ PAUSE ON HOVER ═══════════════ */
+hero.addEventListener('mouseenter', () => { paused = true; clearTimeout(timer); });
+hero.addEventListener('mouseleave', () => { paused = false; resetTimer(); });
+
+/* ═══════════════ NAVBAR SCROLL ═══════════════ */
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 30);
+});
+
+/* ═══════════════ HAMBURGER ═══════════════ */
+hamburger.addEventListener('click', () => {
+  const open = hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open', open);
+  hamburger.setAttribute('aria-expanded', open);
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  });
+});
+</script>
+
+</body>
+</html>

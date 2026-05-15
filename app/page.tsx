@@ -44,14 +44,37 @@ export default async function HomePage({ searchParams }: Props) {
 
   return (
     <>
-      <div className="px-6 lg:px-20 pt-24 lg:pt-28 pb-10 lg:pb-14">
-        <h1 className="font-serif font-black text-3xl lg:text-5xl text-cream leading-[1.05] tracking-[-0.02em] max-w-2xl">
+      {/* Hero slider with 4 nearest upcoming concerts */}
+      <HeroSlider events={allEvents.slice(0, 4)} />
+
+      {/* SEO h1 — visible but subtle, overlays hero bottom */}
+      <div className="px-6 lg:px-20 -mt-16 lg:-mt-20 relative z-[4] pb-6">
+        <h1 className="font-sans text-[11px] lg:text-xs text-cream/35 uppercase tracking-[0.22em] font-medium">
           Стендап-концерты в&nbsp;Москве
         </h1>
       </div>
 
-      {/* 4 nearest upcoming concerts in hero */}
-      <HeroSlider events={allEvents.slice(0, 4)} />
+      {/* ── UPCOMING STRIP ── */}
+      <div className="bg-surface border-y border-white/5">
+        <div className="flex items-center gap-6 px-6 lg:px-20 h-[56px] overflow-x-auto whitespace-nowrap" style={{ scrollbarWidth: 'none' }}>
+          <span className="text-[10px] lg:text-[11px] text-cream/25 uppercase tracking-[0.15em] font-medium flex-shrink-0">
+            Скоро в&nbsp;Comedy
+          </span>
+          {allEvents.slice(0, 5).map((e) => (
+            <a
+              key={e.id}
+              href={`/events/${e.slug}`}
+              className="flex items-center gap-3 flex-shrink-0 px-3.5 py-1.5 rounded-lg border border-white/5 hover:border-white/15 transition-colors"
+            >
+              <span className="text-[12px] font-bold text-red whitespace-nowrap">
+                {new Date(e.date).toLocaleDateString('ru', { day: 'numeric', month: 'short' }).toUpperCase().replace('.', '')}
+              </span>
+              <span className="text-[12px] text-cream/60 whitespace-nowrap">{e.title.split('.')[0]}</span>
+              <span className="text-[11px] text-cream/25 whitespace-nowrap">Билеты →</span>
+            </a>
+          ))}
+        </div>
+      </div>
 
       {/* ── SCHEDULE ── */}
       <section className="pt-10 pb-4">

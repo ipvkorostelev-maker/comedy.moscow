@@ -106,9 +106,9 @@ export default function Nav() {
                     active ? 'text-cream' : 'text-cream/45 hover:text-cream/80'
                   )}
                   style={active ? {
-                    background: 'rgba(232,67,42,0.22)',
-                    boxShadow: '0 2px 12px rgba(232,67,42,0.22), inset 0 1px 0 rgba(255,255,255,0.10)',
-                    border: '1px solid rgba(232,67,42,0.28)',
+                    background: 'rgba(255,77,0,0.22)',
+                    boxShadow: '0 2px 12px rgba(255,77,0,0.22), inset 0 1px 0 rgba(255,255,255,0.10)',
+                    border: '1px solid rgba(255,77,0,0.28)',
                   } : undefined}
                 >
                   {icon}
@@ -147,7 +147,7 @@ export default function Nav() {
             className="pointer-events-auto flex items-center justify-center w-11 h-11 rounded-full backdrop-blur-xl border border-white/10 transition-all duration-200"
             style={{
               background: menuOpen
-                ? 'rgba(232,67,42,0.35)'
+                ? 'rgba(255,77,0,0.35)'
                 : 'rgba(14,14,18,0.80)',
               boxShadow: '0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)',
             }}
@@ -182,8 +182,8 @@ export default function Nav() {
                   active ? 'text-cream' : 'text-cream/50 hover:text-cream'
                 )}
                 style={active ? {
-                  background: 'rgba(232,67,42,0.18)',
-                  border: '1px solid rgba(232,67,42,0.25)',
+                  background: 'rgba(255,77,0,0.18)',
+                  border: '1px solid rgba(255,77,0,0.25)',
                 } : {
                   background: 'rgba(255,255,255,0.04)',
                   border: '1px solid rgba(255,255,255,0.07)',
