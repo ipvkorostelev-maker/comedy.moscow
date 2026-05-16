@@ -74,7 +74,7 @@ function TagPill({ children, variant }: { children: React.ReactNode; variant: 'd
 }
 
 /* ═══════════════ IMAGE SLIDE (memo'd to avoid re-renders of invisible slides) ═══════════════ */
-function SlideImage({ event, isPriority }: { event: Event; isPriority: boolean }) {
+function SlideImage({ event, isPriority, cover }: { event: Event; isPriority: boolean; cover?: boolean }) {
   return (
     <Image
       src={event.image}
@@ -82,9 +82,12 @@ function SlideImage({ event, isPriority }: { event: Event; isPriority: boolean }
       fill
       priority={isPriority}
       quality={85}
-      className="object-contain object-top"
-      style={{ objectFit: 'contain', objectPosition: 'top center' }}
-      sizes="(max-width: 1024px) 100vw, 57vw"
+      className={cover ? 'object-cover object-top' : 'object-contain object-top'}
+      style={cover
+        ? { objectFit: 'cover', objectPosition: 'top center' }
+        : { objectFit: 'contain', objectPosition: 'top center' }
+      }
+      sizes={cover ? '55vw' : '(max-width: 1024px) 100vw, 57vw'}
     />
   )
 }
@@ -211,7 +214,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       <div className="hidden lg:block" style={{ height: 'min(100vh, 680px)', minHeight: '540px' }}>
         {/* Photo — right side, absolute */}
         <div
-          className="absolute top-8 bottom-8 right-8 xl:right-14 overflow-hidden rounded-xl bg-[#141414]"
+          className="absolute top-8 bottom-8 right-8 xl:right-14 overflow-hidden rounded-xl"
           style={{ left: '45%' }}
         >
           {events.map((e, i) => {
@@ -222,7 +225,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
                 className="absolute inset-0 transition-opacity ease-in-out duration-700"
                 style={{ opacity: i === current ? 1 : 0, zIndex: i === current ? 1 : 0 }}
               >
-                <SlideImage event={e} isPriority={i === current} />
+                <SlideImage event={e} isPriority={i === current} cover />
               </div>
             )
           })}
@@ -244,7 +247,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
           <h2
             key={event.id}
             className="font-serif font-black text-cream leading-[1.05] tracking-[-0.01em] uppercase mb-5 animate-slide-in"
-            style={{ fontSize: 'clamp(36px, 4.6vw, 72px)' }}
+            style={{ fontSize: 'clamp(36px, 3.6vw, 72px)' }}
           >
             {event.title}
           </h2>

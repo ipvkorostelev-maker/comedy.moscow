@@ -18,6 +18,10 @@ ssh $SERVER "
   set -e
   cd $REMOTE_DIR
 
+  # Гарантированно снимаем флаг обслуживания при любом исходе
+  cleanup() { rm -f /tmp/comedy-maintenance; echo 'Режим обслуживания выключен'; }
+  trap cleanup EXIT
+
   git pull origin $BRANCH
 
   npm install --prefer-offline
@@ -45,10 +49,6 @@ ssh $SERVER "
     fi
     sleep 2
   done
-
-  # Выключаем режим обслуживания
-  rm -f /tmp/comedy-maintenance
-  echo 'Режим обслуживания выключен'
 "
 
 # 3. IndexNow — notify Yandex & Bing about all pages
