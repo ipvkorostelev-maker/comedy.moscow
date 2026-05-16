@@ -65,7 +65,7 @@ export default function Nav() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 pt-3 px-4 lg:px-20 pointer-events-none">
 
-        {/* ── DESKTOP: left-aligned pill ── */}
+        {/* ── DESKTOP: minimal pill ── */}
         <nav className="hidden md:flex justify-start" aria-label="Основное меню">
           <div
             className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full backdrop-blur-xl border border-white/10"
@@ -74,27 +74,22 @@ export default function Nav() {
               boxShadow: '0 4px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09)',
             }}
           >
-            {/* Logo inside pill */}
+            {/* Logo — icon only */}
             <Link
               href="/"
-              className="flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 hover:bg-white/5"
+              className="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 hover:bg-white/5 flex-shrink-0"
+              aria-label="Главная"
             >
-              <div className="relative w-6 h-6 flex-shrink-0">
-                <Image src="/logo.png" alt="Logo" fill className="object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
-              </div>
-              <div className="leading-none">
-                <div className="font-serif font-black text-cream text-[10px] uppercase tracking-[0.08em] leading-[1.2]">
-                  Стендап<br />в Москве
-                </div>
-                <div className="text-[8px] text-cream/35 mt-0.5 tracking-wider">comedy.moscow</div>
+              <div className="relative w-5 h-5">
+                <Image src="/logo.png" alt="Comedy Moscow" fill className="object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
               </div>
             </Link>
 
             {/* Divider */}
-            <span className="w-px h-6 bg-white/10 mx-1" />
+            <span className="w-px h-5 bg-white/10 mx-0.5" />
 
-            {/* Nav links */}
-            {LINKS.map(({ href, label, icon }) => {
+            {/* Nav links — text only */}
+            {LINKS.map(({ href, label }) => {
               const active = pathname.startsWith(href)
               return (
                 <Link
@@ -102,8 +97,8 @@ export default function Nav() {
                   href={href}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'flex flex-col items-center gap-1 px-5 py-2 rounded-full text-[11px] font-medium tracking-wide transition-all duration-200',
-                    active ? 'text-cream' : 'text-cream/45 hover:text-cream/80'
+                    'px-4 py-2 rounded-full text-[12px] font-medium tracking-wide transition-all duration-200',
+                    active ? 'text-cream' : 'text-cream/50 hover:text-cream/85'
                   )}
                   style={active ? {
                     background: 'rgba(255,77,0,0.22)',
@@ -111,7 +106,6 @@ export default function Nav() {
                     border: '1px solid rgba(255,77,0,0.28)',
                   } : undefined}
                 >
-                  {icon}
                   {label}
                 </Link>
               )

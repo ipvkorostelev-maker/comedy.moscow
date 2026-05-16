@@ -188,7 +188,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
               className="inline-flex items-center justify-center gap-2 bg-red text-white text-[15px] font-semibold px-8 py-3.5 rounded-lg transition-all duration-200"
               style={{ boxShadow: '0 4px 24px rgba(255,77,0,0.30)' }}
             >
-              🎟 Купить билет
+              Купить билет
             </Link>
             <Link
               href={`/events/${event.slug}`}
@@ -265,7 +265,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
               className="inline-flex items-center gap-2 bg-red hover:bg-red-hover text-white text-[15px] font-semibold px-8 py-3.5 rounded-lg transition-all duration-200 hover:brightness-110 hover:scale-[1.02]"
               style={{ boxShadow: '0 4px 24px rgba(255,77,0,0.30)' }}
             >
-              🎟 Купить билет
+              Купить билет
             </Link>
             <Link
               href={`/events/${event.slug}`}
