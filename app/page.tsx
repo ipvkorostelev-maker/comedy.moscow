@@ -52,7 +52,7 @@ export default async function HomePage({ searchParams }: Props) {
       <div className="bg-surface border-y border-white/5">
         <div className="flex items-center gap-6 px-6 lg:px-20 h-[56px] overflow-x-auto whitespace-nowrap" style={{ scrollbarWidth: 'none' }}>
           <span className="text-[10px] lg:text-[11px] text-cream/25 uppercase tracking-[0.15em] font-medium flex-shrink-0">
-            Скоро в&nbsp;Comedy
+            Ближайшие концерты
           </span>
           {allEvents.slice(0, 5).map((e) => (
             <a

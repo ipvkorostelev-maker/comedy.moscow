@@ -49,14 +49,23 @@ function SliderDots({
 }
 
 /* ═══════════════ TAG PILL ═══════════════ */
-function TagPill({ children, accent }: { children: React.ReactNode; accent?: boolean }) {
+const pillColors: Record<string, { text: string; border: string; bg: string; glow: string }> = {
+  date:   { text: '#93C5FD', border: 'rgba(147,197,253,0.30)', bg: 'rgba(59,130,246,0.10)', glow: '0 0 12px rgba(59,130,246,0.12)' },
+  time:   { text: '#C4B5FD', border: 'rgba(196,181,253,0.30)', bg: 'rgba(139,92,246,0.10)', glow: '0 0 12px rgba(139,92,246,0.12)' },
+  venue:  { text: '#5EEAD4', border: 'rgba(94,234,212,0.30)', bg: 'rgba(20,184,166,0.10)', glow: '0 0 12px rgba(20,184,166,0.12)' },
+  rating: { text: '#FFB800', border: 'rgba(255,184,0,0.35)',  bg: 'rgba(255,184,0,0.10)',  glow: '0 0 14px rgba(255,184,0,0.16)' },
+}
+
+function TagPill({ children, variant }: { children: React.ReactNode; variant: 'date' | 'time' | 'venue' | 'rating' }) {
+  const c = pillColors[variant]
   return (
     <span
-      className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3.5 py-1.5 rounded-md"
+      className="inline-flex items-center gap-2 text-[11px] lg:text-[13px] font-semibold px-3.5 py-2 rounded-lg backdrop-blur-sm transition-all duration-300 hover:brightness-125"
       style={{
-        border: accent ? '1px solid rgba(255,184,0,0.35)' : '1px solid rgba(255,255,255,0.15)',
-        color: accent ? '#FFB800' : '#D0D0D0',
-        background: accent ? 'rgba(255,184,0,0.08)' : 'transparent',
+        border: `1px solid ${c.border}`,
+        color: c.text,
+        background: c.bg,
+        boxShadow: c.glow,
       }}
     >
       {children}
@@ -117,11 +126,11 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   if (animating) visibleIndices.add(prevIndexRef.current)
 
   const pills = (
-    <div className="flex flex-wrap gap-2 items-center mb-5">
-      <TagPill>📅 {formatDateShort(event.date)}</TagPill>
-      <TagPill>⏱ {event.duration}</TagPill>
-      {event.rating > 0 && <TagPill accent>★ {event.rating}</TagPill>}
-      {event.venueName && <TagPill>📍 {event.venueName}</TagPill>}
+    <div className="flex flex-wrap gap-2.5 items-center mb-5">
+      <TagPill variant="date">{formatDateShort(event.date)}</TagPill>
+      <TagPill variant="time">{event.duration}</TagPill>
+      {event.rating > 0 && <TagPill variant="rating">★ {event.rating}</TagPill>}
+      {event.venueName && <TagPill variant="venue">{event.venueName}</TagPill>}
     </div>
   )
 

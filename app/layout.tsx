@@ -103,7 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <Nav />
-        <main className="pt-20 lg:pt-16">{children}</main>
+        <main>{children}</main>
         <Footer />
         <CookieBanner />
         <Script
