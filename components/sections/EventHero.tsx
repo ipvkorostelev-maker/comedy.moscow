@@ -122,7 +122,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
     <>
       {/* ── MOBILE: stacked ── */}
       <div className="lg:hidden pb-8">
-        <div className="w-full overflow-hidden rounded-b-2xl">
+        <div className="w-full overflow-hidden rounded-b-2xl bg-surface img-loading-container">
           <Image
             src={event.image}
             alt={event.title}
@@ -177,7 +177,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
 
         {/* Image — right 60% */}
         <div
-          className="relative flex-1 self-stretch overflow-hidden"
+          className="relative flex-1 self-stretch overflow-hidden bg-surface img-loading-container"
           style={{ maxWidth: '900px', minHeight: '420px' }}
         >
           <Image

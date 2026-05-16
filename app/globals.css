@@ -31,6 +31,41 @@
   to   { opacity: 0; transform: translateX(-48px); }
 }
 
+/* Image placeholder shimmer — dark theme pulse */
+@keyframes imageShimmer {
+  0%   { opacity: 0.6; }
+  50%  { opacity: 0.35; }
+  100% { opacity: 0.6; }
+}
+
+@keyframes imageReveal {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* Container that shows a dark pulse while the image loads.
+   The <Image> is layered on top — when it finishes loading,
+   its opacity:1 covers the shimmer. */
+.img-loading-container {
+  background: #1A1A1F;
+  position: relative;
+  overflow: hidden;
+}
+
+.img-loading-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1A1A1F 0%, #141414 100%);
+  animation: imageShimmer 2s ease-in-out infinite;
+  z-index: 0;
+}
+
+.img-loading-container img {
+  position: relative;
+  z-index: 1;
+}
+
 /* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *,

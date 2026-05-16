@@ -18,7 +18,7 @@ export default function EventCard({ event }: EventCardProps) {
       className="group flex flex-col h-full bg-surface rounded-card overflow-hidden border border-border hover:border-muted-2 transition-all duration-300 hover:shadow-card-hover"
     >
       {/* ── IMAGE ── */}
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-[4/3] overflow-hidden bg-surface img-loading-container">
         <Image
           src={event.image}
           alt={event.title}

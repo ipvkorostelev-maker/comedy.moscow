@@ -86,6 +86,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://s3.intickets.ru" />
         <link rel="preconnect" href="https://mc.yandex.ru" />
         <link rel="preconnect" href="https://top-fwz1.mail.ru" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://womanstandup.ru" />
+        <link rel="preconnect" href="https://static.tildacdn.com" />
         <link rel="alternate" type="application/rss+xml" title="Стендап концерты — comedy.moscow" href="/rss.xml" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />

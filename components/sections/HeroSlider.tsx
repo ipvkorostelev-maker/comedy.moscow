@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Event } from '@/lib/types'
@@ -64,15 +64,33 @@ function TagPill({ children, accent }: { children: React.ReactNode; accent?: boo
   )
 }
 
+/* ═══════════════ IMAGE SLIDE (memo'd to avoid re-renders of invisible slides) ═══════════════ */
+function SlideImage({ event, isPriority }: { event: Event; isPriority: boolean }) {
+  return (
+    <Image
+      src={event.image}
+      alt={event.title}
+      fill
+      priority={isPriority}
+      quality={85}
+      className="object-contain object-top"
+      style={{ objectFit: 'contain', objectPosition: 'top center' }}
+      sizes="(max-width: 1024px) 100vw, 57vw"
+    />
+  )
+}
+
 /* ═══════════════ MAIN ═══════════════ */
 export default function HeroSlider({ events }: HeroSliderProps) {
   const [current, setCurrent] = useState(0)
   const [animating, setAnimating] = useState(false)
   const [paused, setPaused] = useState(false)
+  const prevIndexRef = useRef(0)
 
   const goTo = useCallback(
     (index: number) => {
       if (animating || index === current) return
+      prevIndexRef.current = current
       setAnimating(true)
       setCurrent(index)
       setTimeout(() => setAnimating(false), 650)
@@ -90,6 +108,13 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   const event = events[current] ?? events[0]
   if (!event) return null
   const price = minEventPrice(event)
+
+  // Only render current slide + 1 neighbor on each side (+ the slide we're animating FROM)
+  const visibleIndices = new Set<number>()
+  visibleIndices.add(current)
+  visibleIndices.add((current - 1 + events.length) % events.length)
+  visibleIndices.add((current + 1) % events.length)
+  if (animating) visibleIndices.add(prevIndexRef.current)
 
   const pills = (
     <div className="flex flex-wrap gap-2 items-center mb-5">
@@ -110,25 +135,19 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       {/* ── MOBILE: photo on top, text below ── */}
       <div className="lg:hidden">
         {/* Photo */}
-        <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
-          {events.map((e, i) => (
-            <div
-              key={e.id}
-              className="absolute inset-0 transition-opacity ease-in-out duration-700"
-              style={{ opacity: i === current ? 1 : 0 }}
-            >
-              <Image
-                src={e.image}
-                alt={e.title}
-                fill
-                priority={i === 0}
-                quality={85}
-                className="object-contain object-top"
-                style={{ objectFit: 'contain', objectPosition: 'top center' }}
-                sizes="100vw"
-              />
-            </div>
-          ))}
+        <div className="relative w-full bg-[#141414]" style={{ aspectRatio: '16/9' }}>
+          {events.map((e, i) => {
+            if (!visibleIndices.has(i)) return null
+            return (
+              <div
+                key={e.id}
+                className="absolute inset-0 transition-opacity ease-in-out duration-700"
+                style={{ opacity: i === current ? 1 : 0 }}
+              >
+                <SlideImage event={e} isPriority={i === current} />
+              </div>
+            )
+          })}
           <div
             className="absolute bottom-0 left-0 right-0 pointer-events-none"
             style={{ height: 64, background: 'linear-gradient(to top, #0A0A0A, transparent)' }}
@@ -183,27 +202,21 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       <div className="hidden lg:block" style={{ height: 'min(100vh, 760px)', minHeight: '580px' }}>
         {/* Photo — right side, absolute */}
         <div
-          className="absolute top-8 bottom-8 right-8 xl:right-14 overflow-hidden rounded-xl"
+          className="absolute top-8 bottom-8 right-8 xl:right-14 overflow-hidden rounded-xl bg-[#141414]"
           style={{ left: '43%' }}
         >
-          {events.map((e, i) => (
-            <div
-              key={e.id}
-              className="absolute inset-0 transition-opacity ease-in-out duration-700"
-              style={{ opacity: i === current ? 1 : 0, zIndex: i === current ? 1 : 0 }}
-            >
-              <Image
-                src={e.image}
-                alt={e.title}
-                fill
-                priority={i === 0}
-                quality={85}
-                className="object-contain object-top"
-                style={{ objectFit: 'contain', objectPosition: 'top center' }}
-                sizes="57vw"
-              />
-            </div>
-          ))}
+          {events.map((e, i) => {
+            if (!visibleIndices.has(i)) return null
+            return (
+              <div
+                key={e.id}
+                className="absolute inset-0 transition-opacity ease-in-out duration-700"
+                style={{ opacity: i === current ? 1 : 0, zIndex: i === current ? 1 : 0 }}
+              >
+                <SlideImage event={e} isPriority={i === current} />
+              </div>
+            )
+          })}
           {/* left-edge fade into dark bg */}
           <div
             className="absolute inset-y-0 left-0 z-10 pointer-events-none"
