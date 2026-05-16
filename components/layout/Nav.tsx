@@ -66,12 +66,12 @@ export default function Nav() {
       <header className="fixed top-0 left-0 right-0 z-50 pt-3 px-4 lg:px-20 pointer-events-none">
 
         {/* ── DESKTOP: minimal pill ── */}
-        <nav className="hidden md:flex justify-start" aria-label="Основное меню">
+        <nav className="hidden md:flex justify-center" aria-label="Основное меню">
           <div
             className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full backdrop-blur-xl border border-white/10"
             style={{
               background: 'rgba(14,14,18,0.80)',
-              boxShadow: '0 4px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09)',
+              boxShadow: '0 2px 16px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.06)',
             }}
           >
             {/* Logo — icon only */}
@@ -120,7 +120,7 @@ export default function Nav() {
             className="pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-full backdrop-blur-xl border border-white/10"
             style={{
               background: 'rgba(14,14,18,0.80)',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05)',
             }}
           >
             <div className="relative w-6 h-6 flex-shrink-0">
@@ -143,7 +143,7 @@ export default function Nav() {
               background: menuOpen
                 ? 'rgba(255,77,0,0.35)'
                 : 'rgba(14,14,18,0.80)',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05)',
             }}
           >
             <span className="relative w-5 h-4 flex flex-col justify-between">

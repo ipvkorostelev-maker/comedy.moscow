@@ -186,14 +186,14 @@ export default function HeroSlider({ events }: HeroSliderProps) {
             <Link
               href={`/events/${event.slug}`}
               className="inline-flex items-center justify-center gap-2 bg-red text-white text-[15px] font-semibold px-8 py-3.5 rounded-lg transition-all duration-200"
-              style={{ boxShadow: '0 4px 24px rgba(255,77,0,0.30)' }}
+              style={{ boxShadow: '0 4px 16px rgba(255,77,0,0.18)' }}
             >
               Купить билет
             </Link>
             <Link
               href={`/events/${event.slug}`}
               className="inline-flex items-center justify-center gap-2 bg-transparent text-white text-[15px] font-medium px-7 py-3.5 rounded-lg transition-all duration-200 hover:bg-white/10"
-              style={{ border: '1.5px solid rgba(255,255,255,0.35)' }}
+              style={{ border: '1.5px solid rgba(255,255,255,0.25)' }}
             >
               + Подробнее
             </Link>
@@ -208,11 +208,11 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       </div>
 
       {/* ── DESKTOP: text left + photo right ── */}
-      <div className="hidden lg:block" style={{ height: 'min(100vh, 760px)', minHeight: '580px' }}>
+      <div className="hidden lg:block" style={{ height: 'min(100vh, 680px)', minHeight: '540px' }}>
         {/* Photo — right side, absolute */}
         <div
           className="absolute top-8 bottom-8 right-8 xl:right-14 overflow-hidden rounded-xl bg-[#141414]"
-          style={{ left: '43%' }}
+          style={{ left: '45%' }}
         >
           {events.map((e, i) => {
             if (!visibleIndices.has(i)) return null
@@ -229,12 +229,12 @@ export default function HeroSlider({ events }: HeroSliderProps) {
           {/* left-edge fade into dark bg */}
           <div
             className="absolute inset-y-0 left-0 z-10 pointer-events-none"
-            style={{ width: 80, background: 'linear-gradient(to right, rgba(10,10,10,0.55), transparent)' }}
+            style={{ width: 60, background: 'linear-gradient(to right, rgba(10,10,10,0.35), transparent)' }}
           />
         </div>
 
         {/* Text — left column */}
-        <div className="relative h-full flex flex-col justify-center z-10 px-12 xl:px-20 pb-24" style={{ maxWidth: '48%' }}>
+        <div className="relative h-full flex flex-col justify-center z-10 pl-12 xl:pl-20 pr-6 pt-20 pb-8" style={{ maxWidth: '46%' }}>
           <p className="font-sans text-[11px] uppercase tracking-[0.28em] text-cream/45 font-medium mb-4">
             Ближайшее шоу
           </p>
@@ -263,14 +263,14 @@ export default function HeroSlider({ events }: HeroSliderProps) {
             <Link
               href={`/events/${event.slug}`}
               className="inline-flex items-center gap-2 bg-red hover:bg-red-hover text-white text-[15px] font-semibold px-8 py-3.5 rounded-lg transition-all duration-200 hover:brightness-110 hover:scale-[1.02]"
-              style={{ boxShadow: '0 4px 24px rgba(255,77,0,0.30)' }}
+              style={{ boxShadow: '0 4px 16px rgba(255,77,0,0.18)' }}
             >
               Купить билет
             </Link>
             <Link
               href={`/events/${event.slug}`}
               className="inline-flex items-center gap-2 bg-transparent text-white text-[15px] font-medium px-7 py-3.5 rounded-lg transition-all duration-200 hover:bg-white/10"
-              style={{ border: '1.5px solid rgba(255,255,255,0.35)' }}
+              style={{ border: '1.5px solid rgba(255,255,255,0.25)' }}
             >
               + Подробнее
             </Link>
@@ -280,12 +280,12 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         {/* Bottom fade */}
         <div
           className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none"
-          style={{ height: 80, background: 'linear-gradient(to top, rgba(10,10,10,1) 0%, transparent 100%)' }}
+          style={{ height: 40, background: 'linear-gradient(to top, rgba(10,10,10,1) 0%, transparent 100%)' }}
         />
 
         {/* Dots */}
         {events.length > 1 && (
-          <div className="absolute bottom-6 left-12 xl:left-20 z-30">
+          <div className="absolute bottom-4 left-12 xl:left-20 z-30">
             <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
           </div>
         )}
