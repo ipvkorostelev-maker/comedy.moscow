@@ -12,7 +12,7 @@ git add .
 git commit -m "${1:-update}" 2>/dev/null || echo "Нечего коммитить, деплоим текущую версию"
 git push origin $BRANCH
 
-# 2. На сервере: тянем код, останавливаем, собираем, запускаем
+# 2. На сервере: тянем код, ставим заглушку, останавливаем, собираем, запускаем
 echo "Деплоим на сервер..."
 ssh $SERVER "
   set -e
@@ -21,6 +21,10 @@ ssh $SERVER "
   git pull origin $BRANCH
 
   npm install --prefer-offline
+
+  # Включаем режим обслуживания (заглушку)
+  touch /tmp/comedy-maintenance
+  echo 'Режим обслуживания включён'
 
   # Останавливаем ПЕРЕД билдом чтобы не было рассинхрона Server Actions
   pm2 stop smeshno || true
@@ -31,6 +35,20 @@ ssh $SERVER "
   npm run build
 
   pm2 start smeshno || pm2 start ecosystem.config.js
+
+  # Ждём пока сайт поднимется (до 60 секунд)
+  echo 'Ждём восстановления сайта...'
+  for i in \$(seq 1 30); do
+    if curl -s -o /dev/null -w '%{http_code}' https://comedy.moscow/ | grep -q '200\|301\|302'; then
+      echo 'Сайт отвечает'
+      break
+    fi
+    sleep 2
+  done
+
+  # Выключаем режим обслуживания
+  rm -f /tmp/comedy-maintenance
+  echo 'Режим обслуживания выключен'
 "
 
 # 3. IndexNow — notify Yandex & Bing about all pages
