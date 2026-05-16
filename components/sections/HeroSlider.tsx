@@ -130,10 +130,18 @@ export default function HeroSlider({ events }: HeroSliderProps) {
 
   const pills = (
     <div className="flex flex-wrap gap-2.5 items-center mb-5">
-      <TagPill variant="date">{formatDateShort(event.date)}</TagPill>
-      <TagPill variant="time">{event.duration}</TagPill>
+      <TagPill variant="date">
+        <span className="font-normal opacity-60 text-[10px]">Дата</span> {formatDateShort(event.date)}
+      </TagPill>
+      <TagPill variant="time">
+        ≈ {event.duration}
+      </TagPill>
       {event.rating > 0 && <TagPill variant="rating">★ {event.rating}</TagPill>}
-      {event.venueName && <TagPill variant="venue">{event.venueName}</TagPill>}
+      {event.venueName && (
+        <TagPill variant="venue">
+          <span className="font-normal opacity-60 text-[10px]">Площадка</span> {event.venueName}
+        </TagPill>
+      )}
     </div>
   )
 
@@ -147,7 +155,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
       {/* ── MOBILE: photo on top, text below ── */}
       <div className="lg:hidden">
         {/* Photo */}
-        <div className="relative w-full bg-[#141414]" style={{ aspectRatio: '16/9' }}>
+        <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
           {events.map((e, i) => {
             if (!visibleIndices.has(i)) return null
             return (
@@ -156,7 +164,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
                 className="absolute inset-0 transition-opacity ease-in-out duration-700"
                 style={{ opacity: i === current ? 1 : 0 }}
               >
-                <SlideImage event={e} isPriority={i === current} />
+                <SlideImage event={e} isPriority={i === current} cover />
               </div>
             )
           })}

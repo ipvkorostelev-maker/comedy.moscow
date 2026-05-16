@@ -74,15 +74,14 @@ export default function Nav() {
               boxShadow: '0 2px 16px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.06)',
             }}
           >
-            {/* Logo — icon only */}
+            {/* Brand text */}
             <Link
               href="/"
-              className="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 hover:bg-white/5 flex-shrink-0"
+              className="flex flex-col items-center px-3 py-1 rounded-full transition-all duration-200 hover:bg-white/5 flex-shrink-0 leading-none"
               aria-label="Главная"
             >
-              <div className="relative w-5 h-5">
-                <Image src="/logo.png" alt="Comedy Moscow" fill className="object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
-              </div>
+              <span className="font-serif font-black text-cream text-[11px] uppercase tracking-[0.06em]">Стендап в Москве</span>
+              <span className="text-[8px] text-cream/35 tracking-[0.12em]">comedy.moscow</span>
             </Link>
 
             {/* Divider */}
