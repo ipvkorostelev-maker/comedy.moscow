@@ -31,34 +31,34 @@
   to   { opacity: 0; transform: translateX(-48px); }
 }
 
-/* Image placeholder shimmer — dark theme pulse */
-@keyframes imageShimmer {
-  0%   { opacity: 0.6; }
-  50%  { opacity: 0.35; }
-  100% { opacity: 0.6; }
+/* Image placeholder shimmer — moving gradient skeleton */
+@keyframes shimmerSlide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
-@keyframes imageReveal {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
-
-/* Container that shows a dark pulse while the image loads.
-   The <Image> is layered on top — when it finishes loading,
-   its opacity:1 covers the shimmer. */
+/* Container that shows a dark animated shimmer while the image loads */
 .img-loading-container {
-  background: #1A1A1F;
+  background: #141414;
   position: relative;
   overflow: hidden;
 }
 
-.img-loading-container::before {
+.img-loading-container::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #1A1A1F 0%, #141414 100%);
-  animation: imageShimmer 2s ease-in-out infinite;
   z-index: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 70%
+  );
+  animation: shimmerSlide 1.8s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .img-loading-container img {

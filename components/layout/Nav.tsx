@@ -80,8 +80,8 @@ export default function Nav() {
               className="flex flex-col items-center px-3 py-1 rounded-full transition-all duration-200 hover:bg-white/5 flex-shrink-0 leading-none"
               aria-label="Главная"
             >
-              <span className="font-serif font-black text-cream text-[11px] uppercase tracking-[0.06em]">Стендап в Москве</span>
-              <span className="text-[8px] text-cream/35 tracking-[0.12em]">comedy.moscow</span>
+              <span className="font-serif font-black text-cream text-[11px] uppercase tracking-[0.06em] leading-tight">Стендап в Москве</span>
+              <span className="text-[8px] text-cream/35 tracking-[0.12em] mt-0.5">comedy.moscow</span>
             </Link>
 
             {/* Divider */}
