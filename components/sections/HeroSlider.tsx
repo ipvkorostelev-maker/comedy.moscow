@@ -4,11 +4,12 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Event } from '@/lib/types'
-import { formatDateShort, formatPrice, minEventPrice, stripHtml } from '@/lib/utils'
+import { formatDate, formatDateShort, formatPrice, minEventPrice, stripHtml } from '@/lib/utils'
 import EventBadges from '@/components/ui/EventBadges'
 
 interface HeroSliderProps {
   events: Event[]
+  selectedDate?: string | null
 }
 
 const INTERVAL = 6_000
@@ -93,7 +94,7 @@ function SlideImage({ event, isPriority, cover }: { event: Event; isPriority: bo
 }
 
 /* ═══════════════ MAIN ═══════════════ */
-export default function HeroSlider({ events }: HeroSliderProps) {
+export default function HeroSlider({ events, selectedDate }: HeroSliderProps) {
   const [current, setCurrent] = useState(0)
   const [animating, setAnimating] = useState(false)
   const [paused, setPaused] = useState(false)
@@ -121,6 +122,10 @@ export default function HeroSlider({ events }: HeroSliderProps) {
   if (!event) return null
   const price = minEventPrice(event)
 
+  const heroLabel = selectedDate
+    ? `Стендап в Москве на ${formatDate(selectedDate)}`
+    : 'Ближайшее шоу'
+
   // Only render current slide + 1 neighbor on each side (+ the slide we're animating FROM)
   const visibleIndices = new Set<number>()
   visibleIndices.add(current)
@@ -147,7 +152,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-[#0A0A0A] pt-14"
+      className="relative w-full overflow-hidden bg-[#0A0A0A] pt-12 lg:pt-14"
       style={{ minHeight: '580px' }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -177,7 +182,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         {/* Text */}
         <div className="px-5 pt-4 pb-4">
           <p className="font-sans text-[10px] uppercase tracking-[0.25em] text-cream/40 font-medium mb-3">
-            Ближайшее шоу
+            {heroLabel}
           </p>
           <div className="mb-2">
             <EventBadges event={event} className="flex flex-wrap gap-2" />
@@ -247,7 +252,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         {/* Text — left column */}
         <div className="relative h-full flex flex-col justify-center z-10 pl-12 xl:pl-20 pr-6 pt-4 pb-8" style={{ maxWidth: '46%' }}>
           <p className="font-sans text-[11px] uppercase tracking-[0.28em] text-cream/45 font-medium mb-4">
-            Ближайшее шоу
+            {heroLabel}
           </p>
           <div className="mb-3">
             <EventBadges event={event} className="flex flex-wrap gap-2" />

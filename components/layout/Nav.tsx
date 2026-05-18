@@ -2,52 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 const LINKS = [
-  {
-    href: '/events',
-    label: 'События',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="3"/>
-        <path d="M16 2v4M8 2v4M3 10h18"/>
-      </svg>
-    ),
-  },
-  {
-    href: '/artists',
-    label: 'Артисты',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3Z"/>
-        <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3M8 22h8"/>
-      </svg>
-    ),
-  },
-  {
-    href: '/corporate',
-    label: 'Корпоратив',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="7" width="20" height="14" rx="2"/>
-        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
-        <line x1="12" y1="12" x2="12" y2="12.01"/>
-        <path d="M2 12h20"/>
-      </svg>
-    ),
-  },
-  {
-    href: '/contacts',
-    label: 'Контакты',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-      </svg>
-    ),
-  },
+  { href: '/events', label: 'События' },
+  { href: '/artists', label: 'Артисты' },
+  { href: '/corporate', label: 'Корпоратив' },
+  { href: '/contacts', label: 'Контакты' },
 ]
 
 export default function Nav() {
@@ -63,31 +25,26 @@ export default function Nav() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 pt-3 px-4 lg:px-20 pointer-events-none">
+      <header
+        className="fixed top-0 left-0 right-0 z-50 h-12 lg:h-14 flex items-center backdrop-blur-md"
+        style={{
+          background: 'rgba(10,10,10,0.78)',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+        }}
+      >
+        <div className="w-full max-w-[1920px] mx-auto flex items-center justify-between px-4 lg:px-8">
+          {/* Brand */}
+          <Link href="/" className="flex items-baseline gap-2 group flex-shrink-0" aria-label="Главная">
+            <span className="font-serif font-black text-cream text-sm lg:text-[15px] uppercase tracking-[0.04em] group-hover:text-red transition-colors">
+              Стендап в Москве
+            </span>
+            <span className="text-[9px] lg:text-[10px] text-cream/30 tracking-[0.1em] hidden sm:inline">
+              comedy.moscow
+            </span>
+          </Link>
 
-        {/* ── DESKTOP: minimal pill ── */}
-        <nav className="hidden md:flex justify-center" aria-label="Основное меню">
-          <div
-            className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full backdrop-blur-xl border border-white/10"
-            style={{
-              background: 'rgba(14,14,18,0.80)',
-              boxShadow: '0 2px 16px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.06)',
-            }}
-          >
-            {/* Brand text */}
-            <Link
-              href="/"
-              className="flex flex-col items-center px-3 py-1 rounded-full transition-all duration-200 hover:bg-white/5 flex-shrink-0 leading-none"
-              aria-label="Главная"
-            >
-              <span className="font-serif font-black text-cream text-[11px] uppercase tracking-[0.06em] leading-tight">Стендап в Москве</span>
-              <span className="text-[8px] text-cream/35 tracking-[0.12em] mt-0.5">comedy.moscow</span>
-            </Link>
-
-            {/* Divider */}
-            <span className="w-px h-5 bg-white/10 mx-0.5" />
-
-            {/* Nav links — text only */}
+          {/* Desktop links */}
+          <nav className="hidden md:flex items-center gap-1" aria-label="Основное меню">
             {LINKS.map(({ href, label }) => {
               const active = pathname.startsWith(href)
               return (
@@ -96,63 +53,42 @@ export default function Nav() {
                   href={href}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'px-4 py-2 rounded-full text-[12px] font-medium tracking-wide transition-all duration-200',
-                    active ? 'text-cream' : 'text-cream/50 hover:text-cream/85'
+                    'px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200',
+                    active
+                      ? 'text-cream bg-white/8'
+                      : 'text-cream/45 hover:text-cream/80 hover:bg-white/[0.04]'
                   )}
-                  style={active ? {
-                    background: 'rgba(255,77,0,0.22)',
-                    boxShadow: '0 2px 12px rgba(255,77,0,0.22), inset 0 1px 0 rgba(255,255,255,0.10)',
-                    border: '1px solid rgba(255,77,0,0.28)',
-                  } : undefined}
                 >
                   {label}
                 </Link>
               )
             })}
-          </div>
-        </nav>
+          </nav>
 
-        {/* ── MOBILE: logo left + burger right ── */}
-        <div className="flex md:hidden items-center justify-between">
-          <Link
-            href="/"
-            className="pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-full backdrop-blur-xl border border-white/10"
-            style={{
-              background: 'rgba(14,14,18,0.80)',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05)',
-            }}
-          >
-            <div className="relative w-6 h-6 flex-shrink-0">
-              <Image src="/logo.png" alt="Logo" fill className="object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
-            </div>
-            <div className="leading-none">
-              <div className="font-serif font-black text-cream text-[10px] uppercase tracking-[0.08em] leading-[1.2]">
-                Стендап<br />в Москве
-              </div>
-              <div className="text-[8px] text-cream/35 mt-0.5 tracking-wider">comedy.moscow</div>
-            </div>
-          </Link>
-
+          {/* Mobile hamburger */}
           <button
-            onClick={() => setMenuOpen((v) => !v)}
+            onClick={() => setMenuOpen(v => !v)}
             aria-label="Меню"
             aria-expanded={menuOpen}
-            className="pointer-events-auto flex items-center justify-center w-11 h-11 rounded-full backdrop-blur-xl border border-white/10 transition-all duration-200"
-            style={{
-              background: menuOpen
-                ? 'rgba(255,77,0,0.35)'
-                : 'rgba(14,14,18,0.80)',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05)',
-            }}
+            className="md:hidden flex items-center justify-center w-8 h-8 rounded-md transition-colors"
+            style={{ background: menuOpen ? 'rgba(255,255,255,0.08)' : 'transparent' }}
           >
-            <span className="relative w-5 h-4 flex flex-col justify-between">
-              <span className={cn('block w-full h-0.5 bg-cream rounded-full transition-all duration-300 origin-center', menuOpen && 'translate-y-[7px] rotate-45')} />
-              <span className={cn('block w-full h-0.5 bg-cream rounded-full transition-all duration-300', menuOpen && 'opacity-0 scale-x-0')} />
-              <span className={cn('block w-full h-0.5 bg-cream rounded-full transition-all duration-300 origin-center', menuOpen && '-translate-y-[7px] -rotate-45')} />
+            <span className="relative w-4 h-3 flex flex-col justify-between">
+              <span className={cn(
+                'block w-full h-px bg-cream/80 rounded-full transition-all duration-300 origin-center',
+                menuOpen && 'translate-y-[5px] rotate-45'
+              )} />
+              <span className={cn(
+                'block w-full h-px bg-cream/80 rounded-full transition-all duration-300',
+                menuOpen && 'opacity-0 scale-x-0'
+              )} />
+              <span className={cn(
+                'block w-full h-px bg-cream/80 rounded-full transition-all duration-300 origin-center',
+                menuOpen && '-translate-y-[5px] -rotate-45'
+              )} />
             </span>
           </button>
         </div>
-
       </header>
 
       {/* Mobile menu overlay */}
@@ -161,29 +97,23 @@ export default function Nav() {
           'fixed inset-0 z-40 md:hidden transition-all duration-300',
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         )}
-        style={{ background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(24px)' }}
+        style={{ background: 'rgba(0,0,0,0.94)', backdropFilter: 'blur(20px)' }}
       >
-          <nav className="flex flex-col items-center justify-center h-full gap-3" aria-label="Мобильное меню">
-          {LINKS.map(({ href, label, icon }) => {
+        <nav className="flex flex-col items-center justify-center h-full gap-2" aria-label="Мобильное меню">
+          {LINKS.map(({ href, label }) => {
             const active = pathname.startsWith(href)
             return (
               <Link
                 key={href}
                 href={href}
                 className={cn(
-                  'flex items-center gap-4 w-64 px-8 py-5 rounded-2xl transition-all duration-200',
-                  active ? 'text-cream' : 'text-cream/50 hover:text-cream'
+                  'w-56 py-4 text-center text-lg font-medium rounded-xl transition-all duration-200',
+                  active
+                    ? 'text-cream bg-white/[0.06]'
+                    : 'text-cream/45 hover:text-cream/80'
                 )}
-                style={active ? {
-                  background: 'rgba(255,77,0,0.18)',
-                  border: '1px solid rgba(255,77,0,0.25)',
-                } : {
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                }}
               >
-                <span className="opacity-70">{icon}</span>
-                <span className="font-serif font-bold text-2xl">{label}</span>
+                {label}
               </Link>
             )
           })}
