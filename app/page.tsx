@@ -42,14 +42,9 @@ export default async function HomePage({ searchParams }: Props) {
 
   const eventDates = new Set(allEvents.map((e) => e.date))
 
-  // Hero events: filtered by date if selected, otherwise nearest upcoming
-  const heroEvents = dateFilter
-    ? allEvents.filter((e) => e.date === dateFilter)
-    : allEvents.slice(0, 4)
-
   return (
     <>
-      <HeroSlider events={heroEvents} selectedDate={dateFilter} />
+      {!dateFilter && <HeroSlider events={allEvents.slice(0, 4)} />}
 
 
       {/* ── UPCOMING STRIP ── */}
