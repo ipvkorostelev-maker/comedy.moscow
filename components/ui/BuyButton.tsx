@@ -1,5 +1,7 @@
 'use client'
 
+import { getTicketProvider } from '@/lib/utils'
+
 interface BuyButtonProps {
   ticketType?: 'yandex' | 'external'
   ticketUrl?: string
@@ -15,9 +17,10 @@ export default function BuyButton({
   yandexWidgetId,
   className = '',
   label = 'Купить билет →',
-  subtitle = 'Яндекс Билеты',
+  subtitle,
 }: BuyButtonProps) {
   const isYandex = ticketType === 'yandex' && !!yandexWidgetId
+  const provider = subtitle ?? getTicketProvider(ticketUrl) ?? (isYandex ? 'Яндекс Билеты' : null)
 
   function trackGoal() {
     const ym = (window as any).ym
@@ -51,7 +54,7 @@ export default function BuyButton({
         <button type="button" onClick={handleYandex} className={cls} style={s}>
           {label}
         </button>
-        <p className="text-[10px] text-muted text-center mt-1.5">{subtitle}</p>
+        {provider && <p className="text-[10px] text-muted text-center mt-1.5">{provider}</p>}
       </div>
     )
   }
@@ -62,7 +65,7 @@ export default function BuyButton({
         <a href={ticketUrl} target="_blank" rel="noopener noreferrer" className={cls} style={s} onClick={trackGoal}>
           {label}
         </a>
-        <p className="text-[10px] text-muted text-center mt-1.5">{subtitle}</p>
+        {provider && <p className="text-[10px] text-muted text-center mt-1.5">{provider}</p>}
       </div>
     )
   }
@@ -72,7 +75,7 @@ export default function BuyButton({
       <span className={`${cls} opacity-50 cursor-default`} style={s}>
         {label}
       </span>
-      <p className="text-[10px] text-muted text-center mt-1.5">{subtitle}</p>
+      {provider && <p className="text-[10px] text-muted text-center mt-1.5">{provider}</p>}
     </div>
   )
 }

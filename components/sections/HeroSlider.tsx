@@ -147,7 +147,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-[#0A0A0A] pt-0 lg:pt-14"
+      className="relative w-full overflow-hidden bg-[#0A0A0A] pt-14"
       style={{ minHeight: '580px' }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}

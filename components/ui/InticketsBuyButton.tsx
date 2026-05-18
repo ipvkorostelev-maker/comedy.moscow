@@ -1,3 +1,5 @@
+import { getTicketProvider } from '@/lib/utils'
+
 interface InticketsBuyButtonProps {
   url: string
   className?: string
@@ -5,7 +7,9 @@ interface InticketsBuyButtonProps {
   subtitle?: string
 }
 
-export default function InticketsBuyButton({ url, className = '', label = 'Купить билет →', subtitle = 'Интикетс' }: InticketsBuyButtonProps) {
+export default function InticketsBuyButton({ url, className = '', label = 'Купить билет →', subtitle }: InticketsBuyButtonProps) {
+  const provider = subtitle ?? getTicketProvider(url)
+
   return (
     <div>
       <a
@@ -17,7 +21,7 @@ export default function InticketsBuyButton({ url, className = '', label = 'Ку�
       >
         {label}
       </a>
-      <p className="text-[10px] text-muted text-center mt-1.5">{subtitle}</p>
+      {provider && <p className="text-[10px] text-muted text-center mt-1.5">{provider}</p>}
     </div>
   )
 }

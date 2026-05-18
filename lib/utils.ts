@@ -34,6 +34,15 @@ export function stripHtml(html: string): string {
   return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
 }
 
+/** Определяет провайдера билетов по URL */
+export function getTicketProvider(url?: string): string | null {
+  if (!url) return null
+  if (url.includes('ticketscloud.com')) return 'Ticketscloud'
+  if (url.includes('widget.afisha.yandex.ru')) return 'Яндекс Билеты'
+  if (url.includes('intickets.ru')) return 'Intickets'
+  return null
+}
+
 export function minEventPrice(event: {
   tickets: { standard: { price: number }; premium: { price: number }; vip: { price: number } }
 }): number {

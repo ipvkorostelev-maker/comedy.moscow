@@ -49,13 +49,11 @@ export default function StickyBuyBar({ event, minPrice }: StickyBuyBarProps) {
             ticketUrl={event.ticketUrl}
             yandexWidgetId={event.yandexWidgetId}
             className="px-4 py-2.5 sm:px-8 sm:py-3 whitespace-nowrap text-xs sm:text-sm"
-            subtitle="Яндекс Билеты"
           />
           {event.inticketsUrl && (
             <InticketsBuyButton
               url={event.inticketsUrl}
               className="px-4 py-2.5 sm:px-8 sm:py-3 whitespace-nowrap text-xs sm:text-sm"
-              subtitle="Интикетс"
             />
           )}
         </div>
