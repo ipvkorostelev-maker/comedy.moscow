@@ -147,7 +147,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-[#0A0A0A]"
+      className="relative w-full overflow-hidden bg-[#0A0A0A] pt-0 lg:pt-14"
       style={{ minHeight: '580px' }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -245,7 +245,7 @@ export default function HeroSlider({ events }: HeroSliderProps) {
         </div>
 
         {/* Text — left column */}
-        <div className="relative h-full flex flex-col justify-center z-10 pl-12 xl:pl-20 pr-6 pt-20 pb-8" style={{ maxWidth: '46%' }}>
+        <div className="relative h-full flex flex-col justify-center z-10 pl-12 xl:pl-20 pr-6 pt-4 pb-8" style={{ maxWidth: '46%' }}>
           <p className="font-sans text-[11px] uppercase tracking-[0.28em] text-cream/45 font-medium mb-4">
             Ближайшее шоу
           </p>
