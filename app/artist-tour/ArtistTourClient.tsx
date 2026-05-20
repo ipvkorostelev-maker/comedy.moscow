@@ -83,11 +83,11 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
         <div className="lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-full lg:w-[42%] shrink-0 overflow-hidden">
 
           {/* Mobile: photo card */}
-          <div className="lg:hidden px-4 pb-4">
+          <div className="lg:hidden px-4 pt-3 pb-4">
             {(artistPhoto || activeShow?.posterImage) ? (
               <div
-                className="relative w-full overflow-hidden"
-                style={{ borderRadius: 40, aspectRatio: '2/3', maxHeight: 480 }}
+                className="relative w-full overflow-hidden bg-bg"
+                style={{ borderRadius: 40, aspectRatio: '3/4' }}
               >
                 {artistPhoto ? (
                   <Image src={artistPhoto} alt={artistName} fill className="object-contain" sizes="100vw" priority />
