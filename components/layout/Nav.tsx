@@ -26,7 +26,7 @@ export default function Nav() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 h-12 lg:h-14 flex items-center backdrop-blur-md"
+        className="sticky top-0 left-0 right-0 z-50 h-12 lg:h-14 flex items-center backdrop-blur-md"
         style={{
           background: 'rgba(10,10,10,0.78)',
           borderBottom: '1px solid rgba(255,255,255,0.06)',
