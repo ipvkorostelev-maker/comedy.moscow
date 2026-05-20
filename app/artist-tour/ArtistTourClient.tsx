@@ -188,13 +188,13 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
           </div>
 
           {/* Tour list */}
-          <ul className="flex flex-col gap-2 px-4 lg:px-10 xl:px-14 py-4 lg:py-6">
+          <ul className="flex flex-col">
             {listItems.map((item) => {
 
               /* Month separator */
               if (item.type === 'separator') {
                 return (
-                  <li key={item.key} className="flex items-center gap-3 pt-2 pb-1 px-1">
+                  <li key={item.key} className="flex items-center gap-3 pt-3 pb-1.5 px-6 lg:px-10 xl:px-14">
                     <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-2">
                       {item.label}
                     </span>
@@ -207,20 +207,20 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
               const isActive = show.id === activeId
 
               return (
-                <li key={show.id}>
+                <li key={show.id} className="border-b border-white/5">
                   <button
                     type="button"
                     onClick={() => setActiveId(show.id)}
                     className={cn(
-                      'group w-full text-left rounded-2xl border transition-all duration-150 overflow-hidden',
+                      'group w-full text-left transition-all duration-150 border-l-[3px]',
                       isActive
-                        ? 'bg-[#2A0800] border-red'
-                        : 'bg-surface border-border hover:border-red'
+                        ? 'bg-red/5 border-l-red'
+                        : 'bg-transparent border-l-transparent hover:bg-white/[0.02]'
                     )}
                   >
 
                     {/* ── DESKTOP: single row ── */}
-                    <div className="hidden lg:flex items-center gap-3 px-6 py-[18px]">
+                    <div className="hidden lg:flex items-center gap-3 px-6 lg:px-10 xl:px-14 py-4">
                       {/* City */}
                       <div className="flex flex-col w-40 shrink-0">
                         <span className={cn(
@@ -267,7 +267,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                           href={show.href}
                           onClick={(e) => e.stopPropagation()}
                           className={cn(
-                            'shrink-0 px-5 py-2.5 rounded-xl text-[11px] font-bold tracking-widest uppercase transition-all duration-150 whitespace-nowrap',
+                            'shrink-0 px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase transition-all duration-150 whitespace-nowrap',
                             isActive
                               ? 'bg-red text-white hover:bg-red-hover shadow-red-sm'
                               : 'bg-[#252525] border border-[#3A3A3F] text-cream/60 group-hover:bg-red group-hover:border-red group-hover:text-white'
@@ -281,7 +281,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                     {/* ── MOBILE: stacked ── */}
                     <div className="lg:hidden">
                       {/* Info row */}
-                      <div className="flex items-center gap-2.5 px-4 pt-4 pb-3">
+                      <div className="flex items-center gap-2.5 px-5 pt-4 pb-3">
                         <span className={cn(
                           'text-sm font-medium tabular-nums whitespace-nowrap shrink-0',
                           isActive ? 'text-cream' : 'text-cream/60'
@@ -304,13 +304,13 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                       </div>
 
                       {/* Button row */}
-                      <div className="px-3 pb-3">
+                      <div className="px-4 pb-4">
                         {show.isPrivate ? (
                           <div className="py-2.5 text-muted text-[11px] text-center">
                             Концерт для гостей отеля
                           </div>
                         ) : show.isSoldOut ? (
-                          <div className="w-full py-3 rounded-xl bg-[#252525] border border-[#3A3A3F] text-muted text-[11px] font-bold tracking-widest uppercase text-center">
+                          <div className="w-full py-3 rounded-full bg-[#252525] border border-[#3A3A3F] text-muted text-[11px] font-bold tracking-widest uppercase text-center">
                             Нет билетов
                           </div>
                         ) : (
@@ -318,7 +318,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                             href={show.href}
                             onClick={(e) => e.stopPropagation()}
                             className={cn(
-                              'block w-full py-3 rounded-xl text-[11px] font-bold tracking-widest uppercase text-center transition-all duration-150',
+                              'block w-full py-3 rounded-full text-[11px] font-bold tracking-widest uppercase text-center transition-all duration-150',
                               isActive
                                 ? 'bg-red text-white shadow-red-sm'
                                 : 'bg-[#252525] border border-[#3A3A3F] text-cream/60'
