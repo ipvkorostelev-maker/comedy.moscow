@@ -101,60 +101,69 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
         <div className="lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-full lg:w-[42%] shrink-0 overflow-hidden">
 
           {/* Mobile: active show visual card */}
-          {activeShow?.posterImage && (
+          {(artistPhoto || activeShow?.posterImage) && (
             <div className="lg:hidden mx-4 my-4">
-              <div className="relative rounded-2xl overflow-hidden aspect-video">
-                {shows.map((show) => (
-                  show.posterImage ? (
-                    <Image
-                      key={show.id}
-                      src={show.posterImage}
-                      alt={`${artistName} — ${show.venue}`}
-                      fill
-                      className={cn(
-                        'object-cover transition-opacity duration-500',
-                        show.id === activeId ? 'opacity-100' : 'opacity-0'
-                      )}
-                      sizes="100vw"
-                    />
-                  ) : null
-                ))}
+              <div className={cn('relative rounded-2xl overflow-hidden', artistPhoto ? 'aspect-[2/3] max-h-80' : 'aspect-video')}>
+                {artistPhoto ? (
+                  <Image
+                    src={artistPhoto}
+                    alt={artistName}
+                    fill
+                    className="object-cover"
+                    sizes="100vw"
+                  />
+                ) : (
+                  shows.map((show) => (
+                    show.posterImage ? (
+                      <Image
+                        key={show.id}
+                        src={show.posterImage}
+                        alt={`${artistName} — ${show.venue}`}
+                        fill
+                        className={cn(
+                          'object-cover transition-opacity duration-500',
+                          show.id === activeId ? 'opacity-100' : 'opacity-0'
+                        )}
+                        sizes="100vw"
+                      />
+                    ) : null
+                  ))
+                )}
               </div>
             </div>
           )}
 
           {/* Desktop: full-height sticky poster */}
           <div className="hidden lg:block absolute inset-0">
-            {/* Tour photo — base layer */}
-            {artistPhoto && (
+            {artistPhoto ? (
+              /* Tour photo set — show exclusively */
               <Image
                 src={artistPhoto}
                 alt={artistName}
                 fill
                 priority
-                className={cn(
-                  'object-cover transition-opacity duration-500',
-                  activeShow?.posterImage ? 'opacity-0' : 'opacity-100'
-                )}
+                className="object-cover"
                 sizes="42vw"
               />
+            ) : (
+              /* No tour photo — cycle through per-show images */
+              shows.map((show) => (
+                show.posterImage ? (
+                  <Image
+                    key={show.id}
+                    src={show.posterImage}
+                    alt={`${artistName} — ${show.venue}`}
+                    fill
+                    priority={show.id === activeId}
+                    className={cn(
+                      'object-cover transition-opacity duration-600',
+                      show.id === activeId ? 'opacity-100' : 'opacity-0'
+                    )}
+                    sizes="42vw"
+                  />
+                ) : null
+              ))
             )}
-            {shows.map((show) => (
-              show.posterImage ? (
-                <Image
-                  key={show.id}
-                  src={show.posterImage}
-                  alt={`${artistName} — ${show.venue}`}
-                  fill
-                  priority={show.id === activeId}
-                  className={cn(
-                    'object-cover transition-opacity duration-600',
-                    show.id === activeId ? 'opacity-100' : 'opacity-0'
-                  )}
-                  sizes="42vw"
-                />
-              ) : null
-            ))}
             {/* Right-edge blend */}
             <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-r from-transparent to-bg" />
             {/* Bottom vignette */}
