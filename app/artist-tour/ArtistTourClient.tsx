@@ -83,30 +83,35 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
         <div className="lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-full lg:w-[42%] shrink-0 overflow-hidden">
 
           {/* Mobile: photo card */}
-          <div className="lg:hidden px-4 pt-3 pb-4">
+          <div className="lg:hidden px-4 pb-4">
             {(artistPhoto || activeShow?.posterImage) ? (
-              <div
-                className="relative w-full overflow-hidden bg-bg"
-                style={{ borderRadius: 40, aspectRatio: '3/4' }}
-              >
-                {artistPhoto ? (
-                  <Image src={artistPhoto} alt={artistName} fill className="object-contain" sizes="100vw" priority />
-                ) : (
-                  shows.map((show) => (
-                    show.posterImage ? (
-                      <Image
-                        key={show.id}
-                        src={show.posterImage}
-                        alt={`${artistName} — ${show.venue}`}
-                        fill
-                        className={cn('object-contain transition-opacity duration-500', show.id === activeId ? 'opacity-100' : 'opacity-0')}
-                        sizes="100vw"
-                      />
-                    ) : null
-                  ))
-                )}
-                {/* Bottom fade + text */}
-                <div className="absolute inset-x-0 bottom-0 px-5 pb-5 pt-16 bg-gradient-to-t from-bg via-bg/80 to-transparent pointer-events-none">
+              <>
+                <div
+                  className="relative w-full overflow-hidden bg-bg"
+                  style={{
+                    borderRadius: 40, aspectRatio: '3/4',
+                    marginTop: 30,
+                    boxShadow: '0 16px 60px rgba(255,77,0,0.22), 0 0 0 1px rgba(255,77,0,0.12)',
+                  }}
+                >
+                  {artistPhoto ? (
+                    <Image src={artistPhoto} alt={artistName} fill className="object-contain" sizes="calc(100vw - 32px)" priority />
+                  ) : (
+                    shows.map((show) => (
+                      show.posterImage ? (
+                        <Image
+                          key={show.id}
+                          src={show.posterImage}
+                          alt={`${artistName} — ${show.venue}`}
+                          fill
+                          className={cn('object-contain transition-opacity duration-500', show.id === activeId ? 'opacity-100' : 'opacity-0')}
+                          sizes="calc(100vw - 32px)"
+                        />
+                      ) : null
+                    ))
+                  )}
+                </div>
+                <div className="px-1 pt-4 pb-1">
                   <h1 className="font-serif font-black text-cream uppercase" style={{ fontSize: 'clamp(1.9rem, 8vw, 2.8rem)', lineHeight: 0.95, letterSpacing: '-0.01em' }}>
                     {artistName}
                   </h1>
@@ -119,7 +124,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                     </span>
                   </div>
                 </div>
-              </div>
+              </>
             ) : (
               <div className="pt-2 pb-4 border-b border-border">
                 <h1 className="font-serif font-black text-[2.5rem] leading-[0.95] text-cream uppercase">{artistName}</h1>
