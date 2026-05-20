@@ -107,6 +107,38 @@ export function isAvailable(): Promise<boolean> {
   return (_availableCache ??= fs.access(path.join(DATA_PATH, 'concerts.json')).then(() => true).catch(() => false))
 }
 
+// ─── Tours ───────────────────────────────────────────────
+
+export interface WSTour {
+  id: string
+  artistId: string
+  slug: string
+  title: string
+  concertIds: string[]
+}
+
+export async function getWomanstandupTours(): Promise<WSTour[]> {
+  if (!DATA_PATH) return []
+  try {
+    const raw = await fs.readFile(path.join(DATA_PATH, 'tours.json'), 'utf-8')
+    return JSON.parse(raw)
+  } catch {
+    return []
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getWomanstandupRawConcerts(): Promise<any[]> {
+  if (!DATA_PATH) return []
+  try {
+    const raw = await fs.readFile(path.join(DATA_PATH, 'concerts.json'), 'utf-8')
+    return JSON.parse(raw)
+  } catch {
+    return []
+  }
+}
+
+
 export async function getWomanstandupEvents(): Promise<Event[]> {
   if (!DATA_PATH) return []
   const raw = await fs.readFile(path.join(DATA_PATH, 'concerts.json'), 'utf-8')

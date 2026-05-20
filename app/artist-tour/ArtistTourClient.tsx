@@ -5,142 +5,41 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
-// ── CONSTANTS ─────────────────────────────────────────────────────────────────
+// ── TYPES ──────────────────────────────────────────────────────────────────────
 
-const ARTIST_NAME = 'Амир Гурбанов'
-const TOUR_LABEL  = 'стендап-тур'
-
-const MONTH_LABELS: Record<string, string> = {
-  '05': 'Май', '06': 'Июнь', '07': 'Июль',
-  '08': 'Август', '09': 'Сентябрь', '10': 'Октябрь',
-  '11': 'Ноябрь', '12': 'Декабрь',
-}
-
-// ── DATA ──────────────────────────────────────────────────────────────────────
-
-interface Show {
-  id: number
+export interface TourShow {
+  id: string | number
   city: string
   venue: string
-  date: string
-  slug: string
+  date: string      // formatted "DD.MM"
+  href: string      // full link for buy button
   isPrivate: boolean
   isSoldOut?: boolean
   isNearest?: boolean
   posterImage: string
 }
 
-const SHOWS: Show[] = [
-  {
-    id: 1,
-    city: 'Сочи',
-    venue: 'Victory Hotels',
-    date: '20.05',
-    slug: '/events/bolshoy-standup-vecher',
-    isPrivate: true,
-    posterImage: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=900&q=90&fit=crop',
-  },
-  {
-    id: 2,
-    city: 'Калининград',
-    venue: 'Клуб Вагонка',
-    date: '29.05',
-    slug: '/events/bolshoy-standup-vecher',
-    isPrivate: false,
-    isNearest: true,
-    posterImage: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=900&q=90&fit=crop',
-  },
-  {
-    id: 3,
-    city: 'Москва',
-    venue: 'Petter',
-    date: '31.05',
-    slug: '/events/bolshoy-standup-vecher',
-    isPrivate: false,
-    isSoldOut: true,
-    posterImage: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=900&q=90&fit=crop',
-  },
-  {
-    id: 4,
-    city: 'Москва',
-    venue: 'Petter',
-    date: '02.06',
-    slug: '/events/bolshoy-standup-vecher',
-    isPrivate: false,
-    posterImage: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=900&q=90&fit=crop',
-  },
-  {
-    id: 5,
-    city: 'Москва',
-    venue: 'Зелёный театр ВДНХ',
-    date: '26.07',
-    slug: '/events/bolshoy-standup-vecher',
-    isPrivate: false,
-    posterImage: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=900&q=90&fit=crop',
-  },
-  {
-    id: 6,
-    city: 'Санкт-Петербург',
-    venue: 'Roof Place',
-    date: '08.08',
-    slug: '/events/bolshoy-standup-vecher',
-    isPrivate: false,
-    posterImage: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=900&q=90&fit=crop',
-  },
-  {
-    id: 7,
-    city: 'Belek',
-    venue: 'Dobedan Exclusive hotel',
-    date: '25.08',
-    slug: '/events/bolshoy-standup-vecher',
-    isPrivate: true,
-    posterImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=90&fit=crop',
-  },
-  {
-    id: 8,
-    city: 'Kemer',
-    venue: 'Dobedan World Palace',
-    date: '26.08',
-    slug: '/events/bolshoy-standup-vecher',
-    isPrivate: true,
-    posterImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=90&fit=crop',
-  },
-  {
-    id: 9,
-    city: 'Краснодар',
-    venue: 'Кроп Арена',
-    date: '10.10',
-    slug: '/events/bolshoy-standup-vecher',
-    isPrivate: false,
-    posterImage: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=900&q=90&fit=crop',
-  },
-  {
-    id: 10,
-    city: 'Ростов-на-Дону',
-    venue: 'Кроп Арена',
-    date: '11.10',
-    slug: '/events/bolshoy-standup-vecher',
-    isPrivate: false,
-    posterImage: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=900&q=90&fit=crop',
-  },
-  {
-    id: 11,
-    city: 'Новосибирск',
-    venue: 'Арт-пространство «Бункер»',
-    date: '25.10',
-    slug: '/events/bolshoy-standup-vecher',
-    isPrivate: false,
-    posterImage: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=900&q=90&fit=crop',
-  },
-]
+interface Props {
+  artistName: string
+  tourLabel?: string
+  shows: TourShow[]
+}
 
-// ── HELPERS ───────────────────────────────────────────────────────────────────
+// ── CONSTANTS ──────────────────────────────────────────────────────────────────
+
+const MONTH_LABELS: Record<string, string> = {
+  '01': 'Январь', '02': 'Февраль', '03': 'Март', '04': 'Апрель',
+  '05': 'Май', '06': 'Июнь', '07': 'Июль', '08': 'Август',
+  '09': 'Сентябрь', '10': 'Октябрь', '11': 'Ноябрь', '12': 'Декабрь',
+}
+
+// ── HELPERS ────────────────────────────────────────────────────────────────────
 
 type ListItem =
   | { type: 'separator'; label: string; key: string }
-  | { type: 'show'; show: Show; rowIndex: number }
+  | { type: 'show'; show: TourShow; rowIndex: number }
 
-function buildListItems(shows: Show[]): ListItem[] {
+function buildListItems(shows: TourShow[]): ListItem[] {
   const items: ListItem[] = []
   let prevMonth = ''
   let rowIndex = 0
@@ -157,11 +56,20 @@ function buildListItems(shows: Show[]): ListItem[] {
 
 // ── COMPONENT ──────────────────────────────────────────────────────────────────
 
-export default function ArtistTourClient() {
-  const [activeId, setActiveId] = useState(5)
-  const activeShow = SHOWS.find((s) => s.id === activeId) ?? SHOWS[0]!
-  const listItems = buildListItems(SHOWS)
-  const totalPublic = SHOWS.filter((s) => !s.isPrivate).length
+export default function ArtistTourClient({ artistName, tourLabel = 'стендап-тур', shows }: Props) {
+  const firstId = shows[0]?.id ?? null
+  const [activeId, setActiveId] = useState<string | number | null>(firstId)
+  const activeShow = shows.find((s) => s.id === activeId) ?? shows[0]
+  const listItems = buildListItems(shows)
+  const totalPublic = shows.filter((s) => !s.isPrivate).length
+
+  if (shows.length === 0) {
+    return (
+      <div className="min-h-screen bg-bg flex items-center justify-center">
+        <p className="text-muted text-lg">Концерты ещё не добавлены</p>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-bg pt-12 lg:pt-0">
@@ -171,17 +79,16 @@ export default function ArtistTourClient() {
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1 className="font-serif font-black text-[2.5rem] leading-[0.95] text-cream uppercase">
-              {ARTIST_NAME}
+              {artistName}
             </h1>
             <div className="flex items-center gap-2 mt-2.5">
-              <span className="text-muted text-sm">{TOUR_LABEL}</span>
+              <span className="text-muted text-sm">{tourLabel}</span>
               <span className="w-1 h-1 rounded-full bg-muted-2 flex-shrink-0" />
               <span className="text-muted text-sm">{totalPublic} концерта</span>
             </div>
           </div>
-          {/* Total count badge */}
           <span className="shrink-0 mt-1 px-2.5 py-1 rounded-full border border-border text-muted text-[11px] font-medium tabular-nums">
-            {SHOWS.length} городов
+            {shows.length} городов
           </span>
         </div>
       </div>
@@ -193,39 +100,45 @@ export default function ArtistTourClient() {
         <div className="lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-full lg:w-[42%] shrink-0 overflow-hidden">
 
           {/* Mobile: active show visual card */}
-          <div className="lg:hidden mx-4 my-4">
-            <div className="relative rounded-2xl overflow-hidden aspect-video">
-              {SHOWS.map((show) => (
-                <Image
-                  key={show.id}
-                  src={show.posterImage}
-                  alt={`${ARTIST_NAME} — ${show.venue}`}
-                  fill
-                  className={cn(
-                    'object-cover transition-opacity duration-500',
-                    show.id === activeId ? 'opacity-100' : 'opacity-0'
-                  )}
-                  sizes="100vw"
-                />
-              ))}
+          {activeShow?.posterImage && (
+            <div className="lg:hidden mx-4 my-4">
+              <div className="relative rounded-2xl overflow-hidden aspect-video">
+                {shows.map((show) => (
+                  show.posterImage ? (
+                    <Image
+                      key={show.id}
+                      src={show.posterImage}
+                      alt={`${artistName} — ${show.venue}`}
+                      fill
+                      className={cn(
+                        'object-cover transition-opacity duration-500',
+                        show.id === activeId ? 'opacity-100' : 'opacity-0'
+                      )}
+                      sizes="100vw"
+                    />
+                  ) : null
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Desktop: full-height sticky poster */}
           <div className="hidden lg:block absolute inset-0">
-            {SHOWS.map((show) => (
-              <Image
-                key={show.id}
-                src={show.posterImage}
-                alt={`${ARTIST_NAME} — ${show.venue}`}
-                fill
-                priority={show.id === activeId}
-                className={cn(
-                  'object-cover transition-opacity duration-600',
-                  show.id === activeId ? 'opacity-100' : 'opacity-0'
-                )}
-                sizes="42vw"
-              />
+            {shows.map((show) => (
+              show.posterImage ? (
+                <Image
+                  key={show.id}
+                  src={show.posterImage}
+                  alt={`${artistName} — ${show.venue}`}
+                  fill
+                  priority={show.id === activeId}
+                  className={cn(
+                    'object-cover transition-opacity duration-600',
+                    show.id === activeId ? 'opacity-100' : 'opacity-0'
+                  )}
+                  sizes="42vw"
+                />
+              ) : null
             ))}
             {/* Right-edge blend */}
             <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-r from-transparent to-bg" />
@@ -240,14 +153,14 @@ export default function ArtistTourClient() {
           {/* Desktop header */}
           <div className="hidden lg:block px-10 xl:px-14 pt-10 pb-8 border-b border-border">
             <h1 className="font-serif font-black text-5xl xl:text-[3.5rem] leading-[0.92] text-cream uppercase">
-              {ARTIST_NAME}
+              {artistName}
             </h1>
             <div className="flex items-center gap-3 mt-3">
-              <span className="text-muted">{TOUR_LABEL}</span>
+              <span className="text-muted">{tourLabel}</span>
               <span className="w-1 h-1 rounded-full bg-muted-2" />
               <span className="text-muted text-sm">{totalPublic} открытых концерта</span>
               <span className="w-1 h-1 rounded-full bg-muted-2" />
-              <span className="text-muted text-sm">{SHOWS.length} городов</span>
+              <span className="text-muted text-sm">{shows.length} городов</span>
             </div>
           </div>
 
@@ -328,7 +241,7 @@ export default function ArtistTourClient() {
                         <span className="text-muted text-[11px] text-right w-28 shrink-0">Нет билетов</span>
                       ) : (
                         <Link
-                          href={show.slug}
+                          href={show.href}
                           onClick={(e) => e.stopPropagation()}
                           className={cn(
                             'shrink-0 px-5 py-2.5 rounded-xl text-[11px] font-bold tracking-widest uppercase transition-all duration-150 whitespace-nowrap',
@@ -344,7 +257,7 @@ export default function ArtistTourClient() {
 
                     {/* ── MOBILE: stacked ── */}
                     <div className="lg:hidden">
-                      {/* Info row: date | city ... venue */}
+                      {/* Info row */}
                       <div className="flex items-center gap-2.5 px-4 pt-4 pb-3">
                         <span className={cn(
                           'text-sm font-medium tabular-nums whitespace-nowrap shrink-0',
@@ -379,7 +292,7 @@ export default function ArtistTourClient() {
                           </div>
                         ) : (
                           <Link
-                            href={show.slug}
+                            href={show.href}
                             onClick={(e) => e.stopPropagation()}
                             className={cn(
                               'block w-full py-3 rounded-xl text-[11px] font-bold tracking-widest uppercase text-center transition-all duration-150',
