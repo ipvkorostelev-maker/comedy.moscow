@@ -73,7 +73,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
   }
 
   return (
-    <div className="min-h-screen bg-bg pt-[60px] lg:pt-0">
+    <div className="min-h-screen lg:bg-bg lg:pt-0">
 
 
       {/* ── LAYOUT ─────────────────────────────────────────────────── */}
@@ -95,7 +95,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                   }}
                 >
                   {artistPhoto ? (
-                    <Image src={artistPhoto} alt={artistName} fill className="object-contain" sizes="calc(100vw - 32px)" priority />
+                    <Image src={artistPhoto} alt={artistName} fill className="object-cover" sizes="calc(100vw - 32px)" priority />
                   ) : (
                     shows.map((show) => (
                       show.posterImage ? (
@@ -104,7 +104,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                           src={show.posterImage}
                           alt={`${artistName} — ${show.venue}`}
                           fill
-                          className={cn('object-contain transition-opacity duration-500', show.id === activeId ? 'opacity-100' : 'opacity-0')}
+                          className={cn('object-cover transition-opacity duration-500', show.id === activeId ? 'opacity-100' : 'opacity-0')}
                           sizes="calc(100vw - 32px)"
                         />
                       ) : null
