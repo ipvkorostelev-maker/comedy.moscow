@@ -40,7 +40,7 @@ export default async function EventsPage({ searchParams }: Props) {
   const eventDates = new Set(events.map((e) => e.date))
 
   return (
-    <div className="pt-8">
+    <div className="pt-[calc(2rem+30px)]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
