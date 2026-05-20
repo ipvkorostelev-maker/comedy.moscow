@@ -115,6 +115,7 @@ export interface WSTour {
   slug: string
   title: string
   concertIds: string[]
+  photo?: string
 }
 
 export async function getWomanstandupTours(): Promise<WSTour[]> {

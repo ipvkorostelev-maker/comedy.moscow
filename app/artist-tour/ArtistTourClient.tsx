@@ -22,6 +22,7 @@ export interface TourShow {
 interface Props {
   artistName: string
   tourLabel?: string
+  artistPhoto?: string
   shows: TourShow[]
 }
 
@@ -56,7 +57,7 @@ function buildListItems(shows: TourShow[]): ListItem[] {
 
 // ── COMPONENT ──────────────────────────────────────────────────────────────────
 
-export default function ArtistTourClient({ artistName, tourLabel = 'стендап-тур', shows }: Props) {
+export default function ArtistTourClient({ artistName, tourLabel = 'стендап-тур', artistPhoto, shows }: Props) {
   const firstId = shows[0]?.id ?? null
   const [activeId, setActiveId] = useState<string | number | null>(firstId)
   const activeShow = shows.find((s) => s.id === activeId) ?? shows[0]
@@ -124,6 +125,20 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
 
           {/* Desktop: full-height sticky poster */}
           <div className="hidden lg:block absolute inset-0">
+            {/* Tour photo — base layer */}
+            {artistPhoto && (
+              <Image
+                src={artistPhoto}
+                alt={artistName}
+                fill
+                priority
+                className={cn(
+                  'object-cover transition-opacity duration-500',
+                  activeShow?.posterImage ? 'opacity-0' : 'opacity-100'
+                )}
+                sizes="42vw"
+              />
+            )}
             {shows.map((show) => (
               show.posterImage ? (
                 <Image

@@ -118,10 +118,16 @@ export default async function TourPage({ params }: { params: Promise<{ slug: str
       } satisfies TourShow
     })
 
+  const assetsUrl = process.env.WOMANSTANDUP_ASSETS_URL ?? ''
+  const tourPhoto = tour.photo
+    ? (tour.photo.startsWith('http') ? tour.photo : assetsUrl + tour.photo)
+    : undefined
+
   return (
     <ArtistTourClient
       artistName={artist?.name ?? 'Артист'}
       tourLabel={tour.title || 'стендап-тур'}
+      artistPhoto={tourPhoto}
       shows={shows}
     />
   )
