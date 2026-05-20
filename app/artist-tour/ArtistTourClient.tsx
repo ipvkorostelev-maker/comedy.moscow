@@ -73,7 +73,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
   }
 
   return (
-    <div className="min-h-screen bg-bg pt-12 lg:pt-0">
+    <div className="min-h-screen bg-bg pt-[60px] lg:pt-0">
 
 
       {/* ── LAYOUT ─────────────────────────────────────────────────── */}
@@ -82,12 +82,15 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
         {/* ── LEFT PANEL ─────────────────────────────────────────── */}
         <div className="lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-full lg:w-[42%] shrink-0 overflow-hidden">
 
-          {/* Mobile: hero photo with artist name overlay */}
-          <div className="lg:hidden">
+          {/* Mobile: photo card */}
+          <div className="lg:hidden px-4 pb-4">
             {(artistPhoto || activeShow?.posterImage) ? (
-              <div className="relative w-full overflow-hidden" style={{ height: '120vw', maxHeight: 520 }}>
+              <div
+                className="relative w-full overflow-hidden"
+                style={{ borderRadius: 40, aspectRatio: '2/3', maxHeight: 480 }}
+              >
                 {artistPhoto ? (
-                  <Image src={artistPhoto} alt={artistName} fill className="object-cover" sizes="100vw" priority />
+                  <Image src={artistPhoto} alt={artistName} fill className="object-contain" sizes="100vw" priority />
                 ) : (
                   shows.map((show) => (
                     show.posterImage ? (
@@ -96,16 +99,14 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                         src={show.posterImage}
                         alt={`${artistName} — ${show.venue}`}
                         fill
-                        className={cn('object-cover transition-opacity duration-500', show.id === activeId ? 'opacity-100' : 'opacity-0')}
+                        className={cn('object-contain transition-opacity duration-500', show.id === activeId ? 'opacity-100' : 'opacity-0')}
                         sizes="100vw"
                       />
                     ) : null
                   ))
                 )}
-                {/* Top fade */}
-                <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
-                {/* Bottom fade + text overlay */}
-                <div className="absolute inset-x-0 bottom-0 px-5 pb-5 pt-16 bg-gradient-to-t from-bg via-bg/90 to-transparent pointer-events-none">
+                {/* Bottom fade + text */}
+                <div className="absolute inset-x-0 bottom-0 px-5 pb-5 pt-16 bg-gradient-to-t from-bg via-bg/80 to-transparent pointer-events-none">
                   <h1 className="font-serif font-black text-cream uppercase" style={{ fontSize: 'clamp(1.9rem, 8vw, 2.8rem)', lineHeight: 0.95, letterSpacing: '-0.01em' }}>
                     {artistName}
                   </h1>
@@ -120,7 +121,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                 </div>
               </div>
             ) : (
-              <div className="px-5 pt-5 pb-4 border-b border-border">
+              <div className="pt-2 pb-4 border-b border-border">
                 <h1 className="font-serif font-black text-[2.5rem] leading-[0.95] text-cream uppercase">{artistName}</h1>
                 <div className="flex items-center gap-2 mt-2.5">
                   <span className="text-muted text-sm">{tourLabel}</span>
