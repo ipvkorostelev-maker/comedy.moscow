@@ -139,35 +139,48 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
 
           {/* Desktop: full-height sticky poster */}
           <div className="hidden lg:block absolute inset-0">
-            {artistPhoto ? (
-              <Image
-                src={artistPhoto}
-                alt={artistName}
-                fill
-                priority
-                className="object-contain"
-                style={{ top: '51px' }}
-                sizes="42vw"
-              />
-            ) : (
-              shows.map((show) => (
-                show.posterImage ? (
-                  <Image
-                    key={show.id}
-                    src={show.posterImage}
-                    alt={`${artistName} — ${show.venue}`}
-                    fill
-                    priority={show.id === activeId}
-                    className={cn(
-                      'object-contain transition-opacity duration-600',
-                      show.id === activeId ? 'opacity-100' : 'opacity-0'
-                    )}
-                    style={{ top: '51px' }}
-                    sizes="42vw"
-                  />
-                ) : null
-              ))
-            )}
+            {/* Orange glow beneath image */}
+            <div
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[70%] h-24 pointer-events-none"
+              style={{
+                background: 'radial-gradient(ellipse at center, rgba(255,77,0,0.45) 0%, transparent 70%)',
+                filter: 'blur(18px)',
+              }}
+            />
+
+            {/* Image wrapper with rounded corners */}
+            <div
+              className="absolute inset-x-4 overflow-hidden"
+              style={{ top: '51px', bottom: '0', borderRadius: '24px' }}
+            >
+              {artistPhoto ? (
+                <Image
+                  src={artistPhoto}
+                  alt={artistName}
+                  fill
+                  priority
+                  className="object-contain"
+                  sizes="42vw"
+                />
+              ) : (
+                shows.map((show) => (
+                  show.posterImage ? (
+                    <Image
+                      key={show.id}
+                      src={show.posterImage}
+                      alt={`${artistName} — ${show.venue}`}
+                      fill
+                      priority={show.id === activeId}
+                      className={cn(
+                        'object-contain transition-opacity duration-600',
+                        show.id === activeId ? 'opacity-100' : 'opacity-0'
+                      )}
+                      sizes="42vw"
+                    />
+                  ) : null
+                ))
+              )}
+            </div>
           </div>
         </div>
 
