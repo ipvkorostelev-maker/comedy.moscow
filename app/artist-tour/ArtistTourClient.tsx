@@ -140,17 +140,16 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
           {/* Desktop: full-height sticky poster */}
           <div className="hidden lg:block absolute inset-0">
             {artistPhoto ? (
-              /* Tour photo set — show exclusively */
               <Image
                 src={artistPhoto}
                 alt={artistName}
                 fill
                 priority
-                className="object-cover"
+                className="object-contain"
+                style={{ top: '51px' }}
                 sizes="42vw"
               />
             ) : (
-              /* No tour photo — cycle through per-show images */
               shows.map((show) => (
                 show.posterImage ? (
                   <Image
@@ -160,18 +159,15 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                     fill
                     priority={show.id === activeId}
                     className={cn(
-                      'object-cover transition-opacity duration-600',
+                      'object-contain transition-opacity duration-600',
                       show.id === activeId ? 'opacity-100' : 'opacity-0'
                     )}
+                    style={{ top: '51px' }}
                     sizes="42vw"
                   />
                 ) : null
               ))
             )}
-            {/* Right-edge blend */}
-            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-r from-transparent to-bg" />
-            {/* Bottom vignette */}
-            <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-bg via-bg/40 to-transparent" />
           </div>
         </div>
 
