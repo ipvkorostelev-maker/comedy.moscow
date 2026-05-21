@@ -30,6 +30,20 @@ export function formatPrice(price: number): string {
   return new Intl.NumberFormat('ru-RU').format(price) + '\u00a0₽'
 }
 
+/**
+ * Возвращает индекс формы склонения для русского числительного:
+ * 0 — один (1, 21, 31…): «концерт», «город»
+ * 1 — два-четыре (2-4, 22-24…): «концерта», «города»
+ * 2 — пять-двадцать (5-20, 25-30…): «концертов», «городов»
+ */
+export function pluralForm(n: number): number {
+  const mod10 = n % 10
+  const mod100 = n % 100
+  if (mod10 === 1 && mod100 !== 11) return 0
+  if (mod10 >= 2 && mod10 <= 4 && !(mod100 >= 12 && mod100 <= 14)) return 1
+  return 2
+}
+
 export function stripHtml(html: string): string {
   return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
 }

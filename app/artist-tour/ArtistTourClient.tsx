@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
+import { cn, pluralForm } from '@/lib/utils'
 
 // ── TYPES ──────────────────────────────────────────────────────────────────────
 
@@ -64,6 +64,28 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
   const listItems = buildListItems(shows)
   const totalPublic = shows.filter((s) => !s.isPrivate).length
 
+  // Склонение числительных
+  const concertForm = pluralForm(totalPublic)
+  const cityForm = pluralForm(shows.length)
+
+  const concertsShort = concertForm === 0
+    ? `${totalPublic} концерт`
+    : concertForm === 1
+      ? `${totalPublic} концерта`
+      : `${totalPublic} концертов`
+
+  const concertsFull = concertForm === 0
+    ? `${totalPublic} открытый концерт`
+    : concertForm === 1
+      ? `${totalPublic} открытых концерта`
+      : `${totalPublic} открытых концертов`
+
+  const citiesLabel = cityForm === 0
+    ? `${shows.length} город`
+    : cityForm === 1
+      ? `${shows.length} города`
+      : `${shows.length} городов`
+
   if (shows.length === 0) {
     return (
       <div className="min-h-screen bg-bg flex items-center justify-center">
@@ -91,7 +113,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                   style={{
                     borderRadius: 40, aspectRatio: '3/4',
                     marginTop: 30,
-                    boxShadow: '0 16px 60px rgba(255,77,0,0.22), 0 0 0 1px rgba(255,77,0,0.12)',
+                    boxShadow: '0 0 60px rgba(255,77,0,0.30), 0 0 120px rgba(255,77,0,0.12), 0 0 0 1px rgba(255,77,0,0.18)',
                   }}
                 >
                   {artistPhoto ? (
@@ -118,9 +140,9 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                   <div className="flex items-center gap-2 mt-2.5 flex-wrap">
                     <span className="text-sm text-muted">{tourLabel}</span>
                     <span className="w-1 h-1 rounded-full bg-muted-2 flex-shrink-0" />
-                    <span className="text-sm text-muted">{totalPublic} концерта</span>
+                    <span className="text-sm text-muted">{concertsShort}</span>
                     <span className="ml-auto text-[10px] font-medium tabular-nums px-2.5 py-1 rounded-full border border-border text-muted">
-                      {shows.length} городов
+                      {citiesLabel}
                     </span>
                   </div>
                 </div>
@@ -131,7 +153,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                 <div className="flex items-center gap-2 mt-2.5">
                   <span className="text-muted text-sm">{tourLabel}</span>
                   <span className="w-1 h-1 rounded-full bg-muted-2 flex-shrink-0" />
-                  <span className="text-muted text-sm">{totalPublic} концерта</span>
+                  <span className="text-muted text-sm">{concertsShort}</span>
                 </div>
               </div>
             )}
@@ -139,19 +161,37 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
 
           {/* Desktop: full-height sticky poster */}
           <div className="hidden lg:block absolute inset-0">
+            {/* Orange aura glow around image */}
+            <div
+              className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
+              style={{
+                top: '51px',
+                bottom: '0',
+                width: 'calc(100% - 32px)',
+                borderRadius: '28px',
+                boxShadow: '0 0 60px rgba(255,77,0,0.30), 0 0 120px rgba(255,77,0,0.12), 0 0 0 1px rgba(255,77,0,0.18)',
+              }}
+            />
+
             {/* Orange glow beneath image */}
             <div
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[70%] h-24 pointer-events-none"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-32 pointer-events-none"
               style={{
-                background: 'radial-gradient(ellipse at center, rgba(255,77,0,0.45) 0%, transparent 70%)',
-                filter: 'blur(18px)',
+                background: 'radial-gradient(ellipse at center, rgba(255,77,0,0.55) 0%, transparent 70%)',
+                filter: 'blur(24px)',
               }}
             />
 
             {/* Image wrapper with rounded corners */}
             <div
-              className="absolute inset-x-4 overflow-hidden"
-              style={{ top: '51px', bottom: '0', borderRadius: '24px' }}
+              className="absolute overflow-hidden"
+              style={{
+                top: '51px',
+                bottom: '0',
+                left: '16px',
+                right: '16px',
+                borderRadius: '24px',
+              }}
             >
               {artistPhoto ? (
                 <Image
@@ -195,9 +235,9 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
             <div className="flex items-center gap-3 mt-3">
               <span className="text-muted">{tourLabel}</span>
               <span className="w-1 h-1 rounded-full bg-muted-2" />
-              <span className="text-muted text-sm">{totalPublic} открытых концерта</span>
+              <span className="text-muted text-sm">{concertsFull}</span>
               <span className="w-1 h-1 rounded-full bg-muted-2" />
-              <span className="text-muted text-sm">{shows.length} городов</span>
+              <span className="text-muted text-sm">{citiesLabel}</span>
             </div>
           </div>
 
