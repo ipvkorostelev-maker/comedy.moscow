@@ -156,9 +156,6 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                     <span className="text-sm text-muted">{tourLabel}</span>
                     <span className="w-1 h-1 rounded-full bg-muted-2 flex-shrink-0" />
                     <span className="text-sm text-muted">{concertsShort}</span>
-                    <span className="ml-auto text-[10px] font-medium tabular-nums px-2.5 py-1 rounded-full border border-border text-muted">
-                      {citiesLabel}
-                    </span>
                   </div>
                 </div>
                 <div
@@ -181,7 +178,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                         onLoad={() => setArtistPhotoLoaded(true)}
                       />
                       <div className={cn(
-                        'absolute inset-0 bg-zinc-900 transition-opacity duration-700',
+                        'absolute inset-0 skeleton-shimmer transition-opacity duration-700',
                         artistPhotoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
                       )} />
                     </>
@@ -198,7 +195,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                             onLoad={() => setLoadedImages((prev) => new Set(prev).add(show.id))}
                           />
                           <div className={cn(
-                            'absolute inset-0 bg-zinc-900 transition-opacity duration-700',
+                            'absolute inset-0 skeleton-shimmer transition-opacity duration-700',
                             show.id === activeId && !loadedImages.has(show.id)
                               ? 'opacity-100'
                               : 'opacity-0 pointer-events-none'
@@ -207,6 +204,11 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                       ) : null
                     ))
                   )}
+                </div>
+                <div className="flex justify-center mt-3">
+                  <span className="text-[10px] font-medium tabular-nums px-2.5 py-1 rounded-full border border-border text-muted">
+                    {citiesLabel}
+                  </span>
                 </div>
               </>
             ) : (
@@ -270,7 +272,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                     onLoad={() => setArtistPhotoLoaded(true)}
                   />
                   <div className={cn(
-                    'absolute inset-0 bg-zinc-900 transition-opacity duration-700',
+                    'absolute inset-0 skeleton-shimmer transition-opacity duration-700',
                     artistPhotoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
                   )} />
                 </>
@@ -291,7 +293,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                         onLoad={() => setLoadedImages((prev) => new Set(prev).add(show.id))}
                       />
                       <div className={cn(
-                        'absolute inset-0 bg-zinc-900 transition-opacity duration-700',
+                        'absolute inset-0 skeleton-shimmer transition-opacity duration-700',
                         show.id === activeId && !loadedImages.has(show.id)
                           ? 'opacity-100'
                           : 'opacity-0 pointer-events-none'
@@ -401,9 +403,6 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                         )}>
                           {show.city}
                         </span>
-                        {show.isNearest && (
-                          <span className="text-red text-[9px] font-bold uppercase tracking-wider mt-0.5">Ближайший</span>
-                        )}
                         {show.isSoldOut && (
                           <span className="text-muted text-[9px] font-bold uppercase tracking-wider mt-0.5">Нет мест</span>
                         )}
@@ -438,12 +437,8 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                         <Link
                           href={show.href}
                           onClick={(e) => e.stopPropagation()}
-                          className={cn(
-                            'shrink-0 px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase transition-all duration-150 whitespace-nowrap',
-                            isActive
-                              ? 'bg-red text-white hover:bg-red-hover shadow-red-sm'
-                              : 'bg-[#252525] border border-[#3A3A3F] text-cream/60 group-hover:bg-red group-hover:border-red group-hover:text-white'
-                          )}
+                          className="shrink-0 px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase transition-all duration-150 whitespace-nowrap text-white hover:brightness-110 shadow-red-sm"
+                          style={{ backgroundColor: '#FF4D00' }}
                         >
                           Купить билет
                         </Link>
@@ -489,12 +484,8 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                           <Link
                             href={show.href}
                             onClick={(e) => e.stopPropagation()}
-                            className={cn(
-                              'block w-full py-3 rounded-full text-[11px] font-bold tracking-widest uppercase text-center transition-all duration-150',
-                              isActive
-                                ? 'bg-red text-white shadow-red-sm'
-                                : 'bg-[#252525] border border-[#3A3A3F] text-cream/60'
-                            )}
+                            className="block w-full py-3 rounded-full text-[11px] font-bold tracking-widest uppercase text-center transition-all duration-150 text-white hover:brightness-110 shadow-red-sm"
+                            style={{ backgroundColor: '#FF4D00' }}
                           >
                             Купить билет
                           </Link>

@@ -48,6 +48,28 @@
   100% { transform: translateX(100%); }
 }
 
+/* Skeleton overlay for absolute-positioned placeholders (tour page etc.) */
+.skeleton-shimmer {
+  background: #1c1c1f;
+  overflow: hidden;
+}
+
+.skeleton-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 70%
+  );
+  animation: shimmerSlide 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
 /* Container that shows a dark animated shimmer while the image loads */
 .img-loading-container {
   background: #141414;
