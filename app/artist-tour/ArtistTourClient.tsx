@@ -160,7 +160,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
           </div>
 
           {/* Desktop: full-height sticky poster */}
-          <div className="hidden lg:block relative">
+          <div className="hidden lg:block relative h-full">
             {/* Strong orange glow behind image */}
             <div
               className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
