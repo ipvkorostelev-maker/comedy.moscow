@@ -33,14 +33,11 @@ async function loadEnrichedEvents(): Promise<Event[]> {
   let events: Event[]
   let allArtists: Artist[]
   if (await isAvailable()) {
-    const [remote, remoteArtists, tours] = await Promise.all([
+    const [remote, remoteArtists] = await Promise.all([
       getWomanstandupEvents(),
       getWomanstandupArtists(),
-      getWomanstandupTours(),
     ])
-    const tourConcertIds = new Set(tours.flatMap(t => t.concertIds).map(String))
-    const nonTourRemote = remote.filter(e => !tourConcertIds.has(String(e.id)))
-    events = remote.length > 0 ? nonTourRemote : (localEvents as Event[])
+    events = remote.length > 0 ? remote : (localEvents as Event[])
     allArtists = remoteArtists.length > 0 ? remoteArtists : (localArtists as Artist[])
   } else {
     events = localEvents as Event[]
@@ -60,8 +57,13 @@ async function loadEnrichedEvents(): Promise<Event[]> {
 }
 
 export async function getAllEvents(): Promise<Event[]> {
-  const events = await loadEnrichedEvents()
-  return events.filter(isUpcoming)
+  const avail = await isAvailable()
+  const [events, tours] = await Promise.all([
+    loadEnrichedEvents(),
+    avail ? getWomanstandupTours() : Promise.resolve([]),
+  ])
+  const tourConcertIds = new Set(tours.flatMap(t => t.concertIds).map(String))
+  return events.filter(e => isUpcoming(e) && !tourConcertIds.has(String(e.id)))
 }
 
 // Returns upcoming + events from the past 30 days (for feeds — past events get available=false).
