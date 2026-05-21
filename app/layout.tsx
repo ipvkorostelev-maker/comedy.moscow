@@ -5,7 +5,6 @@ import './globals.css'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
 import CookieBanner from '@/components/ui/CookieBanner'
-import InticketsInit from '@/components/ui/InticketsInit'
 import { BASE } from '@/lib/utils'
 
 const oswald = Oswald({
@@ -98,14 +97,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
-        <link rel="stylesheet" href="//s3.intickets.ru/intickets.min.css" />
       </head>
       <body>
         <Nav />
         <main>{children}</main>
         <Footer />
         <CookieBanner />
-        <InticketsInit />
         <Script
           id="vk-pixel"
           strategy="afterInteractive"
@@ -150,10 +147,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               document.getElementsByTagName('script')[0].parentNode.insertBefore(s, document.getElementsByTagName('script')[0]);
             })();
           `}}
-        />
-        <Script
-          src="//s3.intickets.ru/intickets.js"
-          strategy="afterInteractive"
         />
       </body>
     </html>
