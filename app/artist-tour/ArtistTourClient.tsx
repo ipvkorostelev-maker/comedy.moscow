@@ -102,9 +102,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
       <div className="flex flex-col lg:flex-row">
 
         {/* ── LEFT PANEL ─────────────────────────────────────────── */}
-        <div className="lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-full lg:w-[42%] shrink-0 overflow-hidden bg-bg">
-          {/* Image layer on top */}
-          <div className="relative z-10">
+        <div className="lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-full lg:w-[42%] shrink-0 overflow-hidden bg-bg relative z-10">
 
           {/* Mobile: photo card */}
           <div className="lg:hidden px-4 pb-4">
@@ -224,8 +222,6 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
               )}
             </div>
           </div>
-          {/* Closing layer */}
-          <div className="pointer-events-none z-0" />
         </div>
 
         {/* ── RIGHT PANEL ────────────────────────────────────────── */}
