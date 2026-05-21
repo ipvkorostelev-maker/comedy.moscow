@@ -55,12 +55,25 @@ function buildListItems(shows: TourShow[]): ListItem[] {
   return items
 }
 
+function formatDateLong(date: string): string {
+  const [day, month] = date.split('.')
+  if (!day || !month) return date
+  const MONTHS_GENITIVE: Record<string, string> = {
+    '01': 'января', '02': 'февраля', '03': 'марта', '04': 'апреля',
+    '05': 'мая', '06': 'июня', '07': 'июля', '08': 'августа',
+    '09': 'сентября', '10': 'октября', '11': 'ноября', '12': 'декабря',
+  }
+  return `${parseInt(day, 10)} ${MONTHS_GENITIVE[month] ?? month}`
+}
+
 // ── COMPONENT ──────────────────────────────────────────────────────────────────
 
 export default function ArtistTourClient({ artistName, tourLabel = 'стендап-тур', artistPhoto, shows }: Props) {
   const firstId = shows[0]?.id ?? null
   const [activeId, setActiveId] = useState<string | number | null>(firstId)
   const activeShow = shows.find((s) => s.id === activeId) ?? shows[0]
+  const [loadedImages, setLoadedImages] = useState<Set<string | number>>(new Set())
+  const [artistPhotoLoaded, setArtistPhotoLoaded] = useState(false)
   const listItems = buildListItems(shows)
   const totalPublic = shows.filter((s) => !s.isPrivate).length
 
@@ -96,6 +109,12 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
 
   return (
     <div className="min-h-screen lg:pt-0">
+      <style>{`
+        @keyframes glowPulse {
+          0%, 100% { opacity: 0.65; }
+          50% { opacity: 1; }
+        }
+      `}</style>
 
 
       {/* ── LAYOUT ─────────────────────────────────────────────────── */}
@@ -113,22 +132,44 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                   style={{
                     borderRadius: 40, aspectRatio: '3/4',
                     marginTop: 30,
-                    boxShadow: '0 0 60px rgba(255,77,0,0.30), 0 0 120px rgba(255,77,0,0.12), 0 0 0 1px rgba(255,77,0,0.18)',
+                    boxShadow: '0 0 40px rgba(255,77,0,0.15), 0 0 80px rgba(255,77,0,0.06), 0 0 0 1px rgba(255,77,0,0.10)',
                   }}
                 >
                   {artistPhoto ? (
-                    <Image src={artistPhoto} alt={artistName} fill className="object-cover" sizes="calc(100vw - 32px)" priority />
+                    <>
+                      <Image
+                        src={artistPhoto}
+                        alt={artistName}
+                        fill
+                        className="object-cover"
+                        sizes="calc(100vw - 32px)"
+                        priority
+                        onLoad={() => setArtistPhotoLoaded(true)}
+                      />
+                      <div className={cn(
+                        'absolute inset-0 bg-zinc-900 transition-opacity duration-700',
+                        artistPhotoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                      )} />
+                    </>
                   ) : (
                     shows.map((show) => (
                       show.posterImage ? (
-                        <Image
-                          key={show.id}
-                          src={show.posterImage}
-                          alt={`${artistName} — ${show.venue}`}
-                          fill
-                          className={cn('object-cover transition-opacity duration-500', show.id === activeId ? 'opacity-100' : 'opacity-0')}
-                          sizes="calc(100vw - 32px)"
-                        />
+                        <div key={show.id} className="absolute inset-0">
+                          <Image
+                            src={show.posterImage}
+                            alt={`${artistName} — ${show.venue}`}
+                            fill
+                            className={cn('object-cover transition-opacity duration-500', show.id === activeId ? 'opacity-100' : 'opacity-0')}
+                            sizes="calc(100vw - 32px)"
+                            onLoad={() => setLoadedImages((prev) => new Set(prev).add(show.id))}
+                          />
+                          <div className={cn(
+                            'absolute inset-0 bg-zinc-900 transition-opacity duration-700',
+                            show.id === activeId && !loadedImages.has(show.id)
+                              ? 'opacity-100'
+                              : 'opacity-0 pointer-events-none'
+                          )} />
+                        </div>
                       ) : null
                     ))
                   )}
@@ -161,7 +202,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
 
           {/* Desktop: full-height sticky poster */}
           <div className="hidden lg:block relative h-full">
-            {/* Strong orange glow behind image */}
+            {/* Subtle orange glow behind image */}
             <div
               className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
               style={{
@@ -169,16 +210,17 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                 bottom: '0',
                 width: 'calc(100% - 32px)',
                 borderRadius: '28px',
-                boxShadow: '0 0 120px rgba(255,77,0,0.60), 0 0 180px rgba(255,77,0,0.30), 0 0 0 1px rgba(255,77,0,0.35)',
+                boxShadow: '0 0 80px rgba(255,77,0,0.22), 0 0 140px rgba(255,77,0,0.10), 0 0 0 1px rgba(255,77,0,0.12)',
+                animation: 'glowPulse 4s ease-in-out infinite',
               }}
             />
 
-            {/* Intense orange glow beneath image */}
+            {/* Soft orange glow beneath image */}
             <div
               className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-40 pointer-events-none"
               style={{
-                background: 'radial-gradient(ellipse at center, rgba(255,77,0,0.85) 0%, rgba(255,77,0,0.40) 50%, transparent 70%)',
-                filter: 'blur(32px)',
+                background: 'radial-gradient(ellipse at center, rgba(255,77,0,0.35) 0%, rgba(255,77,0,0.15) 50%, transparent 70%)',
+                filter: 'blur(48px)',
               }}
             />
 
@@ -194,33 +236,83 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
               }}
             >
               {artistPhoto ? (
-                <Image
-                  src={artistPhoto}
-                  alt={artistName}
-                  fill
-                  priority
-                  className="object-contain"
-                  sizes="42vw"
-                />
+                <>
+                  <Image
+                    src={artistPhoto}
+                    alt={artistName}
+                    fill
+                    priority
+                    className="object-contain"
+                    sizes="42vw"
+                    onLoad={() => setArtistPhotoLoaded(true)}
+                  />
+                  <div className={cn(
+                    'absolute inset-0 bg-zinc-900 transition-opacity duration-700',
+                    artistPhotoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                  )} />
+                </>
               ) : (
                 shows.map((show) => (
                   show.posterImage ? (
-                    <Image
-                      key={show.id}
-                      src={show.posterImage}
-                      alt={`${artistName} — ${show.venue}`}
-                      fill
-                      priority={show.id === activeId}
-                      className={cn(
-                        'object-contain transition-opacity duration-600',
-                        show.id === activeId ? 'opacity-100' : 'opacity-0'
-                      )}
-                      sizes="42vw"
-                    />
+                    <div key={show.id} className="absolute inset-0">
+                      <Image
+                        src={show.posterImage}
+                        alt={`${artistName} — ${show.venue}`}
+                        fill
+                        priority={show.id === activeId}
+                        className={cn(
+                          'object-contain transition-opacity duration-500',
+                          show.id === activeId ? 'opacity-100' : 'opacity-0'
+                        )}
+                        sizes="42vw"
+                        onLoad={() => setLoadedImages((prev) => new Set(prev).add(show.id))}
+                      />
+                      <div className={cn(
+                        'absolute inset-0 bg-zinc-900 transition-opacity duration-700',
+                        show.id === activeId && !loadedImages.has(show.id)
+                          ? 'opacity-100'
+                          : 'opacity-0 pointer-events-none'
+                      )} />
+                    </div>
                   ) : null
                 ))
               )}
             </div>
+
+            {/* Plaque overlay with active show data */}
+            {activeShow && (
+              <div
+                className="absolute px-6 pb-6 pt-10 flex flex-col justify-end"
+                style={{
+                  left: 16,
+                  right: 16,
+                  bottom: 0,
+                  zIndex: 20,
+                  borderBottomLeftRadius: 24,
+                  borderBottomRightRadius: 24,
+                  background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)',
+                }}
+              >
+                <p className="font-medium text-2xl text-cream leading-tight">{activeShow.city}</p>
+                <p className="text-muted text-sm mt-1">{activeShow.venue}</p>
+                <p className="text-cream/70 text-sm mt-1">{formatDateLong(activeShow.date)}</p>
+
+                <div className="mt-4">
+                  {activeShow.isPrivate ? (
+                    <span className="text-muted text-xs">Для гостей отеля</span>
+                  ) : activeShow.isSoldOut ? (
+                    <span className="text-muted text-xs">Нет билетов</span>
+                  ) : (
+                    <Link
+                      href={activeShow.href}
+                      className="inline-block px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase bg-red text-white hover:bg-red-hover shadow-red-sm transition-all duration-150"
+                    >
+                      Купить билет
+                    </Link>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

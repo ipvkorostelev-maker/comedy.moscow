@@ -102,3 +102,23 @@ Remote image domains allowed in `next.config.mjs`: `images.unsplash.com`, `woman
 - Use `cn()` from `lib/utils.ts` for conditional classnames
 - Framer Motion for entrance animations; keep animations lightweight (server components have no JS budget)
 - Prefer server components; add `'use client'` only when interactivity or browser APIs are required
+
+## Workflow
+
+Для любой задачи по написанию кода:
+1. Сформулируй точное задание
+2. Выполни: `opencode "<задание>"`
+3. Прочитай результат
+4. Проверь, запусти тесты
+5. Если есть проблемы — отправь правку через `opencode "<уточнение>"`
+6. Финально одобри или доработай сам
+
+## Правило вызова opencode
+
+Всегда используй stdin для передачи задания:
+```bash
+echo "задание здесь" | opencode run --dangerously-skip-permissions
+```
+Никогда не используй флаг --file или --f
+
+Сам пиши код только для архитектурных решений и финальных правок.
