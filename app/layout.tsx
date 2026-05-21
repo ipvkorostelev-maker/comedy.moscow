@@ -97,19 +97,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
-        <link rel="preload" href="https://s3.intickets.ru/intickets.min.css" as="style" />
-        <script dangerouslySetInnerHTML={{ __html: `var l=document.querySelector('link[href="https://s3.intickets.ru/intickets.min.css"]');l.onload=function(){l.onload=null;l.rel='stylesheet'}` }} />
-        <noscript><link rel="stylesheet" href="https://s3.intickets.ru/intickets.min.css" /></noscript>
+        <link rel="stylesheet" href="//s3.intickets.ru/intickets.min.css" />
       </head>
       <body>
         <Nav />
         <main>{children}</main>
         <Footer />
         <CookieBanner />
-        <Script
-          src="https://s3.intickets.ru/intickets.js"
-          strategy="afterInteractive"
-        />
         <Script
           id="vk-pixel"
           strategy="afterInteractive"
@@ -154,6 +148,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               document.getElementsByTagName('script')[0].parentNode.insertBefore(s, document.getElementsByTagName('script')[0]);
             })();
           `}}
+        />
+        <Script
+          src="//s3.intickets.ru/intickets.js"
+          strategy="afterInteractive"
         />
       </body>
     </html>

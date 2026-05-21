@@ -420,10 +420,10 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
 
                       {/* Date */}
                       <span className={cn(
-                        'text-sm font-medium tabular-nums whitespace-nowrap shrink-0 mx-4',
+                        'text-sm font-medium whitespace-nowrap shrink-0 mx-4',
                         isActive ? 'text-cream' : 'text-cream/50 group-hover:text-cream/75'
                       )}>
-                        {show.date}
+                        {formatDateLong(show.date)}
                       </span>
 
                       {/* Action */}
@@ -454,10 +454,10 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                       {/* Info row */}
                       <div className="flex items-center gap-2.5 px-5 pt-4 pb-3">
                         <span className={cn(
-                          'text-sm font-medium tabular-nums whitespace-nowrap shrink-0',
+                          'text-sm font-medium whitespace-nowrap shrink-0',
                           isActive ? 'text-cream' : 'text-cream/60'
                         )}>
-                          {show.date}
+                          {formatDateLong(show.date)}
                         </span>
                         <span className="text-border leading-none select-none shrink-0">|</span>
                         <span className={cn(
