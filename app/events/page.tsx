@@ -40,7 +40,7 @@ export default async function EventsPage({ searchParams }: Props) {
   const eventDates = new Set(events.map((e) => e.date))
 
   return (
-    <div className="pt-[calc(2rem+30px)]">
+    <div className="pt-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -70,7 +70,7 @@ export default async function EventsPage({ searchParams }: Props) {
         }}
       />
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="py-12 border-b border-border mb-6">
+        <div className="pt-4 pb-8 border-b border-border mb-6">
           <h1 className="font-serif font-black text-4xl lg:text-5xl text-cream mb-3">События</h1>
           <div className="flex flex-wrap gap-2 items-center mb-5">
             <span className="text-muted text-sm">{events.length} мероприятий</span>

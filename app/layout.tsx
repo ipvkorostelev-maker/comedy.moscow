@@ -5,6 +5,7 @@ import './globals.css'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
 import CookieBanner from '@/components/ui/CookieBanner'
+import { NavLabelProvider } from '@/components/ui/NavLabelProvider'
 import { BASE } from '@/lib/utils'
 
 const oswald = Oswald({
@@ -99,8 +100,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <Nav />
-        <main>{children}</main>
+        <NavLabelProvider>
+          <Nav />
+          <main>{children}</main>
+        </NavLabelProvider>
         <Footer />
         <CookieBanner />
         <Script

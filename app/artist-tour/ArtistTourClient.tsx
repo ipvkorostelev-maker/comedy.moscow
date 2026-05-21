@@ -329,7 +329,8 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                   ) : (
                     <Link
                       href={activeShow.href}
-                      className="inline-block px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase bg-red text-white hover:bg-red-hover shadow-red-sm transition-all duration-150"
+                      className="inline-block px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase bg-red text-white hover:brightness-110 shadow-red-sm transition-all duration-150"
+                      style={{ backgroundColor: '#FF4D00' }}
                     >
                       Купить билет
                     </Link>

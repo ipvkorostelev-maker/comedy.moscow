@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
+import { NavLabelSync } from '@/components/ui/NavLabelProvider'
 import { getEventBySlugAny, isEventPast, getArtistsByIds, getVenueById, getSimilarEvents, getAllEvents } from '@/lib/data'
 import { formatDate, formatDateShort, formatDayOfWeek, formatPrice, minEventPrice, BASE } from '@/lib/utils'
 import BuyButton from '@/components/ui/BuyButton'
@@ -91,6 +92,8 @@ export default async function EventPage({ params }: { params: { slug: string } }
   const event = await getEventBySlugAny(params.slug)
   if (!event) notFound()
 
+  const navLabel = event.city && event.city !== "Москва" ? `Стендап ${event.city}` : null
+
   const past = isEventPast(event)
   const [artists, similar] = await Promise.all([
     getArtistsByIds(event.artistIds),
@@ -157,6 +160,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
     }
     return (
       <>
+        {navLabel && <NavLabelSync label={navLabel} />}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pastJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLdPast) }} />
 
@@ -329,6 +333,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
 
   return (
     <>
+      {navLabel && <NavLabelSync label={navLabel} />}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
