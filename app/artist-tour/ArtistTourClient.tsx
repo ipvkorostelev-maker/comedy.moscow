@@ -102,7 +102,9 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
       <div className="flex flex-col lg:flex-row">
 
         {/* ── LEFT PANEL ─────────────────────────────────────────── */}
-        <div className="lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-full lg:w-[42%] shrink-0 overflow-hidden">
+        <div className="lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-full lg:w-[42%] shrink-0 overflow-hidden bg-bg">
+          {/* Image layer on top */}
+          <div className="relative z-10">
 
           {/* Mobile: photo card */}
           <div className="lg:hidden px-4 pb-4">
@@ -160,8 +162,8 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
           </div>
 
           {/* Desktop: full-height sticky poster */}
-          <div className="hidden lg:block absolute inset-0">
-            {/* Orange aura glow around image */}
+          <div className="hidden lg:block relative">
+            {/* Strong orange glow behind image */}
             <div
               className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
               style={{
@@ -169,16 +171,16 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                 bottom: '0',
                 width: 'calc(100% - 32px)',
                 borderRadius: '28px',
-                boxShadow: '0 0 60px rgba(255,77,0,0.30), 0 0 120px rgba(255,77,0,0.12), 0 0 0 1px rgba(255,77,0,0.18)',
+                boxShadow: '0 0 120px rgba(255,77,0,0.60), 0 0 180px rgba(255,77,0,0.30), 0 0 0 1px rgba(255,77,0,0.35)',
               }}
             />
 
-            {/* Orange glow beneath image */}
+            {/* Intense orange glow beneath image */}
             <div
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-32 pointer-events-none"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-40 pointer-events-none"
               style={{
-                background: 'radial-gradient(ellipse at center, rgba(255,77,0,0.55) 0%, transparent 70%)',
-                filter: 'blur(24px)',
+                background: 'radial-gradient(ellipse at center, rgba(255,77,0,0.85) 0%, rgba(255,77,0,0.40) 50%, transparent 70%)',
+                filter: 'blur(32px)',
               }}
             />
 
@@ -222,6 +224,8 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
               )}
             </div>
           </div>
+          {/* Closing layer */}
+          <div className="pointer-events-none z-0" />
         </div>
 
         {/* ── RIGHT PANEL ────────────────────────────────────────── */}
