@@ -12,6 +12,7 @@ export interface TourShow {
   city: string
   venue: string
   date: string      // formatted "DD.MM"
+  year?: number
   href: string      // full link for buy button
   isPrivate: boolean
   isSoldOut?: boolean
@@ -24,6 +25,7 @@ interface Props {
   tourLabel?: string
   artistPhoto?: string
   shows: TourShow[]
+  showPlaque?: boolean
 }
 
 // ── CONSTANTS ──────────────────────────────────────────────────────────────────
@@ -55,7 +57,7 @@ function buildListItems(shows: TourShow[]): ListItem[] {
   return items
 }
 
-function formatDateLong(date: string): string {
+function formatDateLong(date: string, year?: number): string {
   const [day, month] = date.split('.')
   if (!day || !month) return date
   const MONTHS_GENITIVE: Record<string, string> = {
@@ -63,12 +65,13 @@ function formatDateLong(date: string): string {
     '05': 'мая', '06': 'июня', '07': 'июля', '08': 'августа',
     '09': 'сентября', '10': 'октября', '11': 'ноября', '12': 'декабря',
   }
-  return `${parseInt(day, 10)} ${MONTHS_GENITIVE[month] ?? month}`
+  const base = `${parseInt(day, 10)} ${MONTHS_GENITIVE[month] ?? month}`
+  return year ? `${base} ${year}` : base
 }
 
 // ── COMPONENT ──────────────────────────────────────────────────────────────────
 
-export default function ArtistTourClient({ artistName, tourLabel = 'стендап-тур', artistPhoto, shows }: Props) {
+export default function ArtistTourClient({ artistName, tourLabel = 'стендап-тур', artistPhoto, shows, showPlaque = true }: Props) {
   const firstId = shows[0]?.id ?? null
   const [activeId, setActiveId] = useState<string | number | null>(firstId)
   const activeShow = shows.find((s) => s.id === activeId) ?? shows[0]
@@ -234,13 +237,15 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
             />
 
             {/* Soft orange glow beneath image */}
-            <div
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-40 pointer-events-none"
-              style={{
-                background: 'radial-gradient(ellipse at center, rgba(255,77,0,0.35) 0%, rgba(255,77,0,0.15) 50%, transparent 70%)',
-                filter: 'blur(48px)',
-              }}
-            />
+            {showPlaque !== false && (
+              <div
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-40 pointer-events-none"
+                style={{
+                  background: 'radial-gradient(ellipse at center, rgba(255,77,0,0.35) 0%, rgba(255,77,0,0.15) 50%, transparent 70%)',
+                  filter: 'blur(48px)',
+                }}
+              />
+            )}
 
             {/* Image wrapper with rounded corners */}
             <div
@@ -298,7 +303,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
             </div>
 
             {/* Plaque overlay with active show data */}
-            {activeShow && (
+            {showPlaque !== false && activeShow && (
               <div className="group">
                 <div
                   className="plaque-base absolute px-6 pb-6 pt-10 flex flex-col justify-end"
@@ -314,7 +319,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                 >
                 <p className="font-medium text-2xl text-cream leading-tight">{activeShow.city}</p>
                 <p className="text-muted text-sm mt-1">{activeShow.venue}</p>
-                <p className="text-cream/70 text-sm mt-1">{formatDateLong(activeShow.date)}</p>
+                <p className="text-cream/70 text-sm mt-1">{formatDateLong(activeShow.date, activeShow.year)}</p>
 
                 <div className="mt-4">
                   {activeShow.isPrivate ? (

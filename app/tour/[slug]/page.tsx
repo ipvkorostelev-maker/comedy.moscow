@@ -5,6 +5,7 @@ import {
   getWomanstandupRawConcerts,
   getWomanstandupArtists,
 } from '@/lib/womanstandup'
+import { BASE } from '@/lib/utils'
 import ArtistTourClient, { type TourShow } from '@/app/artist-tour/ArtistTourClient'
 
 export const revalidate = 300
@@ -44,19 +45,59 @@ function isPast(dateStr: string, timeStr = '23:59'): boolean {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const [tours, allArtists] = await Promise.all([
+  const [tours, allArtists, rawConcerts] = await Promise.all([
     getWomanstandupTours(),
     getWomanstandupArtists(),
+    getWomanstandupRawConcerts(),
   ])
   const tour = tours.find((t) => t.slug === slug)
   if (!tour) return {}
+
   const artist = allArtists.find((a) => a.id === tour.artistId)
-  const title = tour.title
-    ? `${tour.title} — ${artist?.name ?? ''}`
-    : `${artist?.name ?? ''} — стендап-тур`
+  const artistName = artist?.name ?? ''
+  const tourTitle = tour.title || 'стендап-тур'
+
+  const concertMap = new Map(rawConcerts.map((c) => [c.id, c]))
+  const tourConcerts = (tour.concertIds ?? [])
+    .map((id: string) => concertMap.get(id))
+    .filter((c: any) => c && !c.isDraft)
+
+  const cities = [...new Set(tourConcerts.map((c: any) => c.city).filter(Boolean))]
+  const citiesCount = cities.length
+  const totalConcerts = tourConcerts.length
+
+  const years = tourConcerts
+    .map((c: any) => new Date(c.date).getFullYear())
+    .filter(Boolean)
+  const year =
+    years.length > 0
+      ? Math.min(...years) === Math.max(...years)
+        ? `${Math.min(...years)}`
+        : `${Math.min(...years)}–${Math.max(...years)}`
+      : ''
+
+  const title = `${artistName} — ${tourTitle} | Билеты на концерты ${year}`
+
+  const cityList = cities.slice(0, 4).join(', ')
+  const moreText = citiesCount > 4 ? ' и других' : ''
+  const description = `Гастрольный тур ${artistName} «${tourTitle}» — ${totalConcerts} концертов в ${citiesCount} городах: ${cityList}${moreText}. Купить билеты онлайн.`
+
+  const assetsUrl = process.env.WOMANSTANDUP_ASSETS_URL ?? ''
+  const ogImages = tour.photo
+    ? [{ url: tour.photo.startsWith('http') ? tour.photo : assetsUrl + tour.photo }]
+    : undefined
+
   return {
     title,
-    description: `Расписание концертов ${artist?.name ?? ''} по городам. Купить билеты онлайн.`,
+    description,
+    openGraph: {
+      title,
+      description,
+      ...(ogImages && { images: ogImages }),
+    },
+    alternates: {
+      canonical: `${BASE}/tour/${slug}`,
+    },
   }
 }
 
@@ -110,6 +151,7 @@ export default async function TourPage({ params }: { params: Promise<{ slug: str
         city: c.city ?? '',
         venue: c.venue ?? '',
         date: formatDisplayDate(c.date ?? ''),
+        year: new Date(c.date ?? "").getFullYear() || undefined,
         href,
         isPrivate: false,
         isSoldOut: past,
@@ -129,6 +171,7 @@ export default async function TourPage({ params }: { params: Promise<{ slug: str
       tourLabel={tour.title || 'стендап-тур'}
       artistPhoto={tourPhoto}
       shows={shows}
+      showPlaque={false}
     />
   )
 }
