@@ -114,6 +114,24 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
           0%, 100% { opacity: 0.65; }
           50% { opacity: 1; }
         }
+        @keyframes fadeSlideUp {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .plaque-base {
+          background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+          border-bottom: 1px solid rgba(255,77,0,0.25);
+          border-left: 1px solid rgba(255,77,0,0.25);
+          border-right: 1px solid rgba(255,77,0,0.25);
+          transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+        }
+        .group:hover .plaque-base {
+          transform: translateY(-4px);
+          background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.65) 60%, transparent 100%);
+          border-bottom-color: rgba(255,77,0,0.55);
+          border-left-color: rgba(255,77,0,0.55);
+          border-right-color: rgba(255,77,0,0.55);
+        }
       `}</style>
 
 
@@ -280,18 +298,19 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
 
             {/* Plaque overlay with active show data */}
             {activeShow && (
-              <div
-                className="absolute px-6 pb-6 pt-10 flex flex-col justify-end"
-                style={{
-                  left: 16,
-                  right: 16,
-                  bottom: 0,
-                  zIndex: 20,
-                  borderBottomLeftRadius: 24,
-                  borderBottomRightRadius: 24,
-                  background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)',
-                }}
-              >
+              <div className="group">
+                <div
+                  className="plaque-base absolute px-6 pb-6 pt-10 flex flex-col justify-end"
+                  style={{
+                    left: 16,
+                    right: 16,
+                    bottom: 0,
+                    zIndex: 20,
+                    borderBottomLeftRadius: 24,
+                    borderBottomRightRadius: 24,
+                    animation: 'fadeSlideUp 0.3s ease',
+                  }}
+                >
                 <p className="font-medium text-2xl text-cream leading-tight">{activeShow.city}</p>
                 <p className="text-muted text-sm mt-1">{activeShow.venue}</p>
                 <p className="text-cream/70 text-sm mt-1">{formatDateLong(activeShow.date)}</p>
@@ -310,6 +329,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                     </Link>
                   )}
                 </div>
+              </div>
               </div>
             )}
           </div>
