@@ -5,6 +5,7 @@ import './globals.css'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
 import CookieBanner from '@/components/ui/CookieBanner'
+import InticketsInit from '@/components/ui/InticketsInit'
 import { BASE } from '@/lib/utils'
 
 const oswald = Oswald({
@@ -104,6 +105,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <Footer />
         <CookieBanner />
+        <InticketsInit />
         <Script
           id="vk-pixel"
           strategy="afterInteractive"

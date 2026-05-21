@@ -79,7 +79,8 @@ function mapConcertToEvent(c: any): Event {
     ticketUrl: c.smeshnoTicketUrl || c.ticketUrl || undefined,
     ticketType: c.smeshnoTicketUrl ? 'external' : c.ticketType === 'yandex' ? 'yandex' : 'external',
     yandexWidgetId: c.yandexWidgetId || undefined,
-    inticketsUrl: c.intiketsUrl || c.inticketsUrl || undefined,
+    inticketsUrl: c.intiketsUrl || c.inticketsUrl
+      || (typeof (c.smeshnoTicketUrl || c.ticketUrl) === 'string' && (c.smeshnoTicketUrl || c.ticketUrl)?.includes('intickets.ru') ? (c.smeshnoTicketUrl || c.ticketUrl) : undefined),
   }
 }
 
