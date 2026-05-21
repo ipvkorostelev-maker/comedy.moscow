@@ -95,22 +95,21 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
   }
 
   return (
-    <div className="min-h-screen lg:bg-bg lg:pt-0">
+    <div className="min-h-screen lg:pt-0">
 
 
       {/* ── LAYOUT ─────────────────────────────────────────────────── */}
       <div className="flex flex-col lg:flex-row">
 
         {/* ── LEFT PANEL ─────────────────────────────────────────── */}
-        <div className="lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-full lg:w-[42%] shrink-0 bg-bg relative z-10">
-          <div className="overflow-hidden h-full">
+        <div className="lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-full lg:w-[42%] shrink-0 relative z-10">
 
           {/* Mobile: photo card */}
           <div className="lg:hidden px-4 pb-4">
             {(artistPhoto || activeShow?.posterImage) ? (
               <>
                 <div
-                  className="relative w-full overflow-hidden bg-bg"
+                  className="relative w-full overflow-hidden"
                   style={{
                     borderRadius: 40, aspectRatio: '3/4',
                     marginTop: 30,
@@ -222,7 +221,6 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                 ))
               )}
             </div>
-          </div>
           </div>
         </div>
 
