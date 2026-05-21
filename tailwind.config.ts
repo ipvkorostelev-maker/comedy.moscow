@@ -39,11 +39,21 @@ const config: Config = {
       },
       animation: {
         'fade-up': 'fadeUp 0.6s ease both',
+        'gradient-xy': 'gradientXY 8s ease infinite',
+        float: 'float 6s ease-in-out infinite',
       },
       keyframes: {
         fadeUp: {
           from: { opacity: '0', transform: 'translateY(16px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        gradientXY: {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
         },
       },
     },
