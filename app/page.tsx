@@ -114,7 +114,7 @@ export default async function HomePage({ searchParams }: Props) {
 
       {/* ── TOURS ── */}
       {tours.length > 0 && (
-        <section className="max-w-7xl mx-auto px-6 lg:px-12 py-10 border-t border-border">
+        <section id="tours" className="max-w-7xl mx-auto px-6 lg:px-12 py-10 border-t border-border">
           <ToursCarousel tours={tours} />
         </section>
       )}

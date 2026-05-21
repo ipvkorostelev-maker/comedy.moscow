@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 
 const LINKS = [
   { href: '/events', label: 'События' },
+  { href: '/#tours', label: 'Гастроли' },
   { href: '/artists', label: 'Артисты' },
   { href: '/corporate', label: 'Корпоратив' },
   { href: '/contacts', label: 'Контакты' },
