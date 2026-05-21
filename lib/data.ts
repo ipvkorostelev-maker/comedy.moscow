@@ -3,6 +3,7 @@ import {
   isAvailable,
   getWomanstandupEvents,
   getWomanstandupArtists,
+  getWomanstandupTours,
 } from './womanstandup'
 
 // Local fallback data
@@ -32,11 +33,14 @@ async function loadEnrichedEvents(): Promise<Event[]> {
   let events: Event[]
   let allArtists: Artist[]
   if (await isAvailable()) {
-    const [remote, remoteArtists] = await Promise.all([
+    const [remote, remoteArtists, tours] = await Promise.all([
       getWomanstandupEvents(),
       getWomanstandupArtists(),
+      getWomanstandupTours(),
     ])
-    events = remote.length > 0 ? remote : (localEvents as Event[])
+    const tourConcertIds = new Set(tours.flatMap(t => t.concertIds).map(String))
+    const nonTourRemote = remote.filter(e => !tourConcertIds.has(String(e.id)))
+    events = remote.length > 0 ? nonTourRemote : (localEvents as Event[])
     allArtists = remoteArtists.length > 0 ? remoteArtists : (localArtists as Artist[])
   } else {
     events = localEvents as Event[]

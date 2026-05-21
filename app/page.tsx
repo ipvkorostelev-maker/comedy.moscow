@@ -2,10 +2,12 @@ export const revalidate = 300
 
 import type { Metadata } from 'next'
 import { getAllEvents, getAllArtists } from '@/lib/data'
+import { getEnrichedTours } from '@/lib/womanstandup'
 import ArtistCard from '@/components/cards/ArtistCard'
 import EventCard from '@/components/cards/EventCard'
 import SectionHeader from '@/components/ui/SectionHeader'
 import HeroSlider from '@/components/sections/HeroSlider'
+import ToursCarousel from '@/components/sections/ToursCarousel'
 import CalendarWrapper from '@/components/ui/CalendarWrapper'
 
 interface Props {
@@ -34,7 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage({ searchParams }: Props) {
-  const [allEvents, artists] = await Promise.all([getAllEvents(), getAllArtists()])
+  const [allEvents, artists, tours] = await Promise.all([getAllEvents(), getAllArtists(), getEnrichedTours()])
   const dateFilter = searchParams.date ?? null
   const filtered = dateFilter
     ? allEvents.filter((e) => e.date === dateFilter)
@@ -109,6 +111,13 @@ export default async function HomePage({ searchParams }: Props) {
           )}
         </div>
       </section>
+
+      {/* ── TOURS ── */}
+      {tours.length > 0 && (
+        <section className="max-w-7xl mx-auto px-6 lg:px-12 py-10 border-t border-border">
+          <ToursCarousel tours={tours} />
+        </section>
+      )}
 
       {/* ── ARTISTS ── */}
       <section className="max-w-7xl mx-auto px-6 lg:px-12 py-12 border-t border-border">

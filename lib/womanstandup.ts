@@ -129,6 +129,52 @@ export async function getWomanstandupTours(): Promise<WSTour[]> {
   }
 }
 
+export interface EnrichedTour {
+  id: string
+  slug: string
+  title: string
+  artistId: string
+  artistName: string
+  photo: string
+  totalConcerts: number
+  cities: string[]
+  nearestDate?: string
+}
+
+export async function getEnrichedTours(): Promise<EnrichedTour[]> {
+  if (!DATA_PATH) return []
+  try {
+    const [tours, rawConcerts, artists] = await Promise.all([
+      getWomanstandupTours(),
+      getWomanstandupRawConcerts(),
+      getWomanstandupArtists(),
+    ])
+    const today = new Date().toISOString().split("T")[0]
+    return tours.map(tour => {
+      const concerts = rawConcerts.filter((c: any) => tour.concertIds.includes(String(c.id)))
+      const artist = artists.find(a => a.id === tour.artistId)
+      const cities = [...new Set<string>(concerts.map((c: any) => c.city).filter(Boolean))]
+      const upcomingDates = concerts
+        .map((c: any) => c.date as string)
+        .filter((d: string) => d && d >= today)
+        .sort()
+      return {
+        id: tour.id,
+        slug: tour.slug,
+        title: tour.title,
+        artistId: tour.artistId,
+        artistName: artist?.name ?? "",
+        photo: assetUrl(tour.photo ?? ""),
+        totalConcerts: tour.concertIds.length,
+        cities,
+        nearestDate: upcomingDates[0],
+      }
+    })
+  } catch {
+    return []
+  }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getWomanstandupRawConcerts(): Promise<any[]> {
   if (!DATA_PATH) return []
