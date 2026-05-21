@@ -36,7 +36,7 @@ export default function Nav() {
           {/* Brand */}
           <Link href="/" className="flex items-baseline gap-2 group flex-shrink-0" aria-label="Главная">
             <span className="font-serif font-black text-cream text-sm lg:text-[15px] uppercase tracking-[0.04em] group-hover:text-red transition-colors">
-              Стендап в Москве
+              {pathname.startsWith('/tour') || pathname.startsWith('/artist-tour') ? 'Стендап туры' : 'Стендап в Москве'}
             </span>
             <span className="text-[9px] lg:text-[10px] text-cream/30 tracking-[0.1em] hidden sm:inline">
               comedy.moscow

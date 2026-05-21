@@ -127,11 +127,23 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
           <div className="lg:hidden px-4 pb-4">
             {(artistPhoto || activeShow?.posterImage) ? (
               <>
+                <div className="px-1 pt-4 pb-1">
+                  <h1 className="font-serif font-black text-cream uppercase" style={{ fontSize: 'clamp(1.9rem, 8vw, 2.8rem)', lineHeight: 0.95, letterSpacing: '-0.01em' }}>
+                    {artistName}
+                  </h1>
+                  <div className="flex items-center gap-2 mt-2.5 flex-wrap">
+                    <span className="text-sm text-muted">{tourLabel}</span>
+                    <span className="w-1 h-1 rounded-full bg-muted-2 flex-shrink-0" />
+                    <span className="text-sm text-muted">{concertsShort}</span>
+                    <span className="ml-auto text-[10px] font-medium tabular-nums px-2.5 py-1 rounded-full border border-border text-muted">
+                      {citiesLabel}
+                    </span>
+                  </div>
+                </div>
                 <div
                   className="relative w-full overflow-hidden"
                   style={{
                     borderRadius: 40, aspectRatio: '3/4',
-                    marginTop: 30,
                     boxShadow: '0 0 40px rgba(255,77,0,0.15), 0 0 80px rgba(255,77,0,0.06), 0 0 0 1px rgba(255,77,0,0.10)',
                   }}
                 >
@@ -173,19 +185,6 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                       ) : null
                     ))
                   )}
-                </div>
-                <div className="px-1 pt-4 pb-1">
-                  <h1 className="font-serif font-black text-cream uppercase" style={{ fontSize: 'clamp(1.9rem, 8vw, 2.8rem)', lineHeight: 0.95, letterSpacing: '-0.01em' }}>
-                    {artistName}
-                  </h1>
-                  <div className="flex items-center gap-2 mt-2.5 flex-wrap">
-                    <span className="text-sm text-muted">{tourLabel}</span>
-                    <span className="w-1 h-1 rounded-full bg-muted-2 flex-shrink-0" />
-                    <span className="text-sm text-muted">{concertsShort}</span>
-                    <span className="ml-auto text-[10px] font-medium tabular-nums px-2.5 py-1 rounded-full border border-border text-muted">
-                      {citiesLabel}
-                    </span>
-                  </div>
                 </div>
               </>
             ) : (
