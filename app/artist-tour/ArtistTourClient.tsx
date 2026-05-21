@@ -145,7 +145,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
           <div className="lg:hidden px-4 pb-4">
             {(artistPhoto || activeShow?.posterImage) ? (
               <>
-                <div className="px-1 pt-4 pb-1">
+                <div className="px-1 pt-4 pb-4">
                   <h1 className="font-serif font-black text-cream uppercase" style={{ fontSize: 'clamp(1.9rem, 8vw, 2.8rem)', lineHeight: 0.95, letterSpacing: '-0.01em' }}>
                     {artistName}
                   </h1>
@@ -163,6 +163,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                   style={{
                     borderRadius: 40, aspectRatio: '3/4',
                     boxShadow: '0 0 40px rgba(255,77,0,0.15), 0 0 80px rgba(255,77,0,0.06), 0 0 0 1px rgba(255,77,0,0.10)',
+                    marginTop: 12,
                   }}
                 >
                   {artistPhoto ? (

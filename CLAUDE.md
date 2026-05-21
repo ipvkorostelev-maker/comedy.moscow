@@ -121,7 +121,7 @@ Remote image domains allowed in `next.config.mjs`: `images.unsplash.com`, `woman
 
 Всегда используй attach к запущенному серверу:
 ```bash
-echo "задание здесь" | opencode run --dangerously-skip-permissions --attach http://127.0.0.1:53956
+echo "задание здесь" | opencode run --dangerously-skip-permissions --attach http://127.0.0.1:4096
 ```
 Никогда не используй флаг --file или -f. Если сервер недоступен — спроси пользователя о новом URL.
 
