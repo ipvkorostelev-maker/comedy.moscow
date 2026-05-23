@@ -35,7 +35,6 @@ const RU_MAP: Record<string, string> = {
   х:'kh',ц:'ts',ч:'ch',ш:'sh',щ:'shch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya',
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapConcertToEvent(c: any): Event {
   const baseSlug = c.slug || toSlug(c.showTitle, '')
   const slug = baseSlug ? `${baseSlug}-${c.id}` : String(c.id)
@@ -84,7 +83,6 @@ function mapConcertToEvent(c: any): Event {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapArtist(a: any): Artist {
   return {
     id: a.id,
@@ -175,7 +173,6 @@ export async function getEnrichedTours(): Promise<EnrichedTour[]> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getWomanstandupRawConcerts(): Promise<any[]> {
   if (!DATA_PATH) return []
   try {
