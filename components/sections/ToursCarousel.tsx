@@ -47,7 +47,7 @@ function TourCard({ tour }: { tour: EnrichedTour }) {
             sizes="(max-width: 768px) 240px, (max-width: 1024px) 33vw, 25vw"
           />
         ) : (
-          <div className="absolute inset-0 bg-zinc-900" />
+          <div className="img-placeholder" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
       </div>
