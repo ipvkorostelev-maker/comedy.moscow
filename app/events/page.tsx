@@ -9,13 +9,11 @@ interface Props {
   searchParams: { date?: string }
 }
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const dateFilter = searchParams.date ?? null
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Стендап-концерты в Москве и Санкт-Петербурге',
     description: 'Афиша стендап-концертов в России. Расписание, составы, отзывы. Билеты онлайн от 800 ₽.',
     alternates: { canonical: `${BASE}/events` },
-    ...(dateFilter ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title: 'Стендап-концерты в Москве и Санкт-Петербурге | Смешно',
       description: 'Афиша стендап-концертов в России. Расписание, составы, отзывы. Билеты онлайн от 800 ₽.',

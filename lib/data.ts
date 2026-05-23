@@ -68,9 +68,14 @@ export async function getAllEvents(): Promise<Event[]> {
 
 // Returns upcoming + events from the past 30 days (for feeds — past events get available=false).
 export async function getEventsForFeed(): Promise<Event[]> {
-  const events = await loadEnrichedEvents()
+  const avail = await isAvailable()
+  const [events, tours] = await Promise.all([
+    loadEnrichedEvents(),
+    avail ? getWomanstandupTours() : Promise.resolve([]),
+  ])
+  const tourConcertIds = new Set(tours.flatMap(t => t.concertIds).map(String))
   const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-  return events.filter((e) => toDateTime(e.date, e.time) > cutoff)
+  return events.filter((e) => toDateTime(e.date, e.time) > cutoff && !tourConcertIds.has(String(e.id)))
 }
 
 export async function getEventBySlug(slug: string): Promise<Event | undefined> {
