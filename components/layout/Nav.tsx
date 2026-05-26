@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { useNavLabel } from '@/components/ui/NavLabelProvider'
+import SearchModal from '@/components/ui/SearchModal'
 
 const LINKS = [
   { href: '/events', label: 'События' },
@@ -16,6 +17,7 @@ const LINKS = [
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   const pathname = usePathname()
   const { label } = useNavLabel()
 
@@ -48,51 +50,75 @@ export default function Nav() {
             </span>
           </Link>
 
-          {/* Desktop links */}
-          <nav className="hidden md:flex items-center gap-1" aria-label="Основное меню">
-            {LINKS.map(({ href, label }) => {
-              const active = pathname.startsWith(href)
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  aria-current={active ? 'page' : undefined}
-                  className={cn(
-                    'px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200',
-                    active
-                      ? 'text-cream bg-white/8'
-                      : 'text-cream/45 hover:text-cream/80 hover:bg-white/[0.04]'
-                  )}
-                >
-                  {label}
-                </Link>
-              )
-            })}
-          </nav>
+          {/* Desktop: nav links + search */}
+          <div className="hidden md:flex items-center gap-1">
+            <nav className="flex items-center gap-1" aria-label="Основное меню">
+              {LINKS.map(({ href, label }) => {
+                const active = pathname.startsWith(href)
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    aria-current={active ? 'page' : undefined}
+                    className={cn(
+                      'px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200',
+                      active
+                        ? 'text-cream bg-white/8'
+                        : 'text-cream/45 hover:text-cream/80 hover:bg-white/[0.04]'
+                    )}
+                  >
+                    {label}
+                  </Link>
+                )
+              })}
+            </nav>
+            <button
+              onClick={() => setSearchOpen(true)}
+              aria-label="Поиск"
+              className="w-8 h-8 flex items-center justify-center rounded-md text-cream/50 hover:text-cream transition-colors"
+            >
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="9" cy="9" r="6" />
+                <path d="M13.5 13.5L18 18" />
+              </svg>
+            </button>
+          </div>
 
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMenuOpen(v => !v)}
-            aria-label="Меню"
-            aria-expanded={menuOpen}
-            className="md:hidden flex items-center justify-center w-8 h-8 rounded-md transition-colors"
-            style={{ background: menuOpen ? 'rgba(255,255,255,0.08)' : 'transparent' }}
-          >
-            <span className="relative w-4 h-3 flex flex-col justify-between">
-              <span className={cn(
-                'block w-full h-px bg-cream/80 rounded-full transition-all duration-300 origin-center',
-                menuOpen && 'translate-y-[5px] rotate-45'
-              )} />
-              <span className={cn(
-                'block w-full h-px bg-cream/80 rounded-full transition-all duration-300',
-                menuOpen && 'opacity-0 scale-x-0'
-              )} />
-              <span className={cn(
-                'block w-full h-px bg-cream/80 rounded-full transition-all duration-300 origin-center',
-                menuOpen && '-translate-y-[5px] -rotate-45'
-              )} />
-            </span>
-          </button>
+          {/* Mobile: search + hamburger */}
+          <div className="flex md:hidden items-center gap-1">
+            <button
+              onClick={() => setSearchOpen(true)}
+              aria-label="Поиск"
+              className="w-8 h-8 flex items-center justify-center rounded-md text-cream/50 hover:text-cream transition-colors"
+            >
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="9" cy="9" r="6" />
+                <path d="M13.5 13.5L18 18" />
+              </svg>
+            </button>
+            <button
+              onClick={() => setMenuOpen(v => !v)}
+              aria-label="Меню"
+              aria-expanded={menuOpen}
+              className="flex items-center justify-center w-8 h-8 rounded-md transition-colors"
+              style={{ background: menuOpen ? 'rgba(255,255,255,0.08)' : 'transparent' }}
+            >
+              <span className="relative w-4 h-3 flex flex-col justify-between">
+                <span className={cn(
+                  'block w-full h-px bg-cream/80 rounded-full transition-all duration-300 origin-center',
+                  menuOpen && 'translate-y-[5px] rotate-45'
+                )} />
+                <span className={cn(
+                  'block w-full h-px bg-cream/80 rounded-full transition-all duration-300',
+                  menuOpen && 'opacity-0 scale-x-0'
+                )} />
+                <span className={cn(
+                  'block w-full h-px bg-cream/80 rounded-full transition-all duration-300 origin-center',
+                  menuOpen && '-translate-y-[5px] -rotate-45'
+                )} />
+              </span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -124,6 +150,8 @@ export default function Nav() {
           })}
         </nav>
       </div>
+
+      <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   )
 }
