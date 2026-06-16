@@ -84,28 +84,11 @@
   background-size: 40% auto;
 }
 
-/* Container that shows a dark animated shimmer while the image loads */
+/* Container that shows a dark background while the image loads */
 .img-loading-container {
   background: #141414;
   position: relative;
   overflow: hidden;
-}
-
-.img-loading-container::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: linear-gradient(
-    105deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.03) 45%,
-    rgba(255, 255, 255, 0.06) 50%,
-    rgba(255, 255, 255, 0.03) 55%,
-    transparent 70%
-  );
-  animation: shimmerSlide 1.8s ease-in-out infinite;
-  pointer-events: none;
 }
 
 .img-loading-container img {
