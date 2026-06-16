@@ -9,7 +9,7 @@ import SearchModal from '@/components/ui/SearchModal'
 
 const LINKS = [
   { href: '/events', label: 'События' },
-  { href: '/#tours', label: 'Гастроли' },
+  { href: '/#tours', label: 'Гастроли', hash: true },
   { href: '/artists', label: 'Артисты' },
   { href: '/corporate', label: 'Корпоратив' },
   { href: '/contacts', label: 'Контакты' },
@@ -53,19 +53,21 @@ export default function Nav() {
           {/* Desktop: nav links + search */}
           <div className="hidden md:flex items-center gap-1">
             <nav className="flex items-center gap-1" aria-label="Основное меню">
-              {LINKS.map(({ href, label }) => {
-                const active = pathname.startsWith(href)
+              {LINKS.map(({ href, label, hash }) => {
+                const active = hash ? pathname === '/' : pathname.startsWith(href)
+                const cls = cn(
+                  'px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200',
+                  active
+                    ? 'text-cream bg-white/8'
+                    : 'text-cream/45 hover:text-cream/80 hover:bg-white/[0.04]'
+                )
+                if (hash) return <a key={href} href={href} className={cls}>{label}</a>
                 return (
                   <Link
                     key={href}
                     href={href}
                     aria-current={active ? 'page' : undefined}
-                    className={cn(
-                      'px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200',
-                      active
-                        ? 'text-cream bg-white/8'
-                        : 'text-cream/45 hover:text-cream/80 hover:bg-white/[0.04]'
-                    )}
+                    className={cls}
                   >
                     {label}
                   </Link>
@@ -131,18 +133,31 @@ export default function Nav() {
         style={{ background: 'rgba(0,0,0,0.94)', backdropFilter: 'blur(20px)' }}
       >
         <nav className="flex flex-col items-center justify-center h-full gap-2" aria-label="Мобильное меню">
-          {LINKS.map(({ href, label }) => {
-            const active = pathname.startsWith(href)
+          {LINKS.map(({ href, label, hash }) => {
+            const active = hash ? pathname === '/' : pathname.startsWith(href)
+            const cls = cn(
+              'w-56 py-4 text-center text-lg font-medium rounded-xl transition-all duration-200',
+              active
+                ? 'text-cream bg-white/[0.06]'
+                : 'text-cream/45 hover:text-cream/80'
+            )
+            if (hash) {
+              return (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={() => setMenuOpen(false)}
+                  className={cls}
+                >
+                  {label}
+                </a>
+              )
+            }
             return (
               <Link
                 key={href}
                 href={href}
-                className={cn(
-                  'w-56 py-4 text-center text-lg font-medium rounded-xl transition-all duration-200',
-                  active
-                    ? 'text-cream bg-white/[0.06]'
-                    : 'text-cream/45 hover:text-cream/80'
-                )}
+                className={cls}
               >
                 {label}
               </Link>
