@@ -180,30 +180,18 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           className="relative flex-1 self-stretch overflow-hidden img-loading-container"
           style={{ maxWidth: '900px', minHeight: '420px' }}
         >
-          {/* Animated gradient background */}
           <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-bg to-orange-900/20 animate-gradient-xy" />
-          </div>
-
-          {/* Orange glow beneath image */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-32 blur-3xl opacity-40 z-10"
-               style={{ background: 'radial-gradient(ellipse at center, #ff6b00 0%, transparent 70%)' }} />
-
-          {/* Image with subtle scale animation */}
-          <div className="absolute inset-0 z-20 animate-float">
             <Image
               src={event.image}
               alt={event.title}
               fill
               priority
               quality={85}
-              className="object-cover object-top transition-transform duration-[20000ms] ease-in-out hover:scale-105"
+              className="object-cover object-top"
               sizes="(max-width: 1920px) 60vw, 720px"
             />
           </div>
-
-          {/* Dark overlay for contrast */}
-          <div className="absolute inset-0 bg-gradient-to-l from-bg/0 via-bg/20 to-bg/60 z-30" />
+          <div className="absolute inset-0 bg-gradient-to-l from-bg/0 via-bg/20 to-bg/60 z-10" />
         </div>
       </div>
     </>

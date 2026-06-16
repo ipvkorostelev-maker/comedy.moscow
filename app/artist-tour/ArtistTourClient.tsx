@@ -113,14 +113,6 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
   return (
     <div className="min-h-screen lg:pt-0">
       <style>{`
-        @keyframes glowPulse {
-          0%, 100% { opacity: 0.65; }
-          50% { opacity: 1; }
-        }
-        @keyframes fadeSlideUp {
-          from { opacity: 0; transform: translateY(8px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
         .plaque-base {
           background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
           border-bottom: 1px solid rgba(255,77,0,0.25);
@@ -227,14 +219,13 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
           <div className="hidden lg:block relative h-full">
             {/* Subtle orange glow behind image */}
             <div
-              className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
+              className="absolute left-1/2 -translate-x-1/2 pointer-events-none animate-glow-pulse"
               style={{
                 top: '51px',
                 bottom: '0',
                 width: 'calc(100% - 32px)',
                 borderRadius: '28px',
                 boxShadow: '0 0 80px rgba(255,77,0,0.22), 0 0 140px rgba(255,77,0,0.10), 0 0 0 1px rgba(255,77,0,0.12)',
-                animation: 'glowPulse 4s ease-in-out infinite',
               }}
             />
 
@@ -308,7 +299,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
             {showPlaque !== false && activeShow && (
               <div className="group">
                 <div
-                  className="plaque-base absolute px-6 pb-6 pt-10 flex flex-col justify-end"
+                  className="plaque-base absolute px-6 pb-6 pt-10 flex flex-col justify-end animate-fade-slide-up"
                   style={{
                     left: 16,
                     right: 16,
@@ -316,7 +307,6 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                     zIndex: 20,
                     borderBottomLeftRadius: 24,
                     borderBottomRightRadius: 24,
-                    animation: 'fadeSlideUp 0.3s ease',
                   }}
                 >
                 <p className="font-medium text-2xl text-cream leading-tight">{activeShow.city}</p>
@@ -332,7 +322,6 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                     <Link
                       href={activeShow.href}
                       className="inline-block px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase bg-red text-white hover:brightness-110 shadow-red-sm transition-all duration-150"
-                      style={{ backgroundColor: '#FF4D00' }}
                     >
                       Купить билет
                     </Link>
@@ -437,8 +426,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                         <Link
                           href={show.href}
                           onClick={(e) => e.stopPropagation()}
-                          className="shrink-0 px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase transition-all duration-150 whitespace-nowrap text-white hover:brightness-110 shadow-red-sm"
-                          style={{ backgroundColor: '#FF4D00' }}
+                          className="shrink-0 px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase transition-all duration-150 whitespace-nowrap text-white hover:brightness-110 shadow-red-sm bg-red"
                         >
                           Купить билет
                         </Link>
@@ -484,8 +472,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                           <Link
                             href={show.href}
                             onClick={(e) => e.stopPropagation()}
-                            className="block w-full py-3 rounded-full text-[11px] font-bold tracking-widest uppercase text-center transition-all duration-150 text-white hover:brightness-110 shadow-red-sm"
-                            style={{ backgroundColor: '#FF4D00' }}
+                            className="block w-full py-3 rounded-full text-[11px] font-bold tracking-widest uppercase text-center transition-all duration-150 text-white hover:brightness-110 shadow-red-sm bg-red"
                           >
                             Купить билет
                           </Link>

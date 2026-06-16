@@ -37,7 +37,8 @@ export async function POST(req: Request) {
     await submit(batch)
 
     return Response.json({ ok: true, count: batch.length })
-  } catch {
+  } catch (err) {
+    console.error('IndexNow submit failed:', err)
     return Response.json({ error: 'Failed' }, { status: 500 })
   }
 }

@@ -67,9 +67,10 @@ export default function SearchModal({ open, onClose }: SearchModalProps) {
         const data: SearchResult[] = await res.json()
         setResults(data)
         setState(data.length > 0 ? 'results' : 'empty')
-      } catch {
+      } catch (err) {
+        console.error('Search failed:', err)
         setResults([])
-        setState('idle')
+        setState('empty')
       }
     }, 300)
 

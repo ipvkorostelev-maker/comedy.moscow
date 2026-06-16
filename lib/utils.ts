@@ -3,6 +3,22 @@ import { twMerge } from 'tailwind-merge'
 
 export const BASE = 'https://comedy.moscow'
 
+export const RU_MAP: Record<string, string> = {
+  а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'yo',ж:'zh',з:'z',и:'i',й:'y',
+  к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',
+  х:'kh',ц:'ts',ч:'ch',ш:'sh',щ:'shch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya',
+}
+
+export function toSlug(text: string, fallbackId = ''): string {
+  if (!text) return fallbackId
+  return text
+    .toLowerCase()
+    .replace(/[а-яё]/g, (c) => RU_MAP[c] ?? c)
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    || fallbackId
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -42,10 +58,6 @@ export function pluralForm(n: number): number {
   if (mod10 === 1 && mod100 !== 11) return 0
   if (mod10 >= 2 && mod10 <= 4 && !(mod100 >= 12 && mod100 <= 14)) return 1
   return 2
-}
-
-export function stripHtml(html: string): string {
-  return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
 }
 
 /** Определяет провайдера билетов по URL */

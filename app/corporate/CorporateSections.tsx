@@ -25,14 +25,6 @@ function Section({ children, className = '' }: { children: React.ReactNode; clas
   )
 }
 
-function PlaceholderImage({ label, aspectClass = 'aspect-[4/3]' }: { label: string; aspectClass?: string }) {
-  return (
-    <div className={`${aspectClass} bg-surface border border-border rounded-card flex items-center justify-center`}>
-      <span className="text-muted text-xs font-mono">{label}</span>
-    </div>
-  )
-}
-
 const SHOWS = [
   {
     title: 'Большой Девчачий Стендап',

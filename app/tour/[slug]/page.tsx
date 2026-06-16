@@ -5,26 +5,10 @@ import {
   getWomanstandupRawConcerts,
   getWomanstandupArtists,
 } from '@/lib/womanstandup'
-import { BASE } from '@/lib/utils'
+import { BASE, toSlug } from '@/lib/utils'
 import ArtistTourClient, { type TourShow } from '@/app/artist-tour/ArtistTourClient'
 
 export const revalidate = 300
-
-// ── Slug helpers (same logic as womanstandup.ts) ──────────────────────────────
-
-const RU_MAP: Record<string, string> = {
-  а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'yo',ж:'zh',з:'z',и:'i',й:'y',
-  к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',
-  х:'kh',ц:'ts',ч:'ch',ш:'sh',щ:'shch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya',
-}
-
-function toSlug(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[а-яё]/g, (c) => RU_MAP[c] ?? c)
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-}
 
 function cmEventSlug(showTitle: string, id: string): string {
   const base = toSlug(showTitle)

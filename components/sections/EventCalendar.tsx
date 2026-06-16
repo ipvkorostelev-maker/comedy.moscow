@@ -79,7 +79,6 @@ export default function EventCalendar({ eventDates, selected, onSelect }: Props)
       <div
         ref={scrollRef}
         className="flex gap-1 overflow-x-auto scrollbar-hide px-8 pb-1"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {days.map((day) => {
           const hasEvent = eventDates.has(day.date)

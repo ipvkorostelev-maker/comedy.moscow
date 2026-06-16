@@ -37,23 +37,19 @@ const config: Config = {
         red: '0 4px 24px rgba(255,77,0,0.35)',
         'red-sm': '0 2px 12px rgba(255,77,0,0.25)',
       },
+
       animation: {
-        'fade-up': 'fadeUp 0.6s ease both',
-        'gradient-xy': 'gradientXY 8s ease infinite',
-        float: 'float 6s ease-in-out infinite',
+        'glow-pulse': 'glowPulse 4s ease-in-out infinite',
+        'fade-slide-up': 'fadeSlideUp 0.3s ease both',
       },
       keyframes: {
-        fadeUp: {
-          from: { opacity: '0', transform: 'translateY(16px)' },
+        glowPulse: {
+          '0%, 100%': { opacity: '0.65' },
+          '50%': { opacity: '1' },
+        },
+        fadeSlideUp: {
+          from: { opacity: '0', transform: 'translateY(8px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
-        },
-        gradientXY: {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
         },
       },
     },

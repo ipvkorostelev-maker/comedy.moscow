@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { Event, Artist } from './types'
+import { toSlug, RU_MAP } from './utils'
 
 const DATA_PATH = process.env.WOMANSTANDUP_DATA_PATH
 const ASSETS_URL = process.env.WOMANSTANDUP_ASSETS_URL ?? ''
@@ -17,22 +18,6 @@ function formatDuration(minutes: number): string {
   const h = Math.floor(minutes / 60)
   const m = minutes % 60
   return m > 0 ? `${h} ч ${String(m).padStart(2, '0')} мин` : `${h} ч`
-}
-
-function toSlug(text: string, id: string): string {
-  if (!text) return id
-  return text
-    .toLowerCase()
-    .replace(/[а-яё]/g, (c) => RU_MAP[c] ?? c)
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-    || id
-}
-
-const RU_MAP: Record<string, string> = {
-  а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'yo',ж:'zh',з:'z',и:'i',й:'y',
-  к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',
-  х:'kh',ц:'ts',ч:'ch',ш:'sh',щ:'shch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya',
 }
 
 function mapConcertToEvent(c: any): Event {
@@ -122,7 +107,8 @@ export async function getWomanstandupTours(): Promise<WSTour[]> {
   try {
     const raw = await fs.readFile(path.join(DATA_PATH, 'tours.json'), 'utf-8')
     return JSON.parse(raw)
-  } catch {
+  } catch (err) {
+    console.error('Failed to read womanstandup tours:', err)
     return []
   }
 }
@@ -168,7 +154,8 @@ export async function getEnrichedTours(): Promise<EnrichedTour[]> {
         nearestDate: upcomingDates[0],
       }
     })
-  } catch {
+  } catch (err) {
+    console.error('Failed to read womanstandup enriched tours:', err)
     return []
   }
 }
@@ -178,7 +165,8 @@ export async function getWomanstandupRawConcerts(): Promise<any[]> {
   try {
     const raw = await fs.readFile(path.join(DATA_PATH, 'concerts.json'), 'utf-8')
     return JSON.parse(raw)
-  } catch {
+  } catch (err) {
+    console.error('Failed to read womanstandup raw concerts:', err)
     return []
   }
 }
@@ -186,15 +174,25 @@ export async function getWomanstandupRawConcerts(): Promise<any[]> {
 
 export async function getWomanstandupEvents(): Promise<Event[]> {
   if (!DATA_PATH) return []
-  const raw = await fs.readFile(path.join(DATA_PATH, 'concerts.json'), 'utf-8')
-  const concerts = JSON.parse(raw)
-  return concerts
-    .filter((c: any) => !c.isDraft && Array.isArray(c.siteKeys) && c.siteKeys.includes(SITE_KEY))
-    .map(mapConcertToEvent)
+  try {
+    const raw = await fs.readFile(path.join(DATA_PATH, 'concerts.json'), 'utf-8')
+    const concerts = JSON.parse(raw)
+    return concerts
+      .filter((c: any) => !c.isDraft && Array.isArray(c.siteKeys) && c.siteKeys.includes(SITE_KEY))
+      .map(mapConcertToEvent)
+  } catch (err) {
+    console.error('Failed to read womanstandup concerts:', err)
+    return []
+  }
 }
 
 export async function getWomanstandupArtists(): Promise<Artist[]> {
   if (!DATA_PATH) return []
-  const raw = await fs.readFile(path.join(DATA_PATH, 'artists.json'), 'utf-8')
-  return JSON.parse(raw).map(mapArtist)
+  try {
+    const raw = await fs.readFile(path.join(DATA_PATH, 'artists.json'), 'utf-8')
+    return JSON.parse(raw).map(mapArtist)
+  } catch (err) {
+    console.error('Failed to read womanstandup artists:', err)
+    return []
+  }
 }

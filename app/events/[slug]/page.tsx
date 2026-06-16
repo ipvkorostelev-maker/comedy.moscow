@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
+import sanitizeHtml from 'sanitize-html'
 import { NavLabelSync } from '@/components/ui/NavLabelProvider'
 import { getEventBySlugAny, isEventPast, getArtistsByIds, getVenueById, getSimilarEvents, getAllEvents } from '@/lib/data'
 import { formatDate, formatDateShort, formatDayOfWeek, formatPrice, minEventPrice, BASE } from '@/lib/utils'
@@ -12,6 +13,14 @@ import MetaPill from '@/components/ui/MetaPill'
 import StickyBuyBar from '@/components/sections/StickyBuyBar'
 import EventHero from '@/components/sections/EventHero'
 import GalleryLightbox from '@/components/ui/GalleryLightbox'
+
+function safeHtml(html: string | undefined): string {
+  if (!html) return ''
+  return sanitizeHtml(html, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
+    allowedAttributes: { ...sanitizeHtml.defaults.allowedAttributes, img: ['src', 'alt', 'width', 'height'] },
+  })
+}
 
 export const revalidate = 300
 export const dynamicParams = true
@@ -363,7 +372,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
             {event.longDescription && (
               <div
                 className="text-sm text-cream/65 leading-[1.75] prose-invert text-left [&_div]:mb-3 [&_p]:mb-3 [&_br]:hidden [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-3 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-3"
-                dangerouslySetInnerHTML={{ __html: event.longDescription }}
+                dangerouslySetInnerHTML={{ __html: safeHtml(event.longDescription) }}
               />
             )}
 

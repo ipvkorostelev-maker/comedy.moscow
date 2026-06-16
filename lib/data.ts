@@ -66,7 +66,6 @@ export async function getAllEvents(): Promise<Event[]> {
   return events.filter(e => isUpcoming(e) && !tourConcertIds.has(String(e.id)))
 }
 
-// Returns upcoming + events from the past 30 days (for feeds — past events get available=false).
 export async function getEventsForFeed(): Promise<Event[]> {
   const avail = await isAvailable()
   const [events, tours] = await Promise.all([
@@ -74,8 +73,7 @@ export async function getEventsForFeed(): Promise<Event[]> {
     avail ? getWomanstandupTours() : Promise.resolve([]),
   ])
   const tourConcertIds = new Set(tours.flatMap(t => t.concertIds).map(String))
-  const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-  return events.filter((e) => toDateTime(e.date, e.time) > cutoff && !tourConcertIds.has(String(e.id)))
+  return events.filter((e) => isUpcoming(e) && !tourConcertIds.has(String(e.id)))
 }
 
 export async function getEventBySlug(slug: string): Promise<Event | undefined> {
@@ -90,11 +88,6 @@ export async function getEventBySlugAny(slug: string): Promise<Event | undefined
 
 export function isEventPast(event: Event): boolean {
   return toDateTime(event.date, event.time) <= new Date()
-}
-
-export async function getFeaturedEvents(): Promise<Event[]> {
-  const events = await getAllEvents()
-  return events.filter((e) => e.featured)
 }
 
 export async function getSimilarEvents(currentId: string, limit = 4): Promise<Event[]> {

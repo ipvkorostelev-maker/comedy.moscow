@@ -20,28 +20,6 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Streaming-style slide transition */
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(48px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes fadeOutLeft {
-  from { opacity: 1; transform: translateX(0); }
-  to   { opacity: 0; transform: translateX(-48px); }
-}
-
-/* Animated gradient background for event hero */
-@keyframes gradientXY {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
 /* Image placeholder shimmer — moving gradient skeleton */
 @keyframes shimmerSlide {
   0%   { transform: translateX(-100%); }
@@ -208,20 +186,15 @@
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 
-  /* Hero content stagger — apply to each element, control delay via style */
   .animate-hero-content {
     animation: heroContentIn 0.65s ease both;
-  }
-
-  .animate-slide-in {
-    animation: slideInRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  }
-
-  .animate-fade-out-left {
-    animation: fadeOutLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
 }
