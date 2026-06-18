@@ -5,10 +5,20 @@ import {
   getWomanstandupRawConcerts,
   getWomanstandupArtists,
 } from '@/lib/womanstandup'
-import { BASE, toSlug } from '@/lib/utils'
+import { BASE, toSlug, pluralForm } from '@/lib/utils'
 import ArtistTourClient, { type TourShow } from '@/app/artist-tour/ArtistTourClient'
 
 export const revalidate = 300
+
+function pluralConcerts(n: number): string {
+  const forms = ['концерт', 'концерта', 'концертов']
+  return `${n} ${forms[pluralForm(n)]}`
+}
+
+function pluralCities(n: number): string {
+  const forms = ['город', 'города', 'городов']
+  return `${n} ${forms[pluralForm(n)]}`
+}
 
 function cmEventSlug(showTitle: string, id: string): string {
   const base = toSlug(showTitle)
@@ -60,11 +70,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         : `${Math.min(...years)}–${Math.max(...years)}`
       : ''
 
-  const title = `${artistName} — ${tourTitle} | Билеты на концерты ${year}`
+  const title = tourTitle.startsWith(artistName)
+    ? `${tourTitle} | Билеты на концерты ${year}`
+    : `${artistName} — ${tourTitle} | Билеты на концерты ${year}`
 
   const cityList = cities.slice(0, 4).join(', ')
   const moreText = citiesCount > 4 ? ' и других' : ''
-  const description = `Гастрольный тур ${artistName} «${tourTitle}» — ${totalConcerts} концертов в ${citiesCount} городах: ${cityList}${moreText}. Купить билеты онлайн.`
+  const description = tourTitle.startsWith(artistName)
+    ? `«${tourTitle}». ${pluralConcerts(totalConcerts)}, ${pluralCities(citiesCount)} — ${cityList}${moreText}. Купить билеты онлайн.`
+    : `Гастрольный тур ${artistName} «${tourTitle}». ${pluralConcerts(totalConcerts)}, ${pluralCities(citiesCount)} — ${cityList}${moreText}. Купить билеты онлайн.`
 
   const assetsUrl = process.env.WOMANSTANDUP_ASSETS_URL ?? ''
   const ogImages = tour.photo
