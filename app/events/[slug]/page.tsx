@@ -83,8 +83,8 @@ export async function generateMetadata({
     : `${event.title} — ${city}, ${formatDateShort(event.date)}. Билеты на стендап`
 
   const metaDescription = city === 'Москва'
-    ? `${descriptionPlain}${priceText}`
-    : `Стендап-концерт «${event.title}» ${cityLabel}, ${formatDateShort(event.date)}.${priceText}`
+    ? (descriptionPlain ? `${descriptionPlain}.${priceText}` : `Стендап-концерт «${event.title}» ${cityLabel}, ${formatDateShort(event.date)}.${priceText}`)
+    : `${descriptionPlain ? descriptionPlain + '. ' : ''}Стендап-концерт «${event.title}» ${cityLabel}, ${formatDateShort(event.date)}.${priceText}`
 
   const ogTitle = city === 'Москва' ? event.title : `${event.title} — ${city}`
 
