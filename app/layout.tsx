@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE),
   title: {
     default: 'Стендап концерты в Москве — comedy.moscow',
-    template: '%s | Смешно',
+    template: '%s',
   },
   description: 'Афиша стендап концертов в Москве. Расписание, составы комиков, отзывы зрителей. Купить билеты онлайн — быстро и удобно.',
   robots: { index: true, follow: true },

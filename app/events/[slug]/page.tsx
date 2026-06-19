@@ -80,7 +80,7 @@ export async function generateMetadata({
 
   const title = city === 'Москва'
     ? `${event.title} — ${formatDateShort(event.date)}`
-    : `${event.title} — ${city}, ${formatDateShort(event.date)} | Билеты`
+    : `${event.title} — ${city}, ${formatDateShort(event.date)}. Билеты на стендап`
 
   const metaDescription = city === 'Москва'
     ? `${descriptionPlain}${priceText}`

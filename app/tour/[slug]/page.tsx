@@ -71,8 +71,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       : ''
 
   const title = tourTitle.startsWith(artistName)
-    ? `${tourTitle} | Билеты на концерты ${year}`
-    : `${artistName} — ${tourTitle} | Билеты на концерты ${year}`
+    ? `${tourTitle}. Билеты на стендап, ${year}`
+    : `${artistName} — ${tourTitle}. Билеты на стендап, ${year}`
 
   const cityList = cities.slice(0, 4).join(', ')
   const moreText = citiesCount > 4 ? ' и других' : ''
