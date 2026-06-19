@@ -35,6 +35,7 @@ function mapConcertToEvent(c: any): Event {
     subtitle: c.subtitle ?? undefined,
     description: c.shortDescription || c.description?.slice(0, 220) || '',
     longDescription: c.description ?? undefined,
+    metaDescription: c.metaDescription || undefined,
     date: c.date ?? '',
     time: c.time ?? '',
     duration: formatDuration(c.duration),

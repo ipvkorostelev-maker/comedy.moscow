@@ -76,15 +76,19 @@ export async function generateMetadata({
   const city = event.city || 'Москва'
   const cityLabel = city === 'Москва' ? 'в Москве' : `, ${city}`
 
+  const adminDescription = event.metaDescription || ''
+
   const descriptionPlain = plainText(event.description)
 
   const title = city === 'Москва'
     ? `${event.title} — ${formatDateShort(event.date)}`
     : `${event.title} — ${city}, ${formatDateShort(event.date)}. Билеты на стендап`
 
-  const metaDescription = city === 'Москва'
+  const autoDescription = city === 'Москва'
     ? (descriptionPlain ? `${descriptionPlain}.${priceText}` : `Стендап-концерт «${event.title}» ${cityLabel}, ${formatDateShort(event.date)}.${priceText}`)
     : `${descriptionPlain ? descriptionPlain + '. ' : ''}Стендап-концерт «${event.title}» ${cityLabel}, ${formatDateShort(event.date)}.${priceText}`
+
+  const metaDescription = adminDescription || autoDescription
 
   const ogTitle = city === 'Москва' ? event.title : `${event.title} — ${city}`
 

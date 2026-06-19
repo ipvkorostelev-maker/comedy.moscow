@@ -29,6 +29,7 @@ export interface Event {
   subtitle?: string
   description: string
   longDescription?: string
+  metaDescription?: string
   date: string
   time: string
   duration: string
