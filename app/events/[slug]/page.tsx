@@ -74,17 +74,19 @@ export async function generateMetadata({
   const priceText = !isEventPast(event) && price > 0 ? ` Билеты от ${formatPrice(price)}.` : ''
 
   const city = event.city || 'Москва'
-  const inCity = city === 'Москва' ? 'в Москве' : `в ${city}`
+  const cityLabel = city === 'Москва' ? 'в Москве' : `, ${city}`
 
   const descriptionPlain = plainText(event.description)
 
   const title = city === 'Москва'
     ? `${event.title} — ${formatDateShort(event.date)}`
-    : `${event.title} ${inCity} — ${formatDateShort(event.date)} | Билеты`
+    : `${event.title} — ${city}, ${formatDateShort(event.date)} | Билеты`
 
   const metaDescription = city === 'Москва'
     ? `${descriptionPlain}${priceText}`
-    : `Стендап-концерт «${event.title}» ${inCity}, ${formatDateShort(event.date)}.${priceText}`
+    : `Стендап-концерт «${event.title}» ${cityLabel}, ${formatDateShort(event.date)}.${priceText}`
+
+  const ogTitle = city === 'Москва' ? event.title : `${event.title} — ${city}`
 
   return {
     title,
@@ -92,7 +94,7 @@ export async function generateMetadata({
     alternates: { canonical: url },
     openGraph: {
       type: 'website',
-      title: city === 'Москва' ? event.title : `${event.title} ${inCity}`,
+      title: ogTitle,
       description: metaDescription,
       url,
       siteName: 'Смешно',
@@ -101,7 +103,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: city === 'Москва' ? event.title : `${event.title} ${inCity}`,
+      title: ogTitle,
       description: metaDescription,
       images: [event.image],
     },
