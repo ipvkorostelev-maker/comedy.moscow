@@ -13,6 +13,7 @@ import MetaPill from '@/components/ui/MetaPill'
 import StickyBuyBar from '@/components/sections/StickyBuyBar'
 import EventHero from '@/components/sections/EventHero'
 import GalleryLightbox from '@/components/ui/GalleryLightbox'
+import CommissionButton from '@/components/ui/CommissionButton'
 
 function safeHtml(html: string | undefined): string {
   if (!html) return ''
@@ -418,6 +419,11 @@ export default async function EventPage({ params }: { params: { slug: string } }
           {/* SIDEBAR */}
           <div>
             <div className="bg-surface-2 border border-border rounded-2xl overflow-hidden sticky top-24">
+              {/* Commission CTA */}
+              <div className="p-5 border-b border-border">
+                <CommissionButton artistNames={artists.map(a => a.name)} />
+              </div>
+
               {/* Buy CTA */}
               <div className="p-5 border-b border-border">
                 {price > 0 && (
