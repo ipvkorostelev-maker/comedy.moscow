@@ -7,6 +7,7 @@ import Footer from '@/components/layout/Footer'
 import CookieBanner from '@/components/ui/CookieBanner'
 import { NavLabelProvider } from '@/components/ui/NavLabelProvider'
 import { BASE } from '@/lib/utils'
+import { getCities } from '@/lib/data'
 
 const oswald = Oswald({
   subsets: ['cyrillic', 'latin'],
@@ -79,7 +80,8 @@ const orgSchema = {
   ],
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const cities = await getCities()
   return (
     <html lang="ru" className={`${oswald.variable} ${inter.variable}`}>
       <head>
@@ -101,7 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <NavLabelProvider>
-          <Nav />
+          <Nav cities={cities} />
           <main>{children}</main>
         </NavLabelProvider>
         <Footer />

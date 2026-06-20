@@ -1,4 +1,5 @@
 import type { Event, Artist, Venue } from './types'
+import { toSlug } from './utils'
 import {
   isAvailable,
   getWomanstandupEvents,
@@ -93,6 +94,41 @@ export function isEventPast(event: Event): boolean {
 export async function getSimilarEvents(currentId: string, limit = 4): Promise<Event[]> {
   const events = await getAllEvents()
   return events.filter((e) => e.id !== currentId).slice(0, limit)
+}
+
+// ─── Cities ──────────────────────────────────────────────
+
+export interface CityInfo {
+  name: string
+  slug: string
+  count: number
+}
+
+export async function getCities(): Promise<CityInfo[]> {
+  const events = await getAllEvents()
+  const map = new Map<string, { name: string; count: number }>()
+  for (const e of events) {
+    const city = e.city || 'Москва'
+    if (city === 'Москва') continue
+    const entry = map.get(city)
+    if (entry) {
+      entry.count++
+    } else {
+      map.set(city, { name: city, count: 1 })
+    }
+  }
+  return [...map.entries()]
+    .map(([, info]) => ({
+      name: info.name,
+      slug: toSlug(info.name),
+      count: info.count,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name, 'ru'))
+}
+
+export async function getEventsByCity(slug: string): Promise<Event[]> {
+  const events = await getAllEvents()
+  return events.filter((e) => toSlug(e.city || 'Москва') === slug)
 }
 
 // ─── Artists ─────────────────────────────────────────────

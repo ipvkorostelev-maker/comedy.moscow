@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { useNavLabel } from '@/components/ui/NavLabelProvider'
 import SearchModal from '@/components/ui/SearchModal'
+import CitySelector from '@/components/ui/CitySelector'
+import type { CityInfo } from '@/lib/data'
 
 const LINKS = [
   { href: '/events', label: 'События' },
@@ -15,7 +17,11 @@ const LINKS = [
   { href: '/contacts', label: 'Контакты' },
 ]
 
-export default function Nav() {
+interface NavProps {
+  cities: CityInfo[]
+}
+
+export default function Nav({ cities }: NavProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const pathname = usePathname()
@@ -27,6 +33,25 @@ export default function Nav() {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
+
+  // Desktop link component
+  const desktopLink = (href: string, label: string, hash?: boolean) => {
+    const active = hash ? pathname === '/' : pathname.startsWith(href)
+    const activeCity = pathname.startsWith('/city/')
+    const isCityLink = href === '/city' && activeCity
+    const cls = cn(
+      'px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200',
+      (active || isCityLink)
+        ? 'text-cream bg-white/8'
+        : 'text-cream/45 hover:text-cream/80 hover:bg-white/[0.04]'
+    )
+    if (hash) return <a key={href} href={href} className={cls}>{label}</a>
+    return (
+      <Link key={href} href={href} className={cls}>
+        {label}
+      </Link>
+    )
+  }
 
   return (
     <>
@@ -50,30 +75,12 @@ export default function Nav() {
             </span>
           </Link>
 
-          {/* Desktop: nav links + search */}
+          {/* Desktop: nav links + city selector + search */}
           <div className="hidden md:flex items-center gap-1">
             <nav className="flex items-center gap-1" aria-label="Основное меню">
-              {LINKS.map(({ href, label, hash }) => {
-                const active = hash ? pathname === '/' : pathname.startsWith(href)
-                const cls = cn(
-                  'px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200',
-                  active
-                    ? 'text-cream bg-white/8'
-                    : 'text-cream/45 hover:text-cream/80 hover:bg-white/[0.04]'
-                )
-                if (hash) return <a key={href} href={href} className={cls}>{label}</a>
-                return (
-                  <Link
-                    key={href}
-                    href={href}
-                    aria-current={active ? 'page' : undefined}
-                    className={cls}
-                  >
-                    {label}
-                  </Link>
-                )
-              })}
+              {LINKS.map(({ href, label, hash }) => desktopLink(href, label, hash))}
             </nav>
+            <CitySelector cities={cities} />
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="Поиск"
@@ -132,37 +139,50 @@ export default function Nav() {
         )}
         style={{ background: 'rgba(0,0,0,0.94)', backdropFilter: 'blur(20px)' }}
       >
-        <nav className="flex flex-col items-center justify-center h-full gap-2" aria-label="Мобильное меню">
+        <nav className="flex flex-col items-center justify-center h-full gap-2 overflow-y-auto py-16" aria-label="Мобильное меню">
           {LINKS.map(({ href, label, hash }) => {
             const active = hash ? pathname === '/' : pathname.startsWith(href)
             const cls = cn(
-              'w-56 py-4 text-center text-lg font-medium rounded-xl transition-all duration-200',
+              'w-56 py-3 text-center text-base font-medium rounded-xl transition-all duration-200',
               active
                 ? 'text-cream bg-white/[0.06]'
                 : 'text-cream/45 hover:text-cream/80'
             )
             if (hash) {
               return (
-                <a
-                  key={href}
-                  href={href}
-                  onClick={() => setMenuOpen(false)}
-                  className={cls}
-                >
+                <a key={href} href={href} onClick={() => setMenuOpen(false)} className={cls}>
                   {label}
                 </a>
               )
             }
             return (
-              <Link
-                key={href}
-                href={href}
-                className={cls}
-              >
+              <Link key={href} href={href} className={cls}>
                 {label}
               </Link>
             )
           })}
+
+          {cities.length > 0 && (
+            <>
+              <div className="w-56 h-px bg-white/6 my-2" />
+              <p className="text-[10px] text-muted uppercase tracking-[0.15em] mb-1">Другие города</p>
+              {cities.map((city) => (
+                <Link
+                  key={city.slug}
+                  href={`/city/${city.slug}`}
+                  onClick={() => setMenuOpen(false)}
+                  className={cn(
+                    'w-56 py-2.5 text-center text-sm font-medium rounded-xl transition-all duration-200',
+                    pathname === `/city/${city.slug}`
+                      ? 'text-cream bg-white/[0.06]'
+                      : 'text-cream/45 hover:text-cream/80'
+                  )}
+                >
+                  {city.name}
+                </Link>
+              ))}
+            </>
+          )}
         </nav>
       </div>
 
