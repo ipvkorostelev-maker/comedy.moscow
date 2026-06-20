@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { Event, Artist, Venue } from '@/lib/types'
-import { formatDate, formatPrice, BASE } from '@/lib/utils'
+import { formatDateShort, formatPrice, BASE } from '@/lib/utils'
 import BuyButton from '@/components/ui/BuyButton'
 import InticketsBuyButton from '@/components/ui/InticketsBuyButton'
 import MetaPill from '@/components/ui/MetaPill'
@@ -18,7 +18,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
   const pills = (
     <div className="flex flex-wrap gap-2.5 items-center mt-2.5 mb-6">
       <MetaPill type="date" variant="glass" className="text-sm px-3.5 py-1.5 font-semibold">
-        {formatDate(event.date)}
+        {formatDateShort(event.date)}
       </MetaPill>
       <MetaPill type="time" variant="glass" className="text-sm px-3.5 py-1.5 font-semibold">
         {event.time}

@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import sanitizeHtml from 'sanitize-html'
 import { NavLabelSync } from '@/components/ui/NavLabelProvider'
 import { getEventBySlugAny, isEventPast, getArtistsByIds, getVenueById, getSimilarEvents, getAllEvents } from '@/lib/data'
-import { formatDate, formatDateShort, formatDayOfWeek, formatPrice, minEventPrice, BASE } from '@/lib/utils'
+import { formatDateShort, formatDayOfWeek, formatPrice, minEventPrice, BASE } from '@/lib/utils'
 import BuyButton from '@/components/ui/BuyButton'
 import InticketsBuyButton from '@/components/ui/InticketsBuyButton'
 import ReviewCard from '@/components/cards/ReviewCard'
@@ -211,7 +211,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
               {event.title}
             </h1>
             <div className="flex gap-2.5 flex-wrap justify-center opacity-60">
-              <MetaPill type="date" variant="glass">{formatDate(event.date)}</MetaPill>
+              <MetaPill type="date" variant="glass">{formatDateShort(event.date)}</MetaPill>
               <MetaPill type="time" variant="glass">{event.time}</MetaPill>
               {(event.venueName ?? venue?.name) && (
                 <MetaPill type="venue" variant="glass">
@@ -494,7 +494,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
               {/* Details */}
               <div className="p-5">
                 {[
-                  { label: 'Дата', value: formatDate(event.date), sub: formatDayOfWeek(event.date) },
+                  { label: 'Дата', value: formatDateShort(event.date), sub: formatDayOfWeek(event.date) },
                   { label: 'Начало', value: event.time },
                   { label: 'Место', value: event.venueName ?? venue?.name ?? '—', sub: venue?.address },
                   ...(event.city ? [{ label: 'Город', value: event.city }] : []),
