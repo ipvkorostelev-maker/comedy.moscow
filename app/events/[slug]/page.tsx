@@ -419,11 +419,6 @@ export default async function EventPage({ params }: { params: { slug: string } }
           {/* SIDEBAR */}
           <div>
             <div className="bg-surface-2 border border-border rounded-2xl overflow-hidden sticky top-24">
-              {/* Commission CTA */}
-              <div className="p-5 border-b border-border">
-                <CommissionButton artistNames={artists.map(a => a.name)} className="w-full py-2.5 px-4" />
-              </div>
-
               {/* Buy CTA */}
               <div className="p-5 border-b border-border">
                 {price > 0 && (
@@ -448,6 +443,12 @@ export default async function EventPage({ params }: { params: { slug: string } }
                   </div>
                 )}
               </div>
+
+              {/* Commission CTA */}
+              <div className="p-5 border-b border-border">
+                <CommissionButton artistNames={artists.map(a => a.name)} className="w-full py-2.5 px-4" />
+              </div>
+
               {/* Invite */}
               <div className="p-5 border-b border-border">
                 <p className="text-[10px] text-muted uppercase tracking-[0.15em] mb-3">Позвать сходить вместе</p>
