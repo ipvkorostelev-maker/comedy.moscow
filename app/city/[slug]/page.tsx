@@ -21,13 +21,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!city) return {}
   const url = `${BASE}/city/${slug}`
   return {
-    title: `Стендап концерты в ${city.name} — афиша, билеты`,
-    description: `Афиша стендап-концертов в ${city.name}. Расписание, составы комиков. Купить билеты на стендап ${city.name} онлайн.`,
+    title: `Стендап концерты — ${city.name}, афиша и билеты`,
+    description: `Афиша стендап-концертов — ${city.name}. Расписание, составы комиков. Купить билеты на стендап в ${city.name} онлайн.`,
     alternates: { canonical: url },
     openGraph: {
       type: 'website',
-      title: `Стендап концерты в ${city.name}`,
-      description: `Афиша стендап-концертов в ${city.name}. Билеты онлайн.`,
+      title: `Стендап концерты — ${city.name}`,
+      description: `Афиша стендап-концертов — ${city.name}. Билеты онлайн.`,
       url,
       siteName: 'Смешно',
       locale: 'ru_RU',
@@ -50,7 +50,7 @@ export default async function CityPage({ params }: { params: { slug: string } })
       <NavLabelSync label={`Стендап ${city.name}`} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <h1 className="font-serif font-black text-cream text-3xl lg:text-4xl mb-2">
-          Стендап концерты в {city.name}
+          Стендап концерты — {city.name}
         </h1>
         <p className="text-muted text-sm mb-8">
           {events.length} {pluralEvents(events.length)} в {city.name}. Купить билеты онлайн.
