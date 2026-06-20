@@ -105,9 +105,10 @@ export interface CityInfo {
 }
 
 export async function getCities(): Promise<CityInfo[]> {
-  const events = await getAllEvents()
+  const events = await loadEnrichedEvents()
+  const upcomingEvents = events.filter(isUpcoming)
   const map = new Map<string, { name: string; count: number }>()
-  for (const e of events) {
+  for (const e of upcomingEvents) {
     const city = e.city || 'Москва'
     if (city === 'Москва') continue
     const entry = map.get(city)
@@ -127,8 +128,8 @@ export async function getCities(): Promise<CityInfo[]> {
 }
 
 export async function getEventsByCity(slug: string): Promise<Event[]> {
-  const events = await getAllEvents()
-  return events.filter((e) => toSlug(e.city || 'Москва') === slug)
+  const events = await loadEnrichedEvents()
+  return events.filter((e) => isUpcoming(e) && toSlug(e.city || 'Москва') === slug)
 }
 
 // ─── Artists ─────────────────────────────────────────────
