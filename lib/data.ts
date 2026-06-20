@@ -110,7 +110,6 @@ export async function getCities(): Promise<CityInfo[]> {
   const map = new Map<string, { name: string; count: number }>()
   for (const e of upcomingEvents) {
     const city = e.city || 'Москва'
-    if (city === 'Москва') continue
     const entry = map.get(city)
     if (entry) {
       entry.count++

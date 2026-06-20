@@ -34,24 +34,8 @@ export default function Nav({ cities }: NavProps) {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
-  // Desktop link component
-  const desktopLink = (href: string, label: string, hash?: boolean) => {
-    const active = hash ? pathname === '/' : pathname.startsWith(href)
-    const activeCity = pathname.startsWith('/city/')
-    const isCityLink = href === '/city' && activeCity
-    const cls = cn(
-      'px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200',
-      (active || isCityLink)
-        ? 'text-cream bg-white/8'
-        : 'text-cream/45 hover:text-cream/80 hover:bg-white/[0.04]'
-    )
-    if (hash) return <a key={href} href={href} className={cls}>{label}</a>
-    return (
-      <Link key={href} href={href} className={cls}>
-        {label}
-      </Link>
-    )
-  }
+  const isCityPage = pathname.startsWith('/city/')
+  const logoHref = isCityPage ? pathname : '/'
 
   return (
     <>
@@ -64,7 +48,7 @@ export default function Nav({ cities }: NavProps) {
       >
         <div className="w-full max-w-[1920px] mx-auto flex items-center justify-between px-4 lg:px-8">
           {/* Brand */}
-          <Link href="/" className="flex items-baseline gap-2 group flex-shrink-0" aria-label="Главная">
+          <Link href={logoHref} className="flex items-baseline gap-2 group flex-shrink-0" aria-label="Главная">
             <span className="font-serif font-black text-cream text-sm lg:text-[15px] uppercase tracking-[0.04em] group-hover:text-red transition-colors">
               {pathname.startsWith('/tour') || pathname.startsWith('/artist-tour')
                       ? 'Стендап туры'
@@ -78,8 +62,23 @@ export default function Nav({ cities }: NavProps) {
           {/* Desktop: nav links + city selector + search */}
           <div className="hidden md:flex items-center gap-1">
             <nav className="flex items-center gap-1" aria-label="Основное меню">
-              {LINKS.map(({ href, label, hash }) => desktopLink(href, label, hash))}
+              {LINKS.map(({ href, label, hash }) => {
+                const active = hash ? pathname === '/' : pathname.startsWith(href)
+                const cls = cn(
+                  'px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200',
+                  active
+                    ? 'text-cream bg-white/8'
+                    : 'text-cream/45 hover:text-cream/80 hover:bg-white/[0.04]'
+                )
+                if (hash) return <a key={href} href={href} className={cls}>{label}</a>
+                return (
+                  <Link key={href} href={href} className={cls}>
+                    {label}
+                  </Link>
+                )
+              })}
             </nav>
+            <div className="w-px h-5 bg-white/8 mx-1" />
             <CitySelector cities={cities} />
             <button
               onClick={() => setSearchOpen(true)}
@@ -156,7 +155,7 @@ export default function Nav({ cities }: NavProps) {
               )
             }
             return (
-              <Link key={href} href={href} className={cls}>
+              <Link key={href} href={href} onClick={() => setMenuOpen(false)} className={cls}>
                 {label}
               </Link>
             )
@@ -164,23 +163,30 @@ export default function Nav({ cities }: NavProps) {
 
           {cities.length > 0 && (
             <>
-              <div className="w-56 h-px bg-white/6 my-2" />
-              <p className="text-[10px] text-muted uppercase tracking-[0.15em] mb-1">Другие города</p>
-              {cities.map((city) => (
-                <Link
-                  key={city.slug}
-                  href={`/city/${city.slug}`}
-                  onClick={() => setMenuOpen(false)}
-                  className={cn(
-                    'w-56 py-2.5 text-center text-sm font-medium rounded-xl transition-all duration-200',
-                    pathname === `/city/${city.slug}`
-                      ? 'text-cream bg-white/[0.06]'
-                      : 'text-cream/45 hover:text-cream/80'
-                  )}
-                >
-                  {city.name}
-                </Link>
-              ))}
+              <div className="w-56 h-px bg-white/8 my-3" />
+              <div className="w-56 mb-1">
+                <p className="text-[10px] text-muted uppercase tracking-[0.15em] text-center">Города</p>
+              </div>
+              <div className="w-56 grid grid-cols-2 gap-1.5">
+                {cities.map((city) => {
+                  const isSelected = (pathname === `/city/${city.slug}`) || (!pathname.startsWith('/city/') && city.slug === 'moskva')
+                  return (
+                    <Link
+                      key={city.slug}
+                      href={city.slug === 'moskva' ? '/' : `/city/${city.slug}`}
+                      onClick={() => setMenuOpen(false)}
+                      className={cn(
+                        'px-3 py-2 text-center text-xs font-medium rounded-lg transition-all duration-200',
+                        isSelected
+                          ? 'text-cream bg-white/[0.06]'
+                          : 'text-cream/50 hover:text-cream/80 hover:bg-white/[0.04]'
+                      )}
+                    >
+                      {city.name}
+                    </Link>
+                  )
+                })}
+              </div>
             </>
           )}
         </nav>

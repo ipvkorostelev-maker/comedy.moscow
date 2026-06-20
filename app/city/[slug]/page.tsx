@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import { getCities, getEventsByCity, getSimilarEvents } from '@/lib/data'
+import { notFound, redirect } from 'next/navigation'
+import { getCities, getEventsByCity } from '@/lib/data'
 import { BASE } from '@/lib/utils'
 import EventCard from '@/components/cards/EventCard'
 import { NavLabelSync } from '@/components/ui/NavLabelProvider'
@@ -10,11 +10,12 @@ export const dynamicParams = true
 
 export async function generateStaticParams() {
   const cities = await getCities()
-  return cities.map((c) => ({ slug: c.slug }))
+  return cities.filter((c) => c.slug !== 'moskva').map((c) => ({ slug: c.slug }))
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const { slug } = params
+  if (slug === 'moskva') return {}
   const cities = await getCities()
   const city = cities.find((c) => c.slug === slug)
   if (!city) return {}
@@ -36,6 +37,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 export default async function CityPage({ params }: { params: { slug: string } }) {
   const { slug } = params
+  if (slug === 'moskva') redirect('/')
   const [cities, events] = await Promise.all([
     getCities(),
     getEventsByCity(slug),
