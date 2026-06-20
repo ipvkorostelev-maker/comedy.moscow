@@ -5,6 +5,7 @@ import BuyButton from '@/components/ui/BuyButton'
 import InticketsBuyButton from '@/components/ui/InticketsBuyButton'
 import MetaPill from '@/components/ui/MetaPill'
 import EventBadges from '@/components/ui/EventBadges'
+import CommissionButton from '@/components/ui/CommissionButton'
 
 interface EventHeroProps {
   event: Event
@@ -148,6 +149,11 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           {buttons}
           {artistsRow}
           {shareRow}
+          {artists.length > 0 && (
+            <div className="mt-5">
+              <CommissionButton artistNames={artists.map(a => a.name)} className="w-full py-2.5 px-4" />
+            </div>
+          )}
         </div>
       </div>
 
@@ -173,6 +179,11 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           {buttons}
           {artistsRow}
           {shareRow}
+          {artists.length > 0 && (
+            <div className="mt-5">
+              <CommissionButton artistNames={artists.map(a => a.name)} className="py-2.5 px-5" />
+            </div>
+          )}
         </div>
 
         {/* Image — right 60% */}

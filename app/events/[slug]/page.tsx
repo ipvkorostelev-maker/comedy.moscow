@@ -421,7 +421,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
             <div className="bg-surface-2 border border-border rounded-2xl overflow-hidden sticky top-24">
               {/* Commission CTA */}
               <div className="p-5 border-b border-border">
-                <CommissionButton artistNames={artists.map(a => a.name)} />
+                <CommissionButton artistNames={artists.map(a => a.name)} className="w-full py-2.5 px-4" />
               </div>
 
               {/* Buy CTA */}
