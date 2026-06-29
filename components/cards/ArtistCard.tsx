@@ -26,10 +26,10 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
         )}
 
         {artist.photo && (
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/60 to-transparent pointer-events-none z-[1]" />
         )}
 
-        <div className="absolute bottom-0 left-0 right-0 p-3">
+        <div className="absolute bottom-0 left-0 right-0 p-3 z-[2]">
           <p className="text-[9px] font-bold tracking-widest uppercase text-red mb-0.5">
             {artist.role}
           </p>
