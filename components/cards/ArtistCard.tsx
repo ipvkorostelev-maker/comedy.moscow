@@ -10,7 +10,7 @@ interface ArtistCardProps {
 export default function ArtistCard({ artist }: ArtistCardProps) {
   return (
     <Link href={`/artists/${artist.slug}`} className="group block">
-      <div className="relative aspect-square overflow-hidden rounded-xl bg-surface border border-border mb-3 img-loading-container">
+      <div className="relative aspect-square overflow-hidden rounded-xl bg-surface border border-border img-loading-container">
         {artist.photo ? (
           <Image
             src={artist.photo}
@@ -23,6 +23,10 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
           <div className="absolute inset-0 flex items-center justify-center text-muted">
             <MicIcon className="w-12 h-12" />
           </div>
+        )}
+
+        {artist.photo && (
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
         )}
 
         <div className="absolute bottom-0 left-0 right-0 p-3">
