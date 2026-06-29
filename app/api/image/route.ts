@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
       .jpeg({ quality: q, mozjpeg: true })
       .toBuffer()
 
-    return new NextResponse(resized, {
+    return new Response(resized as any, {
       headers: {
         'Content-Type': 'image/jpeg',
         'Cache-Control': 'public, max-age=31536000, immutable',
