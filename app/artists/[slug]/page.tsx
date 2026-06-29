@@ -5,6 +5,7 @@ import { getArtistBySlug, getAllEvents, getAllArtists } from '@/lib/data'
 import { BASE } from '@/lib/utils'
 import EventCard from '@/components/cards/EventCard'
 import { MicIcon } from '@/components/ui/icons'
+import CommissionButton from '@/components/ui/CommissionButton'
 
 export const dynamic = 'force-static'
 export const dynamicParams = true
@@ -129,6 +130,13 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
                   <p className="font-serif font-black text-2xl text-cream">{cities || '—'}</p>
                   <p className="text-[11px] text-muted uppercase tracking-wider mt-0.5">Город</p>
                 </div>
+              </div>
+
+              <div className="mt-6">
+                <CommissionButton
+                  artistNames={[artist.name]}
+                  className="px-5 py-2.5"
+                />
               </div>
             </div>
           </div>
