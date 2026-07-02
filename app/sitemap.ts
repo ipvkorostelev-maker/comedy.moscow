@@ -1,12 +1,17 @@
 import type { MetadataRoute } from 'next'
-import { getAllEvents, getAllArtists } from '@/lib/data'
+import { getAllEvents, getAllArtists, getCities } from '@/lib/data'
 import { getEnrichedTours } from '@/lib/womanstandup'
 import { BASE } from '@/lib/utils'
 
 const BUILD_DATE = new Date("2026-05-23")
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [events, artists, tours] = await Promise.all([getAllEvents(), getAllArtists(), getEnrichedTours()])
+  const [events, artists, tours, cities] = await Promise.all([
+    getAllEvents(),
+    getAllArtists(),
+    getEnrichedTours(),
+    getCities(),
+  ])
 
   return [
     {
@@ -50,6 +55,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     })),
+    ...cities
+      .filter((c) => c.slug !== 'moskva')
+      .map((c) => ({
+        url: `${BASE}/city/${c.slug}`,
+        lastModified: BUILD_DATE,
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
+      })),
     ...tours.map((t) => ({
       url: `${BASE}/tour/${t.slug}`,
       lastModified: BUILD_DATE,
