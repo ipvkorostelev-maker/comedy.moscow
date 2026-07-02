@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import sanitizeHtml from 'sanitize-html'
 import { NavLabelSync } from '@/components/ui/NavLabelProvider'
-import { getEventBySlugAny, isEventPast, getArtistsByIds, getVenueById, getSimilarEvents, getAllEvents } from '@/lib/data'
+import { getEventBySlugAny, isEventPast, getArtistsByIds, getVenueById, getSimilarEvents, getAllEvents, getArtistOtherEvents } from '@/lib/data'
 import { formatDateShort, formatDayOfWeek, formatPrice, minEventPrice, BASE } from '@/lib/utils'
 import BuyButton from '@/components/ui/BuyButton'
 import InticketsBuyButton from '@/components/ui/InticketsBuyButton'
@@ -14,6 +14,7 @@ import StickyBuyBar from '@/components/sections/StickyBuyBar'
 import EventHero from '@/components/sections/EventHero'
 import GalleryLightbox from '@/components/ui/GalleryLightbox'
 import CommissionButton from '@/components/ui/CommissionButton'
+import OtherDatesPanel from '@/components/ui/OtherDatesPanel'
 
 function safeHtml(html: string | undefined): string {
   if (!html) return ''
@@ -122,9 +123,10 @@ export default async function EventPage({ params }: { params: { slug: string } }
   const navLabel = event.city && event.city !== "Москва" ? `Стендап ${event.city}` : null
 
   const past = isEventPast(event)
-  const [artists, similar] = await Promise.all([
+  const [artists, similar, otherEvents] = await Promise.all([
     getArtistsByIds(event.artistIds),
     getSimilarEvents(event.id, past ? 6 : 3),
+    past ? ([] as import('@/lib/types').Event[]) : getArtistOtherEvents(event.id, event.artistIds),
   ])
   const venue = getVenueById(event.venueId)
   const url = `${BASE}/events/${event.slug}`
@@ -511,6 +513,11 @@ export default async function EventPage({ params }: { params: { slug: string } }
                   </div>
                 ))}
               </div>
+              {otherEvents.length > 0 && (
+                <div className="p-5 border-t border-border">
+                  <OtherDatesPanel events={otherEvents} />
+                </div>
+              )}
             </div>
           </div>
         </div>

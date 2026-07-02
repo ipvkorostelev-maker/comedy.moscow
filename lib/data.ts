@@ -96,6 +96,18 @@ export async function getSimilarEvents(currentId: string, limit = 4): Promise<Ev
   return events.filter((e) => e.id !== currentId).slice(0, limit)
 }
 
+export async function getArtistOtherEvents(
+  currentEventId: string,
+  artistIds: string[]
+): Promise<Event[]> {
+  const events = await getAllEvents()
+  return events.filter(
+    (e) =>
+      e.id !== currentEventId &&
+      e.artistIds.some((id) => artistIds.includes(id))
+  )
+}
+
 // ─── Cities ──────────────────────────────────────────────
 
 export interface CityInfo {
