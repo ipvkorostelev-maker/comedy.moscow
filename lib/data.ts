@@ -100,10 +100,11 @@ export async function getArtistOtherEvents(
   currentEventId: string,
   artistIds: string[]
 ): Promise<Event[]> {
-  const events = await getAllEvents()
+  const events = await loadEnrichedEvents()
   return events.filter(
     (e) =>
       e.id !== currentEventId &&
+      isUpcoming(e) &&
       e.artistIds.some((id) => artistIds.includes(id))
   )
 }
