@@ -138,7 +138,7 @@ export default function Nav({ cities }: NavProps) {
         )}
         style={{ background: 'rgba(0,0,0,0.94)', backdropFilter: 'blur(20px)' }}
       >
-        <nav className="flex flex-col items-center justify-center h-full gap-2 overflow-y-auto py-16" aria-label="Мобильное меню">
+        <nav className="flex flex-col items-center justify-start gap-2 overflow-y-auto pt-20 pb-16 px-4" aria-label="Мобильное меню">
           {LINKS.map(({ href, label, hash }) => {
             const active = hash ? pathname === '/' : pathname.startsWith(href)
             const cls = cn(

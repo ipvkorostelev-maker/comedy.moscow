@@ -3,6 +3,10 @@ import { BASE } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
+function stripHtml(str: string): string {
+  return str.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
 export async function GET() {
   const events = await getAllEvents()
   const buildDate = new Date().toUTCString()
@@ -11,7 +15,7 @@ export async function GET() {
     .map((event) => {
       const url = `${BASE}/events/${event.slug}`
       const description = [
-        event.description,
+        stripHtml(event.description),
         event.venueName ? `Место: ${event.venueName}` : '',
         event.city ? `Город: ${event.city}` : '',
       ].filter(Boolean).join(' | ')

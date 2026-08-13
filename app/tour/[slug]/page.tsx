@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const concertMap = new Map(rawConcerts.map((c) => [c.id, c]))
   const tourConcerts = (tour.concertIds ?? [])
     .map((id: string) => concertMap.get(id))
-    .filter((c: any) => c && !c.isDraft)
+    .filter((c: any) => c && !c.isDraft && !isPast(c.date, c.time))
 
   const cities = [...new Set(tourConcerts.map((c: any) => c.city).filter(Boolean))]
   const citiesCount = cities.length
@@ -118,7 +118,7 @@ export default async function TourPage({ params }: { params: Promise<{ slug: str
 
   const shows: TourShow[] = (tour.concertIds ?? [])
     .map((id: string) => concertMap.get(id))
-    .filter((c: any) => c && !c.isDraft)
+    .filter((c: any) => c && !c.isDraft && !isPast(c.date, c.time))
     .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .map((c: any, i: number, arr: any[]) => {
       const past = isPast(c.date, c.time)
