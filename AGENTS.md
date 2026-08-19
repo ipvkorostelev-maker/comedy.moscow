@@ -26,6 +26,11 @@ Before every task:
 
 Do not load all memory files unless the task clearly requires it.
 
+## Permissions (2026-08-13)
+
+- Внутри проекта (правки кода, запуск dev/build/lint/тестов, git-коммиты) — действуй без подтверждения.
+- Спрашивай подтверждение только когда: выходишь за пределы проекта или делаешь деплой сайта (VPS, PM2, nginx).
+
 ## Memory update protocol
 
 After every meaningful task, update project memory:

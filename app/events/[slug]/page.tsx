@@ -19,8 +19,27 @@ import OtherDatesPanel from '@/components/ui/OtherDatesPanel'
 function safeHtml(html: string | undefined): string {
   if (!html) return ''
   return sanitizeHtml(html, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
-    allowedAttributes: { ...sanitizeHtml.defaults.allowedAttributes, img: ['src', 'alt', 'width', 'height'] },
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'font']),
+    allowedAttributes: {
+      ...sanitizeHtml.defaults.allowedAttributes,
+      img: ['src', 'alt', 'width', 'height'],
+      font: ['color', 'style'],
+      '*': ['style'],
+    },
+    allowedStyles: {
+      '*': {
+        color: [/^[#a-z0-9(),.\s%]+$/i],
+        'font-size': [/^[\d.]+(px|em|rem|%)$/i],
+        'font-family': [/^[\w\s,'"()-]+$/i],
+        'font-weight': [/^[\w]+$/i],
+        'font-style': [/^[\w]+$/i],
+        'text-decoration': [/^[\w\s]+$/i],
+        'text-align': [/^(left|right|center|justify)$/i],
+        'line-height': [/^[\d.]+$/],
+        'letter-spacing': [/^[\d.]+(px|em|rem)?$/i],
+        'background-color': [/^[#a-z0-9(),.\s%]+$/i],
+      },
+    },
   })
 }
 
