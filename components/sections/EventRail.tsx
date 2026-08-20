@@ -26,7 +26,7 @@ export default function EventRail({ events, title = 'Ближайшие конц
       </div>
       <div className={cn(
         'flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 touch-pan-xy',
-        !flush && 'px-6 lg:px-12'
+        !flush && 'px-6 lg:px-12 scroll-pl-6 lg:scroll-pl-12'
       )}>
         {events.map((event) => (
           <div

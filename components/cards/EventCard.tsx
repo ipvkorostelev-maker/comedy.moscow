@@ -17,7 +17,7 @@ export default function EventCard({ event, landscape = false }: EventCardProps) 
     <Link
       href={`/events/${event.slug}`}
       aria-label={event.title}
-      className="group flex flex-col h-full w-full shadow-none transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-12px_rgba(0,0,0,0.75),0_8px_24px_-8px_rgba(255,77,0,0.10)]"
+      className="group flex flex-col h-full w-full transition-transform duration-200 hover:-translate-y-0.5"
     >
       {/* Image */}
       <div className={cn(
