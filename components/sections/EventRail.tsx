@@ -15,7 +15,7 @@ export default function EventRail({ events, title = 'Ближайшие конц
 
   return (
     <section>
-      <div className={cn('flex items-end justify-between mb-4', !flush && 'pl-2.5 pr-6 sm:px-6 lg:px-12')}>
+      <div className={cn('flex items-end justify-between mb-4', !flush && 'px-6 lg:px-12')}>
         <h2 className="font-serif font-black text-cream uppercase text-xl lg:text-2xl">{title}</h2>
         <Link
           href="/events"
@@ -26,7 +26,7 @@ export default function EventRail({ events, title = 'Ближайшие конц
       </div>
       <div className={cn(
         'flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 touch-pan-xy',
-        !flush && 'pl-2.5 pr-6 sm:px-6 lg:px-12'
+        !flush && 'px-6 lg:px-12'
       )}>
         {events.map((event) => (
           <div
