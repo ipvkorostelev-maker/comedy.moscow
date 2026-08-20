@@ -63,10 +63,8 @@ export default function Nav({ cities }: NavProps) {
       <header
         className="sticky top-0 left-0 right-0 z-50 h-14 lg:h-[60px] flex items-center backdrop-blur-md transition-colors duration-300"
         style={{
-          background: scrolled ? 'rgba(10,10,10,0.92)' : 'rgba(10,10,10,0.55)',
-          borderBottom: scrolled
-            ? '1px solid rgba(255,255,255,0.08)'
-            : '1px solid transparent',
+          background: scrolled ? 'rgba(10,10,10,0.97)' : 'rgba(10,10,10,0.9)',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
         }}
       >
         <div className="w-full max-w-[1600px] mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8">

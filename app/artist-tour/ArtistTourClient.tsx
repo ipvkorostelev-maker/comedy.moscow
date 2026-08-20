@@ -134,7 +134,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
       <div className="flex flex-col lg:flex-row">
 
         {/* ── LEFT PANEL ─────────────────────────────────────────── */}
-        <div className="lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-full lg:w-[42%] shrink-0 relative z-10">
+        <div className="lg:sticky lg:top-[60px] lg:h-[calc(100vh-60px)] w-full lg:w-[42%] shrink-0 relative z-10">
 
           {/* Mobile: photo card */}
           <div className="lg:hidden px-4 pb-4">

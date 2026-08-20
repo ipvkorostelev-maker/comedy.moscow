@@ -25,7 +25,7 @@ function SliderDots({
   interval: number
 }) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center justify-center gap-3">
       {Array.from({ length: count }).map((_, i) => (
         <button
           key={i}
@@ -262,7 +262,7 @@ export default function HeroSlider({ events, selectedDate }: HeroSliderProps) {
         </div>
 
         {events.length > 1 && (
-          <div className="absolute bottom-6 left-6 lg:left-12 z-[4]">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[4]">
             <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
           </div>
         )}
