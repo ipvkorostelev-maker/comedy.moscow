@@ -1,13 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Event } from '@/lib/types'
-import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
+import { cn, formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
 
 interface EventCardProps {
   event: Event
+  /** Горизонтальная картинка (3:2 — исходники событий 1200x800) вместо постера 3:4 */
+  landscape?: boolean
 }
 
-export default function EventCard({ event }: EventCardProps) {
+export default function EventCard({ event, landscape = false }: EventCardProps) {
   const price = minEventPrice(event)
   const dayShort = new Date(event.date).toLocaleDateString('ru-RU', { weekday: 'short' })
 
@@ -18,13 +20,18 @@ export default function EventCard({ event }: EventCardProps) {
       className="group flex flex-col h-full w-full transition-transform duration-200 hover:-translate-y-0.5"
     >
       {/* Image */}
-      <div className="relative aspect-[3/4] overflow-hidden rounded-lg img-loading-container mb-3">
+      <div className={cn(
+        'relative overflow-hidden rounded-lg img-loading-container mb-3',
+        landscape ? 'aspect-[3/2]' : 'aspect-[3/4]'
+      )}>
         <Image
           src={event.image}
           alt={event.title}
           fill
-          className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
-          sizes="(max-width: 768px) 60vw, (max-width: 1440px) 25vw, 300px"
+          className="object-cover object-center transition-transform duration-200 group-hover:scale-[1.03]"
+          sizes={landscape
+            ? '(max-width: 768px) 100vw, (max-width: 1440px) 50vw, 33vw'
+            : '(max-width: 768px) 60vw, (max-width: 1440px) 25vw, 300px'}
         />
         {event.ticketsLeft < 25 && (
           <span className="absolute top-2 left-2 inline-flex items-center bg-red text-white text-[10px] font-bold px-2 py-1 rounded">

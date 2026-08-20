@@ -84,7 +84,7 @@ export default async function HomePage({ searchParams }: Props) {
           {filtered.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
               {filtered.map((event) => (
-                <EventCard key={event.id} event={event} />
+                <EventCard key={event.id} event={event} landscape />
               ))}
             </div>
           ) : (

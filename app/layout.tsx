@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Oswald, Inter } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
@@ -8,6 +8,14 @@ import CookieBanner from '@/components/ui/CookieBanner'
 import { NavLabelProvider } from '@/components/ui/NavLabelProvider'
 import { BASE } from '@/lib/utils'
 import { getCities } from '@/lib/data'
+
+// Запрет зума на мобильных (по требованию владельца сайта)
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
 
 const oswald = Oswald({
   subsets: ['cyrillic', 'latin'],

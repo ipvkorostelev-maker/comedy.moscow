@@ -21,7 +21,7 @@ export default function EventRail({ events, title = 'Ближайшие конц
           Все события →
         </Link>
       </div>
-      <div className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-1 -mx-6 px-6 lg:-mx-12 lg:px-12">
+      <div className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 px-6 lg:px-12">
         {events.map((event) => (
           <div
             key={event.id}

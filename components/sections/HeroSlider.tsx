@@ -110,9 +110,9 @@ export default function HeroSlider({ events, selectedDate }: HeroSliderProps) {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* Mobile */}
+      {/* ── MOBILE: image on top (no crop), content below ── */}
       <div className="lg:hidden">
-        <div className="relative w-full aspect-[4/5] min-h-[480px]">
+        <div className="relative w-full aspect-[3/2] overflow-hidden bg-surface-2">
           {events.map((e, i) => {
             if (!visibleIndices.has(i)) return null
             return (
@@ -126,95 +126,101 @@ export default function HeroSlider({ events, selectedDate }: HeroSliderProps) {
             )
           })}
           <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                'linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,0.7) 30%, rgba(10,10,10,0.4) 45%, transparent 60%)',
-            }}
+            className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-bg to-transparent pointer-events-none"
           />
+        </div>
 
-          <div className="absolute bottom-0 left-0 right-0 px-5 pb-6">
-            <p className="text-[11px] uppercase tracking-[0.25em] text-cream/50 font-medium mb-3">
-              {heroLabel}
+        <div className="px-5 pt-5 pb-4">
+          <p className="text-[11px] uppercase tracking-[0.25em] text-cream/50 font-medium mb-3">
+            {heroLabel}
+          </p>
+          <h2
+            key={event.id}
+            className="font-serif font-black text-cream uppercase leading-[1.05] mb-3"
+            style={{ fontSize: 'clamp(28px, 8vw, 40px)' }}
+          >
+            {event.title}
+          </h2>
+          <p className="text-cream/60 text-sm mb-4">
+            {metaParts.join(' · ')}
+          </p>
+          {price > 0 && (
+            <p className="font-serif font-black text-lg text-cream mb-4">
+              от {formatPrice(price)}
             </p>
-            <h2
-              key={event.id}
-              className="font-serif font-black text-cream uppercase leading-[1.02] mb-3"
-              style={{ fontSize: 'clamp(30px, 8.5vw, 44px)' }}
+          )}
+          <div className="flex flex-col gap-3">
+            <Link
+              href={`/events/${event.slug}`}
+              className="inline-flex items-center justify-center h-14 bg-red hover:bg-red-hover text-white text-base font-bold px-8 rounded-lg transition-colors duration-200"
+              aria-label={`Купить билет на ${event.title}`}
             >
-              {event.title}
-            </h2>
-            <p className="text-cream/60 text-sm mb-4 line-clamp-1">
-              {metaParts.slice(0, 3).join(' · ')}
-            </p>
-            {price > 0 && (
-              <p className="font-serif font-black text-lg text-cream mb-4">
-                от {formatPrice(price)}
-              </p>
-            )}
-            <div className="flex flex-col gap-3">
-              <Link
-                href={`/events/${event.slug}`}
-                className="inline-flex items-center justify-center h-12 flex-1 bg-red hover:bg-red-hover text-white font-bold px-8 rounded-lg transition-colors duration-200"
-                aria-label={`Купить билет на ${event.title}`}
-              >
-                Купить билет
-              </Link>
-              <Link
-                href={`/events/${event.slug}`}
-                className="inline-flex items-center justify-center h-12 flex-1 bg-transparent hover:bg-white/10 text-white font-medium px-7 rounded-lg border border-white/25 transition-colors duration-200"
-                aria-label={`Подробнее о ${event.title}`}
-              >
-                Подробнее
-              </Link>
-            </div>
+              Купить билет
+            </Link>
+            <Link
+              href={`/events/${event.slug}`}
+              className="inline-flex items-center justify-center h-12 bg-transparent hover:bg-white/10 text-white text-sm font-medium px-7 rounded-lg border border-white/25 transition-colors duration-200"
+              aria-label={`Подробнее о ${event.title}`}
+            >
+              Подробнее
+            </Link>
           </div>
         </div>
 
         {events.length > 1 && (
-          <div className="flex justify-center pt-4 pb-6">
+          <div className="flex justify-center pb-6">
             <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
           </div>
         )}
       </div>
 
-      {/* Desktop */}
-      <div className="hidden lg:block relative h-[560px] xl:h-[620px]">
-        {events.map((e, i) => {
-          if (!visibleIndices.has(i)) return null
-          return (
-            <div
-              key={e.id}
-              className="absolute inset-0 transition-opacity duration-200 ease-in-out"
-              style={{ opacity: i === current ? 1 : 0, zIndex: i === current ? 1 : 0 }}
-            >
-              <SlideImage event={e} isPriority={i === current} />
-            </div>
-          )
-        })}
+      {/* ── DESKTOP: content left, image right (no overlap) ── */}
+      <div className="hidden lg:block relative h-[500px] xl:h-[540px] bg-bg">
+        {/* Image — right side, not covered by text */}
+        <div className="absolute inset-y-0 right-0 w-[55%] xl:w-[52%] overflow-hidden bg-surface-2">
+          {events.map((e, i) => {
+            if (!visibleIndices.has(i)) return null
+            return (
+              <div
+                key={e.id}
+                className="absolute inset-0 transition-opacity duration-200 ease-in-out"
+                style={{ opacity: i === current ? 1 : 0, zIndex: i === current ? 1 : 0 }}
+              >
+                <SlideImage event={e} isPriority={i === current} />
+              </div>
+            )
+          })}
+          {/* Soft blend into page background on the left edge of the image */}
+          <div
+            className="absolute inset-y-0 left-0 w-24 z-[2] pointer-events-none"
+            style={{
+              background: 'linear-gradient(to right, rgba(10,10,10,1) 0%, rgba(10,10,10,0.6) 45%, transparent 100%)',
+            }}
+          />
+          {/* Bottom fade for depth */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-16 z-[2] pointer-events-none"
+            style={{
+              background: 'linear-gradient(to top, rgba(10,10,10,0.8) 0%, transparent 100%)',
+            }}
+          />
+        </div>
 
-        <div
-          className="absolute inset-0 z-[2] pointer-events-none"
-          style={{
-            background:
-              'linear-gradient(to right, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.75) 35%, rgba(10,10,10,0.2) 55%, transparent 70%), linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 40%)',
-          }}
-        />
-
+        {/* Content — left column, never covers the image */}
         <div className="relative z-[3] h-full max-w-[1600px] mx-auto px-6 lg:px-12 flex items-center">
-          <div className="max-w-[640px] py-8">
+          <div className="max-w-[540px] py-8">
             <p className="text-[11px] uppercase tracking-[0.25em] text-cream/50 font-medium mb-4">
               {heroLabel}
             </p>
             <h2
               key={event.id}
               className="font-serif font-black text-cream uppercase leading-[1.02] mb-5"
-              style={{ fontSize: 'clamp(34px, 4.2vw, 72px)' }}
+              style={{ fontSize: 'clamp(34px, 3.4vw, 60px)' }}
             >
               {event.title}
             </h2>
             {event.subtitle && (
-              <p className="text-cream/55 text-sm lg:text-base mb-5 line-clamp-2">{event.subtitle}</p>
+              <p className="text-cream/55 text-sm lg:text-base mb-4 line-clamp-2">{event.subtitle}</p>
             )}
             <p className="text-cream/60 text-sm mb-4">
               {metaParts.join(' · ')}

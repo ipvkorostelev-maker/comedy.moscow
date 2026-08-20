@@ -40,20 +40,22 @@ function TourCard({ tour }: { tour: EnrichedTour }) {
     <Link
       href={`/tour/${tour.slug}`}
       aria-label={tour.title}
-      className="group relative block w-[82vw] max-w-[360px] md:w-full md:max-w-none shrink-0 snap-start aspect-[16/10] overflow-hidden rounded-lg"
+      className="group relative block w-[82vw] max-w-[360px] md:w-full md:max-w-none shrink-0 snap-start aspect-[16/10] overflow-hidden rounded-lg bg-surface-2"
     >
       {tour.photo ? (
+        // object-contain: фото туров бывают и альбомные (16:9), и портретные —
+        // показываем целиком без обрезки на тёмной подложке
         <Image
           src={tour.photo}
           alt={tour.title}
           fill
-          className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
+          className="object-contain transition-transform duration-200 group-hover:scale-[1.02]"
           sizes="(max-width: 768px) 82vw, (max-width: 1280px) 50vw, 33vw"
         />
       ) : (
         <div className="img-placeholder" />
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
       <div className="absolute bottom-0 left-0 right-0 p-5">
         <p className="text-[11px] uppercase tracking-widest text-red font-bold mb-1.5">
           {tour.artistName}

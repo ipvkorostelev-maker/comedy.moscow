@@ -115,12 +115,15 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
   }
 
   body {
     @apply text-cream font-sans antialiased;
     background-color: #0A0A0A;
     overflow-x: hidden;
+    overscroll-behavior-x: none;
   }
 
   /* Side orange glow */
