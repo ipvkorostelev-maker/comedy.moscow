@@ -40,12 +40,6 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       {event.inticketsUrl && (
         <InticketsBuyButton url={event.inticketsUrl} className="w-full justify-center lg:w-auto" />
       )}
-      <a
-        href="#about"
-        className="inline-flex items-center justify-center gap-2 border border-white/25 text-cream text-sm font-medium px-6 rounded-xl hover:bg-white/10 transition-all min-h-[48px] w-full lg:w-auto"
-      >
-        Подробнее ↓
-      </a>
     </div>
   )
 
