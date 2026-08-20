@@ -159,7 +159,7 @@ export default function HeroSlider({ events, selectedDate }: HeroSliderProps) {
             </Link>
             <Link
               href={`/events/${event.slug}`}
-              className="inline-flex items-center justify-center h-12 bg-transparent hover:bg-white/10 text-white text-sm font-medium px-7 rounded-lg border border-white/25 transition-colors duration-200"
+              className="inline-flex items-center justify-center h-14 bg-transparent hover:bg-white/10 text-white text-sm font-medium px-7 rounded-lg border border-white/25 transition-colors duration-200"
               aria-label={`Подробнее о ${event.title}`}
             >
               Подробнее
