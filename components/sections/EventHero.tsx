@@ -16,7 +16,7 @@ interface EventHeroProps {
 
 export default function EventHero({ event, artists, venue, price }: EventHeroProps) {
   const pills = (
-    <div className="flex flex-wrap gap-2.5 items-center mt-2.5 mb-6">
+    <div className="flex flex-wrap gap-2.5 items-center">
       <MetaPill type="date" variant="glass" className="text-sm px-3.5 py-1.5 font-semibold">
         {formatDateShort(event.date)}
       </MetaPill>
@@ -30,19 +30,19 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
   )
 
   const buttons = (
-    <div className="flex flex-wrap gap-3 mb-6">
+    <div className="flex flex-col lg:flex-row flex-wrap gap-3">
       <BuyButton
         ticketType={event.ticketType}
         ticketUrl={event.ticketUrl}
         yandexWidgetId={event.yandexWidgetId}
+        className="w-full justify-center lg:w-auto"
       />
       {event.inticketsUrl && (
-        <InticketsBuyButton url={event.inticketsUrl} />
+        <InticketsBuyButton url={event.inticketsUrl} className="w-full justify-center lg:w-auto" />
       )}
       <a
         href="#about"
-        className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/15 text-cream text-sm font-medium px-6 py-3 rounded-lg hover:bg-white/15 transition-all"
-        style={{ height: 48 }}
+        className="inline-flex items-center justify-center gap-2 border border-white/25 text-cream text-sm font-medium px-6 rounded-xl hover:bg-white/10 transition-all min-h-[48px] w-full lg:w-auto"
       >
         Подробнее ↓
       </a>
@@ -77,7 +77,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
   const shareRow = (
     <div>
       <p className="text-[10px] text-cream/40 uppercase tracking-[0.18em] mb-2.5">Позвать сходить вместе</p>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         {shareLinks.map(({ label, href, color, bg, icon }) => (
           <a
             key={label}
@@ -120,91 +120,108 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
   ) : null
 
   return (
-    <>
-      {/* ── MOBILE: stacked ── */}
-      <div className="lg:hidden pb-8">
-        <div className="w-full overflow-hidden rounded-b-2xl bg-surface img-loading-container">
-          <Image
-            src={event.image}
-            alt={event.title}
-            width={1200}
-            height={800}
-            priority
-            quality={85}
-            className="w-full h-auto block"
-            sizes="100vw"
-          />
-        </div>
-        <div className="px-5 pt-5 pb-4">
-          <EventBadges event={event} />
-          <h1 className="font-serif font-black text-cream leading-[1.05] tracking-[-0.02em] text-[clamp(26px,3.5vw,52px)] mb-2">
-            {event.title}
-          </h1>
-          {event.subtitle && (
-            <p className="text-cream/60 text-[clamp(13px,1.4vw,18px)] font-sans font-normal mt-3 mb-4 leading-relaxed">
-              {event.subtitle}
-            </p>
-          )}
-          {pills}
-          {buttons}
-          {artistsRow}
-          {shareRow}
-          {artists.length > 0 && (
-            <div className="mt-5">
-              <CommissionButton artistNames={artists.map(a => a.name)} className="w-full py-2.5 px-4" />
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* ── DESKTOP: split ── */}
-      <div className="hidden lg:flex overflow-hidden pt-5 pb-8">
-        {/* Content — left 40% */}
-        <div className="w-[40%] flex-shrink-0 flex flex-col justify-center px-12 py-10 z-20">
-          <EventBadges event={event} />
-          <p className="font-serif font-black text-cream leading-[1.05] tracking-[-0.02em] text-[clamp(26px,3.5vw,52px)] mb-2">
-            {event.title}
-          </p>
-          {event.subtitle && (
-            <p className="text-cream/60 text-[clamp(13px,1.4vw,18px)] font-sans font-normal mt-3 mb-4 leading-relaxed">
-              {event.subtitle}
-            </p>
-          )}
-          {pills}
-          {price > 0 && (
-            <p className="text-cream/40 text-sm tracking-wide mb-5">
-              от {formatPrice(price)}
-            </p>
-          )}
-          {buttons}
-          {artistsRow}
-          {shareRow}
-          {artists.length > 0 && (
-            <div className="mt-5">
-              <CommissionButton artistNames={artists.map(a => a.name)} className="py-2.5 px-5" />
-            </div>
-          )}
-        </div>
-
-        {/* Image — right 60% */}
-        <div
-          className="relative flex-1 self-stretch overflow-hidden img-loading-container"
-          style={{ maxWidth: '900px', minHeight: '420px' }}
-        >
-          <div className="absolute inset-0 z-0">
+    <section className="overflow-hidden pb-8">
+      {/* ── MOBILE ── */}
+      <div className="lg:hidden">
+        <div className="relative w-full aspect-[3/2] bg-surface-2 img-loading-container overflow-hidden">
+          {event.image && (
             <Image
               src={event.image}
               alt={event.title}
               fill
               priority
               quality={85}
-              className="object-cover object-top"
-              sizes="(max-width: 1920px) 60vw, 720px"
+              className="object-cover object-center"
+              sizes="100vw"
             />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-l from-bg/0 via-bg/20 to-bg/60 z-10" />
+          )}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-12 pointer-events-none"
+            style={{ background: 'linear-gradient(to top, rgba(10,10,10,1), transparent)' }}
+          />
+        </div>
+
+        <div className="px-5 pt-5 pb-6 flex flex-col gap-5">
+          <EventBadges event={event} />
+
+          <h1 className="font-serif font-black text-cream uppercase leading-[1.02] text-[clamp(26px,8vw,36px)]">
+            {event.title}
+          </h1>
+
+          {event.subtitle && (
+            <p className="text-cream/60 text-sm lg:text-lg font-normal leading-relaxed">
+              {event.subtitle}
+            </p>
+          )}
+
+          {pills}
+
+          {price > 0 && (
+            <p className="font-serif font-black text-lg text-cream">
+              от {formatPrice(price)}
+            </p>
+          )}
+
+          {buttons}
+          {artistsRow}
+          {shareRow}
+
+          {artists.length > 0 && (
+            <CommissionButton artistNames={artists.map(a => a.name)} className="w-full py-2.5 px-4" />
+          )}
         </div>
       </div>
-    </>
+
+      {/* ── DESKTOP ── */}
+      <div className="hidden lg:flex items-center justify-between gap-8 px-6 lg:px-12 h-[460px] xl:h-[500px]">
+        <div className="max-w-[560px] flex flex-col justify-center gap-5">
+          <EventBadges event={event} />
+
+          <p className="font-serif font-black text-cream uppercase leading-[1.02] text-[clamp(28px,3vw,48px)]">
+            {event.title}
+          </p>
+
+          {event.subtitle && (
+            <p className="text-cream/60 text-sm lg:text-lg font-normal leading-relaxed">
+              {event.subtitle}
+            </p>
+          )}
+
+          {pills}
+
+          {price > 0 && (
+            <p className="font-serif font-black text-lg text-cream">
+              от {formatPrice(price)}
+            </p>
+          )}
+
+          {buttons}
+          {artistsRow}
+          {shareRow}
+
+          {artists.length > 0 && (
+            <CommissionButton artistNames={artists.map(a => a.name)} className="self-start py-2.5 px-5" />
+          )}
+        </div>
+
+        <div className="relative w-[46%] xl:w-[44%] h-full rounded-xl overflow-hidden bg-surface-2 img-loading-container">
+          {event.image && (
+            <Image
+              src={event.image}
+              alt={event.title}
+              fill
+              priority
+              quality={85}
+              className="object-cover object-center"
+              sizes="(max-width: 1280px) 46vw, 44vw"
+            />
+          )}
+          <div
+            className="absolute inset-y-0 left-0 w-16 z-10 pointer-events-none"
+            style={{ background: 'linear-gradient(to right, rgba(10,10,10,1), transparent)' }}
+          />
+        </div>
+      </div>
+    </section>
   )
 }
