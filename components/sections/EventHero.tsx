@@ -173,7 +173,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       </div>
 
       {/* ── DESKTOP ── */}
-      <div className="hidden lg:flex items-center justify-between gap-8 px-6 lg:px-12 h-[460px] xl:h-[500px]">
+      <div className="hidden lg:flex items-center justify-between gap-8 px-6 lg:px-12 min-h-[460px] xl:min-h-[500px] py-8">
         <div className="max-w-[560px] flex flex-col justify-center gap-5">
           <EventBadges event={event} />
 
@@ -204,7 +204,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           )}
         </div>
 
-        <div className="relative w-[46%] xl:w-[44%] h-full rounded-xl overflow-hidden bg-surface-2 img-loading-container">
+        <div className="relative w-[46%] xl:w-[44%] self-stretch min-h-[420px] rounded-xl overflow-hidden bg-surface-2 img-loading-container">
           {event.image && (
             <Image
               src={event.image}
