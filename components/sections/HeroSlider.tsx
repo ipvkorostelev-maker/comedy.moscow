@@ -25,25 +25,26 @@ function SliderDots({
   interval: number
 }) {
   return (
-    <div className="flex items-center justify-center gap-3">
+    <div className="flex items-center justify-center" role="group" aria-label="Переключение слайдов">
       {Array.from({ length: count }).map((_, i) => (
         <button
           key={i}
           onClick={() => goTo(i)}
-          className="relative rounded-full overflow-hidden transition-all duration-200 ease-out cursor-pointer"
-          style={{ width: i === current ? 28 : 6, height: 6 }}
+          className="group inline-flex size-11 items-center justify-center rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-2 focus-visible:ring-offset-black/70"
           aria-label={`Слайд ${i + 1}`}
+          aria-current={i === current ? 'true' : undefined}
         >
-          <span
-            className="absolute inset-0 rounded-full"
-            style={{ background: i === current ? 'rgba(255,77,0,0.25)' : 'rgba(255,255,255,0.30)' }}
-          />
-          {i === current && (
-            <span
-              className="absolute inset-y-0 left-0 rounded-full"
-              style={{ background: '#FF4D00', animation: `progress ${interval}ms linear forwards` }}
-            />
-          )}
+          <span className="relative h-1.5 w-1.5 overflow-hidden rounded-full bg-white/45 transition-[width,background-color] duration-200 group-hover:bg-white/75 group-aria-[current=true]:w-7 group-aria-[current=true]:bg-red/30">
+            {i === current && (
+              <span
+                className="absolute inset-y-0 left-0 rounded-full bg-red"
+                style={{ animation: `progress ${interval}ms linear forwards` }}
+              />
+            )}
+          </span>
+          <span className="sr-only">
+            {i === current ? 'Текущий слайд' : `Показать слайд ${i + 1}`}
+          </span>
         </button>
       ))}
     </div>
@@ -51,6 +52,10 @@ function SliderDots({
 }
 
 function SlideImage({ event, isPriority }: { event: Event; isPriority: boolean }) {
+  if (!event.image) {
+    return <div className="absolute inset-0 bg-surface-2" aria-hidden="true" />
+  }
+
   return (
     <Image
       src={event.image}
@@ -58,8 +63,8 @@ function SlideImage({ event, isPriority }: { event: Event; isPriority: boolean }
       fill
       priority={isPriority}
       quality={85}
-      className="object-cover object-center"
-      sizes="100vw"
+      className="object-contain object-center"
+      sizes="(min-width: 1296px) 1200px, (min-width: 1024px) calc(100vw - 96px), (min-width: 640px) calc(100vw - 48px), calc(100vw - 24px)"
     />
   )
 }
@@ -106,166 +111,194 @@ export default function HeroSlider({ events, selectedDate }: HeroSliderProps) {
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-bg"
+      className="relative w-full bg-bg px-3 pt-3 sm:px-6 sm:pt-5 lg:px-12 lg:pt-6"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false)
+      }}
+      aria-roledescription="карусель"
+      aria-label="Ближайшие концерты"
     >
-      {/* ── MOBILE: image on top (no crop), content below ── */}
-      <div className="lg:hidden">
-        <div className="relative w-full aspect-[3/2] overflow-hidden bg-surface-2">
-          {events.map((e, i) => {
-            if (!visibleIndices.has(i)) return null
-            return (
-              <div
-                key={e.id}
-                className="absolute inset-0 transition-opacity duration-200 ease-in-out"
-                style={{ opacity: i === current ? 1 : 0 }}
+      <div className="relative mx-auto max-w-[1200px] overflow-hidden rounded-2xl bg-surface-2 shadow-[0_24px_70px_-36px_rgba(0,0,0,0.95)] sm:rounded-3xl">
+        {/* Mobile: the full 3:2 image remains visible; details continue below it. */}
+        <div className="lg:hidden">
+          <div className="relative aspect-[3/2] w-full overflow-hidden bg-black">
+            {events.map((e, i) => {
+              if (!visibleIndices.has(i)) return null
+              return (
+                <div
+                  key={e.id}
+                  className="absolute inset-0 transition-opacity duration-200 ease-out"
+                  style={{ opacity: i === current ? 1 : 0, zIndex: i === current ? 1 : 0 }}
+                  aria-hidden={i !== current}
+                >
+                  <SlideImage event={e} isPriority={i === current} />
+                </div>
+              )
+            })}
+
+            <div
+              className="pointer-events-none absolute inset-0 z-[2]"
+              style={{
+                background:
+                  'linear-gradient(180deg, rgba(5,5,6,0.16) 0%, rgba(5,5,6,0.05) 30%, rgba(5,5,6,0.82) 100%)',
+              }}
+            />
+
+            <div className="absolute inset-x-0 bottom-0 z-[3] p-5 sm:p-7">
+              <p className="mb-2 inline-flex min-h-7 items-center rounded-full border border-white/15 bg-black/35 px-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/80 backdrop-blur-md">
+                {heroLabel}
+              </p>
+              <h2
+                key={event.id}
+                className="max-w-[92%] font-serif text-[clamp(24px,7.2vw,38px)] font-black uppercase leading-[1.02] text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.8)]"
               >
-                <SlideImage event={e} isPriority={i === current} />
+                {event.title}
+              </h2>
+            </div>
+
+            {events.length > 1 && (
+              <div className="absolute right-1 top-1 z-[4] sm:right-3 sm:top-3">
+                <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
               </div>
-            )
-          })}
-          <div
-            className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-bg to-transparent pointer-events-none"
-          />
-        </div>
-
-        <div className="px-5 pt-5 pb-4">
-          <p className="text-[11px] uppercase tracking-[0.25em] text-cream/50 font-medium mb-3">
-            {heroLabel}
-          </p>
-          <h2
-            key={event.id}
-            className="font-serif font-black text-cream uppercase leading-[1.05] mb-3"
-            style={{ fontSize: 'clamp(28px, 8vw, 40px)' }}
-          >
-            {event.title}
-          </h2>
-          <p className="text-cream/60 text-sm mb-4">
-            {metaParts.join(' · ')}
-          </p>
-          {price > 0 && (
-            <p className="font-serif font-black text-lg text-cream mb-4">
-              от {formatPrice(price)}
-            </p>
-          )}
-          <div className="flex flex-col gap-3">
-            <Link
-              href={`/events/${event.slug}`}
-              className="inline-flex items-center justify-center h-14 bg-red hover:bg-red-hover text-white text-base font-bold px-8 rounded-lg transition-colors duration-200"
-              aria-label={`Купить билет на ${event.title}`}
-            >
-              Купить билет
-            </Link>
-            <Link
-              href={`/events/${event.slug}`}
-              className="inline-flex items-center justify-center h-14 bg-transparent hover:bg-white/10 text-white text-sm font-medium px-7 rounded-lg border border-white/25 transition-colors duration-200"
-              aria-label={`Подробнее о ${event.title}`}
-            >
-              Подробнее
-            </Link>
-          </div>
-        </div>
-
-        {events.length > 1 && (
-          <div className="flex justify-center pb-6">
-            <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
-          </div>
-        )}
-      </div>
-
-      {/* ── DESKTOP: content left, image right (no overlap) ── */}
-      <div className="hidden lg:block relative h-[500px] xl:h-[540px] bg-bg">
-        {/* Image — right side, not covered by text */}
-        <div className="absolute inset-y-0 right-0 w-[55%] xl:w-[52%] overflow-hidden bg-surface-2">
-          {events.map((e, i) => {
-            if (!visibleIndices.has(i)) return null
-            return (
-              <div
-                key={e.id}
-                className="absolute inset-0 transition-opacity duration-200 ease-in-out"
-                style={{ opacity: i === current ? 1 : 0, zIndex: i === current ? 1 : 0 }}
-              >
-                <SlideImage event={e} isPriority={i === current} />
-              </div>
-            )
-          })}
-          {/* Soft blend into page background on the left edge of the image */}
-          <div
-            className="absolute inset-y-0 left-0 w-24 z-[2] pointer-events-none"
-            style={{
-              background: 'linear-gradient(to right, rgba(10,10,10,1) 0%, rgba(10,10,10,0.6) 45%, transparent 100%)',
-            }}
-          />
-          {/* Bottom fade for depth */}
-          <div
-            className="absolute inset-x-0 bottom-0 h-16 z-[2] pointer-events-none"
-            style={{
-              background: 'linear-gradient(to top, rgba(10,10,10,0.8) 0%, transparent 100%)',
-            }}
-          />
-        </div>
-
-        {/* Content — left column, never covers the image */}
-        <div className="relative z-[3] h-full max-w-[1600px] mx-auto px-6 lg:px-12 flex items-center">
-          <div className="max-w-[540px] py-8">
-            <p className="text-[11px] uppercase tracking-[0.25em] text-cream/50 font-medium mb-4">
-              {heroLabel}
-            </p>
-            <h2
-              key={event.id}
-              className="font-serif font-black text-cream uppercase leading-[1.02] mb-5"
-              style={{ fontSize: 'clamp(34px, 3.4vw, 60px)' }}
-            >
-              {event.title}
-            </h2>
-            {event.subtitle && (
-              <p className="text-cream/55 text-sm lg:text-base mb-4 line-clamp-2">{event.subtitle}</p>
             )}
-            <p className="text-cream/60 text-sm mb-4">
-              {metaParts.join(' · ')}
-            </p>
-            <div className="flex flex-wrap items-center gap-2 mb-5">
+          </div>
+
+          <div className="bg-[#111114] p-5 sm:p-7">
+            {event.subtitle && (
+              <p className="mb-3 line-clamp-2 text-sm leading-relaxed text-cream/70">{event.subtitle}</p>
+            )}
+            <p className="mb-4 text-sm leading-relaxed text-cream/70">{metaParts.join(' · ')}</p>
+
+            <div className="mb-5 flex flex-wrap items-center gap-2">
               {event.ageRestriction && (
-                <span className="text-[11px] text-cream/60 px-2 py-1 rounded border border-white/15">
+                <span className="rounded-md border border-white/15 px-2.5 py-1 text-[11px] text-cream/70">
                   {event.ageRestriction}
                 </span>
               )}
               {event.duration && (
-                <span className="text-[11px] text-cream/60 px-2 py-1 rounded border border-white/15">
+                <span className="rounded-md border border-white/15 px-2.5 py-1 text-[11px] text-cream/70">
                   {event.duration}
                 </span>
               )}
+              {price > 0 && (
+                <span className="ml-auto font-serif text-lg font-black text-cream">от {formatPrice(price)}</span>
+              )}
             </div>
-            {price > 0 && (
-              <p className="font-serif font-black text-lg xl:text-xl text-cream mb-6">
-                от {formatPrice(price)}
-              </p>
-            )}
-            <div className="flex flex-wrap gap-3">
+
+            <div className="grid grid-cols-[1fr_auto] gap-3">
               <Link
                 href={`/events/${event.slug}`}
-                className="inline-flex items-center justify-center min-h-[48px] bg-red hover:bg-red-hover text-white font-bold px-8 py-3.5 rounded-lg transition-colors duration-200"
+                className="inline-flex min-h-14 items-center justify-center rounded-xl bg-red px-6 text-base font-bold text-white transition-colors duration-200 hover:bg-red-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#111114] active:scale-[0.98]"
                 aria-label={`Купить билет на ${event.title}`}
               >
                 Купить билет
               </Link>
               <Link
                 href={`/events/${event.slug}`}
-                className="inline-flex items-center justify-center min-h-[48px] bg-transparent hover:bg-white/10 text-white font-medium px-7 py-3.5 rounded-lg border border-white/25 transition-colors duration-200"
+                className="inline-flex size-14 items-center justify-center rounded-xl border border-white/25 bg-white/[0.04] text-white transition-colors duration-200 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#111114] active:scale-[0.96]"
                 aria-label={`Подробнее о ${event.title}`}
               >
-                Подробнее
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 5l7 7-7 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </Link>
             </div>
           </div>
         </div>
 
-        {events.length > 1 && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[4]">
-            <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
+        {/* Desktop: one uninterrupted 3:2 poster with a readable text zone. */}
+        <div className="relative hidden aspect-[3/2] w-full overflow-hidden bg-black lg:block">
+          {events.map((e, i) => {
+            if (!visibleIndices.has(i)) return null
+            return (
+              <div
+                key={e.id}
+                className="absolute inset-0 transition-opacity duration-200 ease-out"
+                style={{ opacity: i === current ? 1 : 0, zIndex: i === current ? 1 : 0 }}
+                aria-hidden={i !== current}
+              >
+                <SlideImage event={e} isPriority={i === current} />
+              </div>
+            )
+          })}
+
+          <div
+            className="pointer-events-none absolute inset-0 z-[2]"
+            style={{
+              background:
+                'linear-gradient(90deg, rgba(5,5,6,0.91) 0%, rgba(5,5,6,0.79) 24%, rgba(5,5,6,0.42) 45%, rgba(5,5,6,0.08) 70%, rgba(5,5,6,0.12) 100%)',
+            }}
+          />
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-1/3"
+            style={{
+              background: 'linear-gradient(0deg, rgba(5,5,6,0.62) 0%, transparent 100%)',
+            }}
+          />
+
+          <div className="absolute inset-y-0 left-0 z-[3] flex w-[56%] items-center px-10 py-12 xl:w-[52%] xl:px-16 2xl:px-20">
+            <div className="max-w-[580px]">
+              <p className="mb-4 inline-flex min-h-8 items-center rounded-full border border-white/15 bg-black/25 px-3.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/75 backdrop-blur-md">
+                {heroLabel}
+              </p>
+              <h2
+                key={event.id}
+                className="mb-5 font-serif text-[clamp(38px,4vw,68px)] font-black uppercase leading-[0.98] text-white drop-shadow-[0_3px_22px_rgba(0,0,0,0.9)]"
+              >
+                {event.title}
+              </h2>
+              {event.subtitle && (
+                <p className="mb-4 line-clamp-2 max-w-[500px] text-sm leading-relaxed text-white/72 xl:text-base">
+                  {event.subtitle}
+                </p>
+              )}
+              <p className="mb-4 text-sm leading-relaxed text-white/78 xl:text-base">{metaParts.join(' · ')}</p>
+
+              <div className="mb-5 flex flex-wrap items-center gap-2">
+                {event.ageRestriction && (
+                  <span className="rounded-md border border-white/20 bg-black/15 px-2.5 py-1 text-[11px] text-white/75 backdrop-blur-sm">
+                    {event.ageRestriction}
+                  </span>
+                )}
+                {event.duration && (
+                  <span className="rounded-md border border-white/20 bg-black/15 px-2.5 py-1 text-[11px] text-white/75 backdrop-blur-sm">
+                    {event.duration}
+                  </span>
+                )}
+              </div>
+
+              {price > 0 && (
+                <p className="mb-6 font-serif text-xl font-black text-white xl:text-2xl">от {formatPrice(price)}</p>
+              )}
+
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href={`/events/${event.slug}`}
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl bg-red px-8 py-3 text-sm font-bold text-white transition-colors duration-200 hover:bg-red-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/70 active:scale-[0.98] xl:min-h-14 xl:text-base"
+                  aria-label={`Купить билет на ${event.title}`}
+                >
+                  Купить билет
+                </Link>
+                <Link
+                  href={`/events/${event.slug}`}
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/30 bg-white/[0.06] px-7 py-3 text-sm font-medium text-white backdrop-blur-sm transition-colors duration-200 hover:bg-white/[0.12] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/70 active:scale-[0.98] xl:min-h-14 xl:text-base"
+                  aria-label={`Подробнее о ${event.title}`}
+                >
+                  Подробнее
+                </Link>
+              </div>
+            </div>
           </div>
-        )}
+
+          {events.length > 1 && (
+            <div className="absolute bottom-5 right-6 z-[4] xl:bottom-7 xl:right-9">
+              <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
+            </div>
+          )}
+        </div>
       </div>
     </section>
   )
