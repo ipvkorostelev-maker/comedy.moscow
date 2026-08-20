@@ -116,14 +116,19 @@
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    overflow-x: clip;
     overscroll-behavior-x: none;
+    touch-action: pan-y;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply text-cream font-sans antialiased;
     background-color: #0A0A0A;
     overflow-x: hidden;
+    overflow-x: clip;
     overscroll-behavior-x: none;
+    touch-action: pan-y;
   }
 
   /* Side orange glow */
@@ -178,6 +183,11 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Горизонтальные ленты внутри body с touch-action: pan-y */
+  .touch-pan-xy {
+    touch-action: pan-x pan-y;
   }
 
   .animate-hero-content {

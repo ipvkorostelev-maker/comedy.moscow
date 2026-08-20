@@ -83,7 +83,7 @@ export default function ArtistGrid() {
               value={query}
               onChange={(e) => handleSearch(e.target.value)}
               placeholder="Поиск по имени..."
-              className="w-full bg-surface border border-border rounded-xl px-4 py-3 pl-10 text-sm text-cream placeholder:text-muted-2 outline-none focus:border-muted-2 transition-colors"
+              className="w-full bg-surface border border-border rounded-xl px-4 py-3 pl-10 text-base text-cream placeholder:text-muted-2 outline-none focus:border-muted-2 transition-colors"
             />
             <svg
               width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"

@@ -20,7 +20,7 @@ export default function ArtistRail({ artists }: ArtistRailProps) {
           Все артисты →
         </Link>
       </div>
-      <div className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 px-6 lg:px-12">
+      <div className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 touch-pan-xy px-6 lg:px-12">
         {artists.map((artist) => (
           <div
             key={artist.id}

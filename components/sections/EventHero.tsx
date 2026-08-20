@@ -98,7 +98,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
   const artistsRow = artists.length > 0 ? (
     <div>
       <p className="text-[10px] text-muted uppercase tracking-[0.15em] mb-3">Состав концерта:</p>
-      <div className="flex gap-4 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
+      <div className="flex gap-4 overflow-x-auto scrollbar-hide touch-pan-xy pb-2">
         {artists.map((artist) => (
           <a key={artist.id} href={`/artists/${artist.slug}`} className="flex-shrink-0 flex flex-col items-center gap-2 group">
             <div className="relative w-14 h-14 rounded-full overflow-hidden bg-surface border-2 border-border group-hover:border-red transition-colors duration-200 flex-shrink-0">

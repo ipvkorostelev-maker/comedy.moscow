@@ -72,7 +72,7 @@ export default function EventCalendar({ eventDates, selected, onSelect }: Props)
   return (
     <div
       ref={scrollRef}
-      className="flex items-stretch gap-1.5 overflow-x-auto scrollbar-hide snap-x px-1 py-1"
+      className="flex items-stretch gap-1.5 overflow-x-auto scrollbar-hide snap-x touch-pan-xy px-1 py-1"
       role="listbox"
       aria-label="Даты концертов"
     >

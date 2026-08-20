@@ -5,6 +5,7 @@ import './globals.css'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
 import CookieBanner from '@/components/ui/CookieBanner'
+import ZoomLock from '@/components/ui/ZoomLock'
 import { NavLabelProvider } from '@/components/ui/NavLabelProvider'
 import { BASE } from '@/lib/utils'
 import { getCities } from '@/lib/data'
@@ -110,6 +111,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body>
+        <ZoomLock />
         <NavLabelProvider>
           <Nav cities={cities} />
           <main>{children}</main>

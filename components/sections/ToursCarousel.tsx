@@ -17,7 +17,7 @@ export default function ToursCarousel({ tours }: ToursCarouselProps) {
       </div>
 
       {/* Mobile */}
-      <div className="flex md:hidden gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-6 pb-2">
+      <div className="flex md:hidden gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory touch-pan-xy px-6 pb-2">
         {tours.map((tour) => (
           <TourCard key={tour.id} tour={tour} />
         ))}
