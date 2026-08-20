@@ -24,18 +24,17 @@ export default function EventRail({ events, title = 'Ближайшие конц
           Все события →
         </Link>
       </div>
-      <div className={cn(
-        'flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 touch-pan-xy',
-        !flush && 'px-6 lg:px-12 scroll-pl-6 lg:scroll-pl-12'
-      )}>
-        {events.map((event) => (
-          <div
-            key={event.id}
-            className="shrink-0 snap-start w-[62vw] sm:w-[38vw] md:w-[26vw] lg:w-[19%] xl:w-[16.5%]"
-          >
-            <EventCard event={event} />
-          </div>
-        ))}
+      <div className={cn(!flush && 'px-6 lg:px-12')}>
+        <div className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-pl-0 pb-2 touch-pan-xy">
+          {events.map((event) => (
+            <div
+              key={event.id}
+              className="shrink-0 snap-start w-[62vw] sm:w-[38vw] md:w-[26vw] lg:w-[19%] xl:w-[16.5%]"
+            >
+              <EventCard event={event} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
