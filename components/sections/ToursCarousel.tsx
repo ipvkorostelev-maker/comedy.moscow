@@ -40,7 +40,7 @@ function TourCard({ tour }: { tour: EnrichedTour }) {
     <Link
       href={`/tour/${tour.slug}`}
       aria-label={tour.title}
-      className="group flex flex-col h-full w-[62vw] max-w-[280px] md:w-full md:max-w-none shrink-0 snap-start transition-transform duration-200 hover:-translate-y-0.5"
+      className="group flex flex-col h-full w-[62vw] max-w-[280px] md:w-full md:max-w-none shrink-0 snap-start shadow-none transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-12px_rgba(0,0,0,0.75),0_8px_24px_-8px_rgba(255,77,0,0.10)]"
     >
       {/* Вертикальный постер — изображение целиком, без подписей поверх */}
       <div className="relative aspect-[3/4] overflow-hidden rounded-lg img-loading-container mb-3 bg-surface-2">

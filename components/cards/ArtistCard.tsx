@@ -12,7 +12,7 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
     <Link
       href={`/artists/${artist.slug}`}
       aria-label={artist.name}
-      className="group flex flex-col h-full w-full"
+      className="group flex flex-col h-full w-full shadow-none transition-[transform,box-shadow] duration-200 hover:shadow-[0_18px_40px_-12px_rgba(0,0,0,0.75),0_8px_24px_-8px_rgba(255,77,0,0.10)]"
     >
       <div className="relative aspect-[3/4] overflow-hidden rounded-lg img-loading-container mb-3">
         {artist.photo ? (
