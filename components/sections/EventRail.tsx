@@ -1,18 +1,21 @@
 import Link from 'next/link'
 import { Event } from '@/lib/types'
+import { cn } from '@/lib/utils'
 import EventCard from '@/components/cards/EventCard'
 
 interface EventRailProps {
   events: Event[]
   title?: string
+  /** Без собственных боковых отступов — для страниц, где паддинги уже заданы контейнером */
+  flush?: boolean
 }
 
-export default function EventRail({ events, title = 'Ближайшие концерты' }: EventRailProps) {
+export default function EventRail({ events, title = 'Ближайшие концерты', flush = false }: EventRailProps) {
   if (events.length === 0) return null
 
   return (
     <section>
-      <div className="flex items-end justify-between mb-4 px-6 lg:px-12">
+      <div className={cn('flex items-end justify-between mb-4', !flush && 'px-6 lg:px-12')}>
         <h2 className="font-serif font-black text-cream uppercase text-xl lg:text-2xl">{title}</h2>
         <Link
           href="/events"
@@ -21,7 +24,10 @@ export default function EventRail({ events, title = 'Ближайшие конц
           Все события →
         </Link>
       </div>
-      <div className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 px-6 lg:px-12">
+      <div className={cn(
+        'flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2',
+        !flush && 'px-6 lg:px-12'
+      )}>
         {events.map((event) => (
           <div
             key={event.id}

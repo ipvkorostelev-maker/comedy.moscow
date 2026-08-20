@@ -9,6 +9,7 @@ import BuyButton from '@/components/ui/BuyButton'
 import InticketsBuyButton from '@/components/ui/InticketsBuyButton'
 import ReviewCard from '@/components/cards/ReviewCard'
 import EventCard from '@/components/cards/EventCard'
+import EventRail from '@/components/sections/EventRail'
 import MetaPill from '@/components/ui/MetaPill'
 import StickyBuyBar from '@/components/sections/StickyBuyBar'
 import EventHero from '@/components/sections/EventHero'
@@ -271,10 +272,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
             </div>
             {similar.length > 0 && (
               <>
-                <h2 className="font-serif font-bold text-xl text-cream mb-5">Ближайшие концерты</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-                  {similar.map((ev) => <EventCard key={ev.id} event={ev} />)}
-                </div>
+                <EventRail events={similar} title="Ближайшие концерты" flush />
               </>
             )}
             <a href="/events" className="inline-flex items-center gap-2 text-sm text-red font-semibold hover:brightness-110 transition-all">
@@ -569,14 +567,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
         {/* ── SIMILAR EVENTS ── */}
         {similar.length > 0 && (
           <div className="mb-16">
-            <h2 className="font-serif font-bold text-xl text-cream mb-5">Похожие концерты</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {similar.map((ev) => (
-                <div key={ev.id} className="flex flex-col">
-                  <EventCard event={ev} />
-                </div>
-              ))}
-            </div>
+            <EventRail events={similar} title="Похожие концерты" flush />
           </div>
         )}
       </div>
