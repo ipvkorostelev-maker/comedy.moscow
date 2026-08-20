@@ -1,6 +1,10 @@
 import { getAllEvents } from '@/lib/data'
 import { minEventPrice, BASE } from '@/lib/utils'
 
+// Без force-dynamic Next.js пререндерит фид статикой на этапе сборки,
+// и он устаревает до следующего деплоя
+export const dynamic = 'force-dynamic'
+
 // VK YML limits: ≤15 000 offers, ≤2 params per offer, ≤50 values each
 export async function GET() {
   const events = await getAllEvents()

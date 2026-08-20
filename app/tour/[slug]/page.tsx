@@ -45,7 +45,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     getWomanstandupRawConcerts(),
   ])
   const tour = tours.find((t) => t.slug === slug)
-  if (!tour) return {}
+  // notFound() в metadata выполняется до стриминга ответа и отдаёт честный 404
+  if (!tour) notFound()
 
   const artist = allArtists.find((a) => a.id === tour.artistId)
   const artistName = artist?.name ?? ''
@@ -70,15 +71,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         : `${Math.min(...years)}–${Math.max(...years)}`
       : ''
 
+  const yearSuffix = year ? `, ${year}` : ''
   const title = tourTitle.startsWith(artistName)
-    ? `${tourTitle}. Билеты на стендап, ${year}`
-    : `${artistName} — ${tourTitle}. Билеты на стендап, ${year}`
+    ? `${tourTitle}. Билеты на стендап${yearSuffix}`
+    : `${artistName} — ${tourTitle}. Билеты на стендап${yearSuffix}`
 
   const cityList = cities.slice(0, 4).join(', ')
   const moreText = citiesCount > 4 ? ' и других' : ''
-  const description = tourTitle.startsWith(artistName)
-    ? `«${tourTitle}». ${pluralConcerts(totalConcerts)}, ${pluralCities(citiesCount)} — ${cityList}${moreText}. Купить билеты онлайн.`
-    : `Гастрольный тур ${artistName} «${tourTitle}». ${pluralConcerts(totalConcerts)}, ${pluralCities(citiesCount)} — ${cityList}${moreText}. Купить билеты онлайн.`
+  const hasConcerts = totalConcerts > 0
+  const description = !hasConcerts
+    ? `Гастрольный тур ${artistName} «${tourTitle}». Купить билеты онлайн.`
+    : tourTitle.startsWith(artistName)
+      ? `«${tourTitle}». ${pluralConcerts(totalConcerts)}, ${pluralCities(citiesCount)} — ${cityList}${moreText}. Купить билеты онлайн.`
+      : `Гастрольный тур ${artistName} «${tourTitle}». ${pluralConcerts(totalConcerts)}, ${pluralCities(citiesCount)} — ${cityList}${moreText}. Купить билеты онлайн.`
 
   const assetsUrl = process.env.WOMANSTANDUP_ASSETS_URL ?? ''
   const ogImages = tour.photo
@@ -120,25 +125,17 @@ export default async function TourPage({ params }: { params: Promise<{ slug: str
     .map((id: string) => concertMap.get(id))
     .filter((c: any) => c && !c.isDraft && !isPast(c.date, c.time))
     .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .map((c: any, i: number, arr: any[]) => {
-      const past = isPast(c.date, c.time)
+    .map((c: any, i: number) => {
       const isSmeshno = Array.isArray(c.siteKeys) && c.siteKeys.includes('smeshno')
 
       // Link: comedy.moscow event page if smeshno, else womanstandup
-      let href = '#'
-      if (!past) {
-        if (isSmeshno) {
-          href = `/events/${cmEventSlug(c.showTitle ?? '', c.id)}`
-        } else {
-          const wsBase = c.slug || toSlug(c.showTitle ?? '')
-          const wsSlug = wsBase ? `${wsBase}-${c.id}` : c.id
-          href = `https://womanstandup.ru/concerts/${wsSlug}`
-        }
-      }
-
-      // Mark the nearest upcoming concert
-      const nearestIdx = arr.findIndex((x: any) => !isPast(x.date, x.time))
-      const isNearest = !past && i === nearestIdx
+      const href = isSmeshno
+        ? `/events/${cmEventSlug(c.showTitle ?? '', c.id)}`
+        : (() => {
+            const wsBase = c.slug || toSlug(c.showTitle ?? '')
+            const wsSlug = wsBase ? `${wsBase}-${c.id}` : c.id
+            return `https://womanstandup.ru/concerts/${wsSlug}`
+          })()
 
       const posterImage = c.smeshnoSliderImage || c.imageHorizontal || c.image || c.heroImage || ''
       const assetsUrl = process.env.WOMANSTANDUP_ASSETS_URL ?? ''
@@ -152,8 +149,10 @@ export default async function TourPage({ params }: { params: Promise<{ slug: str
         year: new Date(c.date ?? "").getFullYear() || undefined,
         href,
         isPrivate: false,
-        isSoldOut: past,
-        isNearest,
+        isSoldOut: false,
+        // После фильтра прошедших концертов список отсортирован по дате,
+        // поэтому ближайший концерт всегда первый
+        isNearest: i === 0,
         posterImage: imageUrl,
       } satisfies TourShow
     })

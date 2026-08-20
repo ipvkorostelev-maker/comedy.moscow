@@ -1,4 +1,4 @@
-import { getEventsForFeed } from '@/lib/data'
+import { getAllEvents } from '@/lib/data'
 import { minEventPrice, formatDateShort, BASE } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
@@ -20,7 +20,7 @@ function feedName(title: string, date: string, city: string): string {
 
 export async function GET() {
   const now = new Date()
-  const events = await getEventsForFeed()
+  const events = await getAllEvents()
 
   const offers = events
     .map((e) => {

@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { Event, Artist } from './types'
-import { toSlug, RU_MAP } from './utils'
+import { toSlug } from './utils'
 
 const DATA_PATH = process.env.WOMANSTANDUP_DATA_PATH
 const ASSETS_URL = process.env.WOMANSTANDUP_ASSETS_URL ?? ''
@@ -74,14 +74,14 @@ function mapArtist(a: any): Artist {
     id: a.id,
     slug: toSlug(a.name, a.id),
     name: a.name ?? '',
-    role: 'Артист',
-    shortBio: '',
-    bio: '',
-    photo: assetUrl(a.photo || ''),
-    city: '',
-    upcomingEventIds: [],
-    totalShows: 0,
-    rating: 0,
+    role: a.role ?? 'Артист',
+    shortBio: a.shortBio ?? '',
+    bio: a.bio ?? a.description ?? '',
+    photo: assetUrl(a.photo || a.image || ''),
+    city: a.city ?? '',
+    upcomingEventIds: a.upcomingEventIds ?? [],
+    totalShows: a.totalShows ?? 0,
+    rating: a.rating ?? 0,
   }
 }
 

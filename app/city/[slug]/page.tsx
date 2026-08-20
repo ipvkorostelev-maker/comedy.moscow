@@ -15,10 +15,11 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const { slug } = params
-  if (slug === 'moskva') return {}
+  if (slug === 'moskva') redirect('/')
   const cities = await getCities()
   const city = cities.find((c) => c.slug === slug)
-  if (!city) return {}
+  // notFound() в metadata выполняется до стриминга ответа и отдаёт честный 404
+  if (!city) notFound()
   const url = `${BASE}/city/${slug}`
   return {
     title: `Стендап концерты — ${city.name}, афиша и билеты`,

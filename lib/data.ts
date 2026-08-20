@@ -67,21 +67,6 @@ export async function getAllEvents(): Promise<Event[]> {
   return events.filter(e => isUpcoming(e) && !tourConcertIds.has(String(e.id)))
 }
 
-export async function getEventsForFeed(): Promise<Event[]> {
-  const avail = await isAvailable()
-  const [events, tours] = await Promise.all([
-    loadEnrichedEvents(),
-    avail ? getWomanstandupTours() : Promise.resolve([]),
-  ])
-  const tourConcertIds = new Set(tours.flatMap(t => t.concertIds).map(String))
-  return events.filter((e) => isUpcoming(e) && !tourConcertIds.has(String(e.id)))
-}
-
-export async function getEventBySlug(slug: string): Promise<Event | undefined> {
-  const events = await getAllEvents()
-  return events.find((e) => e.slug === slug)
-}
-
 export async function getEventBySlugAny(slug: string): Promise<Event | undefined> {
   const events = await loadEnrichedEvents()
   return events.find((e) => e.slug === slug)

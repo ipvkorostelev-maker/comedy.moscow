@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import CorporateSections from './CorporateSections'
+import { BASE } from '@/lib/utils'
 
 const HERO_DESKTOP = 'https://static.tildacdn.com/tild3632-6261-4165-b130-333363316639/11.jpg'
 const HERO_MOBILE = 'https://static.tildacdn.com/tild6336-3430-4430-b833-383437363535/mob.jpg'
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Стендап на корпоратив — комики на ваш праздник | Смешно',
     description: 'Стендап-комики на корпоратив и частное мероприятие. Звёзды ТВ и YouTube, готовые шоу под ключ, любой бюджет.',
-    url: 'https://comedy.moscow/corporate',
+    url: `${BASE}/corporate`,
     siteName: 'Смешно',
     locale: 'ru_RU',
     type: 'website',

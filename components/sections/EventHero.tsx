@@ -162,9 +162,9 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
         {/* Content — left 40% */}
         <div className="w-[40%] flex-shrink-0 flex flex-col justify-center px-12 py-10 z-20">
           <EventBadges event={event} />
-          <h1 className="font-serif font-black text-cream leading-[1.05] tracking-[-0.02em] text-[clamp(26px,3.5vw,52px)] mb-2">
+          <p className="font-serif font-black text-cream leading-[1.05] tracking-[-0.02em] text-[clamp(26px,3.5vw,52px)] mb-2">
             {event.title}
-          </h1>
+          </p>
           {event.subtitle && (
             <p className="text-cream/60 text-[clamp(13px,1.4vw,18px)] font-sans font-normal mt-3 mb-4 leading-relaxed">
               {event.subtitle}

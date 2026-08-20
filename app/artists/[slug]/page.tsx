@@ -25,9 +25,11 @@ export async function generateMetadata({
   params: { slug: string }
 }): Promise<Metadata> {
   const artist = await getArtistBySlug(params.slug)
-  if (!artist) return {}
+  // notFound() в metadata выполняется до стриминга ответа и отдаёт честный 404
+  if (!artist) notFound()
   const url = `${BASE}/artists/${artist.slug}`
-  const desc = plainText(artist.shortBio || artist.bio || '')
+  const desc = plainText(artist.shortBio || artist.bio || '') ||
+    `Стендап-комик ${artist.name}. Расписание выступлений, афиша концертов и билеты на шоу с участием ${artist.name}.`
   const ogImage = artist.photo
     ? [{ url: artist.photo, width: 600, height: 600, alt: artist.name }]
     : [{ url: `${BASE}/opengraph-image`, width: 1200, height: 630, alt: artist.name }]
@@ -72,7 +74,9 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
     name: artist.name,
     url,
     description: plainText(artist.bio || artist.shortBio || ''),
-    image: { '@type': 'ImageObject', url: artist.photo, width: 600, height: 600 },
+    ...(artist.photo
+      ? { image: { '@type': 'ImageObject', url: artist.photo, width: 600, height: 600 } }
+      : {}),
     jobTitle: artist.role,
     ...(artist.city ? { homeLocation: { '@type': 'City', name: artist.city.split(',')[0]!.trim() } } : {}),
   }

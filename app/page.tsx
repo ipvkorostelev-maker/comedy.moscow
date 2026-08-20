@@ -3,6 +3,7 @@ export const revalidate = 300
 import type { Metadata } from 'next'
 import { getAllEvents, getAllArtists } from '@/lib/data'
 import { getEnrichedTours } from '@/lib/womanstandup'
+import { BASE } from '@/lib/utils'
 import ArtistCard from '@/components/cards/ArtistCard'
 import EventCard from '@/components/cards/EventCard'
 import SectionHeader from '@/components/ui/SectionHeader'
@@ -18,14 +19,14 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Стендап концерты в Москве — comedy.moscow',
     description: 'Афиша стендап концертов в Москве. Расписание, составы комиков, отзывы зрителей. Купить билеты онлайн — быстро и удобно.',
-    alternates: { canonical: 'https://comedy.moscow' },
+    alternates: { canonical: BASE },
     openGraph: {
       title: 'Стендап концерты в Москве | Смешно',
       description: 'Афиша стендап концертов в Москве. Расписание, составы, отзывы. Билеты онлайн.',
-      url: 'https://comedy.moscow',
+      url: BASE,
       siteName: 'Смешно',
       locale: 'ru_RU',
-      images: [{ url: 'https://comedy.moscow/opengraph-image', width: 1200, height: 630, alt: 'comedy.moscow — стендап в Москве' }],
+      images: [{ url: `${BASE}/opengraph-image`, width: 1200, height: 630, alt: 'comedy.moscow — стендап в Москве' }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -46,6 +47,7 @@ export default async function HomePage({ searchParams }: Props) {
 
   return (
     <>
+      <h1 className="sr-only">Стендап концерты в Москве — афиша и билеты</h1>
       {!dateFilter && <HeroSlider events={allEvents.slice(0, 4)} />}
 
 

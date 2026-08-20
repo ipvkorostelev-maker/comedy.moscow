@@ -3,6 +3,10 @@ import { getAllEvents, getAllArtists, getCities } from '@/lib/data'
 import { getEnrichedTours } from '@/lib/womanstandup'
 import { BASE } from '@/lib/utils'
 
+// Без force-dynamic sitemap пререндерится статикой на этапе сборки,
+// и новые события/туры/города не попадают в него до следующего деплоя
+export const dynamic = 'force-dynamic'
+
 const BUILD_DATE = new Date("2026-05-23")
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

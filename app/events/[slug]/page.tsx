@@ -88,7 +88,9 @@ export async function generateMetadata({
   params: { slug: string }
 }): Promise<Metadata> {
   const event = await getEventBySlugAny(params.slug)
-  if (!event) return {}
+  // notFound() в metadata выполняется до стриминга ответа и отдаёт честный 404,
+  // иначе неизвестные слэги получают 200 со страницей 404 (soft-404)
+  if (!event) notFound()
   const venue = getVenueById(event.venueId)
   const price = minEventPrice(event)
   const url = `${BASE}/events/${event.slug}`
@@ -124,13 +126,15 @@ export async function generateMetadata({
       url,
       siteName: 'Смешно',
       locale: 'ru_RU',
-      images: [{ url: event.image, width: 1200, height: 800, alt: event.title }],
+      ...(event.image
+        ? { images: [{ url: event.image, width: 1200, height: 800, alt: event.title }] }
+        : {}),
     },
     twitter: {
       card: 'summary_large_image',
       title: ogTitle,
       description: metaDescription,
-      images: [event.image],
+      ...(event.image ? { images: [event.image] } : {}),
     },
   }
 }
@@ -160,7 +164,9 @@ export default async function EventPage({ params }: { params: { slug: string } }
       url,
       description: plainText(event.longDescription ?? event.description),
       inLanguage: 'ru',
-      image: [{ '@type': 'ImageObject', url: event.image, width: 1200, height: 800 }],
+      ...(event.image
+        ? { image: [{ '@type': 'ImageObject', url: event.image, width: 1200, height: 800 }] }
+        : {}),
       startDate: `${event.date}T${event.time}:00${TZ}`,
       eventStatus: 'https://schema.org/EventCompleted',
       eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
@@ -318,9 +324,9 @@ export default async function EventPage({ params }: { params: { slug: string } }
     url,
     description,
     inLanguage: 'ru',
-    image: [
-      { '@type': 'ImageObject', url: event.image, width: 1200, height: 800 },
-    ],
+    ...(event.image
+      ? { image: [{ '@type': 'ImageObject', url: event.image, width: 1200, height: 800 }] }
+      : {}),
     startDate: `${event.date}T${event.time}:00${TZ}`,
     eventStatus: event.ticketsLeft > 0 ? 'https://schema.org/EventScheduled' : 'https://schema.org/EventSoldOut',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',

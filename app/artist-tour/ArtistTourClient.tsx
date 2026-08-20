@@ -338,9 +338,9 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
 
           {/* Desktop header */}
           <div className="hidden lg:block px-10 xl:px-14 pt-10 pb-8 border-b border-border">
-            <h1 className="font-serif font-black text-5xl xl:text-[3.5rem] leading-[0.92] text-cream uppercase">
+            <p className="font-serif font-black text-5xl xl:text-[3.5rem] leading-[0.92] text-cream uppercase">
               {artistName}
-            </h1>
+            </p>
             <div className="flex items-center gap-3 mt-3">
               <span className="text-muted">{tourLabel}</span>
               <span className="w-1 h-1 rounded-full bg-muted-2" />
