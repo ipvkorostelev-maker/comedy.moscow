@@ -17,14 +17,14 @@ export default function ToursCarousel({ tours }: ToursCarouselProps) {
       </div>
 
       {/* Mobile */}
-      <div className="flex md:hidden gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-6 pb-1">
+      <div className="flex md:hidden gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-6 pb-2">
         {tours.map((tour) => (
           <TourCard key={tour.id} tour={tour} />
         ))}
       </div>
 
       {/* Desktop */}
-      <div className="hidden md:grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-6 lg:px-12">
+      <div className="hidden md:grid md:grid-cols-3 xl:grid-cols-4 gap-5 px-6 lg:px-12">
         {tours.map((tour) => (
           <TourCard key={tour.id} tour={tour} />
         ))}
@@ -40,33 +40,35 @@ function TourCard({ tour }: { tour: EnrichedTour }) {
     <Link
       href={`/tour/${tour.slug}`}
       aria-label={tour.title}
-      className="group relative block w-[82vw] max-w-[360px] md:w-full md:max-w-none shrink-0 snap-start aspect-[16/10] overflow-hidden rounded-lg bg-surface-2"
+      className="group flex flex-col h-full w-[62vw] max-w-[280px] md:w-full md:max-w-none shrink-0 snap-start transition-transform duration-200 hover:-translate-y-0.5"
     >
-      {tour.photo ? (
-        // object-contain: фото туров бывают и альбомные (16:9), и портретные —
-        // показываем целиком без обрезки на тёмной подложке
-        <Image
-          src={tour.photo}
-          alt={tour.title}
-          fill
-          className="object-contain transition-transform duration-200 group-hover:scale-[1.02]"
-          sizes="(max-width: 768px) 82vw, (max-width: 1280px) 50vw, 33vw"
-        />
-      ) : (
-        <div className="img-placeholder" />
-      )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 p-5">
-        <p className="text-[11px] uppercase tracking-widest text-red font-bold mb-1.5">
+      {/* Вертикальный постер — изображение целиком, без подписей поверх */}
+      <div className="relative aspect-[3/4] overflow-hidden rounded-lg img-loading-container mb-3 bg-surface-2">
+        {tour.photo ? (
+          <Image
+            src={tour.photo}
+            alt={tour.title}
+            fill
+            className="object-cover object-center transition-transform duration-200 group-hover:scale-[1.03]"
+            sizes="(max-width: 768px) 62vw, (max-width: 1280px) 33vw, 25vw"
+          />
+        ) : (
+          <div className="img-placeholder" />
+        )}
+      </div>
+
+      {/* Текст под изображением */}
+      <div className="flex flex-col">
+        <p className="text-[11px] uppercase tracking-widest text-red font-bold mb-1">
           {tour.artistName}
         </p>
-        <p className="font-serif font-black text-2xl text-cream uppercase leading-tight mb-2 group-hover:text-red transition-colors duration-200">
+        <p className="font-serif font-black text-lg text-cream uppercase leading-tight mb-1.5 line-clamp-2 group-hover:text-red transition-colors duration-200">
           {tour.title}
         </p>
-        <p className="text-xs text-cream/60 mb-1">
+        <p className="text-xs text-muted mb-1">
           {tour.totalConcerts} концертов · {tour.cities.length} городов
         </p>
-        {cityLine && <p className="text-xs text-cream/60 mb-3">{cityLine}</p>}
+        {cityLine && <p className="text-xs text-muted line-clamp-1 mb-2">{cityLine}</p>}
         <p className="text-sm text-cream/80 group-hover:text-red transition-colors duration-200">
           Смотреть тур →
         </p>
