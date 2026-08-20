@@ -5,7 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Event } from '@/lib/types'
 import { formatDate, formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
-import EventBadges from '@/components/ui/EventBadges'
 
 interface HeroSliderProps {
   events: Event[]
@@ -14,7 +13,6 @@ interface HeroSliderProps {
 
 const INTERVAL = 6_000
 
-/* ═══════════════ DOTS ═══════════════ */
 function SliderDots({
   count,
   current,
@@ -32,11 +30,14 @@ function SliderDots({
         <button
           key={i}
           onClick={() => goTo(i)}
-          className="relative rounded-full overflow-hidden transition-all duration-[400ms] ease-out cursor-pointer"
+          className="relative rounded-full overflow-hidden transition-all duration-200 ease-out cursor-pointer"
           style={{ width: i === current ? 28 : 6, height: 6 }}
           aria-label={`Слайд ${i + 1}`}
         >
-          <span className="absolute inset-0 rounded-full" style={{ background: i === current ? 'rgba(255,77,0,0.25)' : '#555' }} />
+          <span
+            className="absolute inset-0 rounded-full"
+            style={{ background: i === current ? 'rgba(255,77,0,0.25)' : 'rgba(255,255,255,0.30)' }}
+          />
           {i === current && (
             <span
               className="absolute inset-y-0 left-0 rounded-full"
@@ -49,33 +50,7 @@ function SliderDots({
   )
 }
 
-/* ═══════════════ TAG PILL ═══════════════ */
-const pillColors: Record<string, { text: string; border: string; bg: string; glow: string }> = {
-  date:   { text: '#93C5FD', border: 'rgba(147,197,253,0.30)', bg: 'rgba(59,130,246,0.10)', glow: '0 0 12px rgba(59,130,246,0.12)' },
-  time:   { text: '#C4B5FD', border: 'rgba(196,181,253,0.30)', bg: 'rgba(139,92,246,0.10)', glow: '0 0 12px rgba(139,92,246,0.12)' },
-  venue:  { text: '#5EEAD4', border: 'rgba(94,234,212,0.30)', bg: 'rgba(20,184,166,0.10)', glow: '0 0 12px rgba(20,184,166,0.12)' },
-  rating: { text: '#FFB800', border: 'rgba(255,184,0,0.35)',  bg: 'rgba(255,184,0,0.10)',  glow: '0 0 14px rgba(255,184,0,0.16)' },
-}
-
-function TagPill({ children, variant }: { children: React.ReactNode; variant: 'date' | 'time' | 'venue' | 'rating' }) {
-  const c = pillColors[variant]
-  return (
-    <span
-      className="inline-flex items-center gap-2 text-[11px] lg:text-[13px] font-semibold px-3.5 py-2 rounded-lg backdrop-blur-sm transition-all duration-300 hover:brightness-125"
-      style={{
-        border: `1px solid ${c.border}`,
-        color: c.text,
-        background: c.bg,
-        boxShadow: c.glow,
-      }}
-    >
-      {children}
-    </span>
-  )
-}
-
-/* ═══════════════ IMAGE SLIDE (memo'd to avoid re-renders of invisible slides) ═══════════════ */
-function SlideImage({ event, isPriority, cover }: { event: Event; isPriority: boolean; cover?: boolean }) {
+function SlideImage({ event, isPriority }: { event: Event; isPriority: boolean }) {
   return (
     <Image
       src={event.image}
@@ -83,17 +58,12 @@ function SlideImage({ event, isPriority, cover }: { event: Event; isPriority: bo
       fill
       priority={isPriority}
       quality={85}
-      className={cover ? 'object-cover object-top' : 'object-contain object-top'}
-      style={cover
-        ? { objectFit: 'cover', objectPosition: 'top center' }
-        : { objectFit: 'contain', objectPosition: 'top center' }
-      }
-      sizes={cover ? '55vw' : '(max-width: 1024px) 100vw, 57vw'}
+      className="object-cover object-center"
+      sizes="100vw"
     />
   )
 }
 
-/* ═══════════════ MAIN ═══════════════ */
 export default function HeroSlider({ events, selectedDate }: HeroSliderProps) {
   const [current, setCurrent] = useState(0)
   const [animating, setAnimating] = useState(false)
@@ -106,7 +76,7 @@ export default function HeroSlider({ events, selectedDate }: HeroSliderProps) {
       prevIndexRef.current = current
       setAnimating(true)
       setCurrent(index)
-      setTimeout(() => setAnimating(false), 650)
+      setTimeout(() => setAnimating(false), 250)
     },
     [current, animating]
   )
@@ -126,188 +96,167 @@ export default function HeroSlider({ events, selectedDate }: HeroSliderProps) {
     ? `Стендап в Москве на ${formatDate(selectedDate)}`
     : 'Ближайшее шоу'
 
-  // Only render current slide + 1 neighbor on each side (+ the slide we're animating FROM)
   const visibleIndices = new Set<number>()
   visibleIndices.add(current)
   visibleIndices.add((current - 1 + events.length) % events.length)
   visibleIndices.add((current + 1) % events.length)
   if (animating) visibleIndices.add(prevIndexRef.current)
 
-  const pills = (
-    <div className="flex flex-wrap gap-2.5 items-center mb-5">
-      <TagPill variant="date">
-        <span className="font-normal opacity-60 text-[10px]">Дата</span> {formatDateShort(event.date)}
-      </TagPill>
-      <TagPill variant="time">
-        ≈ {event.duration}
-      </TagPill>
-      {event.rating > 0 && <TagPill variant="rating">★ {event.rating}</TagPill>}
-      {event.venueName && (
-        <TagPill variant="venue">
-          <span className="font-normal opacity-60 text-[10px]">Площадка</span> {event.venueName}
-        </TagPill>
-      )}
-    </div>
-  )
+  const metaParts = [formatDateShort(event.date), event.time, event.venueName, event.city].filter(Boolean)
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-[#0A0A0A] pt-12 lg:pt-14"
-      style={{ minHeight: '580px' }}
+      className="relative w-full overflow-hidden bg-bg"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* ── MOBILE: photo on top, text below ── */}
+      {/* Mobile */}
       <div className="lg:hidden">
-        {/* Photo */}
-        <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
+        <div className="relative w-full aspect-[4/5] min-h-[480px]">
           {events.map((e, i) => {
             if (!visibleIndices.has(i)) return null
             return (
               <div
                 key={e.id}
-                className="absolute inset-0 transition-opacity ease-in-out duration-700"
+                className="absolute inset-0 transition-opacity duration-200 ease-in-out"
                 style={{ opacity: i === current ? 1 : 0 }}
               >
-                <SlideImage event={e} isPriority={i === current} cover />
+                <SlideImage event={e} isPriority={i === current} />
               </div>
             )
           })}
           <div
-            className="absolute bottom-0 left-0 right-0 pointer-events-none"
-            style={{ height: 64, background: 'linear-gradient(to top, #0A0A0A, transparent)' }}
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                'linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,0.7) 30%, rgba(10,10,10,0.4) 45%, transparent 60%)',
+            }}
           />
-        </div>
 
-        {/* Text */}
-        <div className="px-5 pt-4 pb-4">
-          <p className="font-sans text-[10px] uppercase tracking-[0.25em] text-cream/40 font-medium mb-3">
-            {heroLabel}
-          </p>
-          <div className="mb-2">
-            <EventBadges event={event} className="flex flex-wrap gap-2" />
-          </div>
-          <h2
-            key={event.id}
-            className="font-serif font-black text-cream leading-[1.1] tracking-[-0.01em] uppercase mb-4 animate-slide-in"
-            style={{ fontSize: 'clamp(34px, 9vw, 52px)' }}
-          >
-            {event.title}
-          </h2>
-          {event.subtitle && (
-            <p className="text-cream/50 font-sans text-sm mb-3 leading-relaxed">{event.subtitle}</p>
-          )}
-          {pills}
-          <div className="flex flex-col gap-3 mb-3">
-            <Link
-              href={`/events/${event.slug}`}
-              className="inline-flex items-center justify-center gap-2 bg-red text-white text-[15px] font-semibold px-8 py-3.5 rounded-lg transition-all duration-200"
-              style={{ boxShadow: '0 4px 16px rgba(255,77,0,0.18)' }}
+          <div className="absolute bottom-0 left-0 right-0 px-5 pb-6">
+            <p className="text-[11px] uppercase tracking-[0.25em] text-cream/50 font-medium mb-3">
+              {heroLabel}
+            </p>
+            <h2
+              key={event.id}
+              className="font-serif font-black text-cream uppercase leading-[1.02] mb-3"
+              style={{ fontSize: 'clamp(30px, 8.5vw, 44px)' }}
             >
-              Купить билет
-            </Link>
-            <Link
-              href={`/events/${event.slug}`}
-              className="inline-flex items-center justify-center gap-2 bg-transparent text-white text-[15px] font-medium px-7 py-3.5 rounded-lg transition-all duration-200 hover:bg-white/10"
-              style={{ border: '1.5px solid rgba(255,255,255,0.25)' }}
-            >
-              + Подробнее
-            </Link>
+              {event.title}
+            </h2>
+            <p className="text-cream/60 text-sm mb-4 line-clamp-1">
+              {metaParts.slice(0, 3).join(' · ')}
+            </p>
+            {price > 0 && (
+              <p className="font-serif font-black text-lg text-cream mb-4">
+                от {formatPrice(price)}
+              </p>
+            )}
+            <div className="flex flex-col gap-3">
+              <Link
+                href={`/events/${event.slug}`}
+                className="inline-flex items-center justify-center h-12 flex-1 bg-red hover:bg-red-hover text-white font-bold px-8 rounded-lg transition-colors duration-200"
+                aria-label={`Купить билет на ${event.title}`}
+              >
+                Купить билет
+              </Link>
+              <Link
+                href={`/events/${event.slug}`}
+                className="inline-flex items-center justify-center h-12 flex-1 bg-transparent hover:bg-white/10 text-white font-medium px-7 rounded-lg border border-white/25 transition-colors duration-200"
+                aria-label={`Подробнее о ${event.title}`}
+              >
+                Подробнее
+              </Link>
+            </div>
           </div>
         </div>
 
         {events.length > 1 && (
-          <div className="px-5 pb-6">
+          <div className="flex justify-center pt-4 pb-6">
             <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
           </div>
         )}
       </div>
 
-      {/* ── DESKTOP: text left + photo right ── */}
-      <div className="hidden lg:block" style={{ height: 'min(100vh, 680px)', minHeight: '540px' }}>
-        {/* Photo — right side, absolute */}
-        <div
-          className="absolute top-8 bottom-8 right-8 xl:right-14 overflow-hidden rounded-xl"
-          style={{ left: '45%' }}
-        >
-          {events.map((e, i) => {
-            if (!visibleIndices.has(i)) return null
-            return (
-              <div
-                key={e.id}
-                className="absolute inset-0 transition-opacity ease-in-out duration-700"
-                style={{ opacity: i === current ? 1 : 0, zIndex: i === current ? 1 : 0 }}
-              >
-                <SlideImage event={e} isPriority={i === current} cover />
-              </div>
-            )
-          })}
-          {/* left-edge fade into dark bg */}
-          <div
-            className="absolute inset-y-0 left-0 z-10 pointer-events-none"
-            style={{ width: 60, background: 'linear-gradient(to right, rgba(10,10,10,0.35), transparent)' }}
-          />
-        </div>
+      {/* Desktop */}
+      <div className="hidden lg:block relative h-[560px] xl:h-[620px]">
+        {events.map((e, i) => {
+          if (!visibleIndices.has(i)) return null
+          return (
+            <div
+              key={e.id}
+              className="absolute inset-0 transition-opacity duration-200 ease-in-out"
+              style={{ opacity: i === current ? 1 : 0, zIndex: i === current ? 1 : 0 }}
+            >
+              <SlideImage event={e} isPriority={i === current} />
+            </div>
+          )
+        })}
 
-        {/* Text — left column */}
         <div
-          className="relative h-full flex flex-col justify-center z-10 pl-12 xl:pl-20 pr-6 pt-4 pb-8"
+          className="absolute inset-0 z-[2] pointer-events-none"
           style={{
-            maxWidth: '46%',
-            background: 'radial-gradient(ellipse 90% 80% at 10% 50%, rgba(255,77,0,0.07) 0%, transparent 60%)',
+            background:
+              'linear-gradient(to right, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.75) 35%, rgba(10,10,10,0.2) 55%, transparent 70%), linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 40%)',
           }}
-        >
-          <p className="font-sans text-[11px] uppercase tracking-[0.28em] text-cream/45 font-medium mb-4">
-            {heroLabel}
-          </p>
-          <div className="mb-3">
-            <EventBadges event={event} className="flex flex-wrap gap-2" />
-          </div>
-          <h2
-            key={event.id}
-            className="font-serif font-black text-cream leading-[1.05] tracking-[-0.01em] uppercase mb-5 animate-slide-in"
-            style={{ fontSize: 'clamp(36px, 3.6vw, 72px)' }}
-          >
-            {event.title}
-          </h2>
-          {event.subtitle && (
-            <p className="text-cream/50 font-sans text-[clamp(13px,1.1vw,16px)] mb-4 leading-relaxed">
-              {event.subtitle}
-            </p>
-          )}
-          {pills}
-          {price > 0 && (
-            <p className="text-cream/30 text-xs tracking-wide mb-4 font-sans">
-              от {formatPrice(price)}
-            </p>
-          )}
-          <div className="flex flex-wrap gap-3 mb-4">
-            <Link
-              href={`/events/${event.slug}`}
-              className="inline-flex items-center gap-2 bg-red hover:bg-red-hover text-white text-[15px] font-semibold px-8 py-3.5 rounded-lg transition-all duration-200 hover:brightness-110 hover:scale-[1.02]"
-              style={{ boxShadow: '0 4px 16px rgba(255,77,0,0.18)' }}
-            >
-              Купить билет
-            </Link>
-            <Link
-              href={`/events/${event.slug}`}
-              className="inline-flex items-center gap-2 bg-transparent text-white text-[15px] font-medium px-7 py-3.5 rounded-lg transition-all duration-200 hover:bg-white/10"
-              style={{ border: '1.5px solid rgba(255,255,255,0.25)' }}
-            >
-              + Подробнее
-            </Link>
-          </div>
-        </div>
-
-        {/* Bottom fade */}
-        <div
-          className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none"
-          style={{ height: 40, background: 'linear-gradient(to top, rgba(10,10,10,1) 0%, transparent 100%)' }}
         />
 
-        {/* Dots */}
+        <div className="relative z-[3] h-full max-w-[1600px] mx-auto px-6 lg:px-12 flex items-center">
+          <div className="max-w-[640px] py-8">
+            <p className="text-[11px] uppercase tracking-[0.25em] text-cream/50 font-medium mb-4">
+              {heroLabel}
+            </p>
+            <h2
+              key={event.id}
+              className="font-serif font-black text-cream uppercase leading-[1.02] mb-5"
+              style={{ fontSize: 'clamp(34px, 4.2vw, 72px)' }}
+            >
+              {event.title}
+            </h2>
+            {event.subtitle && (
+              <p className="text-cream/55 text-sm lg:text-base mb-5 line-clamp-2">{event.subtitle}</p>
+            )}
+            <p className="text-cream/60 text-sm mb-4">
+              {metaParts.join(' · ')}
+            </p>
+            <div className="flex flex-wrap items-center gap-2 mb-5">
+              {event.ageRestriction && (
+                <span className="text-[11px] text-cream/60 px-2 py-1 rounded border border-white/15">
+                  {event.ageRestriction}
+                </span>
+              )}
+              {event.duration && (
+                <span className="text-[11px] text-cream/60 px-2 py-1 rounded border border-white/15">
+                  {event.duration}
+                </span>
+              )}
+            </div>
+            {price > 0 && (
+              <p className="font-serif font-black text-lg xl:text-xl text-cream mb-6">
+                от {formatPrice(price)}
+              </p>
+            )}
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href={`/events/${event.slug}`}
+                className="inline-flex items-center justify-center min-h-[48px] bg-red hover:bg-red-hover text-white font-bold px-8 py-3.5 rounded-lg transition-colors duration-200"
+                aria-label={`Купить билет на ${event.title}`}
+              >
+                Купить билет
+              </Link>
+              <Link
+                href={`/events/${event.slug}`}
+                className="inline-flex items-center justify-center min-h-[48px] bg-transparent hover:bg-white/10 text-white font-medium px-7 py-3.5 rounded-lg border border-white/25 transition-colors duration-200"
+                aria-label={`Подробнее о ${event.title}`}
+              >
+                Подробнее
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {events.length > 1 && (
-          <div className="absolute bottom-4 left-12 xl:left-20 z-30">
+          <div className="absolute bottom-6 left-6 lg:left-12 z-[4]">
             <SliderDots count={events.length} current={current} goTo={goTo} interval={INTERVAL} />
           </div>
         )}

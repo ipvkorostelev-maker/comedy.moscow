@@ -126,14 +126,18 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
               <p className="text-cream/70 text-sm leading-relaxed mb-8 max-w-lg">{artist.bio}</p>
 
               <div className="flex gap-8">
-                <div>
-                  <p className="font-serif font-black text-2xl text-cream">{artist.totalShows || upcomingEvents.length}</p>
-                  <p className="text-[11px] text-muted uppercase tracking-wider mt-0.5">Шоу</p>
-                </div>
-                <div>
-                  <p className="font-serif font-black text-2xl text-cream">{cities || '—'}</p>
-                  <p className="text-[11px] text-muted uppercase tracking-wider mt-0.5">Город</p>
-                </div>
+                {upcomingEvents.length > 0 && (
+                  <div>
+                    <p className="font-serif font-black text-2xl text-cream">{upcomingEvents.length}</p>
+                    <p className="text-[11px] text-muted uppercase tracking-wider mt-0.5">Выступления</p>
+                  </div>
+                )}
+                {cities && (
+                  <div>
+                    <p className="font-serif font-black text-2xl text-cream">{cities}</p>
+                    <p className="text-[11px] text-muted uppercase tracking-wider mt-0.5">Город</p>
+                  </div>
+                )}
               </div>
 
               <div className="mt-6">
@@ -146,7 +150,7 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
           </div>
 
           {/* ── UPCOMING EVENTS ── */}
-          {upcomingEvents.length > 0 && (
+          {upcomingEvents.length > 0 ? (
             <div>
               <h2 className="font-serif font-bold text-xl text-cream mb-6">
                 Ближайшие выступления
@@ -156,6 +160,19 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
                   <EventCard key={event.id} event={event} />
                 ))}
               </div>
+            </div>
+          ) : (
+            <div className="border border-border rounded-2xl bg-surface-2 px-6 py-10 text-center">
+              <p className="text-cream font-semibold mb-1">Нет запланированных выступлений</p>
+              <p className="text-muted text-sm mb-6">
+                Анонсы концертов с участием {artist.name} скоро появятся.
+              </p>
+              <a
+                href="/events"
+                className="inline-flex items-center gap-2 text-sm text-red font-semibold hover:brightness-110 transition-all"
+              >
+                Смотреть все события →
+              </a>
             </div>
           )}
         </div>

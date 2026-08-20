@@ -16,7 +16,6 @@ export default function EventBadges({ event, className = 'flex flex-wrap gap-2 m
           Стендап {event.city || 'Москва'}
         </Badge>
       )}
-      {event.rating > 0 && <Badge variant="gold">★ {event.rating}</Badge>}
       <Badge variant="dark">{event.ageRestriction}</Badge>
       {event.duration && <Badge variant="dark">~{event.duration}</Badge>}
     </div>

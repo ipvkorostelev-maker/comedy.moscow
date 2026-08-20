@@ -154,7 +154,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                   className="relative w-full overflow-hidden"
                   style={{
                     borderRadius: 40, aspectRatio: '3/4',
-                    boxShadow: '0 0 40px rgba(255,77,0,0.15), 0 0 80px rgba(255,77,0,0.06), 0 0 0 1px rgba(255,77,0,0.10)',
+                    boxShadow: '0 0 24px rgba(255,77,0,0.08), 0 0 0 1px rgba(255,77,0,0.10)',
                     marginTop: 12,
                   }}
                 >
@@ -225,7 +225,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                 bottom: '0',
                 width: 'calc(100% - 32px)',
                 borderRadius: '28px',
-                boxShadow: '0 0 80px rgba(255,77,0,0.22), 0 0 140px rgba(255,77,0,0.10), 0 0 0 1px rgba(255,77,0,0.12)',
+                boxShadow: '0 0 48px rgba(255,77,0,0.12), 0 0 0 1px rgba(255,77,0,0.08)',
               }}
             />
 
@@ -234,7 +234,7 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
               <div
                 className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-40 pointer-events-none"
                 style={{
-                  background: 'radial-gradient(ellipse at center, rgba(255,77,0,0.35) 0%, rgba(255,77,0,0.15) 50%, transparent 70%)',
+                  background: 'radial-gradient(ellipse at center, rgba(255,77,0,0.18) 0%, rgba(255,77,0,0.08) 50%, transparent 70%)',
                   filter: 'blur(48px)',
                 }}
               />

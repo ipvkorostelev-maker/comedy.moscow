@@ -527,11 +527,10 @@ export default async function EventPage({ params }: { params: { slug: string } }
                   ...(event.city ? [{ label: 'Город', value: event.city }] : []),
                   { label: 'Длительность', value: event.duration },
                   { label: 'Возраст', value: event.ageRestriction },
-                  ...(event.rating > 0 ? [{ label: 'Рейтинг', value: `★ ${event.rating} / 5`, accent: 'gold' as const }] : []),
-                ].filter(row => row.value && row.value !== '—').map(({ label, value, sub, accent }) => (
+                ].filter(row => row.value && row.value !== '—').map(({ label, value, sub }) => (
                   <div key={label} className="flex justify-between items-start py-3 border-b border-border last:border-0">
                     <span className="text-[11px] text-muted uppercase tracking-[0.1em] pt-0.5">{label}</span>
-                    <span className={`text-sm font-semibold text-right max-w-[170px] ${accent === 'gold' ? 'text-gold' : 'text-cream'}`}>
+                    <span className="text-sm font-semibold text-right max-w-[170px] text-cream">
                       {value}
                       {sub && <span className="block text-[11px] text-muted font-normal mt-0.5 normal-case">{sub}</span>}
                     </span>

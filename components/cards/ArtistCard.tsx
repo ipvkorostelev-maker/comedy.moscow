@@ -9,33 +9,33 @@ interface ArtistCardProps {
 
 export default function ArtistCard({ artist }: ArtistCardProps) {
   return (
-    <Link href={`/artists/${artist.slug}`} className="group block">
-      <div className="relative aspect-square overflow-hidden rounded-xl bg-surface border border-border img-loading-container">
+    <Link
+      href={`/artists/${artist.slug}`}
+      aria-label={artist.name}
+      className="group flex flex-col h-full w-full"
+    >
+      <div className="relative aspect-[3/4] overflow-hidden rounded-lg img-loading-container mb-3">
         {artist.photo ? (
-          <Image
-            src={artist.photo}
-            alt={artist.name}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 768px) 50vw, 25vw"
-          />
+          <>
+            <Image
+              src={artist.photo}
+              alt={artist.name}
+              fill
+              className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
+              sizes="(max-width: 768px) 40vw, 200px"
+            />
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none" />
+          </>
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-muted">
+          <div className="absolute inset-0 flex items-center justify-center bg-surface-2 text-muted">
             <MicIcon className="w-12 h-12" />
           </div>
         )}
-
-        {artist.photo && (
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/60 to-transparent pointer-events-none z-[1]" />
-        )}
-
-        <div className="absolute bottom-0 left-0 right-0 p-3 z-[2]">
-          <p className="text-[9px] font-bold tracking-widest uppercase text-red mb-0.5">
-            {artist.role}
-          </p>
-          <p className="text-sm font-bold text-cream leading-tight">{artist.name}</p>
-        </div>
       </div>
+      <p className="font-bold text-sm text-cream group-hover:text-red transition-colors duration-200 leading-tight">
+        {artist.name}
+      </p>
+      <p className="text-[11px] text-muted mt-0.5">{artist.role}</p>
     </Link>
   )
 }

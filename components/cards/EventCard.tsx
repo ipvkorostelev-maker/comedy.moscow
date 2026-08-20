@@ -2,8 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Event } from '@/lib/types'
 import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
-import MetaPill from '@/components/ui/MetaPill'
-import { ZapIcon } from '@/components/ui/icons'
 
 interface EventCardProps {
   event: Event
@@ -11,88 +9,48 @@ interface EventCardProps {
 
 export default function EventCard({ event }: EventCardProps) {
   const price = minEventPrice(event)
+  const dayShort = new Date(event.date).toLocaleDateString('ru-RU', { weekday: 'short' })
 
   return (
     <Link
       href={`/events/${event.slug}`}
       aria-label={event.title}
-      className="group flex flex-col h-full bg-surface rounded-card overflow-hidden border border-border hover:border-muted-2 transition-all duration-300 hover:shadow-card-hover"
+      className="group flex flex-col h-full w-full transition-transform duration-200 hover:-translate-y-0.5"
     >
-      {/* ── IMAGE ── */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-surface img-loading-container">
+      {/* Image */}
+      <div className="relative aspect-[3/4] overflow-hidden rounded-lg img-loading-container mb-3">
         <Image
           src={event.image}
           alt={event.title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
+          sizes="(max-width: 768px) 60vw, (max-width: 1440px) 25vw, 300px"
         />
-
-
-        {/* Top badges */}
-        <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
-          {event.ticketsLeft < 25 && (
-            <span className="inline-flex items-center gap-1 bg-red text-white text-[10px] font-bold tracking-wide px-2.5 py-1 rounded-md shadow-red-sm">
-              <ZapIcon className="w-2.5 h-2.5 flex-shrink-0" />
-              {event.ticketsLeft} мест
-            </span>
-          )}
-          {event.rating > 0 && (
-            <span className="inline-flex items-center gap-1 bg-[#1A1208]/90 text-gold text-[10px] font-bold px-2.5 py-1 rounded-md ml-auto">
-              ★ {event.rating}
-            </span>
-          )}
-        </div>
-
-        {/* Tags at bottom-left of image */}
-        <div className="absolute bottom-3 left-3 flex gap-1.5 flex-wrap">
-          {event.tags.slice(0, 2).map((tag) => (
-            <span
-              key={tag}
-              className="text-[10px] text-cream/70 bg-bg/70 backdrop-blur-sm border border-white/10 px-2 py-0.5 rounded"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+        {event.ticketsLeft < 25 && (
+          <span className="absolute top-2 left-2 inline-flex items-center bg-red text-white text-[10px] font-bold px-2 py-1 rounded">
+            {event.ticketsLeft} мест
+          </span>
+        )}
       </div>
 
-      {/* ── INFO ── */}
-      <div className="p-4 space-y-3 flex flex-col flex-1">
-        <h3 className="font-serif font-black text-cream text-[20px] leading-tight group-hover:text-red transition-colors duration-200 line-clamp-2 uppercase">
+      {/* Info */}
+      <div className="flex flex-col">
+        <p className="text-[11px] uppercase tracking-wide text-muted mb-1.5">
+          {dayShort} · {formatDateShort(event.date)} · {event.time}
+        </p>
+        <h3 className="font-serif font-black text-[17px] leading-tight text-cream uppercase line-clamp-2 group-hover:text-red transition-colors duration-200 mb-1">
           {event.title}
         </h3>
-
-        {/* Lineup */}
-        {event.artistNames && event.artistNames.length > 0 && (
-          <p className="text-muted text-[12px] leading-snug">
-            {event.artistNames.join(' · ')}
+        {(event.venueName || event.city) && (
+          <p className="text-xs text-muted line-clamp-1 mb-2">
+            {[event.venueName, event.city].filter(Boolean).join(' · ')}
           </p>
         )}
-
-        <div className="flex flex-wrap gap-1.5">
-          <MetaPill type="date">{formatDateShort(event.date)}</MetaPill>
-          <MetaPill type="time">{event.time}</MetaPill>
-          {(event.venueName || event.city) && (
-            <MetaPill type="venue">
-              {[event.venueName, event.city].filter(Boolean).join(' · ')}
-            </MetaPill>
-          )}
-        </div>
-
-        <div className="flex items-center justify-between pt-3 border-t border-border mt-auto">
-          {price > 0 ? (
-            <span className="font-serif font-black text-red text-lg leading-none">
-              от {formatPrice(price)}
-            </span>
-          ) : (
-            <span className="text-muted text-sm">Цена уточняется</span>
-          )}
-          <span className="inline-flex items-center gap-1 text-[11px] text-muted group-hover:text-cream transition-colors duration-200">
-            Подробнее
-            <span className="group-hover:translate-x-0.5 transition-transform duration-200">→</span>
-          </span>
-        </div>
+        {price > 0 && (
+          <p className="font-serif font-black text-red text-base">
+            от {formatPrice(price)}
+          </p>
+        )}
       </div>
     </Link>
   )

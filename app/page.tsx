@@ -4,11 +4,11 @@ import type { Metadata } from 'next'
 import { getAllEvents, getAllArtists } from '@/lib/data'
 import { getEnrichedTours } from '@/lib/womanstandup'
 import { BASE } from '@/lib/utils'
-import ArtistCard from '@/components/cards/ArtistCard'
 import EventCard from '@/components/cards/EventCard'
-import SectionHeader from '@/components/ui/SectionHeader'
 import HeroSlider from '@/components/sections/HeroSlider'
 import ToursCarousel from '@/components/sections/ToursCarousel'
+import EventRail from '@/components/sections/EventRail'
+import ArtistRail from '@/components/sections/ArtistRail'
 import CalendarWrapper from '@/components/ui/CalendarWrapper'
 
 interface Props {
@@ -48,54 +48,41 @@ export default async function HomePage({ searchParams }: Props) {
   return (
     <>
       <h1 className="sr-only">Стендап концерты в Москве — афиша и билеты</h1>
+
+      {/* ── HERO ── */}
       {!dateFilter && <HeroSlider events={allEvents.slice(0, 4)} />}
 
-
-      {/* ── UPCOMING STRIP ── */}
-      <div className="bg-surface border-y border-white/5">
-        <div className="flex items-center gap-6 px-6 lg:px-20 h-[56px] overflow-x-auto whitespace-nowrap" style={{ scrollbarWidth: 'none' }}>
-          <span className="text-[10px] lg:text-[11px] text-cream/25 uppercase tracking-[0.15em] font-medium flex-shrink-0">
-            Ближайшие концерты
-          </span>
-          {allEvents.slice(0, 5).map((e) => (
-            <a
-              key={e.id}
-              href={`/events/${e.slug}`}
-              className="flex items-center gap-3 flex-shrink-0 px-3.5 py-1.5 rounded-lg border border-white/5 hover:border-white/15 transition-colors"
-            >
-              <span className="text-[12px] font-bold text-red whitespace-nowrap">
-                {new Date(e.date).toLocaleDateString('ru', { day: 'numeric', month: 'short' }).toUpperCase().replace('.', '')}
-              </span>
-              <span className="text-[12px] text-cream/60 whitespace-nowrap">{e.title.split('.')[0]}</span>
-              <span className="text-[11px] text-cream/25 whitespace-nowrap">Билеты →</span>
-            </a>
-          ))}
+      {/* ── UPCOMING RAIL ── */}
+      {!dateFilter && allEvents.length > 0 && (
+        <div className="max-w-[1440px] mx-auto pt-12 lg:pt-16">
+          <EventRail events={allEvents.slice(0, 12)} />
         </div>
-      </div>
+      )}
 
       {/* ── SCHEDULE ── */}
-      <section className="pt-10 pb-4">
-        <div className="mb-8">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 mb-5 flex items-center justify-between">
-            <h2 className="font-serif font-bold text-xl text-cream">Расписание</h2>
+      <section className="max-w-[1440px] mx-auto pt-12 lg:pt-16 pb-4">
+        <div className="px-6 lg:px-12">
+          <div className="mb-5 flex items-end justify-between">
+            <h2 className="font-serif font-black text-cream uppercase text-xl lg:text-2xl">Расписание</h2>
             {dateFilter && (
               <a
                 href="/"
-                className="text-xs text-muted hover:text-cream transition-colors"
+                className="text-sm text-muted hover:text-cream transition-colors"
               >
                 Сбросить ✕
               </a>
             )}
           </div>
-          <CalendarWrapper
-            eventDates={eventDates}
-            selected={dateFilter}
-          />
-        </div>
 
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="mb-8 -mx-6 px-6 lg:mx-0 lg:px-0">
+            <CalendarWrapper
+              eventDates={eventDates}
+              selected={dateFilter}
+            />
+          </div>
+
           {filtered.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
               {filtered.map((event) => (
                 <EventCard key={event.id} event={event} />
               ))}
@@ -105,7 +92,7 @@ export default async function HomePage({ searchParams }: Props) {
               <p className="text-muted text-sm">На эту дату концертов нет</p>
               <a
                 href="/"
-                className="mt-3 inline-block text-xs text-red hover:opacity-80 transition-opacity"
+                className="mt-3 inline-block text-sm text-red hover:opacity-80 transition-opacity"
               >
                 Показать все
               </a>
@@ -116,20 +103,17 @@ export default async function HomePage({ searchParams }: Props) {
 
       {/* ── TOURS ── */}
       {tours.length > 0 && (
-        <section id="tours" className="max-w-7xl mx-auto px-6 lg:px-12 py-10 border-t border-border">
+        <div id="tours" className="max-w-[1440px] mx-auto pt-12 lg:pt-16 pb-4">
           <ToursCarousel tours={tours} />
-        </section>
+        </div>
       )}
 
       {/* ── ARTISTS ── */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-12 py-12 border-t border-border">
-        <SectionHeader title="Комики" linkHref="/artists" linkLabel="Все артисты" />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {artists.slice(0, 4).map((artist) => (
-            <ArtistCard key={artist.id} artist={artist} />
-          ))}
+      {artists.length > 0 && (
+        <div className="max-w-[1440px] mx-auto pt-12 lg:pt-16 pb-4">
+          <ArtistRail artists={artists.slice(0, 12)} />
         </div>
-      </section>
+      )}
     </>
   )
 }

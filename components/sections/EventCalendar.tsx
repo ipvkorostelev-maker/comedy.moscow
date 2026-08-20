@@ -8,7 +8,7 @@ const MONTH_SHORT = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
 interface Day {
   date: string   // YYYY-MM-DD
   d: number
-  dayName: string
+  label: string  // «Сегодня» / «Завтра» / день недели
   monthLabel: string | null  // shown when month changes
 }
 
@@ -36,12 +36,9 @@ function buildDays(): Day[] {
     const monthLabel = month !== prevMonth ? `${MONTH_SHORT[month]} ${yyyy}` : null
     prevMonth = month
 
-    days.push({
-      date: dateStr,
-      d: d.getDate(),
-      dayName: DAY_SHORT[d.getDay()],
-      monthLabel,
-    })
+    const label = i === 0 ? '' : i === 1 ? 'Сегодня' : i === 2 ? 'Завтра' : DAY_SHORT[d.getDay()]
+
+    days.push({ date: dateStr, d: d.getDate(), label, monthLabel })
   }
 
   return days
@@ -73,88 +70,76 @@ export default function EventCalendar({ eventDates, selected, onSelect }: Props)
   const todayStr = days[1]?.date ?? ''
 
   return (
-    <div className="relative">
-
-
-      <div
-        ref={scrollRef}
-        className="flex gap-1 overflow-x-auto scrollbar-hide px-8 pb-1"
-      >
-        {days.map((day) => {
-          const hasEvent = eventDates.has(day.date)
-          const isToday = day.date === todayStr
-          const isSelected = day.date === selected
-
+    <div
+      ref={scrollRef}
+      className="flex items-stretch gap-1.5 overflow-x-auto scrollbar-hide snap-x px-1 py-1"
+      role="listbox"
+      aria-label="Даты концертов"
+    >
+      {days.map((day) => {
+        if (day.monthLabel) {
           return (
-            <div key={day.date} className="flex-shrink-0">
-              {/* Month label — always reserves space to keep days aligned */}
-              <div className="h-5 flex items-center px-1 mb-1">
-                {day.monthLabel && (
-                  <span className="text-[10px] font-semibold uppercase tracking-widest text-muted">
-                    {day.monthLabel}
-                  </span>
-                )}
-              </div>
-
-              <button
-                ref={isToday ? todayRef : undefined}
-                onClick={() => onSelect(isSelected ? null : day.date)}
-                className="relative flex flex-col items-center gap-1 w-11 py-3 rounded-xl transition-all duration-200"
-                style={{
-                  background: isSelected
-                    ? 'rgba(212,66,30,1)'
-                    : hasEvent
-                    ? 'rgba(255,255,255,0.05)'
-                    : 'transparent',
-                  border: isToday && !isSelected
-                    ? '1px solid rgba(255,255,255,0.15)'
-                    : '1px solid transparent',
-                  boxShadow: isSelected
-                    ? '0 4px 20px rgba(212,66,30,0.4)'
-                    : hasEvent
-                    ? '0 0 0 1px rgba(255,255,255,0.08)'
-                    : 'none',
-                }}
-              >
-                {/* Day name */}
-                <span
-                  className="text-[9px] font-semibold uppercase tracking-wider leading-none"
-                  style={{
-                    color: isSelected ? 'rgba(255,255,255,0.8)' : hasEvent ? '#9A9AAF' : '#3A3A48',
-                  }}
-                >
-                  {day.dayName}
-                </span>
-
-                {/* Day number */}
-                <span
-                  className="text-base font-bold leading-none"
-                  style={{
-                    color: isSelected
-                      ? '#fff'
-                      : hasEvent
-                      ? '#F0EDE8'
-                      : '#3A3A48',
-                  }}
-                >
-                  {day.d}
-                </span>
-
-                {/* Event dot */}
-                {hasEvent && (
-                  <span
-                    className="w-1 h-1 rounded-full"
-                    style={{
-                      background: isSelected ? 'rgba(255,255,255,0.7)' : '#F5C842',
-                    }}
-                  />
-                )}
-                {!hasEvent && <span className="w-1 h-1" />}
-              </button>
+            <div
+              key={`m-${day.date}`}
+              className="flex-shrink-0 snap-start flex items-center px-2 mx-1 border-r border-border"
+              aria-hidden
+            >
+              <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-2 whitespace-nowrap">
+                {day.monthLabel}
+              </span>
             </div>
           )
-        })}
-      </div>
+        }
+
+        const hasEvent = eventDates.has(day.date)
+        const isToday = day.date === todayStr
+        const isSelected = day.date === selected
+
+        return (
+          <button
+            key={day.date}
+            ref={isToday ? todayRef : undefined}
+            role="option"
+            aria-selected={isSelected}
+            onClick={() => onSelect(isSelected ? null : day.date)}
+            className={[
+              'flex-shrink-0 snap-start min-w-[64px] min-h-[64px] flex flex-col items-center justify-center gap-1 rounded-xl transition-colors duration-200',
+              isSelected
+                ? 'bg-red text-white'
+                : hasEvent
+                ? 'bg-surface-2 border border-border text-cream hover:bg-surface-hover'
+                : 'bg-transparent border border-transparent text-muted-2 hover:text-muted',
+            ].join(' ')}
+          >
+            <span
+              className={[
+                'text-[9px] font-semibold uppercase tracking-wider leading-none',
+                isSelected ? 'text-white/80' : hasEvent ? 'text-muted' : 'text-muted-2',
+              ].join(' ')}
+            >
+              {day.label}
+            </span>
+
+            <span
+              className={[
+                'text-base font-bold leading-none',
+                isSelected ? 'text-white' : hasEvent ? 'text-cream' : 'text-muted-2',
+              ].join(' ')}
+            >
+              {day.d}
+            </span>
+
+            <span
+              className={[
+                'w-1 h-1 rounded-full',
+                hasEvent
+                  ? isSelected ? 'bg-white/80' : 'bg-gold'
+                  : 'bg-transparent',
+              ].join(' ')}
+            />
+          </button>
+        )
+      })}
     </div>
   )
 }

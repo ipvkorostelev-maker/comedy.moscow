@@ -8,9 +8,10 @@ import type { CityInfo } from '@/lib/data'
 
 interface Props {
   cities: CityInfo[]
+  compact?: boolean
 }
 
-export default function CitySelector({ cities }: Props) {
+export default function CitySelector({ cities, compact = false }: Props) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
@@ -34,18 +35,23 @@ export default function CitySelector({ cities }: Props) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
+        aria-label="Выбор города"
+        aria-expanded={open}
         className={cn(
-          'px-3.5 py-1.5 rounded-md text-[13px] font-medium transition-all duration-200 flex items-center gap-1.5',
+          'rounded-md font-medium transition-all duration-200 flex items-center gap-1.5',
+          compact
+            ? 'h-11 px-2.5 text-[13px]'
+            : 'px-3.5 h-10 text-[13px]',
           isCityActive
-            ? 'text-cream bg-white/8'
-            : 'text-cream/45 hover:text-cream/80 hover:bg-white/[0.04]'
+            ? 'text-cream bg-white/[0.07]'
+            : 'text-cream/50 hover:text-cream/80 hover:bg-white/[0.05]'
         )}
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0 opacity-60">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
           <circle cx="12" cy="10" r="3" />
         </svg>
-        Города
+        {!compact && 'Города'}
         <svg
           width="10" height="6" viewBox="0 0 10 6" fill="none"
           className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
@@ -55,8 +61,8 @@ export default function CitySelector({ cities }: Props) {
       </button>
 
       {open && (
-        <div className="absolute top-full right-0 mt-1 w-56 bg-surface border border-border rounded-xl shadow-2xl overflow-hidden z-50">
-          <div className="py-1">
+        <div className="absolute top-full right-0 mt-2 w-60 bg-surface-2 border border-border rounded-xl shadow-2xl overflow-hidden z-50">
+          <div className="py-1 max-h-[70vh] overflow-y-auto">
             {cities.map((city) => {
               const isSelected = (currentSlug === city.slug) || (!currentSlug && city.slug === 'moskva' && (pathname === '/' || pathname === '/events'))
               return (
@@ -65,7 +71,7 @@ export default function CitySelector({ cities }: Props) {
                   href={city.slug === 'moskva' ? '/' : `/city/${city.slug}`}
                   onClick={() => setOpen(false)}
                   className={cn(
-                    'flex items-center justify-between px-4 py-2.5 text-sm transition-colors',
+                    'flex items-center justify-between px-4 py-3 text-sm transition-colors',
                     isSelected
                       ? 'text-cream bg-white/[0.06]'
                       : 'text-cream/70 hover:text-cream hover:bg-white/[0.04]'

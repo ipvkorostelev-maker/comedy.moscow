@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { EnrichedTour } from '@/lib/womanstandup'
-import SectionHeader from '@/components/ui/SectionHeader'
 
 interface ToursCarouselProps {
   tours: EnrichedTour[]
@@ -11,60 +10,64 @@ export default function ToursCarousel({ tours }: ToursCarouselProps) {
   if (tours.length === 0) return null
 
   return (
-    <div>
-      <SectionHeader title="Гастроли" />
+    <section>
+      <div className="mb-5 px-6 lg:px-12">
+        <h2 className="font-serif font-black text-cream uppercase text-2xl lg:text-3xl">Гастроли</h2>
+        <p className="text-sm text-muted mt-1">Стендап-комики едут в ваш город</p>
+      </div>
 
-      {/* ── Mobile: horizontal scroll ── */}
-      <div className="flex md:hidden gap-4 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
+      {/* Mobile */}
+      <div className="flex md:hidden gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-6 pb-1">
         {tours.map((tour) => (
           <TourCard key={tour.id} tour={tour} />
         ))}
       </div>
 
-      {/* ── Desktop: grid ── */}
-      <div className="hidden md:grid grid-cols-3 lg:grid-cols-4 gap-4">
+      {/* Desktop */}
+      <div className="hidden md:grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-6 lg:px-12">
         {tours.map((tour) => (
           <TourCard key={tour.id} tour={tour} />
         ))}
       </div>
-    </div>
+    </section>
   )
 }
 
 function TourCard({ tour }: { tour: EnrichedTour }) {
+  const cityLine = tour.cities.slice(0, 3).join(' · ')
+
   return (
     <Link
       href={`/tour/${tour.slug}`}
-      className="group block min-w-[240px] md:min-w-0 rounded-xl overflow-hidden bg-surface border border-border transition-all duration-300 hover:border-white/15 hover:shadow-card-hover"
+      aria-label={tour.title}
+      className="group relative block w-[82vw] max-w-[360px] md:w-full md:max-w-none shrink-0 snap-start aspect-[16/10] overflow-hidden rounded-lg"
     >
-      <div className="relative aspect-[3/4] overflow-hidden">
-        {tour.photo ? (
-          <Image
-            src={tour.photo}
-            alt={tour.title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 768px) 240px, (max-width: 1024px) 33vw, 25vw"
-          />
-        ) : (
-          <div className="img-placeholder" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-      </div>
-
-      <div className="p-4">
-        <p className="font-serif text-[10px] font-bold tracking-widest uppercase text-red mb-1">
+      {tour.photo ? (
+        <Image
+          src={tour.photo}
+          alt={tour.title}
+          fill
+          className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
+          sizes="(max-width: 768px) 82vw, (max-width: 1280px) 50vw, 33vw"
+        />
+      ) : (
+        <div className="img-placeholder" />
+      )}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 p-5">
+        <p className="text-[11px] uppercase tracking-widest text-red font-bold mb-1.5">
           {tour.artistName}
         </p>
-        <p className="text-sm font-bold text-cream leading-tight mb-2 group-hover:text-red transition-colors">
+        <p className="font-serif font-black text-2xl text-cream uppercase leading-tight mb-2 group-hover:text-red transition-colors duration-200">
           {tour.title}
         </p>
-        <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-muted">
-          <span>{tour.totalConcerts} концертов</span>
-          {tour.cities.length > 0 && (
-            <span>{tour.cities.slice(0, 3).join(', ')}{tour.cities.length > 3 ? '...' : ''}</span>
-          )}
-        </div>
+        <p className="text-xs text-cream/60 mb-1">
+          {tour.totalConcerts} концертов · {tour.cities.length} городов
+        </p>
+        {cityLine && <p className="text-xs text-cream/60 mb-3">{cityLine}</p>}
+        <p className="text-sm text-cream/80 group-hover:text-red transition-colors duration-200">
+          Смотреть тур →
+        </p>
       </div>
     </Link>
   )
