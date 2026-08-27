@@ -7,11 +7,12 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/offer', '/privacy'],
+        disallow: ['/api/'],
       },
       {
         userAgent: ['GPTBot', 'OAI-SearchBot', 'ClaudeBot', 'PerplexityBot'],
         allow: '/',
+        disallow: ['/api/'],
       },
       {
         userAgent: ['CCBot', 'anthropic-ai', 'cohere-ai'],

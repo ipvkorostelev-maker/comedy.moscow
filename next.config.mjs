@@ -34,6 +34,12 @@ const nextConfig = {
         ],
       },
       {
+        source: '/(offer|privacy)',
+        headers: [
+          { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
+        ],
+      },
+      {
         source: '/((?!api|feed.xml|rss.xml|_next).*)',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=300, stale-while-revalidate=60, stale-if-error=86400' },
