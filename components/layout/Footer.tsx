@@ -57,7 +57,7 @@ export default function Footer() {
 
         <div className="border-t border-border pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
           <p className="text-[11px] text-cream/50 leading-relaxed">
-            ИП Ширяев Афанасий Павлович · ИНН 711404628447 · ОГРНИП 320715400048420
+            ИП Коростелев Владимир Дмитриевич · ИНН 310803160158 · ОГРНИП 322310000023570
           </p>
           <p className="text-xs text-cream/50">© 2026 comedy.moscow</p>
         </div>
