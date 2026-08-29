@@ -11,7 +11,7 @@ const config: Config = {
         bg: '#0A0A0A',
         surface: {
           DEFAULT: '#141414',
-          2: '#1A1A1F',
+          2: 'transparent',
           elevated: '#1F1F26',
           hover: '#222228',
         },

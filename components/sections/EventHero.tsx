@@ -198,15 +198,16 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
           )}
         </div>
 
-        <div className="relative w-[46%] xl:w-[44%] self-stretch min-h-[420px] rounded-xl overflow-hidden bg-surface-2 img-loading-container">
+        <div className="relative w-[46%] xl:w-[44%] rounded-xl overflow-hidden">
           {event.image && (
             <Image
               src={event.image}
               alt={event.title}
-              fill
+              width={1200}
+              height={800}
               priority
               quality={85}
-              className="object-cover object-center"
+              className="w-full h-auto object-cover object-center"
               sizes="(max-width: 1280px) 46vw, 44vw"
             />
           )}
