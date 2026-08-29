@@ -167,7 +167,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       </div>
 
       {/* ── DESKTOP ── */}
-      <div className="hidden lg:flex items-center justify-between gap-8 px-6 lg:px-12 min-h-[460px] xl:min-h-[500px] py-8">
+      <div className="hidden lg:flex items-start justify-between gap-8 px-6 lg:px-12 min-h-[460px] xl:min-h-[500px] py-8">
         <div className="max-w-[560px] flex flex-col justify-center gap-5">
           <EventBadges event={event} />
 
