@@ -61,7 +61,7 @@ export default function CitySelector({ cities, compact = false }: Props) {
       </button>
 
       {open && (
-        <div className="absolute top-full right-0 mt-2 w-60 bg-surface-2 border border-border rounded-xl shadow-2xl overflow-hidden z-50">
+        <div className="absolute top-full right-0 mt-2 w-60 bg-[#1A1A1F] border border-border rounded-xl shadow-2xl overflow-hidden z-50">
           <div className="py-1 max-h-[70vh] overflow-y-auto">
             {cities.map((city) => {
               const isSelected = (currentSlug === city.slug) || (!currentSlug && city.slug === 'moskva' && (pathname === '/' || pathname === '/events'))
