@@ -1,4 +1,7 @@
+'use client'
+
 import { getTicketProvider } from '@/lib/utils'
+import { trackGoal } from '@/lib/analytics'
 
 interface InticketsBuyButtonProps {
   url: string
@@ -16,6 +19,7 @@ export default function InticketsBuyButton({ url, className = '', label = 'Ку�
         href={url}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => trackGoal(108210320, 'buy_ticket_click')}
         className={`inline-flex items-center justify-center text-white text-sm font-bold px-7 py-3.5 rounded-xl transition-all hover:brightness-110 active:scale-95 ${className}`}
         style={{ backgroundColor: '#FF4D00', boxShadow: '0 4px 14px rgba(255,77,0,0.30)' }}
       >
