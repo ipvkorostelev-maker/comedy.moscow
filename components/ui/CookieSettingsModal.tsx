@@ -66,37 +66,37 @@ export default function CookieSettingsModal() {
       }}
     >
       <div className="flex max-h-[90vh] w-full max-w-lg flex-col rounded-t-2xl bg-white shadow-2xl sm:rounded-2xl">
-        <div className="border-b border-gray-200 px-6 py-5">
-          <h2 id="cookie-settings-title" className="font-serif text-xl font-bold text-gray-900">
+        <div className="border-b border-gray-200 px-5 py-4">
+          <h2 id="cookie-settings-title" className="font-serif text-lg font-bold text-gray-900">
             Настройки файлов cookie
           </h2>
-          <p className="mt-1 text-sm text-gray-600">
+          <p className="mt-1 text-[13px] leading-snug text-gray-600">
             Необходимые файлы cookie используются для корректной работы сайта и не могут быть
             отключены. Использование аналитических и других необязательных файлов cookie можно
             настроить.
           </p>
         </div>
 
-        <div className="overflow-y-auto px-6 py-5">
-          <div className="space-y-5">
-            <section className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+        <div className="overflow-y-auto px-5 py-4">
+          <div className="space-y-3">
+            <section className="rounded-xl border border-gray-200 bg-gray-50 p-3.5">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-semibold text-gray-900">Необходимые файлы cookie</h3>
+                  <h3 className="text-sm font-semibold text-gray-900">Необходимые файлы cookie</h3>
                   <p className="mt-0.5 text-xs text-gray-500">Всегда включены</p>
                 </div>
                 <Toggle checked disabled label="Необходимые файлы cookie всегда включены" />
               </div>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-1.5 text-[13px] leading-snug text-gray-600">
                 Эти файлы cookie необходимы для работы сайта, обеспечения его безопасности и
                 использования запрошенных вами функций.
               </p>
             </section>
 
-            <section className="rounded-xl border border-gray-200 bg-white p-4">
+            <section className="rounded-xl border border-gray-200 bg-white p-3.5">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-semibold text-gray-900">Аналитические файлы cookie</h3>
+                  <h3 className="text-sm font-semibold text-gray-900">Аналитические файлы cookie</h3>
                 </div>
                 <Toggle
                   checked={pending.analytics}
@@ -104,7 +104,7 @@ export default function CookieSettingsModal() {
                   label="Аналитические файлы cookie"
                 />
               </div>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-1.5 text-[13px] leading-snug text-gray-600">
                 Помогают анализировать посещаемость и использование сайта. В этой категории
                 используется Яндекс Метрика. Данные используются только после получения вашего
                 согласия.
@@ -112,10 +112,10 @@ export default function CookieSettingsModal() {
             </section>
 
             {HAS_MARKETING_TRACKERS && (
-              <section className="rounded-xl border border-gray-200 bg-white p-4">
+              <section className="rounded-xl border border-gray-200 bg-white p-3.5">
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <h3 className="font-semibold text-gray-900">Рекламные файлы cookie</h3>
+                    <h3 className="text-sm font-semibold text-gray-900">Рекламные файлы cookie</h3>
                   </div>
                   <Toggle
                     checked={pending.marketing}
@@ -123,7 +123,7 @@ export default function CookieSettingsModal() {
                     label="Рекламные файлы cookie"
                   />
                 </div>
-                <p className="mt-2 text-sm text-gray-600">
+                <p className="mt-1.5 text-[13px] leading-snug text-gray-600">
                   Используются для оценки эффективности рекламы и показа релевантных рекламных
                   материалов.
                 </p>
@@ -132,19 +132,19 @@ export default function CookieSettingsModal() {
           </div>
         </div>
 
-        <div className="border-t border-gray-200 px-6 py-5">
-          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+        <div className="border-t border-gray-200 px-5 py-4">
+          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <button
               type="button"
               onClick={closeSettings}
-              className="min-h-[44px] rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-100"
+              className="min-h-[44px] rounded-lg border border-gray-300 bg-white px-5 py-2 text-[13px] font-bold text-gray-900 transition-colors hover:bg-gray-100"
             >
               Отмена
             </button>
             <button
               type="button"
               onClick={handleSave}
-              className="min-h-[44px] rounded-lg bg-red px-5 py-2.5 text-sm font-bold text-white shadow-red transition-colors hover:bg-red-hover"
+              className="min-h-[44px] rounded-lg bg-red px-5 py-2 text-[13px] font-bold text-white shadow-red transition-colors hover:bg-red-hover"
             >
               Сохранить настройки
             </button>
