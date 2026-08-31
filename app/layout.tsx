@@ -4,9 +4,9 @@ import Script from 'next/script'
 import './globals.css'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
-import CookieBanner from '@/components/ui/CookieBanner'
 import ZoomLock from '@/components/ui/ZoomLock'
 import { NavLabelProvider } from '@/components/ui/NavLabelProvider'
+import { ConsentProvider } from '@/components/providers/ConsentProvider'
 import { BASE } from '@/lib/utils'
 import { getCities } from '@/lib/data'
 
@@ -96,8 +96,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <meta name="theme-color" content="#0c0c10" />
         <link rel="preconnect" href="https://s3.intickets.ru" />
-        <link rel="preconnect" href="https://mc.yandex.ru" />
-        <link rel="preconnect" href="https://top-fwz1.mail.ru" />
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://womanstandup.ru" />
         <link rel="preconnect" href="https://static.tildacdn.com" />
@@ -106,63 +104,45 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `
+              window['disableYaCounter108210320'] = true;
+              window['disableYaCounter94359734'] = true;
+            `,
+          }}
+        />
+        <script
           type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
       </head>
       <body>
-        <ZoomLock />
-        <NavLabelProvider>
-          <Nav cities={cities} />
-          <main>{children}</main>
-        </NavLabelProvider>
-        <Footer />
-        <CookieBanner />
-        <Script
-          id="vk-pixel"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{ __html: `
-            var _tmr = window._tmr || (window._tmr = []);
-            _tmr.push({id: "3764427", type: "pageView", start: (new Date()).getTime()});
-            (function (d, w, id) {
-              if (d.getElementById(id)) return;
-              var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
-              ts.src = "https://top-fwz1.mail.ru/js/code.js";
-              var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
-              if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
-            })(document, window, "topmailru-code");
-          `}}
-        />
-        <Script
-          id="yandex-metrika"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{ __html: `
-            (function(m,e,t,r,i,k,a){
-              m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-              m[i].l=1*new Date();
-              for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-              k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-            })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
-            ym(108210320, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true, trustedDomains:['afisha.yandex.ru','widget.afisha.yandex.ru']});
-            ym(94359734, 'init', {clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true, trustedDomains:['afisha.yandex.ru','widget.afisha.yandex.ru']});
-          `}}
-        />
-        <Script
-          id="yandex-dealer"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{ __html: `
-            var dealerName = 'YandexTicketsDealer';
-            var dealer = window[dealerName] = window[dealerName] || [];
-            dealer.push(['setDefaultClientKey', 'ticketsteam-4063']);
-            dealer.push(['setDefaultRegionId', 213]);
-            (function() {
-              var s = document.createElement('script');
-              s.async = true;
-              s.src = 'https://widget.afisha.yandex.ru/dealer/dealer.js';
-              document.getElementsByTagName('script')[0].parentNode.insertBefore(s, document.getElementsByTagName('script')[0]);
-            })();
-          `}}
-        />
+        <ConsentProvider>
+          <ZoomLock />
+          <NavLabelProvider>
+            <Nav cities={cities} />
+            <main>{children}</main>
+          </NavLabelProvider>
+          <Footer />
+          <Script
+            id="yandex-dealer"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{ __html: `
+              var dealerName = 'YandexTicketsDealer';
+              var dealer = window[dealerName] = window[dealerName] || [];
+              dealer.push(['setDefaultClientKey', 'ticketsteam-4063']);
+              dealer.push(['setDefaultRegionId', 213]);
+              (function() {
+                var s = document.createElement('script');
+                s.async = true;
+                s.src = 'https://widget.afisha.yandex.ru/dealer/dealer.js';
+                document.getElementsByTagName('script')[0].parentNode.insertBefore(s, document.getElementsByTagName('script')[0]);
+              })();
+            `}}
+          />
+        </ConsentProvider>
       </body>
     </html>
   )

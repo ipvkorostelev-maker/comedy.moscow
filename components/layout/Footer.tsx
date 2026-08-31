@@ -1,6 +1,10 @@
+'use client'
+
 import Link from 'next/link'
+import { useConsent } from '@/components/providers/ConsentProvider'
 
 export default function Footer() {
+  const { openSettings } = useConsent()
   return (
     <footer className="border-t border-border mt-20">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12">
@@ -52,6 +56,13 @@ export default function Footer() {
             <p className="text-[10px] text-muted uppercase tracking-[0.15em] mb-1">Документы</p>
             <Link href="/offer" className="text-sm text-muted hover:text-cream transition-colors">Публичная оферта</Link>
             <Link href="/privacy" className="text-sm text-muted hover:text-cream transition-colors">Политика конфиденциальности</Link>
+            <button
+              type="button"
+              onClick={openSettings}
+              className="text-left text-sm text-muted hover:text-cream transition-colors"
+            >
+              Настройки cookie
+            </button>
           </nav>
         </div>
 

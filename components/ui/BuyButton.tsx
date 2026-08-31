@@ -1,6 +1,7 @@
 'use client'
 
 import { getTicketProvider } from '@/lib/utils'
+import { trackGoal } from '@/lib/analytics'
 
 interface BuyButtonProps {
   ticketType?: 'yandex' | 'external'
@@ -22,17 +23,13 @@ export default function BuyButton({
   const isYandex = ticketType === 'yandex' && !!yandexWidgetId
   const provider = subtitle ?? getTicketProvider(ticketUrl) ?? (isYandex ? 'Яндекс Билеты' : null)
 
-  function trackGoal() {
-    const ym = (window as any).ym
-    if (typeof ym !== 'function') return
-    ym(108210320, 'reachGoal', 'buy_ticket_click')
-    // 94359734 — счётчик Директа/виджета, его цели (выбор мест, покупка)
-    // виджет Яндекса стреляет сам через trustedDomains, дублировать не нужно
+  function trackBuyGoal() {
+    trackGoal(108210320, 'buy_ticket_click')
   }
 
   function handleYandex(e: React.MouseEvent) {
     e.preventDefault()
-    trackGoal()
+    trackBuyGoal()
     const d = (window as any).YandexTicketsDealer
     if (d && typeof d.push === 'function') {
       // yandexWidgetId format: "ticketsteam-4063@60615011" — extract session ID after @
@@ -79,7 +76,7 @@ export default function BuyButton({
   if (ticketUrl) {
     return (
       <div>
-        <a href={ticketUrl} target="_blank" rel="noopener noreferrer" className={cls} style={s} onClick={trackGoal}>
+        <a href={ticketUrl} target="_blank" rel="noopener noreferrer" className={cls} style={s} onClick={trackBuyGoal}>
           {label}
           {arrow}
         </a>
