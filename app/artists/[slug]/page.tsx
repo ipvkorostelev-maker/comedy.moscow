@@ -30,9 +30,7 @@ export async function generateMetadata({
   const url = `${BASE}/artists/${artist.slug}`
   const desc = plainText(artist.shortBio || artist.bio || '') ||
     `Стендап-комик ${artist.name}. Расписание выступлений, афиша концертов и билеты на шоу с участием ${artist.name}.`
-  const ogImage = artist.photo
-    ? [{ url: artist.photo, width: 600, height: 600, alt: artist.name }]
-    : [{ url: `${BASE}/opengraph-image`, width: 1200, height: 630, alt: artist.name }]
+  const ogImage = `${url}/opengraph-image`
   return {
     title: `${artist.name} — стендап комик`,
     description: desc,
@@ -43,13 +41,13 @@ export async function generateMetadata({
       url,
       siteName: 'Смешно',
       locale: 'ru_RU',
-      images: ogImage,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: artist.name }],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${artist.name} — стендап комик | Смешно`,
       description: desc,
-      images: [artist.photo || `${BASE}/opengraph-image`],
+      images: [ogImage],
     },
   }
 }
