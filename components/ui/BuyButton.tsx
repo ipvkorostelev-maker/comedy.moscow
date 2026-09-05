@@ -10,6 +10,7 @@ interface BuyButtonProps {
   className?: string
   label?: string
   subtitle?: string
+  variant?: 'default' | 'event'
 }
 
 export default function BuyButton({
@@ -19,6 +20,7 @@ export default function BuyButton({
   className = '',
   label = 'Купить билет',
   subtitle,
+  variant = 'default',
 }: BuyButtonProps) {
   const isYandex = ticketType === 'yandex' && !!yandexWidgetId
   const provider = subtitle ?? getTicketProvider(ticketUrl) ?? (isYandex ? 'Яндекс Билеты' : null)
@@ -43,7 +45,9 @@ export default function BuyButton({
   }
 
   const cls = `group inline-flex items-center justify-center gap-2.5 text-black text-base font-extrabold px-8 py-4 min-h-[52px] rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:brightness-105 active:scale-[0.98] ${className}`
-  const s = { backgroundColor: 'rgb(253, 246, 2)', boxShadow: '0 6px 24px rgba(253,246,2,0.32)' }
+  const s = variant === 'event'
+    ? { backgroundColor: '#ffdf55', boxShadow: 'none' }
+    : { backgroundColor: 'rgb(253, 246, 2)', boxShadow: '0 6px 24px rgba(253,246,2,0.32)' }
 
   const arrow = (
     <svg

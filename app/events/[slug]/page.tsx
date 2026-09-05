@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
+import EventShare from '@/components/ui/EventShare'
+import './event-detail.css'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import sanitizeHtml from 'sanitize-html'
 import { NavLabelSync } from '@/components/ui/NavLabelProvider'
 import { getEventBySlugAny, isEventPast, getArtistsByIds, getVenueById, getSimilarEvents, getAllEvents, getArtistOtherEvents } from '@/lib/data'
 import { formatDateShort, formatDayOfWeek, formatPrice, minEventPrice, BASE } from '@/lib/utils'
-import BuyButton from '@/components/ui/BuyButton'
-import InticketsBuyButton from '@/components/ui/InticketsBuyButton'
 import ReviewCard from '@/components/cards/ReviewCard'
-import EventCard from '@/components/cards/EventCard'
 import EventRail from '@/components/sections/EventRail'
 import MetaPill from '@/components/ui/MetaPill'
 import StickyBuyBar from '@/components/sections/StickyBuyBar'
@@ -387,190 +387,46 @@ export default async function EventPage({ params }: { params: { slug: string } }
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
-      {/* ── HERO ── */}
-      <EventHero event={event} artists={artists} venue={venue} price={price} />
-
-      {/* ── MAIN CONTENT ── */}
-      <div className="px-6 lg:px-16 xl:px-20 pt-4 lg:pt-6 pb-14">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12 mb-16 max-w-[1400px]">
-
-          {/* LEFT COL */}
-          <div>
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2 mb-8">
-              {event.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs text-muted bg-surface border border-border px-3.5 py-1.5 rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            {/* About */}
-            <h2 id="about" className="font-serif font-bold text-xl text-cream mb-4 text-left">Описание концерта</h2>
-            {event.longDescription && (
-              <div
-                className="text-sm text-cream/65 leading-[1.75] prose-invert text-left [&_div]:mb-3 [&_p]:mb-3 [&_br]:hidden [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-3 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-3"
-                dangerouslySetInnerHTML={{ __html: safeHtml(event.longDescription) }}
-              />
-            )}
-
-            {/* 18+ Notice */}
-            <div className="mt-8 flex gap-3 items-start bg-surface-2 border border-border rounded-xl px-4 py-3.5">
-              <span className="shrink-0 mt-0.5 inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red/10 border border-red/20 text-red font-black text-sm leading-none">18+</span>
-              <p className="text-xs text-muted leading-[1.65]">
-                Мероприятие предназначено для лиц старше 18 лет. На входе потребуется документ, удостоверяющий личность:&nbsp;
-                <span className="text-cream/70">паспорт</span> или приложение&nbsp;
-                <span className="text-cream/70">«Госуслуги»</span> с подключённой функцией биометрии.
-              </p>
-            </div>
-
-            {/* Contact CTA */}
-            <div className="mt-8 pt-6 border-t border-border">
-              <a
-                href="/contacts"
-                className="inline-flex items-center gap-2 text-sm text-muted hover:text-cream transition-colors group"
-              >
-                <span>Остались вопросы?</span>
-                <span className="text-cream/40 group-hover:text-red transition-colors font-semibold">Свяжитесь с нами →</span>
-              </a>
-            </div>
+      <div className="event-detail">
+        <div className="event-container">
+          <nav className="event-breadcrumb" aria-label="Хлебные крошки"><Link href="/events">Афиша</Link><span>/</span><span>{event.title}</span></nav>
+          <EventHero event={event} artists={artists} venue={venue} price={price} />
+          <nav className="event-section-nav" aria-label="Разделы концерта"><div><a href="#about">О концерте</a><a href="#venue">Место проведения</a><a href="#important">Важно знать</a></div><EventShare url={url} title={event.title} /></nav>
+          <div className="event-body-grid">
+            <article id="about">
+              <p className="event-eyebrow event-muted">О программе</p>
+              <h2>Описание концерта</h2>
+              <div className="event-description" dangerouslySetInnerHTML={{ __html: safeHtml(event.longDescription || event.description) }} />
+              {event.tags.length > 0 && <div className="event-tags">{event.tags.map(tag => <span key={tag}>{tag}</span>)}</div>}
+              {artists.length > 0 && <div className="event-artists"><h3>{artists.length === 1 ? 'На сцене' : 'Состав концерта'}</h3>{artists.map(artist => <Link key={artist.id} className="event-artist" href={`/artists/${artist.slug}`}>
+                {artist.photo ? <Image src={artist.photo} alt="" width={48} height={48} sizes="48px" /> : <span className="event-artist-initial">{artist.name[0]}</span>}
+                <span><strong>{artist.name}</strong><small>Об артисте и другие концерты</small></span><span>↗</span>
+              </Link>)}</div>}
+            </article>
+            <aside id="important" className="event-important">
+              <p className="event-eyebrow event-muted">Перед концертом</p><h2>Хорошо знать</h2>
+              {event.time && <div className="event-fact"><span>{event.time}</span><div><h3>Начало программы</h3><p>Приходите заранее. Время открытия дверей проверьте в описании или билете.</p></div></div>}
+              {event.ageRestriction && <div className="event-fact"><span>{event.ageRestriction}</span><div><h3>Возрастное ограничение</h3><p>{event.ageRestriction === '18+' ? 'Вход для зрителей от 18 лет. Возьмите документ, удостоверяющий личность.' : 'Учитывайте возрастное ограничение при покупке билетов.'}</p></div></div>}
+              {event.duration && <div className="event-fact"><span>{event.duration}</span><div><h3>Продолжительность</h3><p>Планируйте вечер с учётом времени на дорогу.</p></div></div>}
+              <Link className="event-contact" href="/contacts">Есть вопросы? <strong>Свяжитесь с нами ↗</strong></Link>
+              {otherEvents.length > 0 && <div className="event-other-dates"><OtherDatesPanel events={otherEvents} /></div>}
+            </aside>
           </div>
-
-          {/* SIDEBAR */}
-          <div>
-            <div className="bg-surface-2 border border-border rounded-2xl overflow-hidden sticky top-24">
-              {/* Buy CTA */}
-              <div className="p-5 border-b border-border">
-                {price > 0 && (
-                  <div className="mb-4">
-                    <p className="text-muted text-[10px] uppercase tracking-[0.15em] mb-1">Цена от</p>
-                    <p className="font-serif font-black text-cream text-3xl leading-none">{formatPrice(price)}</p>
-                  </div>
-                )}
-                <BuyButton
-                  ticketType={event.ticketType}
-                  ticketUrl={event.ticketUrl}
-                  yandexWidgetId={event.yandexWidgetId}
-                  className="w-full justify-center"
-                  label="Купить билет →"
-                />
-                {event.inticketsUrl && (
-                  <div className="mt-3">
-                    <InticketsBuyButton
-                      url={event.inticketsUrl}
-                      className="w-full justify-center"
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* Commission CTA */}
-              <div className="p-5 border-b border-border">
-                <CommissionButton artistNames={artists.map(a => a.name)} className="w-full py-2.5 px-4" />
-              </div>
-
-              {/* Invite */}
-              <div className="p-5 border-b border-border">
-                <p className="text-[10px] text-muted uppercase tracking-[0.15em] mb-3">Позвать сходить вместе</p>
-                <div className="flex gap-2">
-                  {[
-                    {
-                      label: 'ВКонтакте',
-                      href: `https://vk.com/share.php?url=${encodeURIComponent(url)}&title=${encodeURIComponent(event.title)}`,
-                      color: '#4DA3FF',
-                      bg: '#0077FF',
-                      icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14C20.67 22 22 20.67 22 15.07V8.93C22 3.33 20.67 2 15.07 2zm3.08 13.56h-1.6c-.6 0-.79-.48-1.87-1.58-.94-.93-1.35-.93-1.35 0v1.43c0 .44-.14.58-1.26.58-1.86 0-3.92-1.13-5.37-3.24C5.48 10.3 5 8.24 5 7.82c0-.25.1-.49.58-.49h1.6c.43 0 .6.2.77.67.85 2.44 2.27 4.58 2.86 4.58.22 0 .32-.1.32-.65V9.56c-.07-1.17-.68-1.27-.68-1.69 0-.21.17-.43.45-.43h2.52c.36 0 .49.19.49.62v3.33c0 .36.16.49.27.49.22 0 .4-.13.8-.54 1.24-1.39 2.13-3.52 2.13-3.52.12-.25.32-.49.75-.49h1.6c.48 0 .59.25.48.59-.2.93-2.14 3.66-2.14 3.66-.17.28-.24.4 0 .71.17.23.73.71 1.1 1.14.68.77 1.2 1.42 1.34 1.87.13.44-.1.67-.54.67z"/></svg>,
-                    },
-                    {
-                      label: 'Telegram',
-                      href: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(event.title)}`,
-                      color: '#2AABEE',
-                      bg: '#2AABEE',
-                      icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>,
-                    },
-                    {
-                      label: 'Max',
-                      href: `https://max.ru/:share?text=${encodeURIComponent(event.title + ' ' + url)}`,
-                      color: '#00C2FF',
-                      bg: '#00C2FF',
-                      icon: <svg width="14" height="14" viewBox="0 0 1000 1000" fill="none"><rect width="1000" height="1000" fill="#4CCFFF" rx="249.681"/><path fill="#fff" fillRule="evenodd" d="M508.211 878.328c-75.007 0-109.864-10.95-170.453-54.75-38.325 49.275-159.686 87.783-164.979 21.9 0-49.456-10.95-91.248-23.36-136.873-14.782-56.21-31.572-118.807-31.572-209.508 0-216.626 177.754-379.597 388.357-379.597 210.785 0 375.947 171.001 375.947 381.604.707 207.346-166.595 376.118-373.94 377.224m3.103-571.585c-102.564-5.292-182.499 65.7-200.201 177.024-14.6 92.162 11.315 204.398 33.397 210.238 10.585 2.555 37.23-18.98 53.837-35.587a189.8 189.8 0 0 0 92.71 33.032c106.273 5.112 197.08-75.794 204.215-181.95 4.154-106.382-77.67-196.486-183.958-202.574Z" clipRule="evenodd"/></svg>,
-                    },
-                  ].map(({ label, href, color, bg, icon }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-[11px] font-semibold transition-colors"
-                      style={{ color, background: `color-mix(in srgb, ${bg} 10%, transparent)`, border: `1px solid color-mix(in srgb, ${bg} 25%, transparent)` }}
-                    >
-                      {icon}
-                      {label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Details */}
-              <div className="p-5">
-                {[
-                  { label: 'Дата', value: formatDateShort(event.date), sub: formatDayOfWeek(event.date) },
-                  { label: 'Начало', value: event.time },
-                  { label: 'Место', value: event.venueName ?? venue?.name ?? '—', sub: venue?.address },
-                  ...(event.city ? [{ label: 'Город', value: event.city }] : []),
-                  { label: 'Длительность', value: event.duration },
-                  { label: 'Возраст', value: event.ageRestriction },
-                ].filter(row => row.value && row.value !== '—').map(({ label, value, sub }) => (
-                  <div key={label} className="flex justify-between items-start py-3 border-b border-border last:border-0">
-                    <span className="text-[11px] text-muted uppercase tracking-[0.1em] pt-0.5">{label}</span>
-                    <span className="text-sm font-semibold text-right max-w-[170px] text-cream">
-                      {value}
-                      {sub && <span className="block text-[11px] text-muted font-normal mt-0.5 normal-case">{sub}</span>}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              {otherEvents.length > 0 && (
-                <div className="p-5 border-t border-border">
-                  <OtherDatesPanel events={otherEvents} />
-                </div>
-              )}
-            </div>
-          </div>
+          <section className="event-venue" id="venue" aria-labelledby="event-venue-title"><div><p className="event-eyebrow event-muted">Место встречи</p><h2 id="event-venue-title">{event.venueName || venue?.name || 'Площадка уточняется'}{event.city && <span> · {event.city}</span>}</h2><p>{venue?.address || 'Точный адрес проверьте в билете перед поездкой.'}</p></div>
+            {(event.venueName || venue?.name) && <a className="event-outline" href={`https://yandex.ru/maps/?text=${encodeURIComponent([event.city, event.venueName || venue?.name, venue?.address].filter(Boolean).join(', '))}`} target="_blank" rel="noopener noreferrer">Найти на карте ↗</a>}
+          </section>
+          <section className="event-faq" aria-labelledby="event-faq-title"><h2 id="event-faq-title">Перед покупкой</h2>
+            <details><summary>Где посмотреть места и точную цену?<span>+</span></summary><p>Перейдите к билетному оператору через кнопку покупки. Доступные места и итоговая стоимость отображаются перед оплатой.</p></details>
+            <details><summary>Какие документы взять с собой?<span>+</span></summary><p>Возьмите билет и документ, удостоверяющий личность. Возрастное ограничение{event.ageRestriction ? ` — ${event.ageRestriction}` : ''} и дополнительные правила указаны в описании мероприятия.</p></details>
+            <details><summary>Куда обратиться по вопросу возврата?<span>+</span></summary><p>Обратитесь к оператору, у которого куплен билет. Ссылки на инструкции по возврату находятся внизу сайта. Если нужна помощь, <Link href="/contacts">свяжитесь с нами</Link>.</p></details>
+          </section>
+          {event.gallery && event.gallery.length >= 3 && <section className="event-extra"><h2>Фото с прошлых шоу</h2><GalleryLightbox images={event.gallery} title={event.title} /></section>}
+          {event.reviews && event.reviews.length > 0 && <section className="event-extra"><h2>Отзывы зрителей</h2><div className="grid grid-cols-1 md:grid-cols-3 gap-4">{event.reviews.map(review => <ReviewCard key={review.id} review={review} />)}</div></section>}
+          {artists.length > 0 && <div className="event-commission"><p>Стендап на вашем мероприятии</p><CommissionButton artistNames={artists.map(a => a.name)} className="min-h-[48px] px-5 py-3" /></div>}
+          {similar.length > 0 && <div className="event-extra"><EventRail events={similar} title="Похожие концерты" flush /></div>}
         </div>
-
-        {/* ── GALLERY ── */}
-        {event.gallery && event.gallery.length >= 3 && (
-          <div className="mb-16">
-            <h2 className="font-serif font-bold text-xl text-cream mb-5">Фото с прошлых шоу</h2>
-            <GalleryLightbox images={event.gallery} title={event.title} />
-          </div>
-        )}
-
-        {/* ── REVIEWS ── */}
-        {event.reviews && event.reviews.length > 0 && (
-          <div className="mb-16">
-            <h2 className="font-serif font-bold text-xl text-cream mb-5">Отзывы зрителей</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {event.reviews.map((review) => (
-                <ReviewCard key={review.id} review={review} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ── SIMILAR EVENTS ── */}
-        {similar.length > 0 && (
-          <div className="mb-16">
-            <EventRail events={similar} title="Похожие концерты" flush />
-          </div>
-        )}
+        <StickyBuyBar event={event} minPrice={price} />
       </div>
-
-      <StickyBuyBar event={event} minPrice={price} />
     </>
   )
 }
