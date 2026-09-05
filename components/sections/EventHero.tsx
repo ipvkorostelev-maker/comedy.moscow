@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { Event, Artist, Venue } from '@/lib/types'
 import { formatDateShort, formatDayOfWeek, formatPrice } from '@/lib/utils'
 import EventTickets from './EventTickets'
+import ArtistHeading from '@/components/ui/ArtistHeading'
 
 interface EventHeroProps { event: Event; artists: Artist[]; venue: Venue | undefined; price: number }
 
@@ -11,7 +12,6 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
   const prefix = solo && event.title.toLocaleLowerCase('ru').startsWith(solo.name.toLocaleLowerCase('ru'))
   const remainder = prefix ? event.title.slice(solo.name.length) : ''
   const split = !!(prefix && /^[\s.·:—–-]/.test(remainder))
-  const heading = split ? solo!.name : event.title
   const program = split ? remainder.replace(/^[\s.·:—–-]+/, '') : ''
   const day = Number(event.date.split('-')[2])
   const month = formatDateShort(event.date).replace(/^\d+\s*/, '')
@@ -26,7 +26,14 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
     </div>
     <div className="event-booking">
       <p className="event-eyebrow"><span />{event.city || 'Москва'} · Стендап</p>
-      <h1 id="event-title" className={split ? 'event-title-solo' : ''}><span className="event-artist-heading">{heading}</span>{program && <span className="event-program">{program}</span>}</h1>
+      <h1 id="event-title" className={split ? 'event-title-solo' : ''}>
+        {split ? (
+          <ArtistHeading text={solo!.name} />
+        ) : (
+          <span className="event-artist-heading">{event.title}</span>
+        )}
+        {program && <span className="event-program">{program}</span>}
+      </h1>
       {event.subtitle && <p className="event-subtitle">{event.subtitle}</p>}
       <div className="event-date"><div className="event-date-square"><b>{day}</b><span>{month}</span></div><div><strong>{formatDayOfWeek(event.date)}{event.time && `, ${event.time}`}</strong><p>{formatDateShort(event.date)} {event.date.slice(0, 4)}{event.duration && ` · ${event.duration}`}</p></div></div>
       {venueName && <a className="event-venue-short" href="#venue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span><strong>{venueName}</strong><small>{event.city || venue?.city}</small></span><span className="event-arrow">↗</span></a>}

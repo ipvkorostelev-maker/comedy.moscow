@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import { getArtistBySlug, getAllEvents, getAllArtists } from '@/lib/data'
-import { BASE } from '@/lib/utils'
+import { getArtistTourShows } from '@/lib/womanstandup'
+import { BASE, pluralForm } from '@/lib/utils'
 import EventCard from '@/components/cards/EventCard'
 import { MicIcon } from '@/components/ui/icons'
 import CommissionButton from '@/components/ui/CommissionButton'
@@ -12,6 +14,13 @@ export const dynamicParams = true
 
 function plainText(html: string): string {
   return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
+function formatShowDate(dateISO: string): string {
+  return new Date(`${dateISO}T12:00:00`).toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+  })
 }
 
 export async function generateStaticParams() {
@@ -53,16 +62,26 @@ export async function generateMetadata({
 }
 
 export default async function ArtistPage({ params }: { params: { slug: string } }) {
-  const [artist, allEvents] = await Promise.all([
-    getArtistBySlug(params.slug),
-    getAllEvents(),
-  ])
+  const artist = await getArtistBySlug(params.slug)
   if (!artist) notFound()
 
+  const [allEvents, artistTours] = await Promise.all([
+    getAllEvents(),
+    getArtistTourShows(artist.id),
+  ])
+
   const upcomingEvents = allEvents.filter((e) => e.artistIds.includes(artist.id))
+  const tourShows = artistTours.flatMap((t) => t.shows)
+  const totalUpcoming = upcomingEvents.length + tourShows.length
+
+  const eventCities = [...new Set(upcomingEvents.map((e) => e.city).filter(Boolean))]
+  const tourCities = [...new Set(tourShows.map((s) => s.city).filter(Boolean))]
+  const allCities = [...new Set([...eventCities, ...tourCities])]
   const cities = artist.city
     ? artist.city
-    : [...new Set(upcomingEvents.map((e) => e.city).filter(Boolean))].join(', ')
+    : allCities.length > 3
+      ? `${allCities.slice(0, 2).join(', ')} и ещё ${allCities.length - 2} ${['город', 'города', 'городов'][pluralForm(allCities.length - 2)]}`
+      : allCities.join(', ')
   const url = `${BASE}/artists/${artist.slug}`
 
   const jsonLd = {
@@ -124,9 +143,9 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
               <p className="text-cream/70 text-sm leading-relaxed mb-8 max-w-lg">{artist.bio}</p>
 
               <div className="flex gap-8">
-                {upcomingEvents.length > 0 && (
+                {totalUpcoming > 0 && (
                   <div>
-                    <p className="font-serif font-black text-2xl text-cream">{upcomingEvents.length}</p>
+                    <p className="font-serif font-black text-2xl text-cream">{totalUpcoming}</p>
                     <p className="text-[11px] text-muted uppercase tracking-wider mt-0.5">Выступления</p>
                   </div>
                 )}
@@ -148,7 +167,7 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
           </div>
 
           {/* ── UPCOMING EVENTS ── */}
-          {upcomingEvents.length > 0 ? (
+          {upcomingEvents.length > 0 && (
             <div>
               <h2 className="font-serif font-bold text-xl text-cream mb-6">
                 Ближайшие выступления
@@ -159,7 +178,71 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
                 ))}
               </div>
             </div>
-          ) : (
+          )}
+
+          {/* ── TOURS ── */}
+          {artistTours.length > 0 && (
+            <div className={upcomingEvents.length > 0 ? 'mt-12' : ''}>
+              <h2 className="font-serif font-bold text-xl text-cream mb-6">
+                Гастроли
+              </h2>
+              {artistTours.map((tour) => (
+                <div
+                  key={tour.id}
+                  className="border border-border rounded-2xl bg-surface-2 mb-5 overflow-hidden"
+                >
+                  <div className="flex items-center justify-between gap-3 px-6 py-4 border-b border-border">
+                    <h3 className="font-serif font-bold text-cream">{tour.title}</h3>
+                    <Link
+                      href={`/tour/${tour.slug}`}
+                      className="text-sm text-red font-semibold hover:brightness-110 transition-all shrink-0"
+                    >
+                      Страница тура →
+                    </Link>
+                  </div>
+                  <ul>
+                    {tour.shows.map((show, i) => (
+                      <li
+                        key={show.id}
+                        className={`flex flex-wrap items-center gap-x-4 gap-y-2 px-6 py-3.5 ${i > 0 ? 'border-t border-white/5' : ''}`}
+                      >
+                        <span className="text-sm text-cream/70 w-32 shrink-0">
+                          {formatShowDate(show.dateISO)}
+                        </span>
+                        <div className="flex-1 min-w-[160px]">
+                          <p className="font-medium text-[15px] text-cream leading-tight">
+                            {show.city}
+                          </p>
+                          {show.venue && (
+                            <p className="text-xs text-muted truncate mt-0.5">{show.venue}</p>
+                          )}
+                        </div>
+                        {show.href.startsWith('http') ? (
+                          <a
+                            href={show.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="shrink-0 px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase text-white bg-red hover:brightness-110 shadow-red-sm transition-all duration-150"
+                          >
+                            Купить билет
+                          </a>
+                        ) : (
+                          <Link
+                            href={show.href}
+                            className="shrink-0 px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase text-white bg-red hover:brightness-110 shadow-red-sm transition-all duration-150"
+                          >
+                            Купить билет
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {totalUpcoming === 0 && (
             <div className="border border-border rounded-2xl bg-surface-2 px-6 py-10 text-center">
               <p className="text-cream font-semibold mb-1">Нет запланированных выступлений</p>
               <p className="text-muted text-sm mb-6">

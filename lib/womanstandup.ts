@@ -173,6 +173,68 @@ export async function getWomanstandupRawConcerts(): Promise<any[]> {
 }
 
 
+// ─── Artist tour shows ────────────────────────────────────
+
+export interface ArtistTourShow {
+  id: string
+  city: string
+  venue: string
+  dateISO: string     // 'YYYY-MM-DD'
+  displayDate: string // 'DD.MM'
+  href: string
+}
+
+export interface ArtistTourWithShows {
+  id: string
+  slug: string
+  title: string
+  shows: ArtistTourShow[]
+}
+
+function isShowPast(dateStr: string, timeStr?: string): boolean {
+  if (!dateStr) return true
+  const t = timeStr || '23:59'
+  return new Date(`${dateStr}T${t}`) < new Date()
+}
+
+function formatDisplayDate(dateStr: string): string {
+  const parts = dateStr.split('-')
+  if (parts.length < 3) return dateStr
+  return `${parts[2]}.${parts[1]}`
+}
+
+export async function getArtistTourShows(artistId: string): Promise<ArtistTourWithShows[]> {
+  if (!DATA_PATH) return []
+  const [tours, rawConcerts] = await Promise.all([
+    getWomanstandupTours(),
+    getWomanstandupRawConcerts(),
+  ])
+  const concertMap = new Map(rawConcerts.map((c: any) => [c.id, c]))
+  return tours
+    .filter((t) => t.artistId === artistId)
+    .map((tour) => {
+      const shows: ArtistTourShow[] = (tour.concertIds ?? [])
+        .map((id: string) => concertMap.get(id))
+        .filter((c: any) => c && !c.isDraft && !isShowPast(c.date ?? '', c.time))
+        .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        .map((c: any) => {
+          const isSmeshno = Array.isArray(c.siteKeys) && c.siteKeys.includes('smeshno')
+          const base = c.slug || toSlug(c.showTitle ?? '')
+          const wsSlug = base ? `${base}-${c.id}` : String(c.id)
+          return {
+            id: c.id,
+            city: c.city ?? '',
+            venue: c.venue ?? '',
+            dateISO: c.date ?? '',
+            displayDate: formatDisplayDate(c.date ?? ''),
+            href: isSmeshno ? `/events/${wsSlug}` : `https://womanstandup.ru/concerts/${wsSlug}`,
+          }
+        })
+      return { id: tour.id, slug: tour.slug, title: tour.title, shows }
+    })
+    .filter((t) => t.shows.length > 0)
+}
+
 export async function getWomanstandupEvents(): Promise<Event[]> {
   if (!DATA_PATH) return []
   try {
