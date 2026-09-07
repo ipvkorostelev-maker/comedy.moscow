@@ -11,6 +11,8 @@ interface BuyButtonProps {
   label?: string
   subtitle?: string
   variant?: 'default' | 'event'
+  /** Скрыть подпись билетного оператора под кнопкой */
+  hideProvider?: boolean
 }
 
 export default function BuyButton({
@@ -21,6 +23,7 @@ export default function BuyButton({
   label = 'Купить билет',
   subtitle,
   variant = 'default',
+  hideProvider = false,
 }: BuyButtonProps) {
   const isYandex = ticketType === 'yandex' && !!yandexWidgetId
   const provider = subtitle ?? getTicketProvider(ticketUrl) ?? (isYandex ? 'Яндекс Билеты' : null)
@@ -72,7 +75,7 @@ export default function BuyButton({
           {label}
           {arrow}
         </button>
-        {provider && <p className="text-[10px] text-muted text-center mt-1.5">{provider}</p>}
+        {!hideProvider && provider && <p className="text-[10px] text-muted text-center mt-1.5">{provider}</p>}
       </div>
     )
   }
@@ -84,7 +87,7 @@ export default function BuyButton({
           {label}
           {arrow}
         </a>
-        {provider && <p className="text-[10px] text-muted text-center mt-1.5">{provider}</p>}
+        {!hideProvider && provider && <p className="text-[10px] text-muted text-center mt-1.5">{provider}</p>}
       </div>
     )
   }
@@ -95,7 +98,7 @@ export default function BuyButton({
         {label}
         {arrow}
       </span>
-      {provider && <p className="text-[10px] text-muted text-center mt-1.5">{provider}</p>}
+      {!hideProvider && provider && <p className="text-[10px] text-muted text-center mt-1.5">{provider}</p>}
     </div>
   )
 }

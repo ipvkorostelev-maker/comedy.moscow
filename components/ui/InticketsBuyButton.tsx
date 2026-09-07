@@ -8,9 +8,11 @@ interface InticketsBuyButtonProps {
   className?: string
   label?: string
   subtitle?: string
+  /** Скрыть подпись билетного оператора под кнопкой */
+  hideProvider?: boolean
 }
 
-export default function InticketsBuyButton({ url, className = '', label = 'Купить билет →', subtitle }: InticketsBuyButtonProps) {
+export default function InticketsBuyButton({ url, className = '', label = 'Купить билет →', subtitle, hideProvider = false }: InticketsBuyButtonProps) {
   const provider = subtitle ?? getTicketProvider(url)
 
   return (
@@ -25,7 +27,7 @@ export default function InticketsBuyButton({ url, className = '', label = 'Ку�
       >
         {label}
       </a>
-      {provider && <p className="text-[10px] text-muted text-center mt-1.5">{provider}</p>}
+      {!hideProvider && provider && <p className="text-[10px] text-muted text-center mt-1.5">{provider}</p>}
     </div>
   )
 }
