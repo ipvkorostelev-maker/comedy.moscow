@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Event } from '@/lib/types'
-import { formatPrice, minEventPrice } from '@/lib/utils'
+import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
 
 interface MainEventsProps {
   events: Event[]
@@ -53,55 +53,54 @@ export default function MainEvents({ events }: MainEventsProps) {
 
 function MainEventCard({ event }: { event: Event }) {
   const price = minEventPrice(event)
-  const dayMonth = new Date(event.date)
-    .toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })
-    .replace('.', '')
+  const dayShort = new Date(event.date).toLocaleDateString('ru-RU', { weekday: 'short' })
 
   return (
     <Link
       href={`/events/${event.slug}`}
       aria-label={event.title}
-      className="group relative block overflow-hidden rounded-xl border border-white/10 bg-surface-elevated transition-all duration-300 hover:-translate-y-1 hover:border-red/60 hover:shadow-[0_20px_50px_-16px_rgba(0,0,0,0.9),0_10px_30px_-12px_rgba(255,77,0,0.35)]"
+      className="group flex flex-col h-full overflow-hidden rounded-xl border border-white/10 bg-surface-elevated transition-all duration-300 hover:-translate-y-1 hover:border-red/60 hover:shadow-[0_20px_50px_-16px_rgba(0,0,0,0.9),0_10px_30px_-12px_rgba(255,77,0,0.35)]"
     >
-      <div className="relative aspect-[3/4] overflow-hidden img-loading-container">
+      {/* Изображение 3:2 — как в «Расписании» */}
+      <div className="relative aspect-[3/2] overflow-hidden img-loading-container">
         <Image
           src={event.image}
           alt={event.title}
           fill
-          className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.06]"
+          className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.04]"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-        {/* Градиент снизу для читаемости текста */}
-        <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black/95 via-black/55 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black/25" />
+      </div>
 
-        {/* Дата и время — акцент */}
-        <div className="absolute top-3 left-3 rounded-lg bg-red px-3 py-2 text-center leading-none shadow-red">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-white/90 mb-1">{dayMonth}</p>
-          <p className="font-serif font-black text-white text-lg leading-none">{event.time}</p>
-        </div>
+      {/* Текст под изображением */}
+      <div className="flex flex-col flex-1 p-4 lg:p-5">
+        <p className="text-[11px] uppercase tracking-wide text-muted mb-1.5">
+          {dayShort} · {formatDateShort(event.date)}
+        </p>
+        <h3 className="font-serif font-black text-lg lg:text-xl leading-tight text-cream uppercase line-clamp-2 group-hover:text-red transition-colors duration-200 mb-2">
+          {event.title}
+        </h3>
 
-        {/* Контент поверх изображения */}
-        <div className="absolute inset-x-0 bottom-0 p-4 lg:p-5">
-          <h3 className="font-serif font-black text-cream uppercase leading-tight line-clamp-2 text-lg lg:text-xl mb-2">
-            {event.title}
-          </h3>
+        <div className="flex items-center gap-2 mb-2.5">
+          <span className="inline-flex items-center rounded-md bg-red px-2.5 py-1.5 font-serif font-black text-cream text-sm leading-none shadow-red-sm">
+            {event.time}
+          </span>
           {(event.venueName || event.city) && (
-            <p className="text-xs text-cream/60 line-clamp-1 mb-3">
+            <p className="text-xs text-muted line-clamp-1">
               {[event.venueName, event.city].filter(Boolean).join(' · ')}
             </p>
           )}
+        </div>
 
-          <div className="flex items-center justify-between gap-3">
-            {price > 0 ? (
-              <p className="font-serif font-black text-red text-lg whitespace-nowrap">от {formatPrice(price)}</p>
-            ) : (
-              <span />
-            )}
-            <span className="inline-flex items-center justify-center min-h-[44px] px-4 bg-red group-hover:bg-red-hover text-white text-sm font-bold rounded-lg shadow-red-sm transition-colors duration-200 whitespace-nowrap">
-              Купить билеты
-            </span>
-          </div>
+        <div className="mt-auto flex items-center justify-between gap-3 pt-1">
+          {price > 0 ? (
+            <p className="font-serif font-black text-red text-lg whitespace-nowrap">от {formatPrice(price)}</p>
+          ) : (
+            <span />
+          )}
+          <span className="inline-flex items-center justify-center min-h-[44px] px-4 bg-red group-hover:bg-red-hover text-white text-sm font-bold rounded-lg shadow-red-sm transition-colors duration-200 whitespace-nowrap">
+            Купить билеты
+          </span>
         </div>
       </div>
     </Link>
