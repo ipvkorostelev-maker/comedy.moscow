@@ -31,6 +31,12 @@ const macherie = localFont({
   display: 'swap',
 })
 
+const raydis = localFont({
+  src: '../public/fonts/raydis.woff2',
+  variable: '--font-raydis',
+  display: 'swap',
+})
+
 const inter = Inter({
   subsets: ['cyrillic', 'latin'],
   variable: '--font-inter',
@@ -99,7 +105,7 @@ const orgSchema = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const cities = await getCities()
   return (
-    <html lang="ru" className={`${oswald.variable} ${inter.variable} ${macherie.variable}`}>
+    <html lang="ru" className={`${oswald.variable} ${inter.variable} ${macherie.variable} ${raydis.variable}`}>
       <head>
         <meta name="theme-color" content="#0c0c10" />
         <link rel="preconnect" href="https://s3.intickets.ru" />
