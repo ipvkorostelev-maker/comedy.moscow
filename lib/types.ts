@@ -61,6 +61,7 @@ export interface Event {
   ticketType?: 'yandex' | 'external'
   yandexWidgetId?: string
   inticketsUrl?: string
+  buyButtons?: { time: string; ticketUrl: string }[]
 }
 
 export interface Artist {

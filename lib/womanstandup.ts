@@ -67,6 +67,7 @@ function mapConcertToEvent(c: any): Event {
     yandexWidgetId: c.yandexWidgetId || undefined,
     inticketsUrl: c.intiketsUrl || c.inticketsUrl
       || (typeof (c.smeshnoTicketUrl || c.ticketUrl) === 'string' && (c.smeshnoTicketUrl || c.ticketUrl)?.includes('intickets.ru') ? (c.smeshnoTicketUrl || c.ticketUrl) : undefined),
+    buyButtons: Array.isArray(c.buyButtons) ? c.buyButtons.filter((b: any) => b && b.time && b.ticketUrl) : undefined,
   }
 }
 
