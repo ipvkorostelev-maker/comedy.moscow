@@ -78,3 +78,8 @@ export function minEventPrice(event: {
     event.tickets.vip.price
   )
 }
+
+/** Все времена сеансов события (основное + из buyButtons), без дублей */
+export function eventTimes(event: { time: string; buyButtons?: { time: string }[] }): string[] {
+  return [...new Set([event.time, ...(event.buyButtons ?? []).map((b) => b.time)].filter(Boolean))]
+}

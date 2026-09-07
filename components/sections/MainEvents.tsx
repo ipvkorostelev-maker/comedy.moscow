@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Event } from '@/lib/types'
-import { formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
+import { cn, eventTimes, formatDateShort, formatPrice, minEventPrice } from '@/lib/utils'
 
 interface MainEventsProps {
   events: Event[]
@@ -54,6 +54,7 @@ export default function MainEvents({ events }: MainEventsProps) {
 function MainEventCard({ event }: { event: Event }) {
   const price = minEventPrice(event)
   const dayShort = new Date(event.date).toLocaleDateString('ru-RU', { weekday: 'short' })
+  const times = eventTimes(event)
 
   return (
     <Link
@@ -82,8 +83,13 @@ function MainEventCard({ event }: { event: Event }) {
         </h3>
 
         <div className="flex items-center gap-2 mb-2.5">
-          <span className="inline-flex items-center rounded-md bg-red px-2.5 py-1.5 font-serif font-black text-cream text-sm leading-none shadow-red-sm">
-            {event.time}
+          <span className="inline-flex items-center whitespace-nowrap rounded-md bg-red px-2.5 py-1.5 font-serif font-black text-cream leading-none shadow-red-sm">
+            {times.map((t, i) => (
+              <span key={t} className={cn(i > 0 && 'opacity-80', 'text-sm')}>
+                {i > 0 && <span className="opacity-60 mx-1">·</span>}
+                {t}
+              </span>
+            ))}
           </span>
           {(event.venueName || event.city) && (
             <p className="text-xs text-muted line-clamp-1">
