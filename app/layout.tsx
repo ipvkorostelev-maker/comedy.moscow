@@ -96,8 +96,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <meta name="theme-color" content="#0c0c10" />
         <link rel="preconnect" href="https://s3.intickets.ru" />
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script src="//s3.intickets.ru/intickets.js" />
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://womanstandup.ru" />
         <link rel="preconnect" href="https://static.tildacdn.com" />
