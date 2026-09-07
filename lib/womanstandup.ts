@@ -59,6 +59,7 @@ function mapConcertToEvent(c: any): Event {
     ageRestriction: c.age ?? '18+',
     city: c.city ?? '',
     featured: c.isFeatured ?? false,
+    isMainEvent: c.isMainEvent ?? false,
     isDraft: c.isDraft ?? false,
     venueName: c.venue || undefined,
     ticketUrl: c.smeshnoTicketUrl || c.ticketUrl || undefined,

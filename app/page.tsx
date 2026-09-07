@@ -1,7 +1,7 @@
 export const revalidate = 300
 
 import type { Metadata } from 'next'
-import { getAllEvents, getAllArtists } from '@/lib/data'
+import { getAllEvents, getAllArtists, getMainEvents } from '@/lib/data'
 import { getEnrichedTours } from '@/lib/womanstandup'
 import { BASE } from '@/lib/utils'
 import EventCard from '@/components/cards/EventCard'
@@ -9,6 +9,7 @@ import HeroSlider from '@/components/sections/HeroSlider'
 import ToursCarousel from '@/components/sections/ToursCarousel'
 import EventRail from '@/components/sections/EventRail'
 import ArtistRail from '@/components/sections/ArtistRail'
+import MainEvents from '@/components/sections/MainEvents'
 import CalendarWrapper from '@/components/ui/CalendarWrapper'
 
 interface Props {
@@ -37,7 +38,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage({ searchParams }: Props) {
-  const [allEvents, artists, tours] = await Promise.all([getAllEvents(), getAllArtists(), getEnrichedTours()])
+  const [allEvents, artists, tours, mainEvents] = await Promise.all([
+    getAllEvents(),
+    getAllArtists(),
+    getEnrichedTours(),
+    getMainEvents(),
+  ])
   const dateFilter = searchParams.date ?? null
   const filtered = dateFilter
     ? allEvents.filter((e) => e.date === dateFilter)
@@ -51,6 +57,9 @@ export default async function HomePage({ searchParams }: Props) {
 
       {/* ── HERO ── */}
       {!dateFilter && <HeroSlider events={allEvents.slice(0, 4)} />}
+
+      {/* ── MAIN EVENTS ── */}
+      {!dateFilter && <MainEvents events={mainEvents} />}
 
       {/* ── UPCOMING RAIL ── */}
       {!dateFilter && allEvents.length > 0 && (

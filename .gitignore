@@ -7,3 +7,7 @@ tsconfig.tsbuildinfo
 
 # External AI memory
 .ai
+
+# Local-only artifacts and design prototypes
+artifacts/
+public/event-design/

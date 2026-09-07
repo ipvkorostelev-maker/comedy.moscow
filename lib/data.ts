@@ -81,6 +81,13 @@ export async function getSimilarEvents(currentId: string, limit = 4): Promise<Ev
   return events.filter((e) => e.id !== currentId).slice(0, limit)
 }
 
+export async function getMainEvents(): Promise<Event[]> {
+  const events = await loadEnrichedEvents()
+  return sortByDateTime(
+    events.filter((e) => !e.isDraft && e.isMainEvent && isUpcoming(e))
+  )
+}
+
 export async function getArtistOtherEvents(
   currentEventId: string,
   artistIds: string[]

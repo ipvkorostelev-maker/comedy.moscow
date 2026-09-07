@@ -54,6 +54,7 @@ export interface Event {
   ageRestriction: string
   city: string
   featured: boolean
+  isMainEvent?: boolean
   isDraft?: boolean
   venueName?: string
   ticketUrl?: string
