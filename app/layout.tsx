@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Oswald, Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 import Script from 'next/script'
 import './globals.css'
 import Nav from '@/components/layout/Nav'
@@ -22,6 +23,12 @@ const oswald = Oswald({
   subsets: ['cyrillic', 'latin'],
   variable: '--font-oswald',
   weight: ['500', '600', '700'],
+})
+
+const macherie = localFont({
+  src: '../public/fonts/macherie.woff2',
+  variable: '--font-macherie',
+  display: 'swap',
 })
 
 const inter = Inter({
@@ -92,7 +99,7 @@ const orgSchema = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const cities = await getCities()
   return (
-    <html lang="ru" className={`${oswald.variable} ${inter.variable}`}>
+    <html lang="ru" className={`${oswald.variable} ${inter.variable} ${macherie.variable}`}>
       <head>
         <meta name="theme-color" content="#0c0c10" />
         <link rel="preconnect" href="https://s3.intickets.ru" />
