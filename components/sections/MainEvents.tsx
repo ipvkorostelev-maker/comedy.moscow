@@ -78,12 +78,12 @@ function MainEventCard({ event }: { event: Event }) {
         <p className="text-[11px] uppercase tracking-wide text-muted mb-1.5">
           {dayShort} · {formatDateShort(event.date)}
         </p>
-        <h3 className="font-serif font-black text-lg lg:text-xl leading-tight text-cream uppercase line-clamp-2 group-hover:text-red transition-colors duration-200 mb-2">
+        <h3 className="font-oswald font-black text-lg lg:text-xl leading-tight text-cream uppercase line-clamp-2 group-hover:text-red transition-colors duration-200 mb-2">
           {event.title}
         </h3>
 
         <div className="flex items-center gap-2 mb-2.5">
-          <span className="inline-flex items-center whitespace-nowrap rounded-md bg-red px-2.5 py-1.5 font-serif font-black text-cream leading-none shadow-red-sm">
+          <span className="inline-flex items-center whitespace-nowrap rounded-md bg-red px-2.5 py-1.5 font-oswald font-black text-cream leading-none shadow-red-sm">
             {times.map((t, i) => (
               <span key={t} className={cn(i > 0 && 'opacity-80', 'text-sm')}>
                 {i > 0 && <span className="opacity-60 mx-1">·</span>}
@@ -100,7 +100,7 @@ function MainEventCard({ event }: { event: Event }) {
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-1">
           {price > 0 ? (
-            <p className="font-serif font-black text-red text-lg whitespace-nowrap">от {formatPrice(price)}</p>
+            <p className="font-oswald font-black text-red text-lg whitespace-nowrap">от {formatPrice(price)}</p>
           ) : (
             <span />
           )}

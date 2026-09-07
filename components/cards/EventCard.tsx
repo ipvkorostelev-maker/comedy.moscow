@@ -46,7 +46,7 @@ export default function EventCard({ event, landscape = false }: EventCardProps) 
         <p className="text-[11px] uppercase tracking-wide text-muted mb-1.5">
           {dayShort} · {formatDateShort(event.date)} · {times.join(' · ')}
         </p>
-        <h3 className="font-serif font-black text-[17px] leading-tight text-cream uppercase line-clamp-2 group-hover:text-red transition-colors duration-200 mb-1">
+        <h3 className="font-oswald font-black text-[17px] leading-tight text-cream uppercase line-clamp-2 group-hover:text-red transition-colors duration-200 mb-1">
           {event.title}
         </h3>
         {(event.venueName || event.city) && (
@@ -55,7 +55,7 @@ export default function EventCard({ event, landscape = false }: EventCardProps) 
           </p>
         )}
         {price > 0 && (
-          <p className="font-serif font-black text-red text-base">
+          <p className="font-oswald font-black text-red text-base">
             от {formatPrice(price)}
           </p>
         )}

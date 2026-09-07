@@ -62,7 +62,7 @@ function TourCard({ tour }: { tour: EnrichedTour }) {
         <p className="text-[11px] uppercase tracking-widest text-red font-bold mb-1">
           {tour.artistName}
         </p>
-        <p className="font-serif font-black text-lg text-cream uppercase leading-tight mb-1.5 line-clamp-2 group-hover:text-red transition-colors duration-200">
+        <p className="font-oswald font-black text-lg text-cream uppercase leading-tight mb-1.5 line-clamp-2 group-hover:text-red transition-colors duration-200">
           {tour.title}
         </p>
         <p className="text-xs text-muted mb-1">

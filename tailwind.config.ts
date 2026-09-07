@@ -29,6 +29,7 @@ const config: Config = {
       },
       fontFamily: {
         serif: ['var(--font-raydis)', 'var(--font-macherie)', 'var(--font-oswald)', 'Impact', 'system-ui', 'sans-serif'],
+        oswald: ['var(--font-oswald)', 'Impact', 'system-ui', 'sans-serif'],
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
