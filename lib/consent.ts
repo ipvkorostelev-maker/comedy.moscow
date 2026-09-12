@@ -16,26 +16,7 @@ export const CONSENT_VERSION = 1
 export const CONSENT_STORAGE_KEY = 'smeshno-consent'
 export const CONSENT_COOKIE_NAME = 'smeshno_consent'
 
-export const YANDEX_METRIKA_COUNTERS = [108210320, 94359734] as const
-export type YandexCounterId = (typeof YANDEX_METRIKA_COUNTERS)[number]
-
-export const YANDEX_METRIKA_CONFIG: Record<YandexCounterId, Record<string, unknown>> = {
-  108210320: {
-    webvisor: true,
-    clickmap: true,
-    ecommerce: 'dataLayer',
-    accurateTrackBounce: true,
-    trackLinks: true,
-    trustedDomains: ['afisha.yandex.ru', 'widget.afisha.yandex.ru'],
-  },
-  94359734: {
-    clickmap: true,
-    ecommerce: 'dataLayer',
-    accurateTrackBounce: true,
-    trackLinks: true,
-    trustedDomains: ['afisha.yandex.ru', 'widget.afisha.yandex.ru'],
-  },
-}
+export const YANDEX_METRIKA_COUNTERS = [108210320] as const
 
 export const VK_PIXEL_ID = '3764427'
 export const HAS_MARKETING_TRACKERS = true
@@ -192,31 +173,6 @@ export function enableAnalytics() {
   analyticsLoaded = true
 
   setDisableYaCounters(false)
-
-  if (typeof window.ym !== 'function') {
-    const stub: YmFunction = function (...args: unknown[]) {
-      ;(stub.a = stub.a || []).push(args)
-    }
-    window.ym = stub
-    stub.l = new Date().valueOf()
-  }
-
-  const existing = document.getElementById('yandex-metrika-script') as HTMLScriptElement | null
-  if (!existing) {
-    const s = document.createElement('script')
-    s.id = 'yandex-metrika-script'
-    s.async = true
-    s.src = 'https://mc.yandex.ru/metrika/tag.js'
-    const first = document.getElementsByTagName('script')[0]
-    first?.parentNode?.insertBefore(s, first)
-  }
-
-  YANDEX_METRIKA_COUNTERS.forEach((id) => {
-    const counterName = `yaCounter${id}`
-    if (typeof window[counterName as keyof Window] === 'undefined' && window.ym) {
-      window.ym(id, 'init', YANDEX_METRIKA_CONFIG[id])
-    }
-  })
 }
 
 export function disableAnalytics() {
@@ -250,8 +206,4 @@ export function disableMarketing() {
   if (!isBrowser()) return
   clearMarketingCookies()
   marketingLoaded = false
-}
-
-if (isBrowser()) {
-  setDisableYaCounters(true)
 }

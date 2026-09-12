@@ -27,6 +27,15 @@ interface PendingChoices {
   marketing: boolean
 }
 
+function isMetrikaDisabledAtLoad(): boolean {
+  if (typeof window === 'undefined') return false
+  return (window as unknown as Record<string, unknown>).__metrikaDisabledAtLoad === true
+}
+
+function analyticsStateMismatch(analytics: boolean): boolean {
+  return analytics ? isMetrikaDisabledAtLoad() : !isMetrikaDisabledAtLoad()
+}
+
 interface ConsentContextValue {
   consent: ConsentState | null
   bannerVisible: boolean
@@ -86,6 +95,9 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
     setBannerVisible(false)
     setSettingsOpen(false)
     applyConsent(state, true)
+    if (analyticsStateMismatch(state.analytics)) {
+      window.location.reload()
+    }
   }, [applyConsent])
 
   const rejectOptional = useCallback(() => {
@@ -95,6 +107,9 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
     setBannerVisible(false)
     setSettingsOpen(false)
     applyConsent(state, true)
+    if (analyticsStateMismatch(state.analytics)) {
+      window.location.reload()
+    }
   }, [applyConsent])
 
   const openSettings = useCallback(() => {
@@ -111,7 +126,6 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
 
   const saveChoices = useCallback(
     (choices: PendingChoices) => {
-      const prevAnalytics = consent?.analytics ?? false
       const prevMarketing = consent?.marketing ?? false
       const state = buildConsent(choices)
 
@@ -121,10 +135,9 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
       setSettingsOpen(false)
       applyConsent(state, true)
 
-      const revokedAnalytics = prevAnalytics && !choices.analytics
       const revokedMarketing = HAS_MARKETING_TRACKERS && prevMarketing && !choices.marketing
 
-      if (revokedAnalytics || revokedMarketing) {
+      if (analyticsStateMismatch(choices.analytics) || revokedMarketing) {
         if (typeof window !== 'undefined') {
           window.location.reload()
         }

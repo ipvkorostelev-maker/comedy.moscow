@@ -1,9 +1,8 @@
-import { getStoredConsent, YANDEX_METRIKA_COUNTERS } from './consent'
+import { YANDEX_METRIKA_COUNTERS } from './consent'
 
 function canTrack(): boolean {
   if (typeof window === 'undefined') return false
-  const consent = getStoredConsent()
-  return !!consent && consent.analytics === true
+  return typeof window.ym === 'function'
 }
 
 export function trackGoal(counterId: number, goalName: string, params?: unknown) {
