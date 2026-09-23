@@ -2,6 +2,7 @@
 
 import { getTicketProvider } from '@/lib/utils'
 import { trackGoal } from '@/lib/analytics'
+import { getTrafficSourceQuery } from '@/lib/trafficSource'
 
 interface BuyButtonProps {
   ticketType?: 'yandex' | 'external'
@@ -42,7 +43,12 @@ export default function BuyButton({
         ? yandexWidgetId!.split('@')[1]
         : yandexWidgetId
       d.push(['getDealer', function (dealer: any) {
-        dealer.open({ id: sessionId, type: 'session' })
+        const urlQueryParams = getTrafficSourceQuery()
+        dealer.open({
+          id: sessionId,
+          type: 'session',
+          ...(urlQueryParams ? { urlQueryParams } : {}),
+        })
       }])
     }
   }

@@ -8,6 +8,7 @@ import Footer from '@/components/layout/Footer'
 import ZoomLock from '@/components/ui/ZoomLock'
 import { NavLabelProvider } from '@/components/ui/NavLabelProvider'
 import { ConsentProvider } from '@/components/providers/ConsentProvider'
+import { TrafficSourceProvider } from '@/components/providers/TrafficSourceProvider'
 import { BASE } from '@/lib/utils'
 import { getCities } from '@/lib/data'
 
@@ -166,6 +167,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <ConsentProvider>
+          <TrafficSourceProvider />
           <ZoomLock />
           <NavLabelProvider>
             <Nav cities={cities} />
