@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getArtistBySlug, getAllEvents, getAllArtists } from '@/lib/data'
+import { getArtistBySlug, getAllEvents, getAllArtists, isEventPast } from '@/lib/data'
 import { getArtistTourShows } from '@/lib/womanstandup'
 import { BASE, pluralForm } from '@/lib/utils'
 import EventCard from '@/components/cards/EventCard'
@@ -70,7 +70,9 @@ export default async function ArtistPage({ params }: { params: { slug: string } 
     getArtistTourShows(artist.id),
   ])
 
-  const upcomingEvents = allEvents.filter((e) => e.artistIds.includes(artist.id))
+  const upcomingEvents = allEvents.filter(
+    (e) => e.artistIds.includes(artist.id) && !isEventPast(e)
+  )
   const tourShows = artistTours.flatMap((t) => t.shows)
   const totalUpcoming = upcomingEvents.length + tourShows.length
 

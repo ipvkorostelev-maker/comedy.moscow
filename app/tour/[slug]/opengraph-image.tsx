@@ -22,7 +22,13 @@ function pluralConcerts(n: number): string {
 }
 
 function isPast(dateStr: string, timeStr = '23:59'): boolean {
-  return new Date(`${dateStr}T${timeStr}`) < new Date()
+  if (!dateStr) return true
+  const [h, m] = timeStr.split(':').map(Number)
+  return (
+    new Date(
+      `${dateStr}T${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00+03:00`
+    ) < new Date()
+  )
 }
 
 export default async function Image({ params }: { params: { slug: string } }) {

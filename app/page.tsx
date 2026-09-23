@@ -1,7 +1,7 @@
 export const revalidate = 300
 
 import type { Metadata } from 'next'
-import { getAllEvents, getAllArtists, getMainEvents } from '@/lib/data'
+import { getAllEvents, getAllArtists, getMainEvents, isMoscowCity } from '@/lib/data'
 import { getEnrichedTours } from '@/lib/womanstandup'
 import { BASE } from '@/lib/utils'
 import EventCard from '@/components/cards/EventCard'
@@ -45,11 +45,12 @@ export default async function HomePage({ searchParams }: Props) {
     getMainEvents(),
   ])
   const dateFilter = searchParams.date ?? null
+  const scheduleEvents = allEvents.filter((e) => isMoscowCity(e.city))
   const filtered = dateFilter
-    ? allEvents.filter((e) => e.date === dateFilter)
-    : allEvents
+    ? scheduleEvents.filter((e) => e.date === dateFilter)
+    : scheduleEvents
 
-  const eventDates = new Set(allEvents.map((e) => e.date))
+  const eventDates = new Set(scheduleEvents.map((e) => e.date))
 
   return (
     <>

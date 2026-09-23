@@ -103,6 +103,10 @@ export async function getArtistOtherEvents(
 
 // ─── Cities ──────────────────────────────────────────────
 
+export function isMoscowCity(city?: string | null): boolean {
+  return city?.trim().toLowerCase() === 'москва'
+}
+
 export interface CityInfo {
   name: string
   slug: string

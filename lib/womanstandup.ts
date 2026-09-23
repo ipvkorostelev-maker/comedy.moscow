@@ -196,7 +196,12 @@ export interface ArtistTourWithShows {
 function isShowPast(dateStr: string, timeStr?: string): boolean {
   if (!dateStr) return true
   const t = timeStr || '23:59'
-  return new Date(`${dateStr}T${t}`) < new Date()
+  const [h, m] = t.split(':').map(Number)
+  return (
+    new Date(
+      `${dateStr}T${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00+03:00`
+    ) < new Date()
+  )
 }
 
 function formatDisplayDate(dateStr: string): string {
