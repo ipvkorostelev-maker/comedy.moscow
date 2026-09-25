@@ -9,8 +9,11 @@ export const UTM_KEYS = [
   'utm_term',
 ] as const
 
+export const TRAFFIC_SOURCE_KEYS = [...UTM_KEYS, 'yclid'] as const
+
 export type UtmKey = (typeof UTM_KEYS)[number]
-export type TrafficSource = Partial<Record<UtmKey, string>> & {
+export type TrafficSourceKey = (typeof TRAFFIC_SOURCE_KEYS)[number]
+export type TrafficSource = Partial<Record<TrafficSourceKey, string>> & {
   _timestamp: number
 }
 
@@ -28,7 +31,7 @@ function parseStoredTrafficSource(raw: string | null): TrafficSource | null {
     }
 
     const source: TrafficSource = { _timestamp: parsed._timestamp as number }
-    UTM_KEYS.forEach((key) => {
+    TRAFFIC_SOURCE_KEYS.forEach((key) => {
       if (typeof parsed[key] === 'string' && parsed[key].length > 0) {
         source[key] = parsed[key]
       }
@@ -62,20 +65,23 @@ export function getTrafficSource(now = Date.now()): TrafficSource | null {
 
 export function getTrafficSourceParams(
   source = getTrafficSource()
-): Partial<Record<UtmKey, string>> {
+): Partial<Record<TrafficSourceKey, string>> {
   if (!source) return {}
 
-  return UTM_KEYS.reduce<Partial<Record<UtmKey, string>>>((params, key) => {
-    if (source[key]) params[key] = source[key]
-    return params
-  }, {})
+  return TRAFFIC_SOURCE_KEYS.reduce<Partial<Record<TrafficSourceKey, string>>>(
+    (params, key) => {
+      if (source[key]) params[key] = source[key]
+      return params
+    },
+    {}
+  )
 }
 
 export function getTrafficSourceQuery(source = getTrafficSource()): string {
   const params = new URLSearchParams()
   const trafficParams = getTrafficSourceParams(source)
 
-  UTM_KEYS.forEach((key) => {
+  TRAFFIC_SOURCE_KEYS.forEach((key) => {
     const value = trafficParams[key]
     if (value) params.set(key, value)
   })
@@ -91,11 +97,14 @@ export function saveTrafficSource(
 
   try {
     const searchParams = new URLSearchParams(search)
-    const incoming = UTM_KEYS.reduce<Partial<Record<UtmKey, string>>>((params, key) => {
-      const value = searchParams.get(key)
-      if (value) params[key] = value
-      return params
-    }, {})
+    const incoming = TRAFFIC_SOURCE_KEYS.reduce<Partial<Record<TrafficSourceKey, string>>>(
+      (params, key) => {
+        const value = searchParams.get(key)
+        if (value) params[key] = value
+        return params
+      },
+      {}
+    )
 
     if (Object.keys(incoming).length === 0) {
       return getTrafficSource(now)
@@ -126,7 +135,7 @@ export function appendTrafficSourceToTicketUrl(
     if (url.hostname !== 'widget.afisha.yandex.ru') return rawUrl
 
     let changed = false
-    UTM_KEYS.forEach((key) => {
+    TRAFFIC_SOURCE_KEYS.forEach((key) => {
       const value = source[key]
       if (value && !url.searchParams.has(key)) {
         url.searchParams.set(key, value)
