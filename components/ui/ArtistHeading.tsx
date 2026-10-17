@@ -16,11 +16,9 @@ export default function ArtistHeading({ text }: { text: string }) {
       span.style.fontSize = ''
       const natural = span.scrollWidth
       span.style.maxWidth = ''
-      const avail = span.clientWidth || span.parentElement?.clientWidth || 0
-      const ratio = natural > 0 && avail > 0 && natural > avail ? avail / natural : 1
-      if (Math.abs(ratio - appliedRatio) < 0.02) return
-      appliedRatio = ratio
-      span.style.fontSize = ratio < 1 ? `${ratio * 100}%` : ''
+      const avail = span.parentElement?.clientWidth || 0
+      appliedRatio = natural > 0 && avail > 0 && natural > avail ? avail / natural : 1
+      span.style.fontSize = appliedRatio < 1 ? `${appliedRatio * 100}%` : ''
     }
 
     fit()

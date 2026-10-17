@@ -30,7 +30,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
         {split ? (
           <ArtistHeading text={solo!.name} />
         ) : (
-          <span className="event-artist-heading">{event.title}</span>
+          <ArtistHeading text={event.title} />
         )}
         {program && <span className="event-program">{program}</span>}
       </h1>
