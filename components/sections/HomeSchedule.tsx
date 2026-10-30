@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import { useEffect, useMemo, useState, useTransition } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Event } from '@/lib/types'
+import EventCalendar from '@/components/sections/EventCalendar'
 import { eventTimes, formatDateShort, formatPrice, minEventPrice, cn } from '@/lib/utils'
 
 function moscowDate() {
@@ -17,7 +18,6 @@ function addDays(date: string, count: number) {
 }
 
 export default function HomeSchedule({ events, today }: { events: Event[]; today: string }) {
-  const dateInput = useRef<HTMLInputElement>(null)
   const params = useSearchParams()
   const router = useRouter()
   const [pending, startTransition] = useTransition()
@@ -34,6 +34,7 @@ export default function HomeSchedule({ events, today }: { events: Event[]; today
   const saturday = addDays(currentDay, weekday === 0 ? 0 : (6 - weekday + 7) % 7)
   const sunday = weekday === 0 ? currentDay : addDays(saturday, 1)
   const dates = useMemo(() => [...new Set(events.map(e => e.date))].sort(), [events])
+  const eventDates = useMemo(() => new Set(events.map(e => e.date)), [events])
   const filtered = events.filter(e => {
     const text = [e.title, e.venueName, ...(e.artistNames ?? [])].join(' ').toLocaleLowerCase('ru')
     return (!selected || e.date === selected) && (!weekend || (e.date >= saturday && e.date <= sunday)) && text.includes(query.trim().toLocaleLowerCase('ru'))
@@ -47,6 +48,7 @@ export default function HomeSchedule({ events, today }: { events: Event[]; today
     startTransition(() => router.push(next.size ? `/?${next}` : '/', { scroll: false }))
   }
   const chip = (active: boolean) => cn('min-h-[44px] rounded-full px-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red', active ? 'bg-cream text-bg' : 'bg-white/[0.05] text-cream/75 hover:bg-white/10 border border-white/10')
+  const quickChip = (active: boolean) => cn(chip(active), 'min-w-0 whitespace-nowrap px-0 text-[11px] sm:px-4 sm:text-sm')
   return (
     <section id="schedule" aria-label="Афиша концертов" className="scroll-mt-20">
       <div className="rounded-2xl border border-white/10 bg-[#151515] p-4 sm:p-6">
@@ -56,16 +58,14 @@ export default function HomeSchedule({ events, today }: { events: Event[]; today
           <input id="concert-search" type="search" value={query} onChange={e => { setQuery(e.target.value); setLimit(8) }} placeholder="Артист, концерт или площадка" className="w-full h-[52px] pl-12 pr-20 rounded-xl bg-bg border border-white/15 text-cream text-sm sm:text-base placeholder:text-muted focus:outline-none focus:border-red" />
           <button type="submit" className="absolute right-1 top-1 min-h-[44px] px-3 text-sm font-semibold text-red rounded-lg hover:bg-white/5">Найти</button>
         </form>
-        <div className="mt-4 flex flex-wrap gap-2 items-center" aria-label="Фильтры по дате">
-          <button className={chip(!selected && !weekend)} aria-pressed={!selected && !weekend} onClick={() => navigate('')}>Все даты</button>
-          <button className={chip(selected === currentDay)} aria-pressed={selected === currentDay} onClick={() => navigate(currentDay)}>Сегодня</button>
-          <button className={chip(selected === tomorrow)} aria-pressed={selected === tomorrow} onClick={() => navigate(tomorrow)}>Завтра</button>
-          <button className={chip(weekend)} aria-pressed={weekend} onClick={() => navigate('', 'weekend')}>Выходные</button>
-          <form onSubmit={e => { e.preventDefault(); navigate(dateInput.current?.value ?? '') }} className="flex min-h-[44px] flex-wrap items-center gap-2 text-sm text-cream/75">
-            <label htmlFor="concert-date">Выбрать дату</label>
-            <input id="concert-date" ref={dateInput} key={selected} aria-label="Выбрать дату концерта" type="date" min={currentDay} defaultValue={selected} required className="min-h-[44px] w-[145px] rounded-lg border border-white/15 bg-bg px-2 text-cream [color-scheme:dark] focus:outline-red" />
-            <button type="submit" aria-label="Применить дату" className="min-h-[44px] min-w-[44px] rounded-lg bg-white/10 text-cream hover:bg-white/20">→</button>
-          </form>
+        <div className="mt-4 grid grid-cols-4 gap-1.5 sm:flex sm:gap-2" aria-label="Фильтры по дате">
+          <button className={quickChip(!selected && !weekend)} aria-pressed={!selected && !weekend} onClick={() => navigate('')}>Все даты</button>
+          <button className={quickChip(selected === currentDay)} aria-pressed={selected === currentDay} onClick={() => navigate(currentDay)}>Сегодня</button>
+          <button className={quickChip(selected === tomorrow)} aria-pressed={selected === tomorrow} onClick={() => navigate(tomorrow)}>Завтра</button>
+          <button className={quickChip(weekend)} aria-pressed={weekend} onClick={() => navigate('', 'weekend')}>Выходные</button>
+        </div>
+        <div className="relative mt-4 min-w-0 border-t border-white/10 pt-4">
+          <EventCalendar eventDates={eventDates} selected={selected || null} onSelect={date => navigate(date ?? '')} />
         </div>
       </div>
       <div className="mt-8 mb-5 flex flex-wrap items-baseline justify-between gap-3">
