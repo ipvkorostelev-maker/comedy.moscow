@@ -12,7 +12,7 @@ export default function ToursCarousel({ tours }: ToursCarouselProps) {
   return (
     <section>
       <div className="mb-5 px-6 lg:px-12">
-        <h2 className="font-serif font-black text-cream uppercase text-2xl lg:text-3xl">Гастроли</h2>
+        <h2 className="font-serif font-black text-cream uppercase text-2xl lg:text-3xl">Гастроли в других городах</h2>
         <p className="text-sm text-muted mt-1">Стендап-комики едут в ваш город</p>
       </div>
 

@@ -11,7 +11,7 @@ import type { CityInfo } from '@/lib/data'
 
 const LINKS = [
   { href: '/', label: 'Главная', exact: true },
-  { href: '/events', label: 'События' },
+  { href: '/events', label: 'Афиша' },
   { href: '/#tours', label: 'Гастроли', hash: true },
   { href: '/artists', label: 'Артисты' },
   { href: '/corporate', label: 'Корпоратив' },
@@ -83,10 +83,10 @@ export default function Nav({ cities }: NavProps) {
           </Link>
 
           {/* Desktop: nav links + city selector + search */}
-          <div className="hidden md:flex items-center gap-0.5">
+          <div className="hidden xl:flex items-center gap-0.5">
             <nav className="flex items-center" aria-label="Основное меню">
               {LINKS.map(({ href, label, hash, exact }) => {
-                const active = exact ? pathname === href : hash ? pathname === '/' : pathname.startsWith(href)
+                const active = exact ? pathname === href : hash ? false : pathname.startsWith(href)
                 if (hash) return <a key={href} href={href} className={linkCls(active)}>{label}</a>
                 return (
                   <Link key={href} href={href} className={linkCls(active)}>
@@ -110,7 +110,7 @@ export default function Nav({ cities }: NavProps) {
           </div>
 
           {/* Mobile: logo already left; city + menu */}
-          <div className="flex md:hidden items-center gap-1.5">
+          <div className="flex xl:hidden items-center gap-1.5">
             <CitySelector cities={cities} compact />
             <button
               onClick={() => setMenuOpen(v => !v)}
@@ -141,7 +141,7 @@ export default function Nav({ cities }: NavProps) {
       {/* Mobile menu overlay */}
       <div
         className={cn(
-          'fixed inset-0 z-40 md:hidden transition-opacity duration-300',
+          'fixed inset-0 z-40 xl:hidden transition-opacity duration-300',
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         )}
         style={{ background: 'rgba(10,10,10,0.97)', backdropFilter: 'blur(20px)' }}
@@ -160,7 +160,7 @@ export default function Nav({ cities }: NavProps) {
           </button>
 
           {LINKS.map(({ href, label, hash, exact }) => {
-            const active = exact ? pathname === href : hash ? pathname === '/' : pathname.startsWith(href)
+            const active = exact ? pathname === href : hash ? false : pathname.startsWith(href)
             const cls = cn(
               'w-64 py-3.5 text-center text-base font-medium rounded-xl transition-colors duration-200',
               active ? 'text-cream bg-white/[0.06]' : 'text-cream/60 hover:text-cream/90 hover:bg-white/[0.04]'

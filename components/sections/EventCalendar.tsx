@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect, useMemo } from 'react'
+import { Fragment, useRef, useEffect, useMemo } from 'react'
 
 const DAY_SHORT = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
 const MONTH_SHORT = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек']
@@ -14,31 +14,31 @@ interface Day {
 
 function buildDays(): Day[] {
   const days: Day[] = []
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  const moscowDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Moscow', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date())
+  const today = new Date(`${moscowDay}T00:00:00Z`)
 
   // Start 1 day before today, show 120 days
   const start = new Date(today)
-  start.setDate(start.getDate() - 1)
+  start.setUTCDate(start.getUTCDate() - 1)
 
   let prevMonth = -1
 
   for (let i = 0; i < 120; i++) {
     const d = new Date(start)
-    d.setDate(start.getDate() + i)
+    d.setUTCDate(start.getUTCDate() + i)
 
-    const yyyy = d.getFullYear()
-    const mm = String(d.getMonth() + 1).padStart(2, '0')
-    const dd = String(d.getDate()).padStart(2, '0')
+    const yyyy = d.getUTCFullYear()
+    const mm = String(d.getUTCMonth() + 1).padStart(2, '0')
+    const dd = String(d.getUTCDate()).padStart(2, '0')
     const dateStr = `${yyyy}-${mm}-${dd}`
 
-    const month = d.getMonth()
+    const month = d.getUTCMonth()
     const monthLabel = month !== prevMonth ? `${MONTH_SHORT[month]} ${yyyy}` : null
     prevMonth = month
 
-    const label = i === 0 ? '' : i === 1 ? 'Сегодня' : i === 2 ? 'Завтра' : DAY_SHORT[d.getDay()]
+    const label = i === 0 ? '' : i === 1 ? 'Сегодня' : i === 2 ? 'Завтра' : DAY_SHORT[d.getUTCDay()]
 
-    days.push({ date: dateStr, d: d.getDate(), label, monthLabel })
+    days.push({ date: dateStr, d: d.getUTCDate(), label, monthLabel })
   }
 
   return days
@@ -73,34 +73,21 @@ export default function EventCalendar({ eventDates, selected, onSelect }: Props)
     <div
       ref={scrollRef}
       className="flex items-stretch gap-1.5 overflow-x-auto scrollbar-hide snap-x touch-pan-xy px-1 py-1 scroll-pl-1"
-      role="listbox"
+      role="group"
       aria-label="Даты концертов"
     >
       {days.map((day) => {
-        if (day.monthLabel) {
-          return (
-            <div
-              key={`m-${day.date}`}
-              className="flex-shrink-0 snap-start flex items-center px-2 mx-1 border-r border-border"
-              aria-hidden
-            >
-              <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-2 whitespace-nowrap">
-                {day.monthLabel}
-              </span>
-            </div>
-          )
-        }
-
         const hasEvent = eventDates.has(day.date)
         const isToday = day.date === todayStr
         const isSelected = day.date === selected
 
         return (
+          <Fragment key={day.date}>
+            {day.monthLabel && <div className="flex-shrink-0 flex items-center px-2 mx-1 border-r border-border" aria-hidden><span className="text-xs text-muted whitespace-nowrap">{day.monthLabel}</span></div>}
           <button
-            key={day.date}
             ref={isToday ? todayRef : undefined}
-            role="option"
-            aria-selected={isSelected}
+            aria-pressed={isSelected}
+            aria-label={`${day.d} ${day.monthLabel || MONTH_SHORT[new Date(day.date).getUTCMonth()]}, ${day.label}` }
             onClick={() => onSelect(isSelected ? null : day.date)}
             className={[
               'flex-shrink-0 snap-start min-w-[64px] min-h-[64px] flex flex-col items-center justify-center gap-1 rounded-xl transition-colors duration-200',
@@ -108,13 +95,13 @@ export default function EventCalendar({ eventDates, selected, onSelect }: Props)
                 ? 'bg-red text-white'
                 : hasEvent
                 ? 'bg-surface-2 border border-border text-cream hover:bg-surface-hover'
-                : 'bg-transparent border border-transparent text-muted-2 hover:text-muted',
+                : 'bg-transparent border border-transparent text-muted hover:text-cream',
             ].join(' ')}
           >
             <span
               className={[
-                'text-[9px] font-semibold uppercase tracking-wider leading-none',
-                isSelected ? 'text-white/80' : hasEvent ? 'text-muted' : 'text-muted-2',
+                'text-[11px] font-semibold uppercase tracking-wider leading-none',
+                isSelected ? 'text-white/80' : 'text-muted',
               ].join(' ')}
             >
               {day.label}
@@ -123,7 +110,7 @@ export default function EventCalendar({ eventDates, selected, onSelect }: Props)
             <span
               className={[
                 'text-base font-bold leading-none',
-                isSelected ? 'text-white' : hasEvent ? 'text-cream' : 'text-muted-2',
+                isSelected ? 'text-white' : hasEvent ? 'text-cream' : 'text-muted',
               ].join(' ')}
             >
               {day.d}
@@ -138,6 +125,7 @@ export default function EventCalendar({ eventDates, selected, onSelect }: Props)
               ].join(' ')}
             />
           </button>
+          </Fragment>
         )
       })}
     </div>

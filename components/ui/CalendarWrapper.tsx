@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import EventCalendar from '@/components/sections/EventCalendar'
 
 interface Props {
@@ -8,13 +9,14 @@ interface Props {
 }
 
 export default function CalendarWrapper({ eventDates, selected }: Props) {
+  const router = useRouter()
   return (
     <EventCalendar
       eventDates={eventDates}
       selected={selected}
       onSelect={(date) => {
         const path = window.location.pathname
-        window.location.href = date ? `${path}?date=${date}` : path
+        router.push(date ? `${path}?date=${date}` : path, { scroll: false })
       }}
     />
   )
