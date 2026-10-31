@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation'
 import sanitizeHtml from 'sanitize-html'
 import { NavLabelSync } from '@/components/ui/NavLabelProvider'
 import { getEventBySlugAny, isEventPast, getArtistsByIds, getVenueById, getSimilarEvents, getAllEvents, getArtistOtherEvents } from '@/lib/data'
-import { formatDateShort, formatDayOfWeek, formatPrice, minEventPrice, BASE } from '@/lib/utils'
+import { eventTimes, formatDateShort, formatDayOfWeek, formatPrice, minEventPrice, BASE } from '@/lib/utils'
 import ReviewCard from '@/components/cards/ReviewCard'
 import EventRail from '@/components/sections/EventRail'
 import MetaPill from '@/components/ui/MetaPill'
@@ -283,6 +283,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
   }
 
   // ── UPCOMING EVENT PAGE ───────────────────────────────────────────────────
+  const times = eventTimes(event)
   const price = minEventPrice(event)
   const offerUrl = event.ticketUrl ?? url
   const ticketOffers = [
@@ -405,7 +406,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
             </article>
             <aside id="important" className="event-important">
               <p className="event-eyebrow event-muted">Перед концертом</p><h2>Хорошо знать</h2>
-              {event.time && <div className="event-fact"><span>{event.time}</span><div><h3>Начало программы</h3><p>Приходите заранее. Время открытия дверей проверьте в описании или билете.</p></div></div>}
+              {times.length > 0 && <div className="event-fact"><span>{times.map(time => <span key={time} className="block whitespace-nowrap">{time}</span>)}</span><div><h3>{times.length > 1 ? 'Начало сеансов' : 'Начало программы'}</h3><p>Приходите заранее. Время открытия дверей проверьте в описании или билете.</p></div></div>}
               {event.ageRestriction && <div className="event-fact"><span>{event.ageRestriction}</span><div><h3>Возрастное ограничение</h3><p>{event.ageRestriction === '18+' ? 'Вход для зрителей от 18 лет. Возьмите документ, удостоверяющий личность.' : 'Учитывайте возрастное ограничение при покупке билетов.'}</p></div></div>}
               {event.duration && <div className="event-fact"><span>{event.duration}</span><div><h3>Продолжительность</h3><p>Планируйте вечер с учётом времени на дорогу.</p></div></div>}
               <Link className="event-contact" href="/contacts">Есть вопросы? <strong>Свяжитесь с нами ↗</strong></Link>

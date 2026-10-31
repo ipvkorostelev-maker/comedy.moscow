@@ -79,7 +79,8 @@ export function minEventPrice(event: {
   )
 }
 
-/** Все времена сеансов события (основное + из buyButtons), без дублей */
+/** Все времена сеансов события (основное + из buyButtons), без дублей, от раннего к позднему */
 export function eventTimes(event: { time: string; buyButtons?: { time: string }[] }): string[] {
   return [...new Set([event.time, ...(event.buyButtons ?? []).map((b) => b.time)].filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, 'ru', { numeric: true }))
 }
