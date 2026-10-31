@@ -39,7 +39,7 @@ export default async function HomePage() {
     getMainEvents(),
   ])
   const scheduleEvents = allEvents.filter((e) => isMoscowCity(e.city))
-  const highlights = mainEvents.filter((e) => isMoscowCity(e.city)).slice(0, 3)
+  const highlights = mainEvents.filter((e) => isMoscowCity(e.city))
   const activeArtistIds = new Set(scheduleEvents.flatMap(e => e.artistIds))
   const activeArtists = artists.filter(a => activeArtistIds.has(a.id))
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Moscow', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date())
@@ -59,7 +59,7 @@ export default async function HomePage() {
           <section className="mt-14 lg:mt-20 pt-8 border-t border-white/10">
             <p className="text-xs uppercase tracking-[0.18em] text-red font-semibold mb-2">Особый повод для вечера</p>
             <h2 className="font-serif font-black uppercase text-xl sm:text-3xl text-cream mb-6">Большие сольные концерты</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">{highlights.map(event => <EventCard key={event.id} event={event} landscape />)}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-7">{highlights.map(event => <EventCard key={event.id} event={event} landscape />)}</div>
           </section>
         )}
       </div>
