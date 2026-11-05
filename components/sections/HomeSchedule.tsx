@@ -39,6 +39,11 @@ export default function HomeSchedule({ events, today }: { events: Event[]; today
     const text = [e.title, e.venueName, ...(e.artistNames ?? [])].join(' ').toLocaleLowerCase('ru')
     return (!selected || e.date === selected) && (!weekend || (e.date >= saturday && e.date <= sunday)) && text.includes(query.trim().toLocaleLowerCase('ru'))
   })
+  const resultsTitle = query.trim()
+    ? 'Результаты поиска по концертам'
+    : selected
+      ? `Концерты на ${formatDateShort(selected)}`
+      : weekend ? 'В эти выходные' : 'Ближайшие концерты'
   function navigate(date: string, period = '', search = query) {
     const next = new URLSearchParams()
     if (date) next.set('date', date)
@@ -69,7 +74,7 @@ export default function HomeSchedule({ events, today }: { events: Event[]; today
         </div>
       </div>
       <div className="mt-8 mb-5 flex flex-wrap items-baseline justify-between gap-3">
-        <h2 className="font-serif uppercase text-xl sm:text-2xl text-cream">{selected ? `Афиша на ${formatDateShort(selected)}` : weekend ? 'В эти выходные' : 'Ближайшие концерты'}</h2>
+        <h2 aria-live="polite" className="font-serif uppercase text-xl sm:text-2xl text-cream">{resultsTitle}</h2>
         <p role="status" className="text-sm text-muted">{pending ? 'Обновляем афишу…' : `Найдено концертов: ${filtered.length}`}</p>
       </div>
       {filtered.length ? (

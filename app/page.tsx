@@ -5,7 +5,7 @@ import { Suspense } from 'react'
 import { getAllEvents, getAllArtists, getMainEvents, isMoscowCity } from '@/lib/data'
 import { getEnrichedTours } from '@/lib/womanstandup'
 import { BASE } from '@/lib/utils'
-import EventCard from '@/components/cards/EventCard'
+import BigConcertsSlider from '@/components/sections/BigConcertsSlider'
 import HomeSchedule from '@/components/sections/HomeSchedule'
 import ToursCarousel from '@/components/sections/ToursCarousel'
 import ArtistRail from '@/components/sections/ArtistRail'
@@ -46,7 +46,8 @@ export default async function HomePage() {
 
   return (
     <>
-      <div className="max-w-[1440px] mx-auto px-5 sm:px-6 lg:px-12 pt-9 sm:pt-14 lg:pt-16">
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-6 lg:px-12 pt-6 sm:pt-8 lg:pt-10">
+        <BigConcertsSlider events={highlights} />
         <header className="mb-7 sm:mb-9">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-red mb-3">Москва · афиша и билеты</p>
           <h1 className="font-serif font-black uppercase text-cream text-[32px] sm:text-5xl lg:text-[64px] leading-[1.1]">Стендап в Москве</h1>
@@ -55,13 +56,6 @@ export default async function HomePage() {
         <Suspense fallback={<p className="py-12 text-muted">Загружаем афишу…</p>}>
           <HomeSchedule events={scheduleEvents} today={today} />
         </Suspense>
-        {highlights.length > 0 && (
-          <section className="mt-14 lg:mt-20 pt-8 border-t border-white/10">
-            <p className="text-xs uppercase tracking-[0.18em] text-red font-semibold mb-2">Особый повод для вечера</p>
-            <h2 className="font-serif font-black uppercase text-xl sm:text-3xl text-cream mb-6">Большие сольные концерты</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-7">{highlights.map(event => <EventCard key={event.id} event={event} landscape />)}</div>
-          </section>
-        )}
       </div>
       {tours.length > 0 && (
         <div id="tours" className="scroll-mt-20 max-w-[1440px] mx-auto pt-14 lg:pt-20 pb-4">
