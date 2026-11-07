@@ -50,6 +50,7 @@ function mapConcertToEvent(c: any): Event {
       vip:      { price: price ? Math.round(price * 2.5) : 0, available: false },
     },
     soldOut: c.soldOut === true,
+    intiketsSoldOut: c.intiketsSoldOut === true,
     ticketsLeft: 50,
     totalTickets: 200,
     rating: 0,

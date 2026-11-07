@@ -153,10 +153,9 @@ export default function HeroSlider({ events, selectedDate }: HeroSliderProps) {
             <Link
               href={`/events/${event.slug}`}
               className="inline-flex items-center justify-center h-14 bg-red hover:bg-red-hover text-white text-base font-bold px-8 rounded-lg transition-colors duration-200"
-              style={event.soldOut ? { background: "#595959" } : undefined}
-              aria-label={`${event.soldOut ? "Билеты закончились" : "Купить билет"} на ${event.title}`}
+              aria-label={`Купить билет на ${event.title}`}
             >
-              {event.soldOut ? "Билеты закончились" : "Купить билет"}
+              Купить билет
             </Link>
             <Link
               href={`/events/${event.slug}`}
@@ -247,10 +246,9 @@ export default function HeroSlider({ events, selectedDate }: HeroSliderProps) {
               <Link
                 href={`/events/${event.slug}`}
                 className="inline-flex items-center justify-center min-h-[48px] bg-red hover:bg-red-hover text-white font-bold px-8 py-3.5 rounded-lg transition-colors duration-200"
-                style={event.soldOut ? { background: "#595959" } : undefined}
-              aria-label={`${event.soldOut ? "Билеты закончились" : "Купить билет"} на ${event.title}`}
+                aria-label={`Купить билет на ${event.title}`}
               >
-                {event.soldOut ? "Билеты закончились" : "Купить билет"}
+                Купить билет
               </Link>
               <Link
                 href={`/events/${event.slug}`}

@@ -161,7 +161,7 @@ export default async function TourPage({ params }: { params: Promise<{ slug: str
         year: new Date(c.date ?? "").getFullYear() || undefined,
         href,
         isPrivate: false,
-        isSoldOut: c.soldOut === true,
+        isSoldOut: false,
         // После фильтра прошедших концертов список отсортирован по дате,
         // поэтому ближайший концерт всегда первый
         isNearest: i === 0,

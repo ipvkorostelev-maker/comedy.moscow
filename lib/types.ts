@@ -61,6 +61,7 @@ export interface Event {
   ticketType?: 'yandex' | 'external'
   yandexWidgetId?: string
   inticketsUrl?: string
+  intiketsSoldOut?: boolean
   soldOut?: boolean
   buyButtons?: { time: string; ticketUrl: string; soldOut?: boolean }[]
 }

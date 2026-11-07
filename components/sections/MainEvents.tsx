@@ -104,8 +104,8 @@ function MainEventCard({ event }: { event: Event }) {
           ) : (
             <span />
           )}
-          <span style={event.soldOut ? { background: "#595959", boxShadow: "none" } : undefined} className="inline-flex items-center justify-center min-h-[44px] px-4 bg-red group-hover:bg-red-hover text-white text-sm font-bold rounded-lg shadow-red-sm transition-colors duration-200 whitespace-nowrap">
-            {event.soldOut ? "Билеты закончились" : "Купить билеты"}
+          <span className="inline-flex items-center justify-center min-h-[44px] px-4 bg-red group-hover:bg-red-hover text-white text-sm font-bold rounded-lg shadow-red-sm transition-colors duration-200 whitespace-nowrap">
+            Купить билеты
           </span>
         </div>
       </div>

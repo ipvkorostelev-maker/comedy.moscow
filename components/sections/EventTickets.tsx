@@ -18,8 +18,8 @@ export default function EventTickets({ event }: { event: Event }) {
     intickets?: boolean
     soldOut?: boolean
   }[] = []
-  if (primary) buttons.push({ time: event.time, ticketUrl: event.ticketUrl, ticketType: event.ticketType, yandexWidgetId: event.yandexWidgetId })
-  if (secondary) buttons.push({ time: event.time, ticketUrl: event.inticketsUrl, intickets: true })
+  if (primary) buttons.push({ time: event.time, ticketUrl: event.ticketUrl, ticketType: event.ticketType, yandexWidgetId: event.yandexWidgetId, soldOut: event.soldOut })
+  if (secondary) buttons.push({ time: event.time, ticketUrl: event.inticketsUrl, intickets: true, soldOut: event.intiketsSoldOut })
   buttons.push(...additional.map((b) => ({ ...b, ticketType: 'external' as const })))
   const minutes = (time: string) => {
     const [hours, minutes] = time.split(':').map(Number)
@@ -36,8 +36,8 @@ export default function EventTickets({ event }: { event: Event }) {
   if (!hasEventTickets(event)) return <p className="event-ticket-notice">Информация о билетах уточняется</p>
   return <div className="event-ticket-actions">
     {buttons.map((b, i) => b.intickets
-      ? <InticketsBuyButton key={i} url={b.ticketUrl!} soldOut={event.soldOut || b.soldOut} label={label(b.time, !!(event.soldOut || b.soldOut))} className="event-buy" hideProvider={i !== providerIndex} />
-      : <BuyButton key={i} ticketType={b.ticketType} ticketUrl={b.ticketUrl} yandexWidgetId={b.yandexWidgetId} variant="event" soldOut={event.soldOut || b.soldOut} label={label(b.time, !!(event.soldOut || b.soldOut))} className="event-buy" hideProvider={i !== providerIndex} />
+      ? <InticketsBuyButton key={i} url={b.ticketUrl!} soldOut={b.soldOut} label={label(b.time, !!b.soldOut)} className="event-buy" hideProvider={i !== providerIndex} />
+      : <BuyButton key={i} ticketType={b.ticketType} ticketUrl={b.ticketUrl} yandexWidgetId={b.yandexWidgetId} variant="event" soldOut={b.soldOut} label={label(b.time, !!b.soldOut)} className="event-buy" hideProvider={i !== providerIndex} />
     )}
   </div>
 }
