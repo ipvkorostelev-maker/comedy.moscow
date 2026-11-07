@@ -16,6 +16,7 @@ export default function EventTickets({ event }: { event: Event }) {
     ticketType?: Event['ticketType']
     yandexWidgetId?: string
     intickets?: boolean
+    soldOut?: boolean
   }[] = []
   if (primary) buttons.push({ time: event.time, ticketUrl: event.ticketUrl, ticketType: event.ticketType, yandexWidgetId: event.yandexWidgetId })
   if (secondary) buttons.push({ time: event.time, ticketUrl: event.inticketsUrl, intickets: true })
@@ -28,12 +29,15 @@ export default function EventTickets({ event }: { event: Event }) {
   const totalCount = buttons.length
   // Название оператора — один раз: при ≥2 кнопках под второй, при одной — под ней
   const providerIndex = totalCount >= 2 ? 1 : 0
-  const label = (time: string) => totalCount >= 2 ? `Купить билеты · ${time}` : 'Купить билеты'
+  const label = (time: string, soldOut: boolean) => {
+    const text = soldOut ? 'Билеты закончились' : 'Купить билеты'
+    return totalCount >= 2 ? `${text} · ${time}` : text
+  }
   if (!hasEventTickets(event)) return <p className="event-ticket-notice">Информация о билетах уточняется</p>
   return <div className="event-ticket-actions">
     {buttons.map((b, i) => b.intickets
-      ? <InticketsBuyButton key={i} url={b.ticketUrl!} label={label(b.time)} className="event-buy" hideProvider={i !== providerIndex} />
-      : <BuyButton key={i} ticketType={b.ticketType} ticketUrl={b.ticketUrl} yandexWidgetId={b.yandexWidgetId} variant="event" label={label(b.time)} className="event-buy" hideProvider={i !== providerIndex} />
+      ? <InticketsBuyButton key={i} url={b.ticketUrl!} soldOut={event.soldOut || b.soldOut} label={label(b.time, !!(event.soldOut || b.soldOut))} className="event-buy" hideProvider={i !== providerIndex} />
+      : <BuyButton key={i} ticketType={b.ticketType} ticketUrl={b.ticketUrl} yandexWidgetId={b.yandexWidgetId} variant="event" soldOut={event.soldOut || b.soldOut} label={label(b.time, !!(event.soldOut || b.soldOut))} className="event-buy" hideProvider={i !== providerIndex} />
     )}
   </div>
 }

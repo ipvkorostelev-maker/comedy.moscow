@@ -13,6 +13,7 @@ interface BuyButtonProps {
   subtitle?: string
   variant?: 'default' | 'event'
   /** Скрыть подпись билетного оператора под кнопкой */
+  soldOut?: boolean
   hideProvider?: boolean
 }
 
@@ -25,6 +26,7 @@ export default function BuyButton({
   subtitle,
   variant = 'default',
   hideProvider = false,
+  soldOut = false,
 }: BuyButtonProps) {
   const isYandex = ticketType === 'yandex' && !!yandexWidgetId
   const provider = subtitle ?? getTicketProvider(ticketUrl) ?? (isYandex ? 'Яндекс Билеты' : null)
@@ -54,7 +56,9 @@ export default function BuyButton({
   }
 
   const cls = `group inline-flex items-center justify-center gap-2.5 text-black text-base font-extrabold px-8 py-4 min-h-[52px] rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:brightness-105 active:scale-[0.98] ${className}`
-  const s = variant === 'event'
+  const s = soldOut
+    ? { backgroundColor: '#595959', color: '#ffffff', boxShadow: 'none' }
+    : variant === 'event'
     ? { backgroundColor: '#ffdf55', boxShadow: 'none' }
     : { backgroundColor: 'rgb(253, 246, 2)', boxShadow: '0 6px 24px rgba(253,246,2,0.32)' }
 

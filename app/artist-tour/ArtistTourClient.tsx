@@ -316,14 +316,13 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                 <div className="mt-4">
                   {activeShow.isPrivate ? (
                     <span className="text-muted text-xs">Для гостей отеля</span>
-                  ) : activeShow.isSoldOut ? (
-                    <span className="text-muted text-xs">Нет билетов</span>
                   ) : (
                     <Link
                       href={activeShow.href}
+                      style={activeShow.isSoldOut ? { background: '#595959', color: '#fff', boxShadow: 'none' } : undefined}
                       className="inline-block px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase bg-red text-white hover:brightness-110 shadow-red-sm transition-all duration-150"
                     >
-                      Купить билет
+                      {activeShow.isSoldOut ? 'Билеты закончились' : 'Купить билет'}
                     </Link>
                   )}
                 </div>
@@ -420,15 +419,14 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                         <span className="text-muted text-[11px] text-right leading-snug w-28 shrink-0">
                           Концерт для<br />гостей отеля
                         </span>
-                      ) : show.isSoldOut ? (
-                        <span className="text-muted text-[11px] text-right w-28 shrink-0">Нет билетов</span>
                       ) : (
                         <Link
                           href={show.href}
+                          style={show.isSoldOut ? { background: '#595959', color: '#fff', boxShadow: 'none' } : undefined}
                           onClick={(e) => e.stopPropagation()}
                           className="shrink-0 px-6 py-2.5 rounded-full text-[11px] font-bold tracking-widest uppercase transition-all duration-150 whitespace-nowrap text-white hover:brightness-110 shadow-red-sm bg-red"
                         >
-                          Купить билет
+                          {show.isSoldOut ? 'Билеты закончились' : 'Купить билет'}
                         </Link>
                       )}
                     </div>
@@ -464,17 +462,14 @@ export default function ArtistTourClient({ artistName, tourLabel = 'стенда
                           <div className="py-2.5 text-muted text-[11px] text-center">
                             Концерт для гостей отеля
                           </div>
-                        ) : show.isSoldOut ? (
-                          <div className="w-full py-3 rounded-full bg-[#252525] border border-[#3A3A3F] text-muted text-[11px] font-bold tracking-widest uppercase text-center">
-                            Нет билетов
-                          </div>
                         ) : (
                           <Link
                             href={show.href}
+                          style={show.isSoldOut ? { background: '#595959', color: '#fff', boxShadow: 'none' } : undefined}
                             onClick={(e) => e.stopPropagation()}
                             className="block w-full py-3 rounded-full text-[11px] font-bold tracking-widest uppercase text-center transition-all duration-150 text-white hover:brightness-110 shadow-red-sm bg-red"
                           >
-                            Купить билет
+                            {show.isSoldOut ? 'Билеты закончились' : 'Купить билет'}
                           </Link>
                         )}
                       </div>

@@ -92,7 +92,7 @@ export default function BigConcertsSlider({ events }: { events: Event[] }) {
                   <p className="mb-5 text-sm leading-relaxed text-muted">{[event.venueName, event.city].filter(Boolean).join(' · ')}</p>
                   <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
                     {price > 0 && <p className="text-base font-semibold text-cream">от {formatPrice(price)}</p>}
-                    <span className="inline-flex min-h-[44px] items-center gap-3 rounded-lg bg-red px-4 text-sm font-semibold text-white transition-colors group-hover:bg-red-hover">Билеты <span aria-hidden="true">↗</span></span>
+                    <span style={event.soldOut ? { background: "#595959" } : undefined} className="inline-flex min-h-[44px] items-center gap-3 rounded-lg bg-red px-4 text-sm font-semibold text-white transition-colors group-hover:bg-red-hover">{event.soldOut ? "Билеты закончились" : "Билеты"} <span aria-hidden="true">↗</span></span>
                   </div>
                 </div>
               </Link>
