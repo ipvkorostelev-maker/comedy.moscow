@@ -59,6 +59,7 @@ export interface Event {
   venueName?: string
   ticketUrl?: string
   promoCode?: string
+  promoText?: string
   ticketType?: 'yandex' | 'external'
   yandexWidgetId?: string
   inticketsUrl?: string

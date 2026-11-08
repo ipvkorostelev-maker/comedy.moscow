@@ -66,6 +66,7 @@ function mapConcertToEvent(c: any): Event {
     venueName: c.venue || undefined,
     ticketUrl: c.smeshnoTicketUrl || c.ticketUrl || undefined,
     promoCode: typeof c.promoCode === 'string' ? c.promoCode.trim() || undefined : undefined,
+    promoText: typeof c.promoText === 'string' ? c.promoText.trim() || undefined : undefined,
     ticketType: c.smeshnoTicketUrl ? 'external' : c.ticketType === 'yandex' ? 'yandex' : 'external',
     yandexWidgetId: c.yandexWidgetId || undefined,
     inticketsUrl: c.intiketsUrl || c.inticketsUrl
