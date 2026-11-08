@@ -1,12 +1,13 @@
 import type { Event } from '@/lib/types'
 import BuyButton from '@/components/ui/BuyButton'
 import InticketsBuyButton from '@/components/ui/InticketsBuyButton'
+import PromoCode from '@/components/ui/PromoCode'
 
 export function hasEventTickets(event: Event) {
   return !!(event.ticketUrl || (event.ticketType === 'yandex' && event.yandexWidgetId) || event.inticketsUrl || event.buyButtons?.length)
 }
 
-export default function EventTickets({ event }: { event: Event }) {
+export default function EventTickets({ event, showPromo = false }: { event: Event; showPromo?: boolean }) {
   const primary = !!(event.ticketUrl || (event.ticketType === 'yandex' && event.yandexWidgetId))
   const secondary = event.inticketsUrl && (!primary || event.inticketsUrl !== event.ticketUrl)
   const additional = event.buyButtons?.filter((b) => b.time && b.ticketUrl) || []
@@ -35,6 +36,7 @@ export default function EventTickets({ event }: { event: Event }) {
   }
   if (!hasEventTickets(event)) return <p className="event-ticket-notice">Информация о билетах уточняется</p>
   return <div className="event-ticket-actions">
+    {showPromo && event.promoCode?.trim() && <PromoCode key={event.promoCode} code={event.promoCode.trim()} />}
     {buttons.map((b, i) => b.intickets
       ? <InticketsBuyButton key={i} url={b.ticketUrl!} soldOut={b.soldOut} label={label(b.time, !!b.soldOut)} className="event-buy" hideProvider={i !== providerIndex} />
       : <BuyButton key={i} ticketType={b.ticketType} ticketUrl={b.ticketUrl} yandexWidgetId={b.yandexWidgetId} variant="event" soldOut={b.soldOut} label={label(b.time, !!b.soldOut)} className="event-buy" hideProvider={i !== providerIndex} />

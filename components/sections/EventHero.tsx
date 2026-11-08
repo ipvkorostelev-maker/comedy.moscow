@@ -40,7 +40,7 @@ export default function EventHero({ event, artists, venue, price }: EventHeroPro
       {venueName && <a className="event-venue-short" href="#venue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span><strong>{venueName}</strong><small>{event.city || venue?.city}</small></span><span className="event-arrow">↗</span></a>}
       <div className="event-checkout" id="event-primary-purchase">
         <div className="event-price">{price > 0 ? <><span>Билеты от</span><strong>{formatPrice(price)}</strong></> : <span>Стоимость у билетного оператора</span>}</div>
-        <EventTickets event={event} />
+        <EventTickets event={event} showPromo />
       </div>
     </div>
   </section>

@@ -58,6 +58,7 @@ export interface Event {
   isDraft?: boolean
   venueName?: string
   ticketUrl?: string
+  promoCode?: string
   ticketType?: 'yandex' | 'external'
   yandexWidgetId?: string
   inticketsUrl?: string
