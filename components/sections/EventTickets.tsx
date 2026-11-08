@@ -36,7 +36,7 @@ export default function EventTickets({ event, showPromo = false }: { event: Even
   }
   if (!hasEventTickets(event)) return <p className="event-ticket-notice">Информация о билетах уточняется</p>
   return <div className="event-ticket-actions">
-    {showPromo && event.promoCode?.trim() && <PromoCode key={event.promoCode} code={event.promoCode.trim()} text={event.promoText} />}
+    {showPromo && event.promoCode?.trim() && <PromoCode key={event.promoCode} code={event.promoCode.trim()} text={event.promoText} instructionImage={event.promoInstructionImage} />}
     {buttons.map((b, i) => b.intickets
       ? <InticketsBuyButton key={i} url={b.ticketUrl!} soldOut={b.soldOut} label={label(b.time, !!b.soldOut)} className="event-buy" hideProvider={i !== providerIndex} />
       : <BuyButton key={i} ticketType={b.ticketType} ticketUrl={b.ticketUrl} yandexWidgetId={b.yandexWidgetId} variant="event" soldOut={b.soldOut} label={label(b.time, !!b.soldOut)} className="event-buy" hideProvider={i !== providerIndex} />

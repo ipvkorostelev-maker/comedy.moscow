@@ -60,6 +60,7 @@ export interface Event {
   ticketUrl?: string
   promoCode?: string
   promoText?: string
+  promoInstructionImage?: string
   ticketType?: 'yandex' | 'external'
   yandexWidgetId?: string
   inticketsUrl?: string
